@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "WEB/vulnerabilities/CSRF/METHODOLOGY.md",
+                "file": "WEB/vulnerabilities/Clickjacking/METHODOLOGY.md",
                 "mode": "source",
                 "source": false
               }
@@ -69,7 +69,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 220.5
+    "width": 200
   },
   "right": {
     "id": "6cefba4edf96863e",
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "WEB/vulnerabilities/CSRF/METHODOLOGY.md",
+                "file": "WEB/vulnerabilities/Clickjacking/METHODOLOGY.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "WEB/vulnerabilities/CSRF/METHODOLOGY.md",
+                "file": "WEB/vulnerabilities/Clickjacking/METHODOLOGY.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "WEB/vulnerabilities/CSRF/METHODOLOGY.md"
+                "file": "WEB/vulnerabilities/Clickjacking/METHODOLOGY.md"
               }
             }
           },
@@ -136,14 +136,21 @@
               "type": "advanced-tables-toolbar",
               "state": {}
             }
+          },
+          {
+            "id": "5ceb67466bae21c5",
+            "type": "leaf",
+            "state": {
+              "type": "git-history-view",
+              "state": {}
+            }
           }
         ],
-        "currentTab": 4
+        "currentTab": 5
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 456.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -160,18 +167,23 @@
   },
   "active": "c35a1bc81055f30a",
   "lastOpenFiles": [
-    "WEB",
+    "WEB/vulnerabilities/Clickjacking/payload.md",
+    "WEB/vulnerabilities/Clickjacking/METHODOLOGY.md",
+    "WEB/vulnerabilities/CSRF/defense/protection.md",
     "WEB/vulnerabilities/CSRF/defense/cause.md",
     "WEB/vulnerabilities/Clickjacking/defense/cause.md",
-    "WEB/vulnerabilities/Clickjacking/defense/protection.md",
-    "WEB/vulnerabilities/Clickjacking/links & todo.md",
-    "WEB/vulnerabilities/Clickjacking/payload.md",
-    "privacy research/5 Eyes, 9 Eyes, 14 Eyes Alliances.md",
+    "WEB/vulnerabilities/CSRF/automate.md",
+    "attachments/Pasted image 20230829212203.png",
     "privacy research/telegram.md",
     "privacy research/Edward Snoden case.md",
-    "WEB/vulnerabilities/CSRF/defense/protection.md",
-    "WEB/vulnerabilities/Clickjacking/METHODOLOGY.md",
-    "attachments/Pasted image 20230829212203.png",
+    "privacy research/5 Eyes, 9 Eyes, 14 Eyes Alliances.md",
+    "WEB/vulnerabilities/CSRF/payload.md",
+    "WEB/vulnerabilities/CSRF/links & todo.md",
+    "WEB/vulnerabilities/CSRF/tools  & setup.md",
+    "WEB/vulnerabilities/CSRF/METHODOLOGY.md",
+    "WEB",
+    "WEB/vulnerabilities/Clickjacking/defense/protection.md",
+    "WEB/vulnerabilities/Clickjacking/links & todo.md",
     "attachments/Pasted image 20230829212143.png",
     "attachments",
     "Pasted image 20230829212114.png",
@@ -184,15 +196,10 @@
     "privacy research",
     "WEB/vulnerabilities/Clickjacking/tools & setup.md",
     "vulnerabilities/clickjacking/defense/example.md",
-    "WEB/vulnerabilities/CSRF/METHODOLOGY.md",
     "vulnerabilities/clickjacking/defense/Untitled",
     "WEB/vulnerabilities/Clickjacking/defense",
     "WEB/vulnerabilities/Clickjacking",
-    "WEB/vulnerabilities/CSRF/payload.md",
     "WEB/vulnerabilities/CSRF/defense/vulnerable example.md",
-    "WEB/vulnerabilities/CSRF/links & todo.md",
-    "WEB/vulnerabilities/CSRF/tools  & setup.md",
-    "WEB/vulnerabilities/CSRF/automate.md",
     "vulnerabilities/CSRF/checklist.md",
     "tools & setup.md",
     "vulnerabilities/CORS/payload.md",
@@ -203,7 +210,6 @@
     "vulnerabilities/CORS/defense",
     "vulnerabilities/CORS",
     "vulnerabilities/CSRF/Untitled.canvas",
-    "WEB/vulnerabilities/CSRF/defense",
-    "WEB/vulnerabilities/CSRF"
+    "WEB/vulnerabilities/CSRF/defense"
   ]
 }
