@@ -10,7 +10,7 @@
 	- [How should CSRF tokens be validated?](#How%20should%20CSRF%20tokens%20be%20validated?)
 - [Strict SameSite cookies](#Strict%20SameSite%20cookies)
 - [checking referer header](#checking%20referer%20header)
-- [Be wary of cross-origin, same-site attacks](#Be%20wary%20of%20cross-origin,%20same-site%20attacks)
+- [Be aware of cross-origin, same-site attacks](#Be%20aware%20of%20cross-origin,%20same-site%20attacks)
 
 # CERF-token
 

@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "WEB/vulnerabilities/Clickjacking/METHODOLOGY.md",
+                "file": "SOC and Cyber Defense/log analysis.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "WEB/vulnerabilities/Clickjacking/METHODOLOGY.md",
+                "file": "SOC and Cyber Defense/log analysis.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "WEB/vulnerabilities/Clickjacking/METHODOLOGY.md",
+                "file": "SOC and Cyber Defense/log analysis.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "WEB/vulnerabilities/Clickjacking/METHODOLOGY.md"
+                "file": "SOC and Cyber Defense/log analysis.md"
               }
             }
           },
@@ -167,25 +167,33 @@
   },
   "active": "c35a1bc81055f30a",
   "lastOpenFiles": [
-    "WEB/vulnerabilities/Clickjacking/payload.md",
-    "WEB/vulnerabilities/Clickjacking/METHODOLOGY.md",
     "WEB/vulnerabilities/CSRF/defense/protection.md",
-    "WEB/vulnerabilities/CSRF/defense/cause.md",
-    "WEB/vulnerabilities/Clickjacking/defense/cause.md",
+    "WEB/vulnerabilities/CSRF/defense/vulnerable example.md",
     "WEB/vulnerabilities/CSRF/automate.md",
-    "attachments/Pasted image 20230829212203.png",
-    "privacy research/telegram.md",
-    "privacy research/Edward Snoden case.md",
-    "privacy research/5 Eyes, 9 Eyes, 14 Eyes Alliances.md",
-    "WEB/vulnerabilities/CSRF/payload.md",
     "WEB/vulnerabilities/CSRF/links & todo.md",
     "WEB/vulnerabilities/CSRF/tools  & setup.md",
+    "WEB/vulnerabilities/CSRF/payload.md",
+    "WEB/vulnerabilities/CSRF/defense/cause.md",
+    "SOC and Cyber Defense/log analysis.md",
+    "README.md",
+    "privacy research/5 Eyes, 9 Eyes, 14 Eyes Alliances.md",
+    "SOC and Cyber Defense/attachments/Pasted image 20230830223148.png",
+    "SOC and Cyber Defense/attachments",
+    "Pasted image 20230830222929.png.md",
+    "privacy research/attachments/Pasted image 20230829212203.png",
+    "attachments/Pasted image 20230830222929.png",
+    "SOC and Cyber Defense",
+    "WEB/vulnerabilities/Clickjacking/METHODOLOGY.md",
+    "WEB/vulnerabilities/Clickjacking/payload.md",
+    "WEB/vulnerabilities/Clickjacking/defense/cause.md",
+    "privacy research/telegram.md",
+    "privacy research/Edward Snoden case.md",
     "WEB/vulnerabilities/CSRF/METHODOLOGY.md",
     "WEB",
     "WEB/vulnerabilities/Clickjacking/defense/protection.md",
     "WEB/vulnerabilities/Clickjacking/links & todo.md",
     "attachments/Pasted image 20230829212143.png",
-    "attachments",
+    "privacy research/attachments",
     "Pasted image 20230829212114.png",
     "privacy research/attachments/Pasted image 20230829211952.png",
     "privacy research/attachments/Pasted image 20230829211935.png",
@@ -199,17 +207,11 @@
     "vulnerabilities/clickjacking/defense/Untitled",
     "WEB/vulnerabilities/Clickjacking/defense",
     "WEB/vulnerabilities/Clickjacking",
-    "WEB/vulnerabilities/CSRF/defense/vulnerable example.md",
     "vulnerabilities/CSRF/checklist.md",
     "tools & setup.md",
     "vulnerabilities/CORS/payload.md",
     "csrf-token.md",
-    "vulnerabilities/CORS/METHODOLOGY.md",
-    "vulnerabilities/CORS/links & todo.md",
-    "vulnerabilities/CORS/automate.md",
     "vulnerabilities/CORS/defense",
-    "vulnerabilities/CORS",
-    "vulnerabilities/CSRF/Untitled.canvas",
-    "WEB/vulnerabilities/CSRF/defense"
+    "vulnerabilities/CSRF/Untitled.canvas"
   ]
 }
