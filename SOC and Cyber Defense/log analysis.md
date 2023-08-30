@@ -1,5 +1,5 @@
 # intro to logs 
-/gitcha
+
 based on intro to logs room from [tryhackme](https://tryhackme.com/room/introtologs)
 
 -  Logs are a record of events within a system
