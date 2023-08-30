@@ -4,11 +4,13 @@ This will activate markdown options and internal links of the vault. (I use this
 Take a look at this example:
 with markdown:
 
-![image](https://github.com/AfshinShekaari/ObsNotes/assets/96336315/7ba6c99f-75bd-4a25-ba11-22bab7bf10ed)
+![image](https://github.com/AfshinShekaari/ObsNotes/assets/96336315/fea928d5-47d6-4734-9b19-e6e2f7ff73e2)
+
 
 
 
 without markdown:
 
-![image](https://github.com/AfshinShekaari/ObsNotes/assets/96336315/9a460a11-a881-4580-a2bc-35657c17bc95)
+![image](https://github.com/AfshinShekaari/ObsNotes/assets/96336315/ae91b0b4-454a-4726-bbb7-662d19cf64b4)
+
 
