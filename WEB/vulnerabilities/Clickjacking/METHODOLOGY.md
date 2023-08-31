@@ -13,4 +13,3 @@ prefilled form -> site uses GET request -> parse your parameter in URL
 # chain
 
 #practitioner 
-/gitcomm
