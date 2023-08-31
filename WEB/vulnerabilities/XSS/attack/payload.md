@@ -1,8 +1,14 @@
-# reflected XSS
+# basic attack
 
 #apprentice 
-#### basic reflected
-in [[cause & sinks#basic reflected|this]] case: 
-> https://insecure-website.com/search?term=<script>/*+Bad+stuff+here...+*/</script>
-# stored XSS
-#### basic stored
+#### reflected
+in [[cause & sinks#reflected|this]] case: 
+> https://insecure-website.com/search?term=`<script>alert(1)</script>`
+#### stored
+in [[cause & sinks#stored|this]] case:
+> comment=`<script>alert(1)</script>`
+#### DOM-based
+in [[cause & sinks#DOM-based]] case
+> `"><svg onload=alert(1)>`
+
+/gitcomm

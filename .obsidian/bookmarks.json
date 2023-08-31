@@ -20,6 +20,12 @@
       "path": "WEB/vulnerabilities/CSRF/attack/payload.md",
       "subpath": "#using img tag for delivering the crafted link",
       "title": "img tag for csrf"
+    },
+    {
+      "type": "file",
+      "ctime": 1693518072345,
+      "path": "WEB/vulnerabilities/XSS/defense/cause & sinks.md",
+      "subpath": "#basic reflected"
     }
   ]
 }
