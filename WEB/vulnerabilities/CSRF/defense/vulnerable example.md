@@ -19,4 +19,4 @@ This meets the conditions required for CSRF:
 - The attacker can easily determine the values of the request parameters that are needed to perform the action
 
 you can exploit it using :
-[[WEB/vulnerabilities/CSRF/payload#basic| basic payload]]
+[[WEB/vulnerabilities/CSRF/attack/payload#basic| basic payload]]

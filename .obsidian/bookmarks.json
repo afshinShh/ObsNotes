@@ -3,21 +3,21 @@
     {
       "type": "file",
       "ctime": 1693263835311,
-      "path": "WEB/vulnerabilities/CSRF/METHODOLOGY.md",
+      "path": "WEB/vulnerabilities/CSRF/attack/METHODOLOGY.md",
       "subpath": "#^95b96e",
       "title": "delete-parameter"
     },
     {
       "type": "file",
       "ctime": 1693266502098,
-      "path": "WEB/vulnerabilities/CSRF/payload.md",
+      "path": "WEB/vulnerabilities/CSRF/attack/payload.md",
       "subpath": "#csrfKey cookie injection",
       "title": "cookie-injection"
     },
     {
       "type": "file",
       "ctime": 1693267199715,
-      "path": "WEB/vulnerabilities/CSRF/payload.md",
+      "path": "WEB/vulnerabilities/CSRF/attack/payload.md",
       "subpath": "#using img tag for delivering the crafted link",
       "title": "img tag for csrf"
     }

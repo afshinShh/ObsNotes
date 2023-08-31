@@ -57,7 +57,6 @@ A standardized web server log format for client requests. It is typically used b
 An extension of CLF, adding fields like referrer and user agent. It is typically used by <mark style="background: #ADCCFFA6;">Nginx</mark> HTTP Server by default.[[examples and templates#NCSA Combined Log Format (Combined)|example]]
 
 ---
-
 ## Log Standards
 
 - [**Common Event Expression (CEE):**](https://cee.mitre.org/) ->  MITRE -> a common structure for log data

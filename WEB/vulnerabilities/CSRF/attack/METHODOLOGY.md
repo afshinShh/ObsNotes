@@ -2,7 +2,7 @@
 # test & exploit
 
 #apprentice 
-no defense -> create a form ( [[WEB/vulnerabilities/CSRF/payload#basic| basic payload]] )
+no defense -> create a form ( [[WEB/vulnerabilities/CSRF/attack/payload#basic| basic payload]] )
 ## Bypassing CSRF-token validation
 
 #practitioner  
@@ -14,7 +14,7 @@ no defense -> create a form ( [[WEB/vulnerabilities/CSRF/payload#basic| basic pa
   - change csrfKey cookie -> not related to session ->
     - use csrf-token+csrfKey on another user
     - find sink where you can inject cookie -> use a html element to deliver crafted link 
-      [[WEB/vulnerabilities/CSRF/payload#token tied to non-session cookie| token tied to non-session cookie]]
+      [[WEB/vulnerabilities/CSRF/attack/payload#token tied to non-session cookie| token tied to non-session cookie]]
 - same csrf is duplicated in cookie -> invent csrf token -> inject csrf cookie (same as injecting csrfKey) 
 # chain 
 
