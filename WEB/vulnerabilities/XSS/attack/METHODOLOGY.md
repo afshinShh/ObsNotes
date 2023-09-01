@@ -25,4 +25,4 @@ based on [portswigger academy](https://portswigger.net/web-security/cross-site-s
   - **new attribute** that creates a scriptable context (such as event handlers)(like autofocus onfocus=...) 
   - create scriptable context within the **same attribute** (href="javascript: ...")
 [[WEB/vulnerabilities/XSS/attack/payload#in HTML tag attributes|payload]]
-/git
+/comm
