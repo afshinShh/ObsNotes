@@ -12,13 +12,14 @@ based on [portswigger academy](https://portswigger.net/web-security/cross-site-s
 
 -> introduce new html tag to trigger execution of javascript
 - ***reflected examples***
-  - **most tags and attributes blocked** -> find accepted tags -> find accepted attributes (burp intruder): [[WEB/vulnerabilities/XSS/attack/payload#most tags and attributes blocked|payload]]
-  - **all tags blocked except custom ones** -> onfocus + attribute that triggers it (like tabindex): [[WEB/vulnerabilities/XSS/attack/payload#all tags and attributes blocked except custom ones|payload]]
-  - **some SVG markup allowed** -> find accepted markup using intruder [[WEB/vulnerabilities/XSS/attack/payload#some SVG markup allowed|payload]]
+  - **most tags and attributes blocked** -> find accepted tags -> find accepted attributes (burp intruder):
+     [[WEB/vulnerabilities/XSS/attack/payload#most tags and attributes blocked|payload]]
+  - **all tags blocked except custom ones** -> onfocus + attribute that triggers it (like tabindex):
+     [[WEB/vulnerabilities/XSS/attack/payload#all tags and attributes blocked except custom ones|payload]]
+  - **some SVG markup allowed** -> find accepted markup using intruder 
+    [[WEB/vulnerabilities/XSS/attack/payload#some SVG markup allowed|payload]]
 
 ## in HTML tag attributes
-
-[[WEB/vulnerabilities/XSS/attack/payload#in HTML tag attributes|payloads]]
 
 - <mark style="background: #D2B3FFA6;">close the tag</mark> -> introduce new one 
 - angle brackets are blocked (or encoded) -> execute within the <mark style="background: #D2B3FFA6;">same tag</mark> using:
@@ -27,8 +28,11 @@ based on [portswigger academy](https://portswigger.net/web-security/cross-site-s
     - href="_javascript:_ ..."
     -  hidden input -> don't usually fire events automatically -> [canonical link](https://ahrefs.com/blog/canonical-tags/) tag -> [accesskey](https://portswigger.net/research/xss-in-hidden-input-fields) attribute
 
+[[WEB/vulnerabilities/XSS/attack/payload#in HTML tag attributes|payloads]]
 ## XSS into JavaScript
 
-- **Terminating the existing script** -> close script tag -> introduce new HTML tag [[WEB/vulnerabilities/XSS/attack/payload#Terminating the existing script|payload]]
-- **Breaking out of a JavaScript string** -> repair -> a code without error [[WEB/vulnerabilities/XSS/attack/payload#Breaking out of a JavaScript string|payload]]
-- /gitchange
+- **Terminating the existing script** -> close script tag -> introduce new HTML tag
+   [[WEB/vulnerabilities/XSS/attack/payload#Terminating the existing script|payload]]
+- **Breaking out of a JavaScript string** -> repair -> a code without error
+   [[WEB/vulnerabilities/XSS/attack/payload#Breaking out of a JavaScript string|payload]]
+- /comm
