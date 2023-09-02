@@ -1,7 +1,7 @@
 ## basic concepts
 **at a glance**: [[Test and find#reflected XSS|finding one]] -> find out the context -> outsmart their outsmarting(evasions) -> exploit and take advantage (or make a PoC)
 
--> [[WEB/vulnerabilities/XSS/attack/payload#basic reflected|basic]] payload
+-> [[WEB/vulnerabilities/XSS/attack/payload#basic attack|basic payload]]
 ##### PoC
 showing yourself and others without further exploitation  -> alert() OR **print()**
 
@@ -12,12 +12,9 @@ based on [portswigger academy](https://portswigger.net/web-security/cross-site-s
 
 -> introduce new html tag to trigger execution of javascript
 - ***reflected examples***
-  - **most tags and attributes blocked** -> find accepted tags -> find accepted attributes (burp intruder):
-     [[WEB/vulnerabilities/XSS/attack/payload#most tags and attributes blocked|payload]]
-  - **all tags blocked except custom ones** -> onfocus + attribute that triggers it (like tabindex):
-     [[WEB/vulnerabilities/XSS/attack/payload#all tags and attributes blocked except custom ones|payload]]
-  - **some SVG markup allowed** -> find accepted markup using intruder 
-    [[WEB/vulnerabilities/XSS/attack/payload#some SVG markup allowed|payload]]
+  - **most tags and attributes blocked** -> find accepted tags -> find accepted attributes (burp intruder): / [[WEB/vulnerabilities/XSS/attack/payload#most tags and attributes blocked|payload]]
+  - **all tags blocked except custom ones** -> onfocus + attribute that triggers it (like tabindex): / [[WEB/vulnerabilities/XSS/attack/payload#all tags and attributes blocked except custom ones|payload]]
+  - **some SVG markup allowed** -> find accepted markup using intruder / [[WEB/vulnerabilities/XSS/attack/payload#some SVG markup allowed|payload]]
 
 ## in HTML tag attributes
 
@@ -31,8 +28,13 @@ based on [portswigger academy](https://portswigger.net/web-security/cross-site-s
 [[WEB/vulnerabilities/XSS/attack/payload#in HTML tag attributes|payloads]]
 ## XSS into JavaScript
 
-- **Terminating the existing script** -> close script tag -> introduce new HTML tag
-   [[WEB/vulnerabilities/XSS/attack/payload#Terminating the existing script|payload]]
-- **Breaking out of a JavaScript string** -> repair -> a code without error
-   [[WEB/vulnerabilities/XSS/attack/payload#Breaking out of a JavaScript string|payload]]
-- /comm
+- <mark style="background: #BBFABBA6;">context: into a JavaScript string</mark>
+	- **Terminating the existing script** -> close script tag -> introduce new HTML tag / [[WEB/vulnerabilities/XSS/attack/payload#Terminating the existing script|payload]]
+	- **Breaking out of a JavaScript string** -> repair -> a code without error / [[WEB/vulnerabilities/XSS/attack/payload#Breaking out of a JavaScript string|payload]]
+	  - single quote escaped with backslash -> escape backslash with another backslash 
+- <mark style="background: #BBFABBA6;">context:within a quoted tag attribute & into a JavaScript string</mark> (like event handlers) -> **Making use of HTML-encoding** [[WEB/vulnerabilities/XSS/attack/payload#Making use of HTML-encoding|payload]]
+- <mark style="background: #BBFABBA6;">context:in JavaScript template literals</mark> -> use `${...}` / [[WEB/vulnerabilities/XSS/attack/payload#XSS in JavaScript template literals|payload]]
+  
+## XSS via client-side template injection
+...
+/change

