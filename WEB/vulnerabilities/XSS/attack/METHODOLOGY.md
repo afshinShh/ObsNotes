@@ -18,11 +18,14 @@ based on [portswigger academy](https://portswigger.net/web-security/cross-site-s
   - **some SVG markup allowed** -> find accepted markup using intruder [[WEB/vulnerabilities/XSS/attack/payload#some SVG markup allowed|payload]]
 
 ## in HTML tag attributes
+[[WEB/vulnerabilities/XSS/attack/payload#in HTML tag attributes|payloads]]
 
 #apprentice 
 - <mark style="background: #D2B3FFA6;">close the tag</mark> -> introduce new one 
 - angle brackets are blocked (or encoded) -> execute within the <mark style="background: #D2B3FFA6;">same tag</mark> using:
-  - **new attribute** that creates a scriptable context (such as event handlers)(like autofocus onfocus=...) 
-  - create scriptable context within the **same attribute** (href="javascript: ...")
-[[WEB/vulnerabilities/XSS/attack/payload#in HTML tag attributes|payload]]
-/comm
+  - **new attribute** that creates a scriptable context (such as event handlers)(like _autofocus onfocus_=...) 
+  - create scriptable context within the **same attribute
+    - href="_javascript:_ ..."
+    - #practitioner  hidden input -> don't usually fire events automatically -> [canonical link](https://ahrefs.com/blog/canonical-tags/) tag -> [accesskey](https://portswigger.net/research/xss-in-hidden-input-fields) attribute
+
+/com
