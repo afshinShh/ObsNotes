@@ -1,11 +1,9 @@
 
 # test & exploit
-
-#apprentice 
+ 
 no defense -> create a form ( [[WEB/vulnerabilities/CSRF/attack/payload#basic| basic payload]] )
 ## Bypassing CSRF-token validation
 
-#practitioner  
 - change request method to get -> accepted -> delete method property of form 
 - delete the entire csrf parameter 
 - same request from 2 different user =>

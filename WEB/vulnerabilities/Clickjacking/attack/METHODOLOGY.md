@@ -1,6 +1,5 @@
 # test & exploit
 
-#apprentice 
 simple attack: [[WEB/vulnerabilities/Clickjacking/attack/payload#basic attack|create a decoy website]]
 prefilled form -> site uses GET request -> parse your parameter in URL 
 
@@ -12,4 +11,3 @@ prefilled form -> site uses GET request -> parse your parameter in URL
 ---
 # chain
 
-#practitioner 

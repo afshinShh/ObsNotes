@@ -31,4 +31,4 @@ based on [portswigger academy](https://portswigger.net/web-security/cross-site-s
 
 - **Terminating the existing script** -> close script tag -> introduce new HTML tag [[WEB/vulnerabilities/XSS/attack/payload#Terminating the existing script|payload]]
 - **Breaking out of a JavaScript string** -> repair -> a code without error [[WEB/vulnerabilities/XSS/attack/payload#Breaking out of a JavaScript string|payload]]
-  /gitcha
+- /gitchange
