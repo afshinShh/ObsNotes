@@ -37,4 +37,30 @@ based on [portswigger academy](https://portswigger.net/web-security/cross-site-s
   
 ## XSS via client-side template injection
 ...
-/change
+
+---
+# exploits
+
+## to steal cookies
+
+- The victim might not be logged in.
+- applications hide cookie `HttpOnly` using flag.
+- additional factors (like IP address).
+- session might time out
+[[WEB/vulnerabilities/XSS/attack/payload#to steal cookies|payload]]
+## to capture passwords
+
+- only works when user uses password auto-fill (password managers)
+[[WEB/vulnerabilities/XSS/attack/payload#to capture passwords|payload]]
+
+## to perform CSRF
+
+**anything the user can do we can probably do that too with XSS**
+
+- CSRF alone: can be patched using anti-CSRF tokens -> +XSS: no one can stop us
+[[WEB/vulnerabilities/XSS/attack/payload#to perform CSRF|payload]]
+
+---
+
+[Dangling markup injection](https://portswigger.net/web-security/cross-site-scripting/dangling-markup)
+[Dangling markup injection](https://portswigger.net/web-security/cross-site-scripting/dangling-markup)

