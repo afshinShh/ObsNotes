@@ -69,3 +69,65 @@ An extension of CLF, adding fields like referrer and user agent. It is typically
 - **[Virginia Tech - Standard for Information Technology Logging:](https://it.vt.edu/content/dam/it_vt_edu/policies/Standard_for_Information_Technology_Logging.pdf)** -> log review and compliance guideline.
 
 ---
+## Log Collection
+
+-> the aggregation of logs from diverse sources
+- Utilising the **Network Time Protocol (NTP)** -> maintain the system's time accuracy during logging -> **pool.ntp.org** to find an NTP server is best ->`ntpdate pool.ntp.org`
+###### steps:
+1) **Identify Sources**
+2) **Choose a Log Collector**
+3) **Configure Collection Parameters** 
+4) **Test Collection**
+
+---
+## Log Management
+
+Efficient Log -> stored <mark style="background: #ABF7F7A6;">securely</mark>, organised <mark style="background: #ABF7F7A6;">systematically</mark>, and is ready for <mark style="background: #ABF7F7A6;">swift retrieval</mark>
+**a hybrid approach** can provide a balanced solution by hoarding all log files and selectively trimming.
+###### steps:
+- **Storage:** Decide on a secure storage solution, considering factors like retention period and accessibility.
+- **Organisation:** Classify logs based on their source, type, or other criteria for easier access later.
+- **Backup:** Regularly back up your logs to prevent data loss.
+- **Review:** Periodically review logs to ensure they are correctly stored and categorised.
+
+---
+## Log Centralisation
+
+Centralisation -> pivotal for swift log access, in-depth analysis, and rapid incident response
+###### steps:
+- **Choose a Centralised System:** such as the Elastic Stack or Splunk.
+- **Integrate Sources:** Connect all your log sources to this centralised system.
+- **Set Up Monitoring:** Utilise tools that provide<mark style="background: #FFB86CA6;"> real-time monitoring</mark> and <mark style="background: #FFB86CA6;">alerts</mark> for specified events.
+- **Integration with Incident Management:** Ensure that your centralised system can <mark style="background: #FFB86CA6;">integrate</mark> seamlessly with any incident management tools or protocols you have in place.
+
+---
+
+## Log Storage
+
+###### depends on:
+ - **Security Requirements**
+- **Accessibility Needs**
+- **Storage Capacity** 
+- **Cost Considerations**
+- **Compliance Regulations**
+- **Retention Policies** 
+- **Disaster Recovery Plans**
+
+---
+
+## Log Retention
+
+- **Hot Storage:** Logs from the past **3-6 months** that are <mark style="background: #BBFABBA6;">most accessible</mark>. Query speed should be near real-time, depending on the complexity of the query.
+- **Warm Storage:** Logs from **six months to 2 years**, acting as a <mark style="background: #BBFABBA6;">data lake</mark>, easily accessible but not as immediate as Hot storage.
+- **Cold Storage:** Archived or compressed logs from **2-5 years**. These logs are not easily accessible and are usually used for <mark style="background: #BBFABBA6;">retroactive analysis</mark> or <mark style="background: #BBFABBA6;">scoping purposes</mark>.
+
+---
+
+***Best Practices: Log Storage, Retention and Deletion***
+
+- Determine the storage, retention, and deletion<mark style="background: #FFB8EBA6;"> policy</mark> based on both business needs and legal requirements.
+- Regularly review and <mark style="background: #FFB8EBA6;">update the guidelines</mark> per changing conditions and regulations.
+- <mark style="background: #FFB8EBA6;">Automate</mark> the storage, retention, and deletion processes to ensure consistency and avoid human errors.
+- <mark style="background: #FFB8EBA6;">Encrypt</mark> sensitive logs to protect data.
+- <mark style="background: #FFB8EBA6;">Regular backups</mark> should be made, especially before deletion.
+- /git
