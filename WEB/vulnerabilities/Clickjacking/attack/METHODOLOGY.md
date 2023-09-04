@@ -10,4 +10,16 @@ prefilled form -> site uses GET request -> parse your parameter in URL
   - ommit  ``` allow-top-navigation ```
 ---
 # chain
+## clickjacking + DOM XSS 
 
+- simple example: like-boosting on facebook
+- XSS payload + iframe URL target
+[[WEB/vulnerabilities/Clickjacking/attack/payload#clickjacking + DOM XSS|payload]]
+
+## Multistep clickjacking
+
+- buying from a retail website so items need to be added to a shopping basket before the order is placed.
+- getting confirmation before deleting the user's account.
+[[WEB/vulnerabilities/Clickjacking/attack/payload#Multistep clickjacking|payload]]
+
+/git

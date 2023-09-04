@@ -36,6 +36,8 @@ based on [portswigger academy](https://portswigger.net/web-security/cross-site-s
 - <mark style="background: #BBFABBA6;">context:in JavaScript template literals</mark> -> use `${...}` / [[WEB/vulnerabilities/XSS/attack/payload#XSS in JavaScript template literals|payload]]
   
 ## XSS via client-side template injection
+
+#todo 
 ...
 
 ---
@@ -62,5 +64,5 @@ based on [portswigger academy](https://portswigger.net/web-security/cross-site-s
 
 ---
 
-[Dangling markup injection](https://portswigger.net/web-security/cross-site-scripting/dangling-markup)
-[Dangling markup injection](https://portswigger.net/web-security/cross-site-scripting/dangling-markup)
+[Dangling markup injection](https://portswigger.net/web-security/cross-site-scripting/dangling-markup) #todo
+[CSP(content-security-policy)](https://portswigger.net/web-security/cross-site-scripting/content-security-policy) #todo

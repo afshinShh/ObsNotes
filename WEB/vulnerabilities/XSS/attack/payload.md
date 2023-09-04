@@ -84,5 +84,4 @@ changeReq.send('csrf='+token+'&email=test@test.com') };
 
 ---
 
-[XSS cheat-sheet from portswigger academy](https://portswigger.net/web-security/cross-site-scripting/cheat-sheet)
-/gitco
+[XSS cheat-sheet from portswigger academy](https://portswigger.net/web-security/cross-site-scripting/cheat-sheet) #todo 
