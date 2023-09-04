@@ -22,4 +22,3 @@ prefilled form -> site uses GET request -> parse your parameter in URL
 - getting confirmation before deleting the user's account.
 [[WEB/vulnerabilities/Clickjacking/attack/payload#Multistep clickjacking|payload]]
 
-/git
