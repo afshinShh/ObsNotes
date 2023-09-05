@@ -130,4 +130,3 @@ Centralisation -> pivotal for swift log access, in-depth analysis, and rapid inc
 - <mark style="background: #FFB8EBA6;">Automate</mark> the storage, retention, and deletion processes to ensure consistency and avoid human errors.
 - <mark style="background: #FFB8EBA6;">Encrypt</mark> sensitive logs to protect data.
 - <mark style="background: #FFB8EBA6;">Regular backups</mark> should be made, especially before deletion.
-- /git
