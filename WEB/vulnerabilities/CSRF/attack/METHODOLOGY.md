@@ -29,7 +29,7 @@ no defense -> create a form ( [[WEB/vulnerabilities/CSRF/attack/payload#basic| b
   - [`Strict`](https://portswigger.net/web-security/csrf/bypassing-samesite-restrictions#strict) -> does not match the site currently shown in the browser's address bar, it will not include the cookie
   - [`Lax`](https://portswigger.net/web-security/csrf/bypassing-samesite-restrictions#lax) -> default for Chrome -> OK if:  1)`GET` method 2)top-level navigation(such as clicking on a link).
   - [`None`](https://portswigger.net/web-security/csrf/bypassing-samesite-restrictions#none) ->  disables SameSite -> cookie is intended to be used from a third-party context -> + `Secure`
-/gitcomm
+
 # chain 
 
 

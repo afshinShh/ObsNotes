@@ -1,3 +1,34 @@
+** Table of Contents **
+
+- [intro to logs](#intro%20to%20logs)
+			- [Contextual Correlation](#Contextual%20Correlation)
+	- [log types](#log%20types)
+	- [Log Formats](#Log%20Formats)
+		- [Semi-structured Logs](#Semi-structured%20Logs)
+			- [Syslog Message Format](#Syslog%20Message%20Format)
+			- [Windows Event Log (EVTX)](#Windows%20Event%20Log%20(EVTX))
+		- [Structured Logs](#Structured%20Logs)
+			- [Field Delimited Formats](#Field%20Delimited%20Formats)
+			- [JavaScript Object Notation (JSON)](#JavaScript%20Object%20Notation%20(JSON))
+			- [W3C Extended Log Format (ELF)](#W3C%20Extended%20Log%20Format%20(ELF))
+			- [eXtensible Markup Language (XML)](#eXtensible%20Markup%20Language%20(XML))
+		- [Unstructured Logs](#Unstructured%20Logs)
+			- [NCSA Common Log Format (CLF)](#NCSA%20Common%20Log%20Format%20(CLF))
+			- [NCSA Combined Log Format (Combined)](#NCSA%20Combined%20Log%20Format%20(Combined))
+	- [Log Standards](#Log%20Standards)
+	- [Log Collection](#Log%20Collection)
+					- [steps:](#steps:)
+	- [Log Management](#Log%20Management)
+					- [steps:](#steps:)
+	- [Log Centralisation](#Log%20Centralisation)
+					- [steps:](#steps:)
+	- [Log Storage](#Log%20Storage)
+					- [depends on:](#depends%20on:)
+	- [Log Retention](#Log%20Retention)
+	- [Log Analysis Process](#Log%20Analysis%20Process)
+	- [Log Analysis Tools](#Log%20Analysis%20Tools)
+	- [Log Analysis Techniques](#Log%20Analysis%20Techniques)
+
 # intro to logs 
 
 based on intro to logs room from [tryhackme](https://tryhackme.com/room/introtologs)
@@ -101,7 +132,6 @@ Centralisation -> pivotal for swift log access, in-depth analysis, and rapid inc
 - **Integration with Incident Management:** Ensure that your centralised system can <mark style="background: #FFB86CA6;">integrate</mark> seamlessly with any incident management tools or protocols you have in place.
 
 ---
-
 ## Log Storage
 
 ###### depends on:
@@ -114,7 +144,6 @@ Centralisation -> pivotal for swift log access, in-depth analysis, and rapid inc
 - **Disaster Recovery Plans**
 
 ---
-
 ## Log Retention
 
 - **Hot Storage:** Logs from the past **3-6 months** that are <mark style="background: #BBFABBA6;">most accessible</mark>. Query speed should be near real-time, depending on the complexity of the query.
@@ -130,3 +159,34 @@ Centralisation -> pivotal for swift log access, in-depth analysis, and rapid inc
 - <mark style="background: #FFB8EBA6;">Automate</mark> the storage, retention, and deletion processes to ensure consistency and avoid human errors.
 - <mark style="background: #FFB8EBA6;">Encrypt</mark> sensitive logs to protect data.
 - <mark style="background: #FFB8EBA6;">Regular backups</mark> should be made, especially before deletion.
+
+---
+## Log Analysis Process
+
+- **Data Sources** -> systems or applications configured or user activities -> the<mark style="background: #FF5582A6;"> origin of logs</mark>
+- **Parsing** -> <mark style="background: #FF5582A6;">breaking down</mark> log data to more manageable and understandable components -> to extract valuable information.
+- **Normalisation** -> <mark style="background: #FF5582A6;">standardising</mark> parsed data ->  makes comparing and analysing data from different sources easier
+- **Sorting** -> efficient data retrieval and identification of <mark style="background: #FF5582A6;">patterns</mark> -> dentifying trends and anomalies
+- **Classification** -> <mark style="background: #FF5582A6;">assigning categories</mark> based on characteristics -> identify potential issues or threats that could be overlooked -> automated using machine learning
+- **Enrichment** -> <mark style="background: #FF5582A6;">adds context</mark> to logs to make them more meaningful and easier to analyse -> make better decisions and more accurately respond to incidents ->  automated using machine learning
+- **Correlation** -> <mark style="background: #FF5582A6;">linking related records</mark> and identifying connections between log entries -> critical in determining security threats or system performance issues
+- **Visualisation** -> represents in <mark style="background: #FF5582A6;">graphical formats</mark> -> ecognising patterns, trends, and anomalies easier.
+- **Reporting** -> <mark style="background: #FF5582A6;">summarises</mark> log data into structured formats -> provide insights, support decision-making, or meet compliance requirements
+---
+## Log Analysis Tools
+
+complex analysis -> security Information and Event Management (SIEM) tools -> _Splunk_ or _Elastic Search_
+immediate data analysis -> during incident respons :
+- Linux-based ->`cat`, `grep`, `sed`, `sort`, `uniq`, and `awk`, along with `sha256sum`
+- windows-based -> [EZ-Tools](https://ericzimmerman.github.io/#!index.md) and the default cmdlet `Get-FileHash`
+  
+---
+## Log Analysis Techniques
+
+- **Pattern Recognition** 
+- **Anomaly Detection** 
+- **Correlation Analysis**
+- **Timeline Analysis**
+- **Machine Learning and AI**
+-  **Visualisation**
+- **Statistical Analysis**
