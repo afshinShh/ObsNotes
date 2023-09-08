@@ -87,4 +87,4 @@ situations for manipulating [[concepts#How are WebSocket connections established
 - <mark style="background: #D2B3FFA6;">Hard code the URL</mark> of the WebSockets endpoint, and certainly don't incorporate user-controllable data into this URL.
 - Protect the WebSocket handshake message against <mark style="background: #D2B3FFA6;">CSRF</mark>, to avoid _cross-site WebSockets hijacking_ vulnerabilities.
 - <mark style="background: #D2B3FFA6;">Treat data </mark>received via the WebSocket <mark style="background: #D2B3FFA6;">as untrusted</mark> in both directions. Handle data safely on both the server and client ends, to prevent input-based vulnerabilities such as _SQL injection_ and _cross-site scripting_.
-  /git
+  
