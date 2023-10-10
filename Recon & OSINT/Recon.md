@@ -29,9 +29,31 @@ fc -> filter  403 requests
 
 is slow 
 
-/comm
+
 
 ## shodan 
 
 - passive recon 
 shodan init (API KEY)
+
+
+## whois
+## theHarvester
+
+## crt.sh 
+
+## wayback machin
+ - tomnomnom tool -> waybackurls
+## httprobe 
+
+##  openlist firefox -> opens multiple urls at the same time 
+
+## amass -> in depth attack surface mapping and asset discovery
+
+## wappalyzer extension - react developer tool 
+## ffuf
+
+## dirb 
+
+## ctf: wpscan 
+
