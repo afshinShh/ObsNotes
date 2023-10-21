@@ -12,3 +12,12 @@
 
 - use google maps or something like that to identify details of a place based on visual aspects of it 
 ## Identifying Geographical locations 
+
+-  *look for specific details in the picture*
+  places
+  objects
+  language/people
+  wather
+  road
+  ...
+- playground -> [geogusser](https://www.geoguessr.com/)
