@@ -17,4 +17,3 @@ https://privacy.com/
 
 [𝘽𝙖𝙨𝙞𝙘 𝙊𝙋𝙎𝙀𝘾 𝙩𝙞𝙥𝙨 & 𝙏𝙧𝙞𝙘𝙠𝙨 𝙛𝙤𝙧 𝙊𝙎𝙄𝙉𝙏 𝙧𝙚𝙨𝙚𝙖𝙧𝙘𝙝𝙚𝙧𝙨](https://www.dutchosintguy.com/post/basic-opsec-tips-tricks-for-osint-researchers)
 
-/git

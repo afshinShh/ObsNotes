@@ -6,7 +6,6 @@
 - [ ] try to login social apps
 - [ ] post-history
 - [ ] profile picture
-[!image](https://github.com/sinwindie/OSINT/blob/master/Username/USERNAME%20OSINT%20Attack%20Surface.pdf)
 # password
 ## level 1
 
