@@ -16,4 +16,3 @@ https://hackcontrol.org/OSINT/People_search_engines.html
 - ***Linkedin*** 
 - personal sites 
 - yet another google dork
-/git
