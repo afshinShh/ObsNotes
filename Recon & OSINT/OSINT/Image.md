@@ -33,4 +33,4 @@
 # tools / commands
 
 - exiftool -> libimage-exiftool-perl
-- /git
+- 

@@ -10,9 +10,13 @@ https://hackcontrol.org/OSINT/People_search_engines.html
 
 - search through google/use [[Search Engine Operators#dorks|dorks]] + phone emoji
 - [infobel](https://www.infobel.com/de/world) -> global,  [truecaller](https://www.truecaller.com/) and similar sites 
-- search for number in yahoo,gmail,...  
+- search for number in yahoo,gmail,... 
+### tools / commands
+
+- [phoneinfoga](https://github.com/sundowndev/phoneinfoga) -> Information gathering <mark style="background: #BBFABBA6;">framework for phone numbers</mark>
 ## resumes 
 
 - ***Linkedin*** 
 - personal sites 
 - yet another google dork
+/gitcomm
