@@ -16,3 +16,9 @@
 ## level 3
 
 [flare.io](https://flare.io/)
+
+# tools / commands
+
+- [sherlock](https://github.com/sherlock-project/sherlock) ->   <mark style="background: #FFB86CA6;">python tool </mark>to Find Usernames Across Social Networks
+- [whatsmyname](https://github.com/WebBreacher/WhatsMyName) -> WhatsMyName (WMN) now consists of a <mark style="background: #FFB86CA6;">JSON file</mark> required to perform user enumeration on various websites
+- /gitcomm
