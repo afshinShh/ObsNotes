@@ -22,8 +22,24 @@ https://tweetdeck.twitter.com
 
 # instagram
 
-- a picture tells a thousand word
+- a picture tells a thousand words
 - relationships (followings)
 - [instagram user id](https://commentpicker.com/instagram-user-id.php)
 - [instagram anonymous viewer](https://instanavigation.com/)
--  
+  
+# snapchat 
+
+- map.snapchat.com
+
+# reddit 
+
+- reddit. com/u/{username}
+- google dorks is working even better with reddit 
+- don't forget the comment history  
+
+# Linkedin
+
+- digest everything / connections / activities / experience / recommendations / etc...
+# tiktok
+
+...
