@@ -15,4 +15,3 @@
 
 - [indeed](https://indeed.com)
 - linkedin - google -...
-/git

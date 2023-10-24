@@ -23,3 +23,7 @@
   road
   ...
 - playground -> [geogusser](https://www.geoguessr.com/)
+
+# tools / commands
+
+- exiftool -> libimage-exiftool-perl
