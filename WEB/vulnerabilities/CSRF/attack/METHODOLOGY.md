@@ -33,4 +33,4 @@ no defense -> create a form ( [[WEB/vulnerabilities/CSRF/attack/payload#basic| b
 # chain 
 
 
-**remember to check the [[checklist]]**
+**remember to check the [[Checklists]]**
