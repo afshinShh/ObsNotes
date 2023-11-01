@@ -276,4 +276,100 @@ cd FavFreak
 cat urls.txt | python3 favfreak.py -o output
 #Note : URLs must begin with either http or https
 ```
-/gitco
+
+---
+
+# webanalyze
+
+```shell
+go install -v github.com/rverton/webanalyze/cmd/webanalyze@latest
+webanalyze -update # loads new technologies.json file from wappalyzer project
+```
+
+- #todo -> -update doesn't work recently due to update in  wapplyzer's repository so you need to figure it out later 
+  
+# nuclei
+
+```shell
+go install -v github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest
+```
+
+Brew
+
+```shell
+brew install nuclei
+```
+
+Docker
+
+```shell
+docker pull projectdiscovery/nuclei:latest
+```
+
+**More installation [methods can be found here](https://nuclei.projectdiscovery.io/nuclei/get-started/).**
+
+## CENT - nuclei community edition
+
+```shell
+go install -v github.com/xm1k3/cent@latest
+```
+
+## AllForOne - Nuclei Template Collector
+
+1. Clone the repository: `git clone https://github.com/AggressiveUser/AllForOne.git` 💻
+    
+2. Install the required dependencies: `pip install -r requirements.txt` 🔑
+    
+3. Run the script: `python AllForOne.py` 🐍
+    
+4. Sit back and relax! The script will start collecting the Nuclei templates from public repositories.
+
+# ffuf
+
+- [Download](https://github.com/ffuf/ffuf/releases/latest) a prebuilt binary from [releases page](https://github.com/ffuf/ffuf/releases/latest), unpack and run!
+    
+    _or_
+    
+- If you are on macOS with [homebrew](https://brew.sh), ffuf can be installed with: `brew install ffuf`
+    
+    _or_
+    
+- If you have recent go compiler installed: `go install github.com/ffuf/ffuf/v2@latest` (the same command works for updating)
+    
+    _or_
+    
+- `git clone https://github.com/ffuf/ffuf ; cd ffuf ; go get ; go build`
+# SecLists
+
+### Zip
+
+```
+wget -c https://github.com/danielmiessler/SecLists/archive/master.zip -O SecList.zip \
+  && unzip SecList.zip \
+  && rm -f SecList.zip
+```
+
+### Git (Small)
+
+```
+git clone --depth 1 \
+  https://github.com/danielmiessler/SecLists.git
+```
+
+### Git (Complete)
+
+```
+git clone https://github.com/danielmiessler/SecLists.git
+```
+
+### Kali Linux ([Tool Page](https://www.kali.org/tools/seclists/))
+
+```
+apt -y install seclists
+```
+# assetnote.io
+
+```shell
+wget -r --no-parent -R "index.html*" https://wordlists-cdn.assetnote.io/data/ -nH -e robots=off
+```
+
