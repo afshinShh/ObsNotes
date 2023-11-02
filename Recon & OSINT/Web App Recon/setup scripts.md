@@ -372,4 +372,36 @@ apt -y install seclists
 ```shell
 wget -r --no-parent -R "index.html*" https://wordlists-cdn.assetnote.io/data/ -nH -e robots=off
 ```
+# WayMore
 
+
+```shell
+git clone https://github.com/xnl-h4ck3r/waymore.git
+cd waymore
+sudo python setup.py install
+```
+
+if you're having a problem running the **`setup.py`** for whatever reason you can run the following to install the dependencies:
+
+```shell
+sudo pip3 install -r requirements.txt
+```
+
+# APKLeaks
+### [from PyPi](https://github.com/dwisiswant0/apkleaks#from-pypi)
+
+```shell
+pip3 install apkleaks
+```
+
+### [from Source](https://github.com/dwisiswant0/apkleaks#from-source)
+
+Clone repository and install requirements:
+
+```shell
+git clone https://github.com/dwisiswant0/apkleaks
+cd apkleaks/
+pip3 install -r requirements.txt
+```
+
+/gitcomm
