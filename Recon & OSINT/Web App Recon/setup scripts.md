@@ -404,4 +404,20 @@ cd apkleaks/
 pip3 install -r requirements.txt
 ```
 
-/gitcomm
+# GAP (burp extension)
+
+### [Installation](https://github.com/xnl-h4ck3r/GAP-Burp-Extension#installation)
+
+1. Visit [Jython Offical Site](https://www.jython.org/download), and download the latest stand alone JAR file, e.g. `jython-standalone-2.7.3.jar`.
+2. Open Burp, go to **Extensions** -> **Extension Settings** -> **Python Environment**, set the **Location of Jython standalone JAR file** and **Folder for loading modules** to the directory where the Jython JAR file was saved.
+3. On a command line, go to the directory where the jar file is and run `java -jar jython-standalone-2.7.3.jar -m ensurepip`.
+4. Download the `GAP.py` and `requirements.txt` from this project and place in the same directory.
+5. Install Jython modules by running `java -jar jython-standalone-2.7.3.jar -m pip install -r requirements.txt`.
+6. Go to the **Extensions** -> **Installed** and click **Add** under **Burp Extensions**.
+7. Select **Extension type** of **Python** and select the **GAP.py** file.
+
+# JS Miner(burp extension)
+
+- download from BApp Store [portswigger official page](https://portswigger.net/bappstore/0ab7a94d8e11449daaf0fb387431225b
+
+/git
