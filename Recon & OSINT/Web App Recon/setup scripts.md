@@ -324,6 +324,16 @@ go install -v github.com/xm1k3/cent@latest
     
 4. Sit back and relax! The script will start collecting the Nuclei templates from public repositories.
 
+# jaeles
+
+## [Installation](https://github.com/jaeles-project/jaeles#installation)
+
+```shell
+go install github.com/jaeles-project/jaeles@latest
+```
+
+ - [**Note**: Checkout](https://github.com/jaeles-project/jaeles#note-checkout-signatures-repo-for-install-signature) [Signatures Repo](https://github.com/jaeles-project/jaeles-signatures) for install signature.
+
 # ffuf
 
 - [Download](https://github.com/ffuf/ffuf/releases/latest) a prebuilt binary from [releases page](https://github.com/ffuf/ffuf/releases/latest), unpack and run!
@@ -420,4 +430,6 @@ pip3 install -r requirements.txt
 
 - download from BApp Store [portswigger official page](https://portswigger.net/bappstore/0ab7a94d8e11449daaf0fb387431225b
 
-/git
+
+
+
