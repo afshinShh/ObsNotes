@@ -1,4 +1,4 @@
-- #todo some easy stuff to find when you ctrl+u:
+- #todo some easy stuff to find when you ctrl+u ([source](https://tryhackme.com/room/webosint)):
 
 <table class="table table-bordered">
     <tbody>
@@ -35,5 +35,5 @@
     </tbody>
 </table>
 
-
-/git
+---
+/gitcommi
