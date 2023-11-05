@@ -1,4 +1,4 @@
-LXD (Linux Container Daemon) can be used for privilege escalation if a compromised user account is a member of the `lxd` or `lxc` group. This is possible because LXD operates as a root process and carries out actions for any user with write access to the LXD UNIX socket, often without attempting to match the privileges of the calling user [Source 0](https://www.hackingarticles.in/lxd-privilege-escalation/). 
+LXD (Linux Container Daemon) can be used for <mark style="background: #FF5582A6;">privilege escalation </mark>if a compromised user account is a member of the `lxd` or `lxc` group. This is possible because LXD operates as a root process and carries out actions for any user with write access to the LXD UNIX socket, often without attempting to match the privileges of the calling user [Source 0](https://www.hackingarticles.in/lxd-privilege-escalation/). 
 
 Here is a step-by-step guide on how you can use LXD for privilege escalation on a compromised machine:
 
@@ -50,4 +50,4 @@ lxc exec ignite /bin/sh
 ```
 
 Once inside the container, you can navigate to `/mnt/root` to access the host's filesystem. From here, you can perform actions as the root user, effectively escalating your privileges on the compromised machine [Source 0](https://www.hackingarticles.in/lxd-privilege-escalation/).
-/git
+- #todo this is gpt generated -> make it more clean /git
