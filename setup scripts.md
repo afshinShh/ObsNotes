@@ -1,5 +1,24 @@
 
 - I haven't include one-file scripts (.py/.sh/etc)
+
+# Zsh
+
+1. There are two main ways to install Zsh:
+    
+    - With the package manager of your choice, _e.g._ `sudo apt install zsh` (see [below for more examples](https://github.com/ohmyzsh/ohmyzsh/wiki/Installing-ZSH#how-to-install-zsh-on-many-platforms))
+    - From [source](https://zsh.sourceforge.io/Arc/source.html), 
+2. Verify installation ->  `zsh --version`
+    
+3. Make it your default shell: `chsh -s $(which zsh)` or use `sudo lchsh $USER` if you are on Fedora.
+    
+    - Note that this will not work if Zsh is not in your authorized shells list (`/etc/shells`) or if you don't have permission to use `chsh`. If that's the case [you'll need to use a different procedure](https://www.google.com/search?q=zsh+default+without+chsh).
+    - If you use `lchsh` you need to type `/bin/zsh` to make it your default shell.
+4. Log out and log back in again to use your new default shell.
+    
+5. Test that it worked with `echo $SHELL`. Expected result: `/bin/zsh` or similar.
+    
+6. Test with `$SHELL --version`. Expected result: 'zsh 5.8' or similar
+/git
 ## asciinema
 ```shell
 sudo pip3 install asciinema
@@ -13,6 +32,54 @@ nano ~/.bashrc
 export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin
 source ~/.bashrc
 ```
+
+# Rust
+### **Installing Rust directly**
+
+```bash
+sudo pacman -Sy rust
+```
+
+### **Installing Rust via Rustup**
+
+```bash
+# Download and install Rustup
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+# Configure the PATH environment variable
+source $HOME/.cargo/env
+
+# Test the installation
+rustc --version
+```
+
+# metasploit & searchsploit
+To install Metasploit Framework and Searchsploit on Ubuntu, you can follow these steps:
+## metasploit
+
+   ```shell
+   sudo apt install -y build-essential zlib1g zlib1g-dev libpq-dev libpcap-dev libsqlite3-dev ruby ruby-dev git
+   git clone https://github.com/rapid7/metasploit-framework.git
+   cd metasploit-framework/
+   sudo gem install bundler
+   bundle install
+   ```
+## searchsploit
+
+   - Download the Searchsploit script from the GitHub repository:
+     ```shell
+     wget https://raw.githubusercontent.com/offensive-security/exploitdb/master/searchsploit
+     ```
+   - Make the script executable:
+     ```shell
+     chmod +x searchsploit
+     ```
+   - Move the script to a directory in your system's PATH, such as `/usr/local/bin`:
+     ```shell
+     sudo mv searchsploit /usr/local/bin/
+     ```
+
+--- 
 # karma v2
 
 ### [1. Clone the repo](https://github.com/Dheerajmadhukar/karma_v2#1-clone-the-repo)

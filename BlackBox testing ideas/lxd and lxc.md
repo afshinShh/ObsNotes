@@ -50,4 +50,4 @@ lxc exec ignite /bin/sh
 ```
 
 Once inside the container, you can navigate to `/mnt/root` to access the host's filesystem. From here, you can perform actions as the root user, effectively escalating your privileges on the compromised machine [Source 0](https://www.hackingarticles.in/lxd-privilege-escalation/).
-- #todo this is gpt generated -> make it more clean /git
+- #todo this is gpt generated -> make it more clean 
