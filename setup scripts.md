@@ -52,6 +52,17 @@ source $HOME/.cargo/env
 rustc --version
 ```
 
+# rustscan 
+### using cargo
+
+- you need to install <mark style="background: #FFF3A3A6;">rust</mark> and <mark style="background: #D2B3FFA6;">nmap</mark> first
+```shell 
+cargo install rustscan
+```
+### using docker(recommended)
+
+the guide is [here](https://github.com/RustScan/RustScan/wiki/Installation-Guide#docker-) ( #todo make it summarized)
+/git
 # metasploit & searchsploit
 ## metasploit
 
@@ -69,7 +80,7 @@ sudo apt update
 sudo apt install snapd
 sudo snap install searchsploit
 ```
-/gitco
+
 --- 
 # karma v2
 
