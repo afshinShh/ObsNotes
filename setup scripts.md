@@ -1,5 +1,12 @@
 
 - I haven't include one-file scripts (.py/.sh/etc)
+## asciinema 
+
+-> for recording the screen (commandline)
+
+```shell
+sudo pip3 install asciinema
+```
 
 # Zsh
 
@@ -18,10 +25,6 @@
 5. Test that it worked with `echo $SHELL`. Expected result: `/bin/zsh` or similar.
     
 6. Test with `$SHELL --version`. Expected result: 'zsh 5.8' or similar
-## asciinema
-```shell
-sudo pip3 install asciinema
-```
 
 # go 
 
@@ -62,7 +65,7 @@ cargo install rustscan
 ### using docker(recommended)
 
 the guide is [here](https://github.com/RustScan/RustScan/wiki/Installation-Guide#docker-) ( #todo make it summarized)
-/git
+
 # metasploit & searchsploit
 ## metasploit
 
@@ -80,7 +83,7 @@ sudo apt update
 sudo apt install snapd
 sudo snap install searchsploit
 ```
-
+/git
 --- 
 # karma v2
 
