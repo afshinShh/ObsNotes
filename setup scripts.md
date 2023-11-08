@@ -18,7 +18,6 @@
 5. Test that it worked with `echo $SHELL`. Expected result: `/bin/zsh` or similar.
     
 6. Test with `$SHELL --version`. Expected result: 'zsh 5.8' or similar
-/git
 ## asciinema
 ```shell
 sudo pip3 install asciinema
@@ -54,7 +53,6 @@ rustc --version
 ```
 
 # metasploit & searchsploit
-To install Metasploit Framework and Searchsploit on Ubuntu, you can follow these steps:
 ## metasploit
 
    ```shell
@@ -66,19 +64,12 @@ To install Metasploit Framework and Searchsploit on Ubuntu, you can follow these
    ```
 ## searchsploit
 
-   - Download the Searchsploit script from the GitHub repository:
-     ```shell
-     wget https://raw.githubusercontent.com/offensive-security/exploitdb/master/searchsploit
-     ```
-   - Make the script executable:
-     ```shell
-     chmod +x searchsploit
-     ```
-   - Move the script to a directory in your system's PATH, such as `/usr/local/bin`:
-     ```shell
-     sudo mv searchsploit /usr/local/bin/
-     ```
-
+```shell
+sudo apt update
+sudo apt install snapd
+sudo snap install searchsploit
+```
+/gitco
 --- 
 # karma v2
 
