@@ -83,7 +83,7 @@ sudo apt update
 sudo apt install snapd
 sudo snap install searchsploit
 ```
-/git
+
 --- 
 # karma v2
 
