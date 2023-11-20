@@ -47,4 +47,3 @@ DROP TABLE tablename1;
 ---
 # sql injection
 
-/gitco
