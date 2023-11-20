@@ -15,4 +15,3 @@ if (file.getCanonicalPath().startsWith(BASE_DIRECTORY)) {
 }
 ```
 
-/git
