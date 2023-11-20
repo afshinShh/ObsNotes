@@ -1,7 +1,7 @@
-/git
+/gitcomm
 > “A little learning is a dangerous thing; Drink deep, or taste not the Pierian spring”
 > 
->> *Alexander Pope*
+>> **Alexander Pope**
 
 
 > “You must understand that there is more than one path to the top of the mountain”
@@ -16,4 +16,4 @@
 > 
 > “If you know the way broadly you will see it in everything.”
 >  
- >>  *Miyamoto Musashi*
+ >>  **Miyamoto Musashi**
