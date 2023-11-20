@@ -20,4 +20,3 @@ Imagine a shopping application that displays images of items for sale using the 
 - if no defense is implemented attacker can use : `https://insecure-website.com/loadImage?filename=../../../etc/passwd` -> application reads and (after <mark style="background: #FFB86CA6;">normalization</mark>) returns  `/var/www/images/../../../etc/passwd` = `/etc/passwd`
 - note : on windows `../` and `..\` are valid example: `https://insecure-website.com/loadImage?filename=..\..\..\windows\win.ini`
 
-/gitcomm
