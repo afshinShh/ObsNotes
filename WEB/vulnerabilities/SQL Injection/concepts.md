@@ -47,3 +47,32 @@ DROP TABLE tablename1;
 ---
 # sql injection
 
+-> *vulnerability that allows an attacker to **interfere with the queries** that an application makes to its **database***
+## impact 
+
+- can result in unauthorized <mark style="background: #D2B3FFA6;">access to sensitive data</mark>, such as:
+	- Personal user information.
+	- Credit card details.
+	- Passwords.
+- In many cases, an attacker can <mark style="background: #FFB86CA6;">modify or delete</mark> this data, causing persistent changes to the application's content or behavior.
+- In some situations, an attacker can escalate a SQL injection attack to <mark style="background: #FF5582A6;">compromise</mark> the underlying server or other back-end infrastructure. It can also enable them to perform <mark style="background: #ABF7F7A6;">denial-of-service</mark> attacks.
+
+## detection
+
+- The <mark style="background: #CACFD9A6;">single quote character</mark> `'` and look for <mark style="background: #CACFD9A6;">errors</mark> or other anomalies.
+- Some SQL-specific syntax that evaluates to the base (original) value of the entry point, and to a different value, and look for systematic <mark style="background: #CACFD9A6;">differences in the application responses</mark>.
+- <mark style="background: #CACFD9A6;">Boolean conditions</mark> such as `OR 1=1` and `OR 1=2`, and look for differences in the application's responses.
+- Payloads designed to trigger <mark style="background: #CACFD9A6;">time delays </mark>when executed within a SQL query, and look for differences in the time taken to respond.
+- [OAST](https://portswigger.net/burp/application-security-testing/oast) payloads designed to trigger an <mark style="background: #CACFD9A6;">out-of-band network interaction</mark> when executed within a SQL query, and monitor any resulting interactions.
+
+## SQL injection in different parts of the query
+
+Most SQL injection vulnerabilities occur within the *`WHERE` clause of a `SELECT` query*.
+However, SQL injection vulnerabilities can occur at any location within the query, and within different query types. Some other common locations where SQL injection arises are:
+
+- *In `UPDATE` statements, within the updated values or the `WHERE` clause.*
+- *In `INSERT` statements, within the inserted values.*
+- *In `SELECT` statements, within the table or column name.*
+- *In `SELECT` statements, within the `ORDER BY` clause.*
+
+/gitco

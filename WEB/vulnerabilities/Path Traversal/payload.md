@@ -1,6 +1,8 @@
 ## basic
 
-> `../../../etc/passwd`
+```python
+../../../etc/passwd
+```
 
 # Common obstacles 
 
@@ -32,4 +34,3 @@ example: `.png`
 ```python
 filename=../../../etc/passwd%00.png
 ```
-/git
