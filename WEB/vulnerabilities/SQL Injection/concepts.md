@@ -75,4 +75,3 @@ However, SQL injection vulnerabilities can occur at any location within the quer
 - *In `SELECT` statements, within the table or column name.*
 - *In `SELECT` statements, within the `ORDER BY` clause.*
 
-/gitco
