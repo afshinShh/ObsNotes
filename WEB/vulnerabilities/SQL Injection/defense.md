@@ -25,4 +25,3 @@ You can use parameterized queries for any situation where untrusted input appear
 
 For a parameterized query to be effective in preventing SQL injection, the string that is used in the query must always be a <mark style="background: #FFF3A3A6;">hard-coded constant</mark>. It must <mark style="background: #FFF3A3A6;">never contain any variable data from any origin</mark>. Do not be tempted to decide case-by-case whether an item of data is trusted, and continue using string concatenation within the query for cases that are considered safe. It's easy to make mistakes about the possible origin of data, or for changes in other code to taint trusted data.
 
-/git
