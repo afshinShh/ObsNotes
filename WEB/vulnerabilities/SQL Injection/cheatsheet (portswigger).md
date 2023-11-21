@@ -139,4 +139,3 @@ You can cause the database to perform a DNS lookup to an external domain contain
 
 
 
-/git
