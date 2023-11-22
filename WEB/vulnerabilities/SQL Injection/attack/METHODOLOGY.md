@@ -41,6 +41,21 @@ simple attack -> `'+OR+1=1--`  [[WEB/vulnerabilities/SQL Injection/attack/payloa
 - _all other databases_ -> `information_schema` 
   - `information_schema.tables`
   - `information_schema.columns`
+
+# Blind SQL injection
+##### concept:
+-> when HTTP responses do not contain the *results of the relevant SQL query* or the *details of any database errors*.
+## triggering conditional responses
+
+1) the application does <mark style="background: #FF5582A6;">behave differently</mark> when faces with true/false conditional statement (example: `'1'='1` / `'1'='2`) in:
+	- Parameters 
+	- Cookies
+	- HTTP Headers
+2) determine the length of data you want to retrive using `LENGTH` 
+3) use: 
+	- Oracle: `SUBSTR`
+	- non-Oracle: `SUBSTRING` [[WEB/vulnerabilities/SQL Injection/attack/payload#triggering conditional responses|example]]
+/gitcomm
 # Subverting application logic
 
 simple attack -> `'--` [[WEB/vulnerabilities/SQL Injection/attack/payload#Subverting application logic#simple attack|example]]

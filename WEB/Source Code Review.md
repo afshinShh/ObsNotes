@@ -36,3 +36,4 @@
 </table>
 
 ---
+- you can also look for [[Regex Patterns]] in source code 
