@@ -47,18 +47,27 @@ simple attack -> `'+OR+1=1--`  [[WEB/vulnerabilities/SQL Injection/attack/payloa
 -> when HTTP responses do not contain the *results of the relevant SQL query* or the *details of any database errors*.
 ## triggering conditional responses
 
-1) the application does <mark style="background: #FF5582A6;">behave differently</mark>(in response) when faces with true/false conditional statement (example: `'1'='1` / `'1'='2`) in:
+1) the application does *behave differently(in response)* when faces with true/false conditional statement (example: `'1'='1` / `'1'='2`) in:
 	- Parameters 
 	- Cookies
 	- HTTP Headers
-2) determine the length of data you want to retrive using `LENGTH` 
+2) determine the length of data you want to retrive using *`LENGTH`* 
 3) use: 
-	- Oracle: `SUBSTR`
-	- non-Oracle: `SUBSTRING` [[WEB/vulnerabilities/SQL Injection/attack/payload#triggering conditional responses|example]]
+	- Oracle: *`SUBSTR`*
+	- non-Oracle: *`SUBSTRING`* [[WEB/vulnerabilities/SQL Injection/attack/payload#triggering conditional responses|example]]
 ## Error-based
 
 ### triggering conditional errors
-- injecting different boolean conditions makes no difference to the application's responses -> raise an error by injecting a condition query ->`CASE` keyword
+- injecting different boolean conditions makes no difference to the application's responses -> *raise an error* by *injecting a condition query* -> use *`CASE`* keyword [[WEB/vulnerabilities/SQL Injection/attack/payload#triggering conditional errors|examples]]
+### verbose SQL error messages
+
+- verbose error -> find out about *context* -> easier to construct a valid query:
+> `Unterminated string literal started at position 52 in SQL SELECT * FROM tracking WHERE id = '''. Expected char`
+
+- generate an error message that *contains some of the data* that is returned by the query -> turns blind into visible -> use *`CAST()`* keyword:
+>`CAST((SELECT example_column FROM example_table) AS int)`
+>-> `ERROR: invalid input syntax for type integer: "Example data"`
 # Subverting application logic
 
 simple attack -> `'--` [[WEB/vulnerabilities/SQL Injection/attack/payload#Subverting application logic#simple attack|example]]
+/git

