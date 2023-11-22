@@ -44,4 +44,3 @@ simple attack -> `'+OR+1=1--`  [[WEB/vulnerabilities/SQL Injection/attack/payloa
 # Subverting application logic
 
 simple attack -> `'--` [[WEB/vulnerabilities/SQL Injection/attack/payload#Subverting application logic#simple attack|example]]
-/gitcomm
