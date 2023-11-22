@@ -17,7 +17,7 @@ Use the following regular expressions to **match IPv4 addresses**
 
 # Secret API keys
 
-- List of regex for <mark style="background: #FFB86CA6;">scraping secret API keys and juicy information</mark>. You can directly copy this and put into your python code, some regexes might require three quotes or else it will break the code. [source](https://github.com/h33tlit/secret-regex-list) 
+- List of regex for *scraping secret API keys and juicy information*. [source](https://github.com/h33tlit/secret-regex-list) 
 
 ```shell
 Cloudinary  : "cloudinary://.*",
@@ -61,4 +61,4 @@ Twilio API Key: "SK[0-9a-fA-F]{32}",
 Twitter Access Token: "[t|T][w|W][i|I][t|T][t|T][e|E][r|R].*[1-9][0-9]+-[0-9a-zA-Z]{40}",
 Twitter OAuth: "[t|T][w|W][i|I][t|T][t|T][e|E][r|R].*['|\"][0-9a-zA-Z]{35,44}['|\"]"
 ```
-/git
+/gitcomm
