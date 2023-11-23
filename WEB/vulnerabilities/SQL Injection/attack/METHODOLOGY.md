@@ -44,7 +44,7 @@ simple attack -> `'+OR+1=1--`  [[WEB/vulnerabilities/SQL Injection/attack/payloa
 
 # Blind SQL injection
 ##### concept:
--> when HTTP responses do not contain the *results of the relevant SQL query* or the *details of any database errors*.
+-> when HTTP responses <mark style="background: #ADCCFFA6;">do not contain</mark> the *results of the relevant SQL query* or the *details of any database errors*.
 ## triggering conditional responses
 
 1) the application does *behave differently(in response)* when faces with true/false conditional statement (example: `'1'='1` / `'1'='2`) in:
@@ -64,10 +64,13 @@ simple attack -> `'+OR+1=1--`  [[WEB/vulnerabilities/SQL Injection/attack/payloa
 - verbose error -> find out about *context* -> easier to construct a valid query:
 > `Unterminated string literal started at position 52 in SQL SELECT * FROM tracking WHERE id = '''. Expected char`
 
-- generate an error message that *contains some of the data* that is returned by the query -> turns blind into visible -> use *`CAST()`* keyword:
+- generate an error message that *contains some of the data* that is returned by the query -> turns blind into visible -> use *`CAST()`* keyword: [[WEB/vulnerabilities/SQL Injection/attack/payload#verbose SQL error messages|example]]
 >`CAST((SELECT example_column FROM example_table) AS int)`
 >-> `ERROR: invalid input syntax for type integer: "Example data"`
+## triggering time delays
+
+ - application catches database errors and handles them -> *delay* in *execution* of the SQL *query* [[WEB/vulnerabilities/SQL Injection/attack/payload#triggering time delays|examples]]
+look for syntax in different databases -> [[cheatsheet(portswigger)#Time delays|Here]]
 # Subverting application logic
 
 simple attack -> `'--` [[WEB/vulnerabilities/SQL Injection/attack/payload#Subverting application logic#simple attack|example]]
-/git

