@@ -74,3 +74,6 @@ look for syntax in different databases -> [[cheatsheet(portswigger)#Time delays|
 # Subverting application logic
 
 simple attack -> `'--` [[WEB/vulnerabilities/SQL Injection/attack/payload#Subverting application logic#simple attack|example]]
+
+# ## Second-order SQL injection 
+#todo 

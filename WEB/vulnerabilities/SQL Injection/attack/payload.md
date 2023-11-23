@@ -104,3 +104,6 @@ let's say we have a *cookie* called `TrackingId` and the *database is PostgreSQL
 ## simple attack 
 `SELECT * FROM users WHERE username = 'wiener' AND password = 'bluecheese'` 
 => submit username as `administrator'--` -> `SELECT * FROM users WHERE username = 'administrator'--' AND password = ''`
+# ## Second-order SQL injection 
+#todo 
+/git
