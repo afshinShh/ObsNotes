@@ -71,9 +71,15 @@ simple attack -> `'+OR+1=1--`  [[WEB/vulnerabilities/SQL Injection/attack/payloa
 
  - application catches database errors and handles them -> *delay* in *execution* of the SQL *query* [[WEB/vulnerabilities/SQL Injection/attack/payload#triggering time delays|examples]]
 look for syntax in different databases -> [[cheatsheet(portswigger)#Time delays|Here]]
+
+## out-of-band (OAST) techniques
+#todo 
+
 # Subverting application logic
 
 simple attack -> `'--` [[WEB/vulnerabilities/SQL Injection/attack/payload#Subverting application logic#simple attack|example]]
 
-# ## Second-order SQL injection 
+# in different context 
+#todo 
+# Second-order SQL injection 
 #todo 
