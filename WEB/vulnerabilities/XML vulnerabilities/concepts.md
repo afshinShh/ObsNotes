@@ -111,5 +111,5 @@ ex: `<!DOCTYPE foo [ <!ENTITY ext SYSTEM "http://normal-website.com" > ]>`
 -  a type of custom entity whose definition is *located outside* of the DTD
 - The declaration of an external entity uses the **`SYSTEM`** keyword
 - it must specify a *URL* from which the *value of the entity should be loaded*
-- this is where [[concepts and defense|XXE]] arises /gitcom
+- this is where [[concepts and defense|XXE]] arises 
 
