@@ -68,4 +68,3 @@ ex: `<a href="javascript:&bsol;u0061lert(1)">Click me</a>` -> (`&bsol;` :`\` -> 
 ex: `CHAR(83)+CHAR(69)+CHAR(76)+CHAR(69)+CHAR(67)+CHAR(84)` -> `SELECT`
 - `CHAR()`function : accepts a single *decimal or hex* code point and returns the *matching character*
 - Hex codes must be prefixed with `0x` -> both `CHAR(83)` and `CHAR(0x53)` return the capital letter `S`
-/git
