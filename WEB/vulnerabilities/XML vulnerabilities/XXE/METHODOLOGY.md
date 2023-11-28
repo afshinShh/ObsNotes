@@ -32,7 +32,7 @@
 
 - some applications *embed* client-submitted data *into an XML document* and  then parse it. 
   -> like SOAP requests 
-- **`XInclude`** : allows an XML document to be *built from sub-documents* -> <mark style="background: #D2B3FFA6;">you need only a single item of data</mark> -> reference the `XInclude` namespace + path to the file [[WEB/vulnerabilities/XML vulnerabilities/XXE/payload#XInclude|example]] 
+- **`XInclude`** : allows an XML document to be *built from sub-documents* -> <mark style="background: #BBFABBA6;">you need only a single item of data</mark> -> reference the `XInclude` namespace + path to the file [[WEB/vulnerabilities/XML vulnerabilities/XXE/payload#XInclude|example]] 
 ## via file upload
 
 - *office document formats like **DOCX*** and *image formats like **SVG*** [[WEB/vulnerabilities/XML vulnerabilities/XXE/payload#via file upload|example]]
@@ -42,4 +42,4 @@
 
 - change the default content type of *POST request* from `application/x-www-form-urlencoded` to `text/xml`
   => ez hidden XXE attack surface [[WEB/vulnerabilities/XML vulnerabilities/XXE/payload#via modified content type|example]]
-  /gitco
+  
