@@ -39,4 +39,3 @@
 	- Do not upload files to the server's permanent filesystem until they have been <mark style="background: #BBFABBA6;">fully validated</mark>. 
 	- use an *<mark style="background: #BBFABBA6;">established framework</mark>* for preprocessing file uploads instead of manual validation mechanisms.
 
-/gitcomm
