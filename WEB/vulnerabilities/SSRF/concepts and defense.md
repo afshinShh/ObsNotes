@@ -7,4 +7,3 @@
 => **unauthorized actions or access to data** within the organization 
 - may lead to arbitrary [[WEB/vulnerabilities/Command Injection/concepts and defense|command execution]] .
 - if it causes connections to external third-party systems -> malicious onward attacks
-/git
