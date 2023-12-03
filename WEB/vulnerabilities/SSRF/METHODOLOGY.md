@@ -57,4 +57,3 @@
   - server-side analytics software to track visitors
   - including the anchor text that is used in the incoming links
   - => _Blind SSRF_  
-/gi
