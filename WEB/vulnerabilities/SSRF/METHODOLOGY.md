@@ -47,12 +47,14 @@
 [Cracking the lens: Remote client exploits](https://portswigger.net/blog/cracking-the-lens-targeting-https-hidden-attack-surface#remoteclient)
 
 -  **Partial URLs in requests**:
-  - only a hostname or part of a URL path into request parameters
-  - exploitability as full SSRF might be limited
+   - only a hostname or part of a URL path into request parameters
+   - exploitability as full SSRF might be limited
+
 -  **URLs within data formats**:
-  - XML data format as an example => SSRF via XXE
+   - XML data format as an example => SSRF via XXE
+  
 - **SSRF via the Referer header**:
   - server-side analytics software to track visitors
   - including the anchor text that is used in the incoming links
   - => _Blind SSRF_  
-/gitcomm
+/gi
