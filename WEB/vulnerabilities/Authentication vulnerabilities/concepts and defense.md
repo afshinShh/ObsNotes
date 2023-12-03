@@ -39,5 +39,10 @@
 
 - **Take care with user credentials**:
   - 
-
+- **Don't count on users for security**:
+- **Prevent username enumeration**:
+- **Implement robust brute-force protection**:
+- **Triple-check your verification logic**:
+- **Don't forget supplementary functionality**:
+- **Implement proper multi-factor authentication**:
 /gitcomm
