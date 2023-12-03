@@ -28,7 +28,7 @@
  [[WEB/vulnerabilities/SSRF/payload#blacklist-based input filters|example]]
 ## whitelist-based input filters
 #todo 
-
+[new era of SSRF slides (orange/blackhat)](https://www.blackhat.com/docs/us-17/thursday/us-17-Tsai-A-New-Era-Of-SSRF-Exploiting-URL-Parser-In-Trending-Programming-Languages.pdf)
 ## via open redirection
 
 - application *trusts* the redirection from itself -> request to the desired back-end target [[WEB/vulnerabilities/SSRF/payload#via open redirection|example]]
@@ -40,6 +40,19 @@
 
 - -> trigger an HTTP request to an *external system* that you control
 - firewalls may <mark style="background: #FFB8EBA6;">block HTTP requests but allow DNS</mark> lookup.
-### exploitability 
+### Exploitability 
 #todo
 # hidden attack surface 
+
+[Cracking the lens: Remote client exploits](https://portswigger.net/blog/cracking-the-lens-targeting-https-hidden-attack-surface#remoteclient)
+
+-  **Partial URLs in requests**:
+  - only a hostname or part of a URL path into request parameters
+  - exploitability as full SSRF might be limited
+-  **URLs within data formats**:
+  - XML data format as an example => SSRF via XXE
+- **SSRF via the Referer header**:
+  - server-side analytics software to track visitors
+  - including the anchor text that is used in the incoming links
+  - => _Blind SSRF_  
+/gitcomm

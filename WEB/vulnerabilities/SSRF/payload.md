@@ -38,5 +38,3 @@ stockApi=http://stock.weliketoshop.net:8080/product/stock/check%3FproductId%3D6%
 
 ### blind ssrf with shellshock exploitation
 #todo
-# hidden attack surface 
-/gitcomm
