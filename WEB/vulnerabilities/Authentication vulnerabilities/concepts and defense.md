@@ -37,12 +37,33 @@
 
 # defense
 
-- **Take care with user credentials**:
-  - 
-- **Don't count on users for security**:
-- **Prevent username enumeration**:
-- **Implement robust brute-force protection**:
-- **Triple-check your verification logic**:
-- **Don't forget supplementary functionality**:
-- **Implement proper multi-factor authentication**:
-/gitcomm
+- ***Take care with user credentials***:
+  - _no unencrypted connection_
+    - implement HTTPS
+    - enforce by redirecting HTTP to HTTPS
+  - audit to make sure _no credentials are disclosed_
+    -  public databases 
+    -  reflected HTTP response 
+    - ...
+- ***Don't count on users for security***:
+  - _effective password policy_ -> password checker
+    - JavaScript library `zxcvbn` by Dropbox
+- ***Prevent username enumeration***:
+  - _identical, generic error messages_
+  - _same HTTP status_ code with each login request
+  - indistinguishable _response times_
+- ***Implement robust brute-force protection***:
+  - strict, IP-based _user rate limiting_
+    - measures to prevent attackers from manipulating their apparent IP address
+  - Ideally _CAPTCHA_ with every login attempt after a certain limit.
+- ***Triple-check your verification logic***:
+  - Auditing any verification or validation logic thoroughly to eliminate flaws.
+- ***Don't forget supplementary functionality***:
+	- _password reset_ or _change_ is just as valid an attack surface as the main login mechanism
+- ***Implement proper multi-factor authentication***:
+  - _verifying multiple instances of the same factor is not true multi-factor authentication_
+    verification codes via email = single-factor authentication
+  - SMS-based 2FA -> potential for abuse through SIM swapping
+  - Ideally _dedicated device or app that generates the verification code_ -> typically more secure
+  - make sure of the logic
+
