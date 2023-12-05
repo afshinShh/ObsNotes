@@ -15,7 +15,7 @@
 >5) `200` status code except for one, which got a **`302`** 
 >   => password achieved
 
-- **via subtly different responses**:
+- **via _subtly_ different responses**:
 > **Settings** tab -> **Grep - Extract**, click Add -> `Invalid username or password`
 > *one of the responses contains* **typo**: full stop/period -> trailing space 
 > => username achieved
@@ -36,4 +36,5 @@
 >    -> `302` status
 >    => password achieved
 
-/gitcomm
+## Flawed brute-force protection
+
