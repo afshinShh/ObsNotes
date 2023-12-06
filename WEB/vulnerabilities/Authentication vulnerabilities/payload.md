@@ -3,9 +3,6 @@
 ## Brute-force attacks
 
 ### Brute-forcing usernames
-
-#### Username enumeration
-
 ##### via different responses:
 >1) *in the `POST /login` request*: `username=§invalid-username§`
 >2) *Payload*: *Sniper* -> wordlist
@@ -47,7 +44,7 @@
 ##### account lock:
 > - *payload*: *Cluster bomb*:
 >   - `username`: candidates of valid username
->   - `password`: same password but for each username repeated untill the rate limit gets reached -> null payload
+>   - `password`: same password but for each username repeated untill the rate limit gets reached -> **null payload**
 >    => `username=§invalid-username§&password=example§§`
 > - *`You have made too many incorrect login attempts`*
 >   - => username achieved
@@ -56,5 +53,4 @@
 >   - `password`: wordlis
 >     -> one has no error message 
 >     => password achieved
-
-
+# multi-factor authentication
