@@ -37,4 +37,3 @@ let's see in action: [[WEB/vulnerabilities/Clickjacking/attack/payload#basic att
   *   prevent clicking on invisible frames,
   *   intercept and flag potential clickjacking attacks to the user.
 
-/g

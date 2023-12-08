@@ -34,9 +34,9 @@
 ## Flawed brute-force protection
 
 brute-force protection -> make it as tricky as possible to <mark style="background: #FFF3A3A6;">automate the process</mark> and <mark style="background: #FFF3A3A6;">slow down the rate</mark> at which an attacker can attempt logins.
-- **Blocking the remote user's IP address**
+- ***Blocking the remote user's IP address***
   - _failed attempts counting_ -> <mark style="background: #ADCCFFA6;">include your own login credentials</mark> at regular intervals throughout the wordlist. [[WEB/vulnerabilities/Authentication vulnerabilities/payload#IP block|example]] 
-- **Locking the account**
+- ***Locking the account***
   - list of candidate *usernames that are likely to be valid* [[WEB/vulnerabilities/Authentication vulnerabilities/payload#account lock|example]]
   - *very small shortlist of passwords* -> at least one user is likely to have
     ex: limit=3 => maximum of 3 password guesses
@@ -46,7 +46,7 @@ brute-force protection -> make it as tricky as possible to <mark style="backgrou
        - people reuse the same username and password for different websites
     - each username is only being attempted once
     - dangerous -> compromising multiple account in a single automated attempt
-- **User rate limiting** #todo
+- ***User rate limiting*** #todo
 ## HTTP basic authentication
 
 - the client receives an authentication token from the server
@@ -71,3 +71,46 @@ Authorization: Basic base64(username:password)
 
 # multi-factor authentication
 
+##### concepts
+- <mark style="background: #FF5582A6;">typical two-factor authentication (2FA) is based on something you know and something you have</mark>. -> password + out-of-band physical device
+- as secure as its **implementation**.
+  - *illusion of multiple-factor* -> _Email-based_ 2FA (still something you know)
+  - *potential vulnerable devices* -> _SMS-based_ (vulnerable to SIM swapping/intercept)
+## Bypassing two-factor authentication
+
+### Flawed two-factor verification logic
+
+- verification code on a separate page ->  *"logged in" state before code verification* [[WEB/vulnerabilities/Authentication vulnerabilities/payload#Bypassing two-factor authentication#simple bypass|senario]]
+- *doesn't verify* that the *same user* is completing the second step [[WEB/vulnerabilities/Authentication vulnerabilities/payload#Bypassing two-factor authentication#broken logic|senario]]
+  - ex: 
+  	- victim's cookie is guessable 
+### Brute-forcing 2FA verification codes
+#todo
+# other authentication mechanisms
+
+## Keeping users logged in
+
+- "<mark style="background: #FFB86CA6;">Remember me</mark>" or "<mark style="background: #FFB86CA6;">Keep me logged in</mark>"
+- <mark style="background: #FF5582A6;">Token -> stored in persistent cookie</mark>.
+  - **predictable cookie** -> brute force [[WEB/vulnerabilities/Authentication vulnerabilities/payload#brute-force|senario]]
+  - **weak encryption** of the token
+    - encoding only
+    - (proper encryption + one way hash function) but no salt => the old rainbow attack. [[WEB/vulnerabilities/Authentication vulnerabilities/payload#offline password cracking|example]]
+  - **construct the cookie**
+    - open source framework -> read the documentation
+    - additional sensitive information in the cookie
+    - no access to creating account -> XSS for stealing the cookie
+## Resetting user passwords
+
+- ***Sending passwords by email*** 
+  - _Man In The Middle attack (MITM)_ unless:
+    - generated password expiring
+    - user changing their password again immediately
+- ***Resetting passwords using a URL***
+  - *weak implementation* / broken logic / easily guessable parameter [[WEB/vulnerabilities/Authentication vulnerabilities/payload#Resetting user passwords#broken logic|example]] 
+  - URL in the reset email is *generated dynamically* => [Password reset poisoning](https://portswigger.net/web-security/host-header/exploiting/password-reset-poisoning) [[WEB/vulnerabilities/Authentication vulnerabilities/payload#Resetting user passwords#password reset poisoning via middleware|senario]]
+## Changing user passwords
+
+- **same procces** as of above functions -> *same vulnerabilities*
+- **access directly without being logged in**as the victim user 
+  - ex: username provided in a hidden field => *enumerate usernames* and *brute-force passwords*
