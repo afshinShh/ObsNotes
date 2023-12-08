@@ -113,4 +113,5 @@ Authorization: Basic base64(username:password)
 
 - **same procces** as of above functions -> *same vulnerabilities*
 - **access directly without being logged in**as the victim user 
-  - ex: username provided in a hidden field => *enumerate usernames* and *brute-force passwords*
+  - ex: username provided in a hidden field => *enumerate usernames* and *brute-force passwords* [[WEB/vulnerabilities/Authentication vulnerabilities/payload#Changing user passwords#password brute-force|example]]
+/gitcomm

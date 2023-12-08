@@ -132,7 +132,10 @@ verification-code=123456
 >  => account takeover
 ## Changing user passwords
 ##### password brute-force:
-> 1) difference between error messages: 
->     `Current password is incorrect`
->     `New passwords do not match`
-> 2) in the `POST /my-account/change-password` request:
+> 1) *difference between error messages when you enter* **two different new passwords**: 
+>     `Current password is incorrect` => invalid password
+>     `New passwords do not match` => valid password 
+> 2) *Payload*: *Sniper* -> wordlist:
+>    `username`: target's username
+>    Settings tab: Grep - match rule
+>    => `username=carlos&current-password=§FUZZ§&new-password-1=123&new-password-2=abc`
