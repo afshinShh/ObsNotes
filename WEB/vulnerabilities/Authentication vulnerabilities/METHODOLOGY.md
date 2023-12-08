@@ -111,7 +111,6 @@ Authorization: Basic base64(username:password)
   - URL in the reset email is *generated dynamically* => [Password reset poisoning](https://portswigger.net/web-security/host-header/exploiting/password-reset-poisoning) [[WEB/vulnerabilities/Authentication vulnerabilities/payload#Resetting user passwords#password reset poisoning via middleware|senario]]
 ## Changing user passwords
 
-- **same procces** as of above functions -> *same vulnerabilities*
+- **same procces** as of the above functions -> *same vulnerabilities*
 - **access directly without being logged in**as the victim user 
   - ex: username provided in a hidden field => *enumerate usernames* and *brute-force passwords* [[WEB/vulnerabilities/Authentication vulnerabilities/payload#Changing user passwords#password brute-force|example]]
-/gitcomm
