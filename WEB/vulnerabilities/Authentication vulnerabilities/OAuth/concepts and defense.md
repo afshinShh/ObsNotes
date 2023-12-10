@@ -3,7 +3,7 @@
 - **authorization framework**-> <mark style="background: #FF5582A6;">enables websites and web applications to request limited access to a user's account on another application</mark>.
 - the user fine-tunes the shared data. 
 
-# *How* does OAuth 2.0 work?
+# *How* does OAuth 2.0 *work*?
 
 - **Client application** - The website or web application that *wants to access* the user's data.
 - **Resource owner** - *The user* whose data the client application wants to access.
@@ -13,6 +13,16 @@
 2. The <mark style="background: #BBFABBA6;">user is prompted to log in</mark> to the OAuth service and explicitly give their consent for the requested access.
 3. The <mark style="background: #BBFABBA6;">client application receives a unique access token</mark> that proves they have permission from the user to access the requested data. (depending on the grant type)
 4. The client application uses this access token to make <mark style="background: #BBFABBA6;">API calls fetching the relevant data</mark> from the resource server.
+## OAuth authentication
+- the same basic OAuth flows -> <mark style="background: #FF5582A6;">difference: how the client application uses the data</mark> that it receives
+  - resembles SAML-based **single sign-on (SSO)**
+
+1. log in with your social media account option -> oauth service of the social media 
+   - username 
+   - email 
+   - etc...
+2. the client application requests the data from a dedicated `/userinfo` endpoint
+3. *The access token* that it received from the authorization server is often used *instead of a traditional password*.
 # OAuth grant types
 
 - also called **OAuth flows** -> <mark style="background: #FF5582A6;">determines the exact sequence of steps</mark> that are involved in the OAuth process
@@ -129,4 +139,28 @@ Host: client-app.com
 (same process but _via the browser_)
 ### 5. Resource grant
 (same process but _via the browser_)
-/gitcommiall
+# OpenID Connect
+## *What* is OpenID Connect?
+
+- adds <mark style="background: #FF5582A6;">standardized, identity-related features</mark> to make **authentication** via OAuth work in a more reliable and uniform way 
+  => solves many of basic OAuth implementation problems:
+  - the client application had no way of knowing *when, where, or how the user was authenticated*
+  - no *standard way of requesting user data for authentication* purpose.
+/gitcommital
+# *How* do OAuth authentication *vulnerabilities arise*?
+
+- authentication vulnerabilities -> <mark style="background: #FF5582A6;">because the OAuth specification is relatively vague and flexible by design</mark>.
+  - configuration settings that are necessary for keeping users' data secure => bad practice
+- <mark style="background: #FFB86CA6;">general lack of built-in security features</mark> => security relies on developers 
+
+- _Vulnerabilities in the client application_
+    - [Improper implementation of the implicit grant type](https://portswigger.net/web-security/oauth#improper-implementation-of-the-implicit-grant-type) LABS
+    - [Flawed CSRF protection](https://portswigger.net/web-security/oauth#flawed-csrf-protection) LABS
+- _Vulnerabilities in the OAuth service_
+    - [Leaking authorization codes and access tokens](https://portswigger.net/web-security/oauth#leaking-authorization-codes-and-access-tokens) LABS
+    - [Flawed scope validation](https://portswigger.net/web-security/oauth#flawed-scope-validation)
+    - [Unverified user registration](https://portswigger.net/web-security/oauth#unverified-user-registration)
+
+
+# *How to prevent* OAuth authentication vulnerabilities?
+
