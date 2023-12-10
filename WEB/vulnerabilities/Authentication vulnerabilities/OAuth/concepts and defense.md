@@ -139,28 +139,92 @@ Host: client-app.com
 (same process but _via the browser_)
 ### 5. Resource grant
 (same process but _via the browser_)
-# OpenID Connect
+# OpenID Connect(OIDC)
 ## *What* is OpenID Connect?
 
 - adds <mark style="background: #FF5582A6;">standardized, identity-related features</mark> to make **authentication** via OAuth work in a more reliable and uniform way 
   => solves many of basic OAuth implementation problems:
   - the client application had no way of knowing *when, where, or how the user was authenticated*
   - no *standard way of requesting user data for authentication* purpose.
-/gitcommital
+## *How* does OpenID Connect work?
+
+- From the client application's perspective: 
+  - additional **standardized set of scopes** that are the same for all providers
+  - extra **response type**: **`id_token`**
+### OpenID Connect roles
+same as for standard OAuth -> <mark style="background: #BBFABBA6;">different terminology</mark> 
+- **Relying party** = OAuth client application
+- **End user** = OAuth resource owner
+- **OpenID provider** = OAuth service (that supports OpenID Connect) 
+### OpenID Connect claims and scopes
+- **claims -> `key:value`** pairs that represent <mark style="background: #FF5582A6;">information about the user</mark> on the resource server.
+  - ex: `"family_name":"Montoya"`
+- identical set of **scopes** for the client application:
+  - _must_ specify the scope **`openid`** 
+  - _can_ include one or more of these:
+    - *`profile`*
+    - *`email`*
+    - *`address`*
+    - *`phone`*
+    - ...
+  - ex: requesting the scope `openid profile` => read access to a series of claims related to the user's identity, such as `family_name`, `given_name`, `birth_date`, etc
+##### OIDC Standard Claims and Scopes
+[source](https://docs.vindicia.com/bundle/b_ConnectProductDescription/page/topics/OIDCStandardClaimsAndScopes_c.html)
+
+- Below is the list of standard claims defined by OIDC:
+  
+|Claim|Type|Description|
+|---|---|---|
+|`sub`|string|**Subject** – A unique identifier for the user. This identifier may or may not be different for each relying party for a given user. This value is guaranteed not to change even if the user changes the properties of their account (for example, changes email address or phone number). Your application, if it wants to store user data, should use the **Subject** string as the unique identifier.|
+|`name`|string|Full name of the subject (that is, first name and last name)|
+|`family_name`|string|Last name of the subject|
+|`given_name`|string|First name of the subject|
+|`picture`|string|URL to the subject's profile picture hosted on the issuer's server, if any|
+|`locale`|string|Language setting of the subject|
+|`updated_at`|integer|The last time the subject's profile was updated|
+|`email`|string|Email address of the subject|
+|`email_verified`|boolean|Specifies whether the email address has been verified|
+|`phone_number`|string|Phone number of the subject|
+|`phone_number_verified`|boolean|Specifies whether the phone number has been verified|
+
+- The OIDC standard defines several scopes that map to standard claims as below:
+  
+| Scope            | Claims                                                                                                                                       |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `openid`         | Enables OIDC by requesting the ID Token (in addition to an access token). Without this scope, the request is not OIDC, but merely OAuth 2.0. |
+| `profile`        | `name, family_name, given_name, picture, locale, updated_at`                                                                                 |
+| `email`          | `email, email_verified`                                                                                                                      |
+| `phone`          | `phone_number, phone_number_verified`                                                                                                        |
+| `offline_access` | Requests that a refresh token be issued (in addition to an access token).                                                                    |
+### ID token
+- `id_token` response type -> <mark style="background: #FF5582A6;">returns a JSON web token (JWT)</mark> signed with a JSON web signature (JWS)
+  - a *list of claims based on the scope* that was initially requested
+  - information about *how and when the user was last authenticated* by the OAuth service
+- **main benefit**: reduced number of requests => <mark style="background: #BBFABBA6;">better performance</mark>
+  - access token then request data separately -> ID token  
+  - simply relying on trusted channel ->  JWT cryptographic signature => less MITM attack chance (still possible -> keys are transmitted over the same network -> normally **`/.well-known/jwks.json`** )
+  - *multiple options are supported* by OAuth ex:
+    - `response_type=id_token token`
+    - `response_type=id_token code`
 # *How* do OAuth authentication *vulnerabilities arise*?
 
 - authentication vulnerabilities -> <mark style="background: #FF5582A6;">because the OAuth specification is relatively vague and flexible by design</mark>.
   - configuration settings that are necessary for keeping users' data secure => bad practice
 - <mark style="background: #FFB86CA6;">general lack of built-in security features</mark> => security relies on developers 
-
-- _Vulnerabilities in the client application_
-    - [Improper implementation of the implicit grant type](https://portswigger.net/web-security/oauth#improper-implementation-of-the-implicit-grant-type) LABS
-    - [Flawed CSRF protection](https://portswigger.net/web-security/oauth#flawed-csrf-protection) LABS
-- _Vulnerabilities in the OAuth service_
-    - [Leaking authorization codes and access tokens](https://portswigger.net/web-security/oauth#leaking-authorization-codes-and-access-tokens) LABS
-    - [Flawed scope validation](https://portswigger.net/web-security/oauth#flawed-scope-validation)
-    - [Unverified user registration](https://portswigger.net/web-security/oauth#unverified-user-registration)
-
-
 # *How to prevent* OAuth authentication vulnerabilities?
 
+## For OAuth service providers
+
+- Require client applications to register a whitelist of valid `redirect_uris`. Wherever possible, use strict byte-for-byte comparison to validate the URI in any incoming requests. Only allow complete and exact matches rather than using pattern matching. This prevents attackers from accessing other pages on the whitelisted domains.
+- Enforce use of the `state` parameter. Its value should also be bound to the user's session by including some unguessable, session-specific data, such as a hash containing the session cookie. This helps protect users against CSRF-like attacks. It also makes it much more difficult for an attacker to use any stolen authorization codes.
+- On the resource server, make sure you verify that the access token was issued to the same `client_id` that is making the request. You should also check the scope being requested to make sure that this matches the scope for which the token was originally granted.
+
+## For OAuth client applications
+
+- Make sure you fully understand the details of how OAuth works before implementing it. Many vulnerabilities are caused by a simple lack of understanding of what exactly is happening at each stage and how this can potentially be exploited.
+- Use the `state` parameter even though it is not mandatory.
+- Send a `redirect_uri` parameter not only to the `/authorization` endpoint, but also to the `/token` endpoint.
+- When developing mobile or native desktop OAuth client applications, it is often not possible to keep the `client_secret` private. In these situations, the `PKCE` (`RFC 7636`) mechanism may be used to provide additional protection against access code interception or leakage.
+- If you use the OpenID Connect `id_token`, make sure it is properly validated according to the JSON Web Signature, JSON Web Encryption, and OpenID specifications.
+- Be careful with authorization codes - they may be leaked via `Referer` headers when external images, scripts, or CSS content is loaded. It is also important to not include them in the dynamically generated JavaScript files as they may be executed from external domains via `<script>` tags.
+/git
