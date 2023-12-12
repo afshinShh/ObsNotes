@@ -26,5 +26,3 @@ The use of markdown significantly enhances the readability and navigation of the
 **Without Markdown:**
 
 ![image](https://github.com/AfshinShekaari/ObsNotes/assets/96336315/ae91b0b4-454a-4726-bbb7-662d19cf64b4)
-
-Enjoy exploring it!
