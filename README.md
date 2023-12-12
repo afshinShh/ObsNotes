@@ -1,6 +1,6 @@
 # My Obsidian Notes
 
-Welcome to my Obsidian notes repository. I use this repository as a backup for my notes and have decided to share it freely. Knowledge should be free, and I encourage you to use these notes as you wish.
+Welcome to my Obsidian notes repository. I use this repo as a backup of my notes. knowledge is free and meant to be shared. feel free to dive in and use it however you like :)
 
 ## Usage
 
@@ -27,4 +27,4 @@ The use of markdown significantly enhances the readability and navigation of the
 
 ![image](https://github.com/AfshinShekaari/ObsNotes/assets/96336315/ae91b0b4-454a-4726-bbb7-662d19cf64b4)
 
-Enjoy exploring the notes!
+Enjoy exploring it!
