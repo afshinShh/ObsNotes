@@ -1,4 +1,4 @@
-# My Obsidian Notes
+# My Obsidian Notes (aka ObsNotes)
 
 Welcome to my Obsidian notes repository. I use this repo as a backup of my notes. knowledge is free and meant to be shared. feel free to dive in and use it however you like :)
 
