@@ -227,4 +227,3 @@ same as for standard OAuth -> <mark style="background: #BBFABBA6;">different ter
 - When developing mobile or native desktop OAuth client applications, it is often not possible to keep the `client_secret` private. In these situations, the `PKCE` (`RFC 7636`) mechanism may be used to provide additional protection against access code interception or leakage.
 - If you use the OpenID Connect `id_token`, make sure it is properly validated according to the JSON Web Signature, JSON Web Encryption, and OpenID specifications.
 - Be careful with authorization codes - they may be leaked via `Referer` headers when external images, scripts, or CSS content is loaded. It is also important to not include them in the dynamically generated JavaScript files as they may be executed from external domains via `<script>` tags.
-/git
