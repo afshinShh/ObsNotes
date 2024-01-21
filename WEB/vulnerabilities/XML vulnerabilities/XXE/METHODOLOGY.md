@@ -30,7 +30,7 @@
 
 ## XInclude
 
-- some applications *embed* client-submitted data *into an XML document* and  then parse it. 
+- some applications *embed* client-submitted data *into an XML document* and then parse it. 
   -> like SOAP requests 
 - **`XInclude`** : allows an XML document to be *built from sub-documents* -> <mark style="background: #BBFABBA6;">you need only a single item of data</mark> -> reference the `XInclude` namespace + path to the file [[WEB/vulnerabilities/XML vulnerabilities/XXE/payload#XInclude|example]] 
 ## via file upload

@@ -11,4 +11,5 @@
 > 2. try again -> "Copy URL" -> drop the request 
 > 3. `<iframe src="https://site.net/oauth-linking?code=STOLEN-CODE"></iframe>`
 >    => account takeover
+## Leaking authorization codes and access tokens
 

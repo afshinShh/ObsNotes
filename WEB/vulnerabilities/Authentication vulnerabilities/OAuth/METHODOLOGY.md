@@ -22,3 +22,9 @@
     -  **`POST` request** and then assign the user a session cookie  -> you can impersonate other usres via changing the `POST` parameters
 - ***Flawed CSRF protection***
   - no or guessable `state` parameter => csrf attack 
+    less critical if the site allows users to log in exclusively via OAuth
+## Vulnerabilities in the OAuth service
+
+-  ***Leaking authorization codes and access tokens***
+  - an attacker can potentially steal the victim's code before it is used via **`redirect_uri`** -> send the code to the client's application `/callback` (like a middle man) 
+    - no need to know client secret/ resulting access token

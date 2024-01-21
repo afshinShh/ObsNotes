@@ -26,15 +26,40 @@ sudo pip3 install asciinema
     
 6. Test with `$SHELL --version`. Expected result: 'zsh 5.8' or similar
 
-# go 
+### Oh-My-Zsh
 
 ```shell
-apt install go 
-nano ~/.bashrc
-export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin
-source ~/.bashrc
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ```
+# go 
 
+[doc](https://go.dev/doc/install)
+
+```shell
+echo -e "\e[93m\e[1m----> Golang environment installation in progress ...";
+cd /tmp && wget https://go.dev/dl/go1.21.0.linux-amd64.tar.gz > /dev/null 2>&1 && tar xvf go1.21.0.linux-amd64.tar.gz > /dev/null 2>&1;
+mv go /usr/local
+export GOROOT=/usr/local/go && export GOPATH=$HOME/go && export PATH=$GOPATH/bin:$GOROOT/bin:$PATH;
+echo 'export GOROOT=/usr/local/go' >> ~/.bash_profile && echo 'export GOPATH=$HOME/go'	>> ~/.bash_profile	&& echo 'export PATH=$GOPATH/bin:$GOROOT/bin:$PATH' >> ~/.bash_profile;
+source ~/.bash_profile
+echo -e "\e[32mGolang environment installation is done !"; echo "";
+```
+# Ruby
+
+```shell
+apt install ruby
+```
+## latest
+```shell
+# Install rvm
+\curl -sSL https://get.rvm.io | bash -s stable
+
+# Load rvm
+source /etc/profile.d/rvm.sh
+
+# Install the latest stable version of Ruby
+rvm install ruby --latest
+```
 # Rust
 ### **Installing Rust directly**
 
@@ -503,5 +528,11 @@ pip3 install -r requirements.txt
 - download from BApp Store [portswigger official page](https://portswigger.net/bappstore/0ab7a94d8e11449daaf0fb387431225b
 
 
+---
 
 
+# VPS setup scripts 
+
+- [VPS-Bug-Bounty-Tools](https://github.com/drak3hft7/VPS-Bug-Bounty-Tools)
+- [OK-VPS](https://github.com/mrco24/OK-VPS)
+- 
