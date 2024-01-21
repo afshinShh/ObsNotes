@@ -44,6 +44,14 @@ echo 'export GOROOT=/usr/local/go' >> ~/.bash_profile && echo 'export GOPATH=$HO
 source ~/.bash_profile
 echo -e "\e[32mGolang environment installation is done !"; echo "";
 ```
+
+- [upgrade/downgrade doc](https://www.practical-go-lessons.com/chap-40-upgrading-or-downgrading-go) + [bonus resource](https://jinxankit.medium.com/upgrade-your-go-golang-version-to-1-21-latest-a-step-by-step-guide-1d72294453f8)
+
+```bash
+#if the above env setup didnt work
+export PATH=$PATH:$(go env GOPATH)/bin
+```
+
 # Ruby
 
 ```shell
@@ -535,4 +543,4 @@ pip3 install -r requirements.txt
 
 - [VPS-Bug-Bounty-Tools](https://github.com/drak3hft7/VPS-Bug-Bounty-Tools)
 - [OK-VPS](https://github.com/mrco24/OK-VPS)
-- 
+/gitcomm
