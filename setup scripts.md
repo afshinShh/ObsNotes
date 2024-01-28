@@ -155,7 +155,7 @@ python3 setup.py install
 ### [6. Install nuclei](https://github.com/Dheerajmadhukar/karma_v2#6-install-nuclei-projectdiscovery) [@projectdiscovery](https://github.com/projectdiscovery/nuclei)
 
 ```shell
-go install -v github.com/projectdiscovery/nuclei/v2/cmd/nuclei@latest
+[go install -v github.com/projectdiscovery/nuclei/v2/cmd/nuclei@latest](<go install -v github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest>)
 ```
 
 ### [7. Install lolcat](https://github.com/Dheerajmadhukar/karma_v2#7-install-lolcat)
@@ -532,7 +532,7 @@ pip3 install -r requirements.txt
 7. Select **Extension type** of **Python** and select the **GAP.py** file.
 
 # JS Miner(burp extension)
-
+$ amass intel -org 'Example Ltd'
 - download from BApp Store [portswigger official page](https://portswigger.net/bappstore/0ab7a94d8e11449daaf0fb387431225b
 
 
@@ -543,4 +543,3 @@ pip3 install -r requirements.txt
 
 - [VPS-Bug-Bounty-Tools](https://github.com/drak3hft7/VPS-Bug-Bounty-Tools)
 - [OK-VPS](https://github.com/mrco24/OK-VPS)
-/gitcomm
