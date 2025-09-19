@@ -1,5 +1,3 @@
-# jhaddix fast testing checklist
-
 -> combination of <mark style="background: #FFB86CA6;">web application hacker's handbook </mark> and <mark style="background: #FFB86CA6;">jason's methodology</mark>
 ## **Table of Contents**
 
