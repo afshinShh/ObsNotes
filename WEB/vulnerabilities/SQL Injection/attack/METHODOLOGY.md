@@ -1,4 +1,4 @@
-# Retrieving hidden data
+qw# Retrieving hidden data
 
 simple attack -> `'+OR+1=1--`  [[WEB/vulnerabilities/SQL Injection/attack/payload#Retrieving hidden data#simple attack|example]]
 

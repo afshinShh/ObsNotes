@@ -206,7 +206,26 @@ $ go install github.com/incogbyte/shosubgo@latest
 go run main.go -d target.com -s YourAPIKEY
 ```
 
-# #todo BBRF client and server
+# BBRF client and server
+## couchdb
+
+```bash
+sudo apt-get install -y software-properties-common
+sudo add-apt-repository ppa:couchdb/stable
+sudo apt-get update
+sudo apt-get install -y couchdb
+
+# configuration file
+sudo nano /etc/couchdb/local.ini
+
+#bind address to allow connections from outside the localhost:
+[httpd]
+bind_address = 0.0.0.0
+
+sudo service couchdb restart
+curl http://127.0.0.1:5984/
+```
+
 # #todo SubGPT 
 
 #  GoSpider
