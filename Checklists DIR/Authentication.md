@@ -1,1 +1,1 @@
-/git
+/gitcomm
