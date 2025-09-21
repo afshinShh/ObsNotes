@@ -1,1 +1,19 @@
-{}
+{
+  "editor:toggle-code": [
+    {
+      "modifiers": [
+        "Meta"
+      ],
+      "key": "C"
+    }
+  ],
+  "editor:toggle-comments": [],
+  "editor:cycle-list-checklist": [
+    {
+      "modifiers": [
+        "Mod"
+      ],
+      "key": "-"
+    }
+  ]
+}
