@@ -27,6 +27,7 @@
   - *Status codes*
   - *Error messages
   - *Response times*
+
 [[WEB/vulnerabilities/Authentication vulnerabilities/payload#Brute-forcing usernames|examples]]
 ### Brute-forcing passwords
 - *knowledge of human behavior* + *password policy* => effective password bruteforce 
