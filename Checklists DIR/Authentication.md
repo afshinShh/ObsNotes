@@ -14,7 +14,6 @@
 - [ ] Test username uniqueness
 ## Bypassing any information
 
-
 # Login
 
 - [ ] Test for username enumeration
@@ -52,4 +51,4 @@
 - [ ] Second factor of authentication should not be **removable**
 - [ ] verification code on a separate page ->  *"logged in" state before code verification* [[WEB/vulnerabilities/Authentication vulnerabilities/payload#Bypassing two-factor authentication#simple bypass|senario]]
 - [ ]  *doesn't verify* that the *same user* is completing the second step [[WEB/vulnerabilities/Authentication vulnerabilities/payload#Bypassing two-factor authentication#broken logic|senario]]
-/git
+/gitco
