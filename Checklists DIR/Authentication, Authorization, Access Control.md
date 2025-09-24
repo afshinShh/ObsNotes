@@ -5,11 +5,15 @@
 	  - [ ] *Status codes*
 	  - [ ] *Error messages
 	  - [ ] *Response times*
-## Brute Force protection / acount locking / rate limits
+## Brute Force protection | acount locking | rate limits
 
   - [ ] <mark style="background: #ADCCFFA6;">include your own login credentials</mark> at regular intervals throughout the wordlist. [[WEB/vulnerabilities/Authentication vulnerabilities/payload#IP block|example]] 
+  - [ ]  Explore similar endpoints (`/api/v3/sign-up`, `/Sing-up`, `/SignUp`,...)
+  - [ ] Blank Characters in Code or Parameters (code=`1234%0a`)
+  - [ ] append random parameters
 #### Blocking the remote user's IP address
-  - [ ] Fuzz IP/host related headers (`X-Forwarded-For`,...)
+  - [ ] Manipulating IP Origin via Headers (`X-Forwarded-For`,...)
+  - [ ] Double Header trick (use same (or with subtle change) header twice to exploit inconsistency among servers)
 ##  Registration
 
 - [ ] Test password quality rules
@@ -33,7 +37,7 @@
 ### one-time login links
  - [ ] Lack of **Expiration** 
 	 - [ ] Search for Leaked or gusssable links 
-### Resetting user passwords | Changing user passwords
+### Resetting user passwords | Changing user passwords |  Forget Password
 - <mark style="background: #BBFABBA6;">Links are getting dynamically generated </mark>
 	- [ ] Parameter Tempering 
 		- [ ] [Password Poisening](https://portswigger.net/web-security/host-header/exploiting/password-reset-poisoning) Attack (when links  are getting created by a third party ) [[WEB/vulnerabilities/Authentication vulnerabilities/payload#Resetting user passwords#password reset poisoning via middleware|senario]]
@@ -42,8 +46,6 @@
 - [ ] if you can **access directly without being logged in** as the victim user (example: usename can be provided within hidden field)
 	- [ ] try if it Bypasses Bruteforce limitations
 	- [ ] try if it Bypasses Ratelimit  
-
-## Forget Password
 
 - the link should be
 	- [ ] unique 
