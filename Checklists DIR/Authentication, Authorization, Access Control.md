@@ -5,6 +5,10 @@
 	  - [ ] *Status codes*
 	  - [ ] *Error messages
 	  - [ ] *Response times*
+- [ ] Test For Weak Authentication In **Alternative Channels** 
+	- [ ] different user agents
+	- [ ] different country,language...
+	- [ ] different browsers and applications (webapp,desktop,mobile,...)
 ## Brute Force protection | acount locking | rate limits
 
   - [ ] <mark style="background: #ADCCFFA6;">include your own login credentials</mark> at regular intervals throughout the wordlist. [[WEB/vulnerabilities/Authentication vulnerabilities/payload#IP block|example]] 
@@ -105,3 +109,4 @@
 - [ ] is Authorization token, short lived and one-time use ?
 - [ ] is client's secret protected and verified ? -> **client confusion** attack
 
+/gitcomm
