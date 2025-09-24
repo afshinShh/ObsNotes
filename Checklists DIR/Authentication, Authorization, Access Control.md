@@ -1,6 +1,4 @@
-<<<<<<< HEAD
-- [ ] test username enumeraton
-=======
+
 # general 
 ### behavior inconsistency
  - difference in:
@@ -54,12 +52,6 @@
 - [ ] Second factor of authentication should not be **removable**
 - [ ] verification code on a separate page ->  *"logged in" state before code verification* [[WEB/vulnerabilities/Authentication vulnerabilities/payload#Bypassing two-factor authentication#simple bypass|senario]]
 - [ ]  *doesn't verify* that the *same user* is completing the second step [[WEB/vulnerabilities/Authentication vulnerabilities/payload#Bypassing two-factor authentication#broken logic|senario]]
-<<<<<<< HEAD:Checklists DIR/Authentication.md
-/gitc
->>>>>>> origin/master
-=======
-
-
 # Access Control
 ## HTTP basic authentication
 - [ ] BruteForce attacks 
@@ -76,5 +68,5 @@
 ## Trusted IP whitelist
 
 # SSO
->>>>>>> origin/master:Checklists DIR/Authentication, Authorization, Access Control.md
 
+/gitcomm
