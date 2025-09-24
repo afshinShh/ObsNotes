@@ -117,7 +117,7 @@ Authorization: Bearer z0y9x8w7v6u5
 ## Implicit grant type
 
 - <mark style="background: #FF5582A6;">in a glance</mark>: ![[Pasted image 20231209213934.png]] [source](https://portswigger.net/web-security/images/oauth-implicit-flow.jpg)
-- *no authorization code* step... => no 
+- *no authorization code* step... => no the
 - all communication happens via *browser redirects* => no secure back-channel => far **less secure**
 - more suited to <mark style="background: #FFF3A3A6;">single-page</mark> applications and <mark style="background: #FFF3A3A6;">native desktop</mark> applications
   - they cannot easily store the `client_secret`

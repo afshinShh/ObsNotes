@@ -72,3 +72,13 @@ function myFunc(myObj) {
 </body>
 </html>
 ```
+
+### Case number 1
+![[Pasted image 20250924224615.png]]
+### Case number2
+![[Pasted image 20250924224555.png]]
+# OAuth
+
+- OAuth is an open standard for **access delegation** -> Authorization method 
+	- using it as authentication method -> pseudo-authentication
+-  [[OLD/WEB/vulnerabilities/Authentication vulnerabilities/OAuth/concepts and defense|concepts and defense]]

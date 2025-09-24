@@ -69,4 +69,20 @@
 
 # SSO
 
-/gitcomm
+- [ ] Test parameters like `redirect_uri` 
+	- [ ] To ***steal token*** and potential Account takeover 
+		- [ ] (e.g `attacker.com`)
+		- [ ] if limited to whitelist -> Try **open redirect** 
+		      (e.g `sub.site.com/logout?r=https://attacker.com/log`  and `https://site.com/oauth/callback/../../user/profile?next=https://attacker.com`)
+		- [ ] if SSO works by **XHR => CORS** implemented
+			- [ ] bypass checker function (e.g `https://default-host.com &@foo.evil-user.net#@bar.evil-user.net/`)
+			- [ ] if CORS on .site.com -> XSS on subdomains 
+		- [ ] if SSO works by **JSONP** and the JavaScript object is accessible **any other cross site** 
+# OAuth
+
+- [ ] Check for **CSRF** protection (`state` parameter)
+- [ ] Check the `redirect_url` vulns Mentioned above => account takeover  
+- [ ] if **implicit grant type** ( access token sent via users's browser = exposed in url)
+	- [ ] parameter tampering on the final request which token gets send to server
+
+/git
