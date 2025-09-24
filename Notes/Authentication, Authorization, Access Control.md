@@ -82,3 +82,5 @@ function myFunc(myObj) {
 - OAuth is an open standard for **access delegation** -> Authorization method 
 	- using it as authentication method -> pseudo-authentication
 -  [[OLD/WEB/vulnerabilities/Authentication vulnerabilities/OAuth/concepts and defense|concepts and defense]]
+- authorization code flow with PKCE
+	- ![[Pasted image 20250924233858.png]]

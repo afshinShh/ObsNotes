@@ -52,6 +52,7 @@
 - [ ] Second factor of authentication should not be **removable**
 - [ ] verification code on a separate page ->  *"logged in" state before code verification* [[WEB/vulnerabilities/Authentication vulnerabilities/payload#Bypassing two-factor authentication#simple bypass|senario]]
 - [ ]  *doesn't verify* that the *same user* is completing the second step [[WEB/vulnerabilities/Authentication vulnerabilities/payload#Bypassing two-factor authentication#broken logic|senario]]
+- [ ] 
 # Access Control
 ## HTTP basic authentication
 - [ ] BruteForce attacks 
@@ -80,9 +81,16 @@
 		- [ ] if SSO works by **JSONP** and the JavaScript object is accessible **any other cross site** 
 # OAuth
 
+- [ ] is the **proper flow** used ? 
+	- [ ] client credentials can be kept secret: 
+		- [ ] yes (classic web app) -> Authorization code flow 
+		- [ ] no (SPA , mobile - desktop apps, ...) -> Authorization code flow  + *PKCE*
 - [ ] Check for **CSRF** protection (`state` parameter)
 - [ ] Check the `redirect_url` vulns Mentioned above => account takeover  
 - [ ] if **implicit grant type** ( access token sent via users's browser = exposed in url)
 	- [ ] parameter tampering on the final request which token gets send to server
+- [ ] can `scope` be changed after user consent ? -> **scope upgrade** attack
+- [ ] is Authorization token, short lived and one-time use ?
+- [ ] is client's secret protected and verified ? -> **client confusion** attack
 
-/git
+/gitco
