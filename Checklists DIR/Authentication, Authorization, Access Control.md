@@ -9,7 +9,7 @@
 	- [ ] different user agents
 	- [ ] different country,language...
 	- [ ] different browsers and applications (webapp,desktop,mobile,...)
-## Brute Force protection | acount locking | rate limits
+## Brute Force protection | acount locking |  Lock Out | rate limits
 
   - [ ] <mark style="background: #ADCCFFA6;">include your own login credentials</mark> at regular intervals throughout the wordlist. [[WEB/vulnerabilities/Authentication vulnerabilities/payload#IP block|example]] 
   - [ ]  Explore similar endpoints (`/api/v3/sign-up`, `/Sing-up`, `/SignUp`,...)
