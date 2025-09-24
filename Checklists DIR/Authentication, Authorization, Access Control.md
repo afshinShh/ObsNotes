@@ -5,19 +5,23 @@
 	  - [ ] *Status codes*
 	  - [ ] *Error messages
 	  - [ ] *Response times*
-## Brute Force protection
-#### Blocking the remote user's IP address
+## Brute Force protection / acount locking / rate limits
+
   - [ ] <mark style="background: #ADCCFFA6;">include your own login credentials</mark> at regular intervals throughout the wordlist. [[WEB/vulnerabilities/Authentication vulnerabilities/payload#IP block|example]] 
-#### User rate limiting
-## Registration
+#### Blocking the remote user's IP address
+  - [ ] Fuzz IP/host related headers (`X-Forwarded-For`,...)
+##  Registration
 
 - [ ] Test password quality rules
 - [ ] Test username uniqueness
-### Bypassing any information
-
+- [ ] Ensure disposable email addresses are rejected
+- [ ] check **Email specific payloads**
+	- [ ] alternative formats (`hacker@gmail.com`  = `hacker+anything@gmail.com`  = `h.a.c.k.e.r@gmail.com`)
+	- [ ] signup with email of corporation (`very-long-string@Corporation.com.attacker.com`)
+	- [ ] injections in email -> `"<svg/onload=alert(1)>"@corpmail.com` 
 ## Login
 
-- [ ] Test for username enumeration
+- [ ] Test for **username enumeration**
 - [ ] Test resilience to password guessing
 ### (Remember me | Keep me logged in) Cookies
 - [ ] test for any sign of **predictability** 
@@ -36,8 +40,8 @@
 			- [ ] Test Host Header Injection 
 			- [ ] Test Host Header injection through middlewares (`X-Forwarded-Host`)
 - [ ] if you can **access directly without being logged in** as the victim user (example: usename can be provided within hidden field)
-	- [ ] Bypass Bruteforce limitations
-	- [ ] Bypass Ratelimit  
+	- [ ] try if it Bypasses Bruteforce limitations
+	- [ ] try if it Bypasses Ratelimit  
 
 ## Forget Password
 
@@ -52,8 +56,14 @@
 - [ ] Second factor of authentication should not be **removable**
 - [ ] verification code on a separate page ->  *"logged in" state before code verification* [[WEB/vulnerabilities/Authentication vulnerabilities/payload#Bypassing two-factor authentication#simple bypass|senario]]
 - [ ]  *doesn't verify* that the *same user* is completing the second step [[WEB/vulnerabilities/Authentication vulnerabilities/payload#Bypassing two-factor authentication#broken logic|senario]]
-- [ ] 
+- [ ] Weak Security Questions ? 
 # Access Control
+
+- [ ] Test For **Un-Encrypted Channel** (e.g http)
+- [ ] **Default Credentials**
+- [ ] try **Response Manipulation** (to bypass client side checks)
+- [ ] search client side source code for credentials 
+- [ ]  
 ## HTTP basic authentication
 - [ ] BruteForce attacks 
 	- [ ] default credentials 
@@ -93,4 +103,3 @@
 - [ ] is Authorization token, short lived and one-time use ?
 - [ ] is client's secret protected and verified ? -> **client confusion** attack
 
-/gitco
