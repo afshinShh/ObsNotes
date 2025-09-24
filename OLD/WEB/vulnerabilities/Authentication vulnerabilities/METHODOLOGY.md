@@ -47,7 +47,7 @@ brute-force protection -> make it as tricky as possible to <mark style="backgrou
        - people reuse the same username and password for different websites
     - each username is only being attempted once
     - dangerous -> compromising multiple account in a single automated attempt
-- ***User rate limiting*** #todo
+- ***User rate limiting*** #todo,  
 ## HTTP basic authentication
 
 - the client receives an authentication token from the server
@@ -60,7 +60,7 @@ Authorization: Basic base64(username:password)
 
 - ***NOT SECURE***
   - <mark style="background: #D2B3FFA6;">vulnerable to</mark>: 
-    1) being **brute-force**d
+    1) being **brute-forced**
     2) **session-related exploits**, notably [[WEB/vulnerabilities/CSRF/attack/METHODOLOGY|METHODOLOGY]].
     3) user's login credentials with every request => 
         _unless implemented_ *HTTP Strict Transport Security* ([HSTS](https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security)) -> vulnerable to **Man In The Middle attack (MITM)**:
