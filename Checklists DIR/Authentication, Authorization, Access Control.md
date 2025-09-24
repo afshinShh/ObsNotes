@@ -2,23 +2,22 @@
 - [ ] test username enumeraton
 =======
 # general 
-## behavior inconsistency
+### behavior inconsistency
  - difference in:
 	  - [ ] *Status codes*
 	  - [ ] *Error messages
 	  - [ ] *Response times*
-# Brute Force protection
+## Brute Force protection
 #### Blocking the remote user's IP address
   - [ ] <mark style="background: #ADCCFFA6;">include your own login credentials</mark> at regular intervals throughout the wordlist. [[WEB/vulnerabilities/Authentication vulnerabilities/payload#IP block|example]] 
 #### User rate limiting
-# Registration
+## Registration
 
 - [ ] Test password quality rules
 - [ ] Test username uniqueness
-## Bypassing any information
+### Bypassing any information
 
-
-# Login
+## Login
 
 - [ ] Test for username enumeration
 - [ ] Test resilience to password guessing
@@ -42,18 +41,40 @@
 	- [ ] Bypass Bruteforce limitations
 	- [ ] Bypass Ratelimit  
 
-# Forget Password
+## Forget Password
 
 - the link should be
 	- [ ] unique 
 	- [ ] unpredictable 
 	- [ ] safe  
 
-# Multi Factor Auth
+## Multi Factor Auth
 
 - [ ] Second factor of authentication should not be **brute-force-able** 
 - [ ] Second factor of authentication should not be **removable**
 - [ ] verification code on a separate page ->  *"logged in" state before code verification* [[WEB/vulnerabilities/Authentication vulnerabilities/payload#Bypassing two-factor authentication#simple bypass|senario]]
 - [ ]  *doesn't verify* that the *same user* is completing the second step [[WEB/vulnerabilities/Authentication vulnerabilities/payload#Bypassing two-factor authentication#broken logic|senario]]
-/git
+<<<<<<< HEAD:Checklists DIR/Authentication.md
+/gitc
 >>>>>>> origin/master
+=======
+
+
+# Access Control
+## HTTP basic authentication
+- [ ] BruteForce attacks 
+	- [ ] default credentials 
+- [ ] Session related attacks [[WEB/vulnerabilities/CSRF/attack/METHODOLOGY|METHODOLOGY]].
+- [ ] if has **HSTS** 
+	- [ ] [session side jacking](https://en.wikipedia.org/w/index.php?title=Session_hijacking&action=edit&section=2)
+- [ ] **Forced Browsing** (directly requesting the resource behind the authentication wall)
+      ![[Pasted image 20250921210252.png]]
+- [ ] **HTTP verb Tempering**
+
+
+
+## Trusted IP whitelist
+
+# SSO
+>>>>>>> origin/master:Checklists DIR/Authentication, Authorization, Access Control.md
+
