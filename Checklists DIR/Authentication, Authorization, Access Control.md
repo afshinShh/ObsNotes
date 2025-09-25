@@ -3,7 +3,7 @@
 ### behavior inconsistency
  - difference in:
 	  - [ ] *Status codes*
-	  - [ ] *Error messages
+	  - [ ] *Error messages*
 	  - [ ] *Response times*
 - [ ] Test For Weak Authentication In **Alternative Channels** 
 	- [ ] different user agents
