@@ -99,13 +99,20 @@ www.example.com/api/v1/users/..;/
 
 ## Trusted IP whitelist
 
+- same as [[Checklists DIR/Authentication, Authorization, Access Control#Blocking the remote user's IP address| Blocking the remote user's IP address]]
+
 # SSO
 
 - [ ] Test parameters like `redirect_uri` 
 	- [ ] To ***steal token*** and potential Account takeover 
 		- [ ] (e.g `attacker.com`)
 		- [ ] if limited to whitelist -> Try **open redirect** 
-		      (e.g `sub.site.com/logout?r=https://attacker.com/log`  and `https://site.com/oauth/callback/../../user/profile?next=https://attacker.com`)
+		      (e.g `sub.site.com/logout?r=https://attacker.com/log` )
+			- [ ] use CSPT : `https://site.com/oauth/callback/../../user/profile?next=https://attacker.com`
+			- [ ] try url validation bypasses -> [portswigger cheatsheet](https://portswigger.net/web-security/ssrf/url-validation-bypass-cheat-sheet)
+				- [ ] *Startswith/indexOf*:` target.com.attacker.com`
+				- [ ] *Fake relative*: `//attacker.com`
+				- [ ] *Multiline regex*:  `attacker.com%0d%0atarget.com`
 		- [ ] if SSO works by **XHR => CORS** implemented
 			- [ ] bypass checker function (e.g `https://default-host.com &@foo.evil-user.net#@bar.evil-user.net/`)
 			- [ ] if CORS on .site.com -> XSS on subdomains 
@@ -120,11 +127,11 @@ www.example.com/api/v1/users/..;/
 		- [ ] yes (classic web app) -> Authorization code flow 
 		- [ ] no (SPA , mobile - desktop apps, ...) -> Authorization code flow  + *PKCE*
 - [ ] Check for **CSRF** protection (`state` parameter)
-- [ ] Check the `redirect_url` vulns Mentioned above => account takeover  
+- [ ] Check the `redirect_url` vulns Mentioned in sso section => account takeover  
 - [ ] if **implicit grant type** ( access token sent via users's browser = exposed in url)
 	- [ ] parameter tampering on the final request which token gets send to server
 - [ ] can `scope` be changed after user consent ? -> **scope upgrade** attack
 - [ ] is Authorization token, short lived and one-time use ?
 - [ ] is client's secret protected and verified ? -> **client confusion** attack
 
-/gitcom
+/commit
