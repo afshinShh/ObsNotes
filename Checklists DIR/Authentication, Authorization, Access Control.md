@@ -143,4 +143,4 @@ www.example.com/api/v1/users/..;/
 - [ ] `response_mode=form_post` OR `response_mode=web_message` + xss on authorization server -> see [CVE-2023-6927](https://securityblog.omegapoint.se/en/writeup-keycloak-cve-2023-6927/)
 - [ ] post Auth redirect + login CSRF 
 	- [ ] ![[Pasted image 20250925183740.png]]
-/git
+/gitcomm
