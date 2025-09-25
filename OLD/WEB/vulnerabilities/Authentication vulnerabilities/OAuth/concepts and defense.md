@@ -46,29 +46,34 @@
 GET /authorization?client_id=12345&redirect_uri=https://client-app.com/callback&response_type=code&scope=openid%20profile&state=ae13d489bd00e3c24 HTTP/1.1
 Host: oauth-authorization-server.com
 ```
+#### Understanding Key OAuth Parameters
 
-- **`client_id`** 
-  -  Mandatory 
-  -  unique *identifier of the client application*
-  -  generated when the client application registers with the OAuth service
-- **`redirect_uri`**
-  - The URI to which the *user's browser should be redirected when sending the authorization code* to the client application.
-  - _known as_:
-    - `callback URI` 
-    - `callback endpoint`
-- **`response_type`**
-  -  which *kind of response* the client application is expecting => *flow / grant type*
-    authorization code grant type -> `code`
-- **`scope`** 
-  -  to specify which subset of the *user's data the client application wants to access*
-  -  custom or defined by the OpenID connect specification.
-- **`state`**
-  - unique, unguessable value that is tied to the current session on the client application -> *CSRF token*
-  - for the client app -> identifies the user 
-### 2. User login and consent
-- authorization server receives the request -> redirects user to the OAuth provider's login page
-- list of data that the client application wants to access -> based on `scope`
-- if the user revisit the client application later, it will often be able to log back in with a single click
+Now that we’ve walked through the basic OAuth Authorization Code flow, let’s take a look at some OAuth parameters to help understand the attack vectors:
+
+- **`redirect_uri`**: The URI where the OAuth provider will redirect the user (in our case, John) after they have either granted or denied authorization. This URI must be pre-registered with the OAuth provider as part of the client application’s registration process.
+- **`response_type`**: Specifies what kind of response the client application expects from the OAuth provider. The most common response_type values are:
+    - **`code`**:
+        - **Flow Name***: Authorization Code grant.
+        - **Description:** The client expects the resource owner (user) to authorize the request, which prompts the authorization server to issue an authorization code. This code can then be exchanged by the client for an access token, allowing the client to access protected resources on behalf of the resource owner. This is the most common type used in web server flows.
+    - **`token`**:
+        - **Flow Name:** Implicit Grant.
+        - **Description:** The client expects an access token **directly** from the resource owner. This is often used in client-side applications, like single-page apps (SPAs) such as Gmail or Facebook, where the client doesn’t have a backend server to handle the exchange of an authorization code.
+    - **`client_id`**: A unique identifier that the OAuth provider (in our case, GitHub) issues to the client application (example.com).
+    - **`scope`**: Allows the client to request specific permissions when it initiates the OAuth flow.
+    - **`state`**: A security feature used to prevent [cross-site request forgery (CSRF)](https://owasp.org/www-community/attacks/csrf) attacks.
+    - **`prompt`**: A parameter that controls how the authorization server prompts the user during the authentication process. Common options include:
+        - `none`: No user interaction; will fail if user consent or authentication is required.
+        - `login`: Forces the user to log in again, regardless of their current session.
+        - `consent`: Forces the user to consent to the requested permissions, even if consent was previously granted.
+        - `select_account`: Prompts the user to select from multiple accounts if they are logged in with more than one.
+    - **`response_mode`**: Specifies how the authorization response is returned to the client. Common options include:
+        - `query`: The response is sent as query parameters (“?”) in the URI.
+        - `fragment`: The response is sent as fragment (“#”) parameters in the URI.
+        - `form_post`: The response is returned as a form submission (typically used for servers that can handle POST requests more securely)
+
+These parameters are integral to the OAuth process, but if not validated correctly, they can lead to vulnerabilities. For instance, attackers can exploit various OAuth parameter options in creative ways. For example, [Omegapoint bypassed the patch for CVE-2023-6291](https://securityblog.omegapoint.se/en/writeup-keycloak-cve-2023-6927/) by utilizing response_mode=form_post instead of response_mode=fragment, which was user-controlled. This change caused the redirect to use an HTML form instead of a standard redirect. Due to insufficient validation on the HTML form’s action attribute, attackers were able to manipulate the redirect and send users to any arbitrary location, effectively bypassing security measures.
+
+In a different instance, the prompt parameter can be manipulated to alter the authorization flow. By setting the prompt parameter to none, an attacker can effectively remove the requirement for user interaction during the authorization process. This means that if the victim is already authenticated, the authorization server may skip the consent screen and directly issue an authorization code.
 ### 3. Authorization code grant
 - the user's browser will be redirected to the `/callback endpoint` = `redirect_uri` parameter
 - contains the authorization code

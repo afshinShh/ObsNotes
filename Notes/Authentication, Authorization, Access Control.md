@@ -99,3 +99,27 @@ _Tip:_ If the `callback` or `json` GET parameters are not present in the request
 -  [[OLD/WEB/vulnerabilities/Authentication vulnerabilities/OAuth/concepts and defense|concepts and defense]]
 - authorization code flow with PKCE
 	- ![[Pasted image 20250924233858.png]]
+#### Understanding Key OAuth Parameters
+
+Now that we’ve walked through the basic OAuth Authorization Code flow, let’s take a look at some OAuth parameters to help understand the attack vectors:
+
+- **`redirect_uri`**: The URI where the OAuth provider will redirect the user (in our case, John) after they have either granted or denied authorization. This URI must be pre-registered with the OAuth provider as part of the client application’s registration process.
+- **`response_type`**: Specifies what kind of response the client application expects from the OAuth provider. The most common response_type values are:
+    - **`code`**:
+        - **Flow Name***: Authorization Code grant.
+        - **Description:** The client expects the resource owner (user) to authorize the request, which prompts the authorization server to issue an authorization code. This code can then be exchanged by the client for an access token, allowing the client to access protected resources on behalf of the resource owner. This is the most common type used in web server flows.
+    - **`token`**:
+        - **Flow Name:** Implicit Grant.
+        - **Description:** The client expects an access token **directly** from the resource owner. This is often used in client-side applications, like single-page apps (SPAs) such as Gmail or Facebook, where the client doesn’t have a backend server to handle the exchange of an authorization code.
+    - **`client_id`**: A unique identifier that the OAuth provider (in our case, GitHub) issues to the client application (example.com).
+    - **`scope`**: Allows the client to request specific permissions when it initiates the OAuth flow.
+    - **`state`**: A security feature used to prevent [cross-site request forgery (CSRF)](https://owasp.org/www-community/attacks/csrf) attacks.
+    - **`prompt`**: A parameter that controls how the authorization server prompts the user during the authentication process. Common options include:
+        - `none`: No user interaction; will fail if user consent or authentication is required.
+        - `login`: Forces the user to log in again, regardless of their current session.
+        - `consent`: Forces the user to consent to the requested permissions, even if consent was previously granted.
+        - `select_account`: Prompts the user to select from multiple accounts if they are logged in with more than one.
+    - **`response_mode`**: Specifies how the authorization response is returned to the client. Common options include:
+        - `query`: The response is sent as query parameters (“?”) in the URI.
+        - `fragment`: The response is sent as fragment (“#”) parameters in the URI.
+        - `form_post`: The response is returned as a form submission (typically used for servers that can handle POST requests more securely)

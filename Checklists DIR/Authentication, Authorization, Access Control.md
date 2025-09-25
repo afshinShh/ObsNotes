@@ -113,6 +113,7 @@ www.example.com/api/v1/users/..;/
 				- [ ] *Startswith/indexOf*:` target.com.attacker.com`
 				- [ ] *Fake relative*: `//attacker.com`
 				- [ ] *Multiline regex*:  `attacker.com%0d%0atarget.com`
+			- [ ] parameter-preserving open redirect (chain of redirects): `auth.com/?redirect_uri=https://target.com/redir?u=//attacker.com/`
 		- [ ] if SSO works by **XHR => CORS** implemented
 			- [ ] bypass checker function (e.g `https://default-host.com &@foo.evil-user.net#@bar.evil-user.net/`)
 			- [ ] if CORS on .site.com -> XSS on subdomains 
@@ -130,8 +131,14 @@ www.example.com/api/v1/users/..;/
 - [ ] Check the `redirect_url` vulns Mentioned in sso section => account takeover  
 - [ ] if **implicit grant type** ( access token sent via users's browser = exposed in url)
 	- [ ] parameter tampering on the final request which token gets send to server
-- [ ] can `scope` be changed after user consent ? -> **scope upgrade** attack
+- [ ] can `scope` be changed after user consent ? -> **scope upgrade**
 - [ ] is Authorization token, short lived and one-time use ?
-- [ ] is client's secret protected and verified ? -> **client confusion** attack
-
-/commit
+- [ ] is client's secret protected and verified ? -> **client confusion** attack [senario](https://salt.security/blog/oh-auth-abusing-oauth-to-take-over-millions-of-accounts)
+- [ ] is `prompt` parameter Manipulatable ?  -> do all the above attacks with `prompt=none` to minimize intraction
+- [ ] breaking the flow with `response_mode` parameter
+- [ ]  `response_mode=fragment` ([ref](https://ldapwiki.com/wiki/Wiki.jsp?page=Fragment%20Response%20Mode)) + leaking the url => account takeover [hackerone report](https://hackerone.com/reports/1567186)
+	- [ ] ![[Pasted image 20250925181123.png]]
+- [ ] `response_mode=form_post` OR `response_mode=web_message` + xss on authorization server -> see [CVE-2023-6927](https://securityblog.omegapoint.se/en/writeup-keycloak-cve-2023-6927/)
+- [ ] post Auth redirect + login CSRF 
+	- [ ] ![[Pasted image 20250925183740.png]]
+/git
