@@ -68,8 +68,23 @@
 - [ ] Test For **Un-Encrypted Channel** (e.g http)
 - [ ] **Default Credentials**
 - [ ] try **Response Manipulation** (to bypass client side checks)
-- [ ] search client side source code for credentials 
-- [ ]  
+- [ ] search client side source code for credentials
+- [ ] check Refresh Token Endpoint for Misconfiguration
+	- [ ] change user identifier -> account takeover 
+## 403 Error | access denied
+
+```
+www.example.com..;/api/v1/users  
+www.example.com/api..;/v1/users  
+www.example.com/api/v1..;/users  
+www.example.com/..;api/v1/users  
+www.example.com/api/..;v1/users  
+www.example.com/api/v1/..;users  
+www.example.com/api/v1/users/..;  
+www.example.com/api/v1/users/..;/
+```
+
+
 ## HTTP basic authentication
 - [ ] BruteForce attacks 
 	- [ ] default credentials 
@@ -94,7 +109,10 @@
 		- [ ] if SSO works by **XHR => CORS** implemented
 			- [ ] bypass checker function (e.g `https://default-host.com &@foo.evil-user.net#@bar.evil-user.net/`)
 			- [ ] if CORS on .site.com -> XSS on subdomains 
-		- [ ] if SSO works by **JSONP** and the JavaScript object is accessible **any other cross site** 
+		- [ ] if SSO works by **JSONP** and the JavaScript object is accessible **any other cross site** ->[ account takeover ](https://memoryleaks.ir/vulnerability-discovery-in-sso-authentication-scheme/)
+			- [ ] [[Notes/Authentication, Authorization, Access Control#indicators|Indicators of misconfig]]
+				- [ ] check for leaked credentials
+				- [ ] change `Referer` headers  
 # OAuth
 
 - [ ] is the **proper flow** used ? 
@@ -109,4 +127,4 @@
 - [ ] is Authorization token, short lived and one-time use ?
 - [ ] is client's secret protected and verified ? -> **client confusion** attack
 
-/gitcomm
+/gitcom

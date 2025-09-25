@@ -1,3 +1,5 @@
+
+
 most cases 
      - authentication -> session (checked every request)
      - Re-Authentication token is saved in the Cookie (checked only if the Session is not present)
@@ -72,7 +74,20 @@ function myFunc(myObj) {
 </body>
 </html>
 ```
+### indicators
 
+^891cd4
+
+- when does the **misconfigration** accurs ? -> any of these conditions:
+	- [ ] The request method is GET.
+	- [ ] The authentication mechanism is through the cookie header.
+	- [ ] The callback function or `jsonp` GET parameter is present in the request header.
+	- [ ] Apart from the default headers, the request should not have additional headers.
+	- [ ] The response Content-Type header is `application/x-javascript` or `text/javascript`.
+	- [ ] The response content has a function and data like Anything-Here-as-a-Function({JSON data}).
+
+_Tip:_ If the `callback` or `json` GET parameters are not present in the request, and the request and response match the above conditions, the JSONP-leveraged attack is still possible.]
+## cases
 ### Case number 1
 ![[Pasted image 20250924224615.png]]
 ### Case number2
