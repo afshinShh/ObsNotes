@@ -123,3 +123,36 @@ Now that we’ve walked through the basic OAuth Authorization Code flow, let’s
         - `query`: The response is sent as query parameters (“?”) in the URI.
         - `fragment`: The response is sent as fragment (“#”) parameters in the URI.
         - `form_post`: The response is returned as a form submission (typically used for servers that can handle POST requests more securely)
+# access control 
+
+- Access control defines permission of users
+- Defines each user is authorized to do a specific action or not
+## types
+
+- **Vertical**
+- **Horizontal**
+- **Context-dependent** -> upon the state of the application or the user's interaction with it
+  - access to *functionality* (BFLA)
+  - access to *object* (BOLA | IDOR)
+### 403 & 401 Bypasses
+
+Check the response headers, maybe some information can be given. For example, a **200 response** to **HEAD** with `Content-Length: 55` means that the **HEAD verb can access the info**.
+
+### IDOR 
+- direct access to an object in an internal database but does not check for access control
+- example of *tricky situation*
+  - ![[Pasted image 20250927061358.png]]
+    the `user_id` is IDOR safe. However, in last example the `profile_pic` might be vulnerable to IDOR. Changing the `profile_pic` ID may result in viewing other users profile image.
+
+exampe of *safe code*:
+```php
+public function destroyAddress($id, Request $request)
+    {
+        $address = Address::where('id',$id)->where('user_id',\auth()->user()->id)->first();
+        if ($address){
+            $address->delete();
+            return helpers::preparedJsonResponseWithMessage(true, 'The address has been deleted successfully');
+        }
+    }
+```
+

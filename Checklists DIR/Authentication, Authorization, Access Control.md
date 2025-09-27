@@ -11,10 +11,12 @@
 	- [ ] different browsers and applications (webapp,desktop,mobile,...)
 ## Brute Force protection | acount locking |  Lock Out | rate limits
 
+  - [ ]  Ensure the account has been locked after 3-5 incorrect attempts
   - [ ] <mark style="background: #ADCCFFA6;">include your own login credentials</mark> at regular intervals throughout the wordlist. [[WEB/vulnerabilities/Authentication vulnerabilities/payload#IP block|example]] 
-  - [ ]  Explore similar endpoints (`/api/v3/sign-up`, `/Sing-up`, `/SignUp`,...)
+  - [ ] Explore similar endpoints (`/api/v3/sign-up`, `/Sing-up`, `/SignUp`,...)
   - [ ] Blank Characters in Code or Parameters (code=`1234%0a`)
   - [ ] append random parameters
+#### CAPTCHA tests #TODO
 #### Blocking the remote user's IP address
   - [ ] Manipulating IP Origin via Headers (`X-Forwarded-For`,...)
   - [ ] Double Header trick (use same (or with subtle change) header twice to exploit inconsistency among servers)
@@ -56,35 +58,49 @@
 	- [ ] unpredictable 
 	- [ ] safe  
 
-## Multi Factor Auth
+## 2FA | Multi Factor Auth
 
 - [ ] Second factor of authentication should not be **brute-force-able** 
 - [ ] Second factor of authentication should not be **removable**
+- [ ] Second factor of authentication should not be **Reusable** 
 - [ ] verification code on a separate page ->  *"logged in" state before code verification* [[WEB/vulnerabilities/Authentication vulnerabilities/payload#Bypassing two-factor authentication#simple bypass|senario]]
 - [ ]  *doesn't verify* that the *same user* is completing the second step [[WEB/vulnerabilities/Authentication vulnerabilities/payload#Bypassing two-factor authentication#broken logic|senario]]
-- [ ] Weak Security Questions ? 
+- [ ] some checks are in *client side* ?
+	- [ ] EASY way: response manipulation
+	- [ ] HARD way: debug and analyse the client side code
+- [ ] check *other methods of auth* (like forget password) to see if they bypass 2fa 
+- [ ] use `null` or `000000` code
+- [ ] see if you can **bruteforce the code in fewer object** (e.g use list in json )
+	- [ ] change the request content-type 
+- [ ] Weak Security Questions ?
+- [even more tests](https://kathan19.gitbook.io/howtohunt/authentication-bypass/otp_bypass)
 # Access Control
+## 403/401 Error | Access denied | Unauthorized
 
 - [ ] Test For **Un-Encrypted Channel** (e.g http)
 - [ ] **Default Credentials**
 - [ ] try **Response Manipulation** (to bypass client side checks)
 - [ ] search client side source code for credentials
-- [ ] check Refresh Token Endpoint for Misconfiguration
-	- [ ] change user identifier -> account takeover 
-## 403 Error | access denied
+- [ ] try to access page in [time machine](https://web.archive.org/cdx/search/cdx?url=*.example.com/*&collapse=urlkey&output=text&fl=original) 
+- [ ] change HTTP Verbs/Methods | **Method/Verb tempering** 
+	- [ ] `GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, PATCH, INVENTED, HACK`
+	- [ ] `HEAD` (-> status code=200 + Content-Length: 55 => you can access data)
+	- [ ] **`TRACE`** -> to leak headers added by intermediate proxies
+	- [ ] use `X-HTTP-Method-Override: [METHOD]`
+- [ ] **FUZZ Paths** to find ==inconsistency== -> [[403 bypass header list#Path fuzzing test cases| Path FUZZING list]]
+- [ ] change `Referer` header
+- [ ] change your Location (Country | City | ...)
+- [ ] test for Access control vulnerabilities in **multi-step processes**
+## IDOR #improve
 
-```
-www.example.com..;/api/v1/users  
-www.example.com/api..;/v1/users  
-www.example.com/api/v1..;/users  
-www.example.com/..;api/v1/users  
-www.example.com/api/..;v1/users  
-www.example.com/api/v1/..;users  
-www.example.com/api/v1/users/..;  
-www.example.com/api/v1/users/..;/
-```
-
-
+- types:
+	- [ ] direct reference to *database* objects
+	- [ ] direct reference to *static* files
+	- [ ] Controllable object *changes state* of Application [senario](https://portswigger.net/web-security/access-control/lab-user-id-controlled-by-request-parameter-with-data-leakage-in-redirect)
+- test:
+	- [ ] Test to change the ID like parameters
+	- [ ] Get ID from one endpoint use it in another one situation [Google BBP](https://caesarevan23.medium.com/google-vrp-insecure-direct-object-reference-3133-70-a0e37023a4c7)
+		- [ ] check *Refresh Token Endpoint* for Misconfiguration -> can lead to account takeover
 ## HTTP basic authentication
 - [ ] BruteForce attacks 
 	- [ ] default credentials 
@@ -97,10 +113,12 @@ www.example.com/api/v1/users/..;/
 
 
 
-## Trusted IP whitelist
+## Trusted IP|HOST whitelist
 
-- same as [[Checklists DIR/Authentication, Authorization, Access Control#Blocking the remote user's IP address| Blocking the remote user's IP address]]
-
+- [ ] test these checks manually [[Checklists DIR/Authentication, Authorization, Access Control#Blocking the remote user's IP address| Blocking the remote user's IP address]] 
+  - [ ] not working ? => use the  [[403 bypass header list#bypass header list|bypass header FUZZING list]]
+- [ ] test Host Header Injection techniques
+## JWT #TODO
 # SSO
 
 - [ ] Test parameters like `redirect_uri` 
@@ -143,4 +161,8 @@ www.example.com/api/v1/users/..;/
 - [ ] `response_mode=form_post` OR `response_mode=web_message` + xss on authorization server -> see [CVE-2023-6927](https://securityblog.omegapoint.se/en/writeup-keycloak-cve-2023-6927/)
 - [ ] post Auth redirect + login CSRF 
 	- [ ] ![[Pasted image 20250925183740.png]]
-/gitcomm
+
+# Session management #TODO
+
+
+/git
