@@ -27,6 +27,7 @@
 - [ ] Ensure disposable email addresses are rejected
 - [ ] check **Email specific payloads**
 	- [ ] alternative formats (`hacker@gmail.com`  = `hacker+anything@gmail.com`  = `h.a.c.k.e.r@gmail.com`)
+	- [ ] `victim@gmail.com%0a` → 0-20 HEX (FUZZ)
 	- [ ] signup with email of corporation (`very-long-string@Corporation.com.attacker.com`)
 	- [ ] injections in email -> `"<svg/onload=alert(1)>"@corpmail.com` 
 ## Login
@@ -156,6 +157,7 @@
 		- [ ] no (SPA , mobile - desktop apps, ...) -> Authorization code flow  + *PKCE*
 - [ ] Check for **CSRF** protection (`state` parameter)
 - [ ] Check the `redirect_url` vulns Mentioned in [[Checklists DIR/Authentication, Authorization, Access Control#SSO|SSO]] section => account takeover  
+- [ ] **race condition** on ==code== OR  ==refresh_token== → access_token → dabble token → vulnerability
 - [ ] if **implicit grant type** ( access token sent via users's browser = exposed in url)
 	- [ ] parameter tampering on the final request which token gets send to server
 - [ ] can `scope` be changed after user consent ? -> **scope upgrade**
@@ -174,4 +176,4 @@
 
 
 
-/git
+/gitc
