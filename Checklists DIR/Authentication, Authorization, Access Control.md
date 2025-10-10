@@ -131,6 +131,12 @@
 				- [ ] *Startswith/indexOf*:` target.com.attacker.com`
 				- [ ] *Fake relative*: `//attacker.com`
 				- [ ] *Multiline regex*:  `attacker.com%0d%0atarget.com`
+				- [ ] Chinese dot → 。
+		        - [ ] ////evil%E3%80%82com
+		        - [ ] evil%E3%80%82com.target.com
+		            - evil%E3%80%82com.target.com → provider → sub.target.com
+		            - evil%E3%80%82com.target.com → browser → evil.com.target.com
+
 			- [ ] parameter-preserving open redirect (chain of redirects)
 			      - `auth.com/?redirect_uri=https://target.com/redir?u=//attacker.com/`
 			      - `redirect_uri=https://example.com/callback?next=example.com/logout?next=attacker.com`
@@ -163,6 +169,9 @@
 	- [ ] ![[Pasted image 20250925183740.png]]
 
 # Session management #TODO
+
+
+
 
 
 /git
