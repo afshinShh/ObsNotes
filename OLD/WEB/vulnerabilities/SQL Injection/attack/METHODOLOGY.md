@@ -82,4 +82,3 @@ simple attack -> `'--` [[WEB/vulnerabilities/SQL Injection/attack/payload#Subver
 #todo 
 
 
-/gitcommit
