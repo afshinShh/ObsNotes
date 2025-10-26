@@ -1,14 +1,11 @@
 {
-  "editor:toggle-code": [
+  "editor:toggle-checklist-status": [
     {
       "modifiers": [
-        "Meta"
+        "Mod"
       ],
-      "key": "C"
-    }
-  ],
-  "editor:toggle-comments": [],
-  "editor:cycle-list-checklist": [
+      "key": "l"
+    },
     {
       "modifiers": [
         "Mod"
