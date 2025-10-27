@@ -61,7 +61,7 @@ Authorization: Basic base64(username:password)
 - ***NOT SECURE***
   - <mark style="background: #D2B3FFA6;">vulnerable to</mark>: 
     1) being **brute-forced**
-    2) **session-related exploits**, notably [[WEB/vulnerabilities/CSRF/attack/METHODOLOGY|METHODOLOGY]].
+    2) **session-related exploits**, notably [[Notes/CSRF/attack/METHODOLOGY|METHODOLOGY]].
     3) user's login credentials with every request => 
         _unless implemented_ *HTTP Strict Transport Security* ([HSTS](https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security)) -> vulnerable to **Man In The Middle attack (MITM)**:
         - [cookie hijacking](https://en.wikipedia.org/wiki/Session_hijacking)

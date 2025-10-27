@@ -1,6 +1,6 @@
 # test & exploit
 
-simple attack: [[WEB/vulnerabilities/Clickjacking/attack/payload#basic attack|create a decoy website]]
+simple attack: [[Notes/Clickjacking/attack/payload#basic attack|create a decoy website]]
 prefilled form -> site uses GET request -> parse your parameter in URL 
 
 ## Bypassing frame busting (breaking) script
@@ -14,11 +14,11 @@ prefilled form -> site uses GET request -> parse your parameter in URL
 
 - simple example: like-boosting on facebook
 - XSS payload + iframe URL target
-[[WEB/vulnerabilities/Clickjacking/attack/payload#clickjacking + DOM XSS|payload]]
+[[Notes/Clickjacking/attack/payload#clickjacking + DOM XSS|payload]]
 
 ## Multistep clickjacking
 
 - buying from a retail website so items need to be added to a shopping basket before the order is placed.
 - getting confirmation before deleting the user's account.
-[[WEB/vulnerabilities/Clickjacking/attack/payload#Multistep clickjacking|payload]]
+[[Notes/Clickjacking/attack/payload#Multistep clickjacking|payload]]
 
