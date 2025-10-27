@@ -1,6 +1,7 @@
 {
-  "accentColor": "#15cb34",
-  "cssTheme": "Tokyo Night",
-  "baseFontSize": 12,
-  "theme": "system"
+  "accentColor": "#0e5333",
+  "cssTheme": "Things",
+  "baseFontSize": 13,
+  "theme": "obsidian",
+  "baseFontSizeAction": true
 }

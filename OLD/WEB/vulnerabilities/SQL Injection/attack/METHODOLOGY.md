@@ -1,7 +1,7 @@
 qw# Retrieving hidden data
 
 simple attack -> `'+OR+1=1--`  [[WEB/vulnerabilities/SQL Injection/attack/payload#Retrieving hidden data#simple attack|example]]
-
+# In-Band SQL injection 
 ## UNION attacks
 ##### concept:
 <mark style="background: #FFB86CA6;">to retrieve data from other tables</mark> ->
@@ -27,13 +27,13 @@ simple attack -> `'+OR+1=1--`  [[WEB/vulnerabilities/SQL Injection/attack/payloa
 #### multiple values within a single column
 - use String Concatenation (different databases use different syntax) [[cheatsheet(portswigger)#String concatenation|see cheatsheet]]
 	- example: `||` ->  `' UNION SELECT username || '~' || password FROM users--`  
-## Examining the database
+### Examining the database
 
 - database type and version [[WEB/vulnerabilities/SQL Injection/attack/payload#Examining the database|examples]]
 	- _Microsoft, MySQL_ -> `SELECT @@version`
 	- _PostgreSQL_ -> `SELECT version()`
 	- _Oracle_ -> `SELECT * FROM v$version`
-## Listing the contents 
+### Listing the contents 
 
 - _Oracle_ [[WEB/vulnerabilities/SQL Injection/attack/payload#Listing the contents|examples]]
   - `all_tables`
@@ -42,10 +42,10 @@ simple attack -> `'+OR+1=1--`  [[WEB/vulnerabilities/SQL Injection/attack/payloa
   - `information_schema.tables`
   - `information_schema.columns`
 
-# Blind SQL injection
+# Inferential(Blind) SQL injection
 ##### concept:
 -> when HTTP responses <mark style="background: #ADCCFFA6;">do not contain</mark> the *results of the relevant SQL query* or the *details of any database errors*.
-## triggering conditional responses
+### triggering conditional responses
 
 1) the application does *behave differently(in response)* when faces with true/false conditional statement (example: `'1'='1` / `'1'='2`) in:
 	- Parameters 
@@ -78,8 +78,7 @@ look for syntax in different databases -> [[cheatsheet(portswigger)#Time delays|
 # Subverting application logic
 
 simple attack -> `'--` [[WEB/vulnerabilities/SQL Injection/attack/payload#Subverting application logic#simple attack|example]]
-
-# in different context 
-#todo 
 # Second-order SQL injection 
 #todo 
+
+
