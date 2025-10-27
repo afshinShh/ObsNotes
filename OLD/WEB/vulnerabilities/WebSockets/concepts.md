@@ -67,7 +67,7 @@ Sec-WebSocket-Accept: 0FFP+2nmNIf/h+4BP36k9uzrYGk=
 select message in history -> repeater -> History Panel -> edit and resend 
 ## Manipulating WebSocket connections
 
-situations for manipulating [[WEB/vulnerabilities/WebSockets/concepts#How are WebSocket connections established?|the WebSocket handshake]] :
+situations for manipulating [[OLD/WEB/vulnerabilities/WebSockets/concepts#How are WebSocket connections established?|the WebSocket handshake]] :
 
 -  more attack surface.
 -  connection drop -> establish a new one.

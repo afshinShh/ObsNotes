@@ -22,4 +22,3 @@
 - **DOM**
 	- reflected but not in source code (ctrl + u ) => DOM
 - **postMessage**
-/git

@@ -2,7 +2,7 @@
 ## How do XXE vulnerabilities arise?
 
 -  because the XML specification contains various potentially **dangerous features**, and *standard parsers support these* features even if they are not normally used by the application.
-- <mark style="background: #FFB86CA6;">XML external entities</mark> -> they allow an entity to be defined based on the contents of a* file path or URL* [[WEB/vulnerabilities/XML vulnerabilities/concepts#What are XML external entities?|definition]]
+- <mark style="background: #FFB86CA6;">XML external entities</mark> -> they allow an entity to be defined based on the contents of a* file path or URL* [[OLD/WEB/vulnerabilities/XML vulnerabilities/concepts#What are XML external entities?|definition]]
 ## What are the types of XXE attacks?
 
 There are various types of XXE attacks:

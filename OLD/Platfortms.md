@@ -1,1 +1,0 @@
-- [How to get your email from different bug bounty platform to start hacking](https://medium.com/@aayushdhakal005/how-to-get-your-email-from-different-bug-bounty-platform-to-start-hacking-ce01dd45f7ca)

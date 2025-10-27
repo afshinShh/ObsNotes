@@ -16,7 +16,7 @@
 - change the `Content-Type` to `image/jpeg`
 ## Preventing file execution in user-accessible directories
 
-- change the `filename` to include a [[WEB/vulnerabilities/Path Traversal/concepts|directory traversal]] sequence:
+- change the `filename` to include a [[OLD/WEB/vulnerabilities/Path Traversal/concepts|directory traversal]] sequence:
     - `Content-Disposition: form-data; name="avatar"; filename="../exploit.php"`
     	- response: `The file avatars/exploit.php has been uploaded.` -> failed
     - Obfuscate the sequence -> `filename="..%2fexploit.php"`

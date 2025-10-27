@@ -111,7 +111,7 @@ ex: `<!DOCTYPE foo [ <!ENTITY ext SYSTEM "http://normal-website.com" > ]>`
 -  a type of custom entity whose definition is *located outside* of the DTD
 - The declaration of an external entity uses the **`SYSTEM`** keyword
 - it must specify a *URL* from which the *value of the entity should be loaded*
-- this is where [[WEB/vulnerabilities/XML vulnerabilities/XXE/concepts and defense|XXE]] arises 
+- this is where [[OLD/WEB/vulnerabilities/XML vulnerabilities/XXE/concepts and defense|XXE]] arises 
 
 ## What are XML Parameter entities?
 [source](https://book.hacktricks.xyz/pentesting-web/xxe-xee-xml-external-entity#what-are-xml-parameter-entities)
