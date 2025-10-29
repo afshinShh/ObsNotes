@@ -9,3 +9,12 @@ Object.keys(window).filter(k => !k.indexOf('on'))
 		- *window.open*
 		- *window.location*
 		- *window.location.href*
+# **FUZZ the whitespaces allowed** 
+- [ ] (re read js for hackers)
+- FUZZ for *HTML tags*
+	- <img{fuzz}>src{fuzz}onerror=test
+- FUZZ for *JS scheme*
+	- javascript{FUZZ} also java{FUZZ}script 
+		- (%0a, %0d,%09) (you must know)
+	- {FUZZ}javascript ...
+-  /gitcomm
