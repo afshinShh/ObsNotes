@@ -17,4 +17,4 @@ Object.keys(window).filter(k => !k.indexOf('on'))
 	- javascript{FUZZ} also java{FUZZ}script 
 		- (%0a, %0d,%09) (you must know)
 	- {FUZZ}javascript ...
--  /gitcomm
+-  /gitcomm 
