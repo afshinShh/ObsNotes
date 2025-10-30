@@ -120,4 +120,14 @@ if ($search_result) {
 1. `(uid=*)`: This part of the filter matches any entry with a `uid` attribute, essentially all users, because the wildcard `*` matches any value.
 2. `(|(&)(userPassword=pwd))`: The OR (`|`) operator, meaning that any of the two conditions enclosed needs to be true for the filter to pass. In LDAP, an empty AND (`(&)`) condition is always considered true. The other condition checks if the `userPassword` attribute matches the value `pwd`, which can fail if the user is not using `pwd` as their password.
 ##### **Wildcard Injection**
-/gitcomm
+An attacker can exploit this by submitting a username and password with a character the application does not anticipate, such as an asterisk (\*) for the uid and userPassword attribute value. This makes the condition always evaluates to true, effectively bypassing the password check:
+=> injecting wildcard : `*` like `f*`
+```php
+(&(uid=f*)(userPassword=*))
+```
+-> first result in the query
+![[Pasted image 20251030204547.png]]
+
+### Blind LDAP Injection
+
+/git
