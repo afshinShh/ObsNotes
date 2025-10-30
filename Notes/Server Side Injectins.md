@@ -48,13 +48,17 @@ The basic syntax for an LDAP search query looks like this:
 ldapsearch -x -h <target IP> -b "dc=example,dc=com" "(objectClass=user)"
 ```
 ## Injection
+
+![[Pasted image 20251030195722.png]]
+
+### impact
+
 (like sqli):
 1. **Authentication Bypass:** Modifying LDAP authentication queries to log in as another user without knowing their password.
 2. **Unauthorized Data Access:** Altering LDAP search queries to retrieve sensitive information not intended for the attacker's access.
 3. **Data Manipulation:** Injecting queries that modify the LDAP directory, such as adding or modifying user attributes.
-
-![[Pasted image 20251030195722.png]]
-example of vulnerable code:
+### Exploit
+- example of vulnerable code:
 ```php
 <?php
 $username = $_POST['username'];
@@ -102,4 +106,18 @@ if ($search_result) {
 }
 ?>
 ```
+#### Authentication Bypass Techniques
+```php
+(&(uid={userInput})(userPassword={passwordInput}))
+```
+##### **Tautology-Based Injection**
+- inserting conditions into an LDAP query that are inherently true
+- This method is particularly effective against LDAP queries constructed with user input that is not adequately sanitised
+=>  `*)(|(&` for `{userInput}` and `pwd)` for `{passwordInput}`
+```php
+(&(uid=*)(|(&)(userPassword=pwd)))
+```
+1. `(uid=*)`: This part of the filter matches any entry with a `uid` attribute, essentially all users, because the wildcard `*` matches any value.
+2. `(|(&)(userPassword=pwd))`: The OR (`|`) operator, meaning that any of the two conditions enclosed needs to be true for the filter to pass. In LDAP, an empty AND (`(&)`) condition is always considered true. The other condition checks if the `userPassword` attribute matches the value `pwd`, which can fail if the user is not using `pwd` as their password.
+##### **Wildcard Injection**
 /gitcomm
