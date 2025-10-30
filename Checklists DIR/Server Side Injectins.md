@@ -12,4 +12,3 @@
 	- [ ] ![[Pasted image 20251029224436.png]]
 - [ ] **Exploit** 
 	- [ ]  Out of Band Template Injection Payloads -> [link to research ](https://medium.com/@0xAwali/template-engines-injection-101-4f2fe59e5756)
-/gitcomm
