@@ -2,7 +2,7 @@
 - unicodes are decoded in js code
 	- in nodejs apps : yashar === y\u0061shar
 - HTML attributes are decoded automatically
-- json content type 
+- XSS is not related to content-type => always check for it (e.g  json:) 
 	- doesnt url encode/decode
 	- XSS in json sent data -> must be *DOM XSS* 
 # XSS
@@ -22,3 +22,9 @@
 - **DOM**
 	- reflected but not in source code (ctrl + u ) => DOM
 - **postMessage**
+
+## Post XSS
+- [ ] ATO
+	- [ ] change password
+	- [ ] account bind (linking victim's account to that account = in other words: integrations)
+- [ ] PII information leakage
