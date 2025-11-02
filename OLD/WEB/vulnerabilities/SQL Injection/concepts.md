@@ -56,6 +56,7 @@ DROP TABLE tablename1;
 	- Passwords.
 - In many cases, an attacker can <mark style="background: #FFB86CA6;">modify or delete</mark> this data, causing persistent changes to the application's content or behavior.
 - In some situations, an attacker can escalate a SQL injection attack to <mark style="background: #FF5582A6;">compromise</mark> the underlying server or other back-end infrastructure. It can also enable them to perform <mark style="background: #ABF7F7A6;">denial-of-service</mark> attacks.
+- Command execution by [appropriate permission](https://docs.microsoft.com/en-us/sql/relational-databases/system-stored-procedures/xp-cmdshell-transact-sql?view=sql-server-ver16#permissions) 
 
 ## detection
 
@@ -64,7 +65,12 @@ DROP TABLE tablename1;
 - <mark style="background: #CACFD9A6;">Boolean conditions</mark> such as `OR 1=1` and `OR 1=2`, and look for differences in the application's responses.
 - Payloads designed to trigger <mark style="background: #CACFD9A6;">time delays </mark>when executed within a SQL query, and look for differences in the time taken to respond.
 - [OAST](https://portswigger.net/burp/application-security-testing/oast) payloads designed to trigger an <mark style="background: #CACFD9A6;">out-of-band network interaction</mark> when executed within a SQL query, and monitor any resulting interactions.
-
+#### wait a second:
+in SQL,*backslash* means to temporarily escape out of parsing the next character For example,
+```sql
+select "\"test" from table
+```
+-> selects "test from corresponding tables (it escapes)
 ## SQL injection in different parts of the query
 
 Most SQL injection vulnerabilities occur within the *`WHERE` clause of a `SELECT` query*.
@@ -75,9 +81,22 @@ However, SQL injection vulnerabilities can occur at any location within the quer
 - *In `SELECT` statements, within the table or column name.*
 - *In `SELECT` statements, within the `ORDER BY` clause.*
 
+examples:
+```mysql
+# https://site.com/product_id/142
+select if ((select count from products where product_id = $PRODUCT_ID) > 0, 1, 0) # 0 or 1
+```
+-> The blind SQL injection works here (boolean based)
+
+```mysql
+# https://site.com/ inserts user’s information (IP, user agent, etc)
+INSERT INTO table_name VALUES (value1, value2,…);
+```
+-> The blind SQL injection works here (time based)
 ## SQL injection examples
 
 - [Retrieving hidden data](https://portswigger.net/web-security/sql-injection#retrieving-hidden-data), where you can modify a SQL query to return additional results.
 - [Subverting application logic](https://portswigger.net/web-security/sql-injection#subverting-application-logic), where you can change a query to interfere with the application's logic.
 - [UNION attacks](https://portswigger.net/web-security/sql-injection/union-attacks), where you can retrieve data from different database tables.
 - [Blind SQL injection](https://portswigger.net/web-security/sql-injection/blind), where the results of a query you control are not returned in the application's responses.
+/gitco

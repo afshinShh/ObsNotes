@@ -1,5 +1,15 @@
 # SQLi
+
+[[OLD/WEB/vulnerabilities/SQL Injection/concepts|General Concepts (Old notes)]]
+## Entry Points
+- [ ] **Headers**
+	- [ ] Cookies
+	- [ ] User agents
+- [ ] **Fields**
+	- [ ] name, username, address, etc
+
 ![types of SQL injection](https://tryhackme-images.s3.amazonaws.com/user-uploads/62a7685ca6e7ce005d3f3afe/room-content/62a7685ca6e7ce005d3f3afe-1716989638556)
+
 
 ## In-band 
 - ERROR based
@@ -10,6 +20,7 @@
  - Boolean based
  - Time based
 [[OLD/WEB/vulnerabilities/SQL Injection/attack/METHODOLOGY#Inferential(Blind) SQL injection|Manual Exploitation]] (OLD notes)
+
 
 # LDAP injection 
 ## Concepts
