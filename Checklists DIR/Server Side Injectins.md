@@ -6,13 +6,13 @@
 - [ ]  **detect Entry points** [[SQLi#Entry point detection |payloads]]
 	- [ ] all user inputs that can intract with database 
 	- [ ] any sign of sql query in response (r.g Errors)
-	- [ ] possible Headers
+	- [ ] possible Headers (blind works here)
 		- [ ] User-agent 
 		- [ ] Cookie
 		- [ ] Referer
 		- [ ] X-Forwarded-For ? 
 		- [ ] X-Forwarded-Host ? 
-
+/git
 > data = related data (to that specified input you used) in response
 - [ ] **Dumping Database manually?**
 	- [ ] data retrivied? 

