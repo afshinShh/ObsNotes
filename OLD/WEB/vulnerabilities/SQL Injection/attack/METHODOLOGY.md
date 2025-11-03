@@ -44,20 +44,6 @@ select group_concat(column_name) from information_schema.columns where table_sch
 #### multiple values within a single column
 - use String Concatenation (different databases use different syntax) [[cheatsheet(portswigger)#String concatenation|see cheatsheet]]
 	- example: `||` ->  `' UNION SELECT username || '~' || password FROM users--`  
-
-# Inferential(Blind) SQL injection
-##### concept:
--> when HTTP responses <mark style="background: #ADCCFFA6;">do not contain</mark> the *results of the relevant SQL query* or the *details of any database errors*.
-### triggering conditional responses
-
-1) the application does *behave differently(in response)* when faces with true/false conditional statement (example: `'1'='1` / `'1'='2`) in:
-	- Parameters 
-	- Cookies
-	- HTTP Headers
-2) determine the length of data you want to retrive using *`LENGTH`* 
-3) use: 
-	- Oracle: *`SUBSTR`*
-	- non-Oracle: *`SUBSTRING`* [[OLD/WEB/vulnerabilities/SQL Injection/attack/payload#triggering conditional responses|example]]
 ## Error-based
 
 ### triggering conditional errors
@@ -70,11 +56,23 @@ select group_concat(column_name) from information_schema.columns where table_sch
 - generate an error message that *contains some of the data* that is returned by the query -> turns blind into visible -> use *`CAST()`* keyword: [[OLD/WEB/vulnerabilities/SQL Injection/attack/payload#verbose SQL error messages|example]]
 >`CAST((SELECT example_column FROM example_table) AS int)`
 >-> `ERROR: invalid input syntax for type integer: "Example data"`
+# Inferential(Blind) SQL injection
+##### concept:
+-> when HTTP responses <mark style="background: #ADCCFFA6;">do not contain</mark> the *results of the relevant SQL query* or the *details of any database errors*.
+### triggering conditional responses
+## Boolean-based
+1) the application does *behave differently(in response)* when faces with true/false conditional statement (example: `'1'='1` / `'1'='2`)
+> `SELECT * FROM users WHERE id = 1 AND 1=1 (true condition) versus SELECT * FROM users WHERE id = 1 AND 1=2 (false condition)`.
+2) determine the length of data you want to retrive using *`LENGTH`* 
+3) use: 
+	- Oracle: *`SUBSTR`*
+	- non-Oracle: *`SUBSTRING`* [[OLD/WEB/vulnerabilities/SQL Injection/attack/payload#triggering conditional responses|example]]
+
 ## triggering time delays
 
  - application catches database errors and handles them -> *delay* in *execution* of the SQL *query* [[OLD/WEB/vulnerabilities/SQL Injection/attack/payload#triggering time delays|examples]]
 look for syntax in different databases -> [[cheatsheet(portswigger)#Time delays|Here]]
-
+> `SELECT * FROM users WHERE id = 1; IF (1=1) WAITFOR DELAY '00:00:05'--`
 ## out-of-band (OAST) techniques
 #todo 
 

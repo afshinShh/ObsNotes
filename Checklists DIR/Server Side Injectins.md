@@ -10,10 +10,16 @@
 		- [ ] User-agent 
 		- [ ] Cookie
 
+> data = related data (to that specified input you used) in response
 - [ ] data retrivied? 
 	- [ ] UNION based [[OLD/WEB/vulnerabilities/SQL Injection/attack/METHODOLOGY#UNION attacks|METHODOLOGY]] 
-- [ ] 
-/gitom
+- [ ] existence of input is getting checked? (so there is data)
+	- [ ] difference in response ? -> Boolean based [[OLD/WEB/vulnerabilities/SQL Injection/attack/METHODOLOGY#Boolean-based|METHODOLOGY]]
+	- [ ] you can raise any Error ? -> Error based [[OLD/WEB/vulnerabilities/SQL Injection/attack/METHODOLOGY#Error-based|METHODOLOGY]]  
+- [ ] there is no data but you can make delays ?
+	- [ ] Time based blind [[OLD/WEB/vulnerabilities/SQL Injection/attack/METHODOLOGY#triggering time delays|METHODOLOGY]] 
+
+- [ ] SQLmap? [[Server Side Injections#SQLmap |see here]] 
 # C|SSTI (Client|Server side template injection)
 - [ ] try simple detection payloads 
 	- [ ] can you invoke some errors ? -> [[SSTI#Detect#Special characters | Special characters ]]
