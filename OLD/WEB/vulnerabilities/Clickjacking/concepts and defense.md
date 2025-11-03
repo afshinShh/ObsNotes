@@ -25,7 +25,7 @@ Clickjacking attacks use <mark style="background: #BBFABBA6;">CSS to create and 
 <mark style="background: #BBFABBA6;">z-index</mark> determines the stacking order of the iframe and website layers.
 The attacker selects <mark style="background: #BBFABBA6;">opacity</mark> values so that the desired effect is achieved without triggering protection behaviors.
 
-let's see in action: [[Notes/Clickjacking/attack/payload#basic attack|simple attack]]
+let's see in action: [[OLD/WEB/vulnerabilities/Clickjacking/attack/payload#basic attack|simple attack]]
 
 
 # defense 

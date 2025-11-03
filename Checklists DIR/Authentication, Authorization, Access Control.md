@@ -104,7 +104,7 @@
 ## HTTP basic authentication
 - [ ] BruteForce attacks 
 	- [ ] default credentials 
-- [ ] Session related attacks [[Notes/CSRF/attack/METHODOLOGY|METHODOLOGY]].
+- [ ] Session related attacks [[OLD/WEB/vulnerabilities/CSRF/attack/METHODOLOGY|METHODOLOGY]].
 - [ ] if has **HSTS** 
 	- [ ] [session side jacking](https://en.wikipedia.org/w/index.php?title=Session_hijacking&action=edit&section=2)
 - [ ] **Forced Browsing** (directly requesting the resource behind the authentication wall)

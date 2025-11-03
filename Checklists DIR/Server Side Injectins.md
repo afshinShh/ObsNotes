@@ -3,7 +3,17 @@
 	- [ ]  ![[Pasted image 20251029224311.png]]
 
 # SQLI 
+- [ ]  **detect Entry points** [[SQLi#Entry point detection |payloads]]
+	- [ ] all user inputs that can intract with database 
+	- [ ] any sign of sql query in response (r.g Errors)
+	- [ ] possible Headers
+		- [ ] User-agent 
+		- [ ] Cookie
 
+- [ ] data retrivied? 
+	- [ ] UNION based [[OLD/WEB/vulnerabilities/SQL Injection/attack/METHODOLOGY#UNION attacks|METHODOLOGY]] 
+- [ ] 
+/gitom
 # C|SSTI (Client|Server side template injection)
 - [ ] try simple detection payloads 
 	- [ ] can you invoke some errors ? -> [[SSTI#Detect#Special characters | Special characters ]]

