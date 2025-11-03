@@ -9,6 +9,9 @@
 	- [ ] possible Headers
 		- [ ] User-agent 
 		- [ ] Cookie
+		- [ ] Referer
+		- [ ] X-Forwarded-For ? 
+		- [ ] X-Forwarded-Host ? 
 
 > data = related data (to that specified input you used) in response
 - [ ] data retrivied? 
@@ -18,7 +21,7 @@
 	- [ ] you can raise any Error ? -> Error based [[OLD/WEB/vulnerabilities/SQL Injection/attack/METHODOLOGY#Error-based|METHODOLOGY]]  
 - [ ] there is no data but you can make delays ?
 	- [ ] Time based blind [[OLD/WEB/vulnerabilities/SQL Injection/attack/METHODOLOGY#triggering time delays|METHODOLOGY]] 
-
+/gitcomm
 - [ ] SQLmap? [[Server Side Injections#SQLmap |see here]] 
 # C|SSTI (Client|Server side template injection)
 - [ ] try simple detection payloads 

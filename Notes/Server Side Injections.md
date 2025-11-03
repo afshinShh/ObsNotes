@@ -15,6 +15,8 @@
  - Time based
 [[OLD/WEB/vulnerabilities/SQL Injection/attack/METHODOLOGY#Inferential(Blind) SQL injection|Manual Exploitation]] (OLD notes)
 ## SQLmap
+### ***[see Command generator](https://acorzo1983.github.io/SQLMapCG/)***
+
 Basic arguments 
 ```bash
 sqlmap --url="<url>" -p username --user-agent=SQLMAP --random-agent --threads=10 -
