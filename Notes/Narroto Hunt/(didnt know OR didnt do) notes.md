@@ -63,12 +63,23 @@ log=[]; let anchor =document.createElement('a'); for(let i=0;i<0x10ffff; i++){ a
 - [ ] window.valueOf=alert;window+1 -> **parentheses-less payloads**
 
 ### PostMessage
+- doesn't generate http req => burp doesn't capture 
+- search for EventListeners 
+- Chrome (not burp's)
 - important properties 
-	- e.source
-	- e.origin -> *we cannot change it manually*
+	- e.source ->  *we cannot forge* 
+	- e.origin -> *we cannot forge* 
+	  (`e.origin === 'https://google.com'` is not vulnerable)
 	- e.data
-- `postmessage developer tool` + `DOM invader`
-/gitcommi
+- **EXPLOIT**: `postmessage developer tool` + `DOM invader` (post message interception)
+	- post your message + **Spoof Origin**  + **build POC** 
+		- ==window.open (opens pop-up)==
+		- iframe ALWAYS GETS DENIED
+	- dom invader gets refreshed everytime, `postmessage developer tool` doesnt
+	- dom invader doesnt detect listeners in app
+	- BUT *if a message sent dominvader captures it* + you must test messages for each listener manually (source code)
+	  - ==best way to trace== ? => search for unique string and debug in debugger
+/gitco
 
 #TODO 
 - [**Waf Evasion Techniques**](https://blog.isec.pl/waf-evasion-techniques/)
