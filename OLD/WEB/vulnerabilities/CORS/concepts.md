@@ -21,7 +21,15 @@
 	>`Access-Control-Allow-Origin: <Origin> | *`  
 	- → which means that the resource can be accessed by `<origin>`
 	>`Access-Control-Allow-Credentials: true` 
-	- -> indicates response can be exposed or not when HTTP request has Cookies
+	- -> indicates response can be exposed or not when HTTP request has credentials (cookies, HTTP authentication, or client-side SSL certificates)
+- some of other better to know hearders:
+	>`Access-Control-Allow-Methods`:
+	- -> Specifies the HTTP methods (GET, POST, etc.) that can be used during the request.
+	>`Access-Control-Allow-Headers`: 
+	- -> Indicates which HTTP headers can be used during the actual request.
+	>`Access-Control-Max-Age`:
+	- -> Defines how long the results of a preflight request can be cached.
+
 - The browsers always put the ==correct origin== in the request by Origin HTTP header, it cannot be spoofed or modified by JavaScript
 # Cross Origin HTTP Requests
 - Browsers only permit to send **simple HTTP requests** on behalf of users -> else: first *Preflight HTTP request*
@@ -74,3 +82,4 @@ function callOtherDomain() {
 # Recap
 ![[Pasted image 20251106194618.png]]
 
+/gitcomm
