@@ -56,4 +56,8 @@ function callOtherDomain() {
 - happens when:
 	- There is an endpoint which returns users sensitive information and accepts **arbitrary Origin** + **ACAC**
 	- The endpoint should work **by Cookies (not SameSite Cookies, not Token**, etc
-/git
+
+
+## Recap
+![[Pasted image 20251106194618.png]]
+
