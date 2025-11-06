@@ -14,4 +14,3 @@
    > senario
       - An attacker can craft a custom HTTP request with a controlled origin. Since the server echoes this origin, the attacker's site can bypass the SOP restrictions. Instead of echoing back origins, maintain an allowlist of allowed origins and validate against it.
    - ![[Pasted image 20251106203412.png]]
-/gitc

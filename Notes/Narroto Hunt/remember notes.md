@@ -22,7 +22,11 @@
 - **DOM**
 	- reflected but not in source code (ctrl + u ) => DOM
 - **postMessage**
-
+	- dangerous sink ? yes 
+		- can we control input? yes
+			- is it vulnerable? depends => can I Exploit my friend?
+	- we cannot forge e.origin in message 
+	- not only XSS but CSRF or ATO
 ## Post XSS
 - [ ] ATO
 	- [ ] change password

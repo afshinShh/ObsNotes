@@ -62,6 +62,14 @@ log=[]; let anchor =document.createElement('a'); for(let i=0;i<0x10ffff; i++){ a
 - [ ] **alert?.(origin)** -> use `?`
 - [ ] window.valueOf=alert;window+1 -> **parentheses-less payloads**
 
+### PostMessage
+- important properties 
+	- e.source
+	- e.origin -> *we cannot change it manually*
+	- e.data
+- `postmessage developer tool` + `DOM invader`
+/gitcommi
+
 #TODO 
 - [**Waf Evasion Techniques**](https://blog.isec.pl/waf-evasion-techniques/)
 - [An Interesting XSS-Bypassing WAF](https://labs.cognisys.group/posts/An-Intresting-XSS-Bypassing-WAF/)
