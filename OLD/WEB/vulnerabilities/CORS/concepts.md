@@ -1,5 +1,18 @@
+** Table of Contents **
+
+- [Same-origin policy (SOP)](#Same-origin%20policy%20(SOP))
+		- [solutions to remove the restriction](#solutions%20to%20remove%20the%20restriction)
+- [Cross Origin HTTP Requests](#Cross%20Origin%20HTTP%20Requests)
+		- [Simple HTTP Request](#Simple%20HTTP%20Request)
+		- [Preflight HTTP Request](#Preflight%20HTTP%20Request)
+- [CORS misconfiguration](#CORS%20misconfiguration)
+- [Recap](#Recap)
+
 # Same-origin policy (SOP)
-- The same-origin policy restricts scripts on one origin from accessing data from another origin![[Pasted image 20251106175839.png]]
+- The same-origin policy restricts scripts on one origin from accessing data from another origin
+![[Pasted image 20251106175839.png]]
+#### SOP Decision Process
+![[Pasted image 20251106195217.png]]
 ### solutions to remove the restriction
 ***postMessage*** → Sending and receiving messages between two different origins
 ***JSONP*** → Using the `<script>` tag to transfer JavaScript objects
@@ -58,6 +71,6 @@ function callOtherDomain() {
 	- The endpoint should work **by Cookies (not SameSite Cookies, not Token**, etc
 
 
-## Recap
+# Recap
 ![[Pasted image 20251106194618.png]]
 
