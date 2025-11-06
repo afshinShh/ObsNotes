@@ -45,4 +45,15 @@ function callOtherDomain() {
 > `Access-Control-Allow-Credentials: true `
 > `Access-Control-Allow-Headers: Content-Type`
 ![[Pasted image 20251106181744.png]]
-/gitcomm
+# CORS misconfiguration
+
+- It’s called [Cross-domain Policy with Untrusted Domains](https://cwe.mitre.org/data/definitions/942.html) in Mitre, categorized as [A05_2021-Security_Misconfiguration](https://owasp.org/Top10/en/A05_2021-Security_Misconfiguration/) in OWASP TOP10 2021. What is it?
+	- Impacts on the confidentiality and integrity of data
+	- Allowing third-party sites to carry out **privileged requests** through your web site’s authenticated users
+		- eg: *setting information* or *saved payment card data*
+- ![[Pasted image 20251106193642.png]]
+- ==vulnerability exists here because browsers send Cookies automatically==
+- happens when:
+	- There is an endpoint which returns users sensitive information and accepts **arbitrary Origin** + **ACAC**
+	- The endpoint should work **by Cookies (not SameSite Cookies, not Token**, etc
+/git
