@@ -12,7 +12,6 @@
 		- [ ] Referer
 		- [ ] X-Forwarded-For ? 
 		- [ ] X-Forwarded-Host ? 
-/git
 > data = related data (to that specified input you used) in response
 - [ ] **Dumping Database manually?**
 	- [ ] data retrivied? 
