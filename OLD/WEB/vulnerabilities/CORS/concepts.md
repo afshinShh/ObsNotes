@@ -1,6 +1,7 @@
 ** Table of Contents **
 
 - [Same-origin policy (SOP)](#Same-origin%20policy%20(SOP))
+			- [SOP Decision Process](#SOP%20Decision%20Process)
 		- [solutions to remove the restriction](#solutions%20to%20remove%20the%20restriction)
 - [Cross Origin HTTP Requests](#Cross%20Origin%20HTTP%20Requests)
 		- [Simple HTTP Request](#Simple%20HTTP%20Request)
@@ -82,4 +83,3 @@ function callOtherDomain() {
 # Recap
 ![[Pasted image 20251106194618.png]]
 
-/gitcomm
