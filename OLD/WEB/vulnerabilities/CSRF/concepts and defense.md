@@ -1,23 +1,21 @@
-
 ** Table of Contents **
 
-- [cause](#cause)
-	- [A relevant action](#A%20relevant%20action)
-	- [Cookie-based session handling](#Cookie-based%20session%20handling)
-	- [No unpredictable request parameters](#No%20unpredictable%20request%20parameters)
-- [vulnerable example](#vulnerable%20example)
-- [defense](#defense)
-	- [CERF-token](#CERF-token)
-		- [Criteria](#Criteria)
-		- [How should CSRF-tokens be generated?](#How%20should%20CSRF-tokens%20be%20generated?)
-		- [How should CSRF-tokens be transmitted?](#How%20should%20CSRF-tokens%20be%20transmitted?)
-				- [hidden field of an HTML form that is submitted using the POST method](#hidden%20field%20of%20an%20HTML%20form%20that%20is%20submitted%20using%20the%20POST%20method)
-				- [URL query string](#URL%20query%20string)
-				- [costume request header](#costume%20request%20header)
-		- [How should CSRF tokens be validated?](#How%20should%20CSRF%20tokens%20be%20validated?)
-	- [Strict SameSite cookies](#Strict%20SameSite%20cookies)
-	- [checking referer header](#checking%20referer%20header)
-	- [Be aware of cross-origin, same-site attacks](#Be%20aware%20of%20cross-origin,%20same-site%20attacks)
+- [A relevant action](#A%20relevant%20action)
+- [Cookie-based session handling](#Cookie-based%20session%20handling)
+- [No unpredictable request parameters](#No%20unpredictable%20request%20parameters)
+- [CERF-token](#CERF-token)
+	- [Criteria](#Criteria)
+	- [How should CSRF-tokens be generated?](#How%20should%20CSRF-tokens%20be%20generated?)
+	- [How should CSRF-tokens be transmitted?](#How%20should%20CSRF-tokens%20be%20transmitted?)
+			- [hidden field of an HTML form that is submitted using the POST method](#hidden%20field%20of%20an%20HTML%20form%20that%20is%20submitted%20using%20the%20POST%20method)
+			- [URL query string](#URL%20query%20string)
+			- [costume request header](#costume%20request%20header)
+	- [How should CSRF tokens be validated?](#How%20should%20CSRF%20tokens%20be%20validated?)
+- [Strict SameSite cookies](#Strict%20SameSite%20cookies)
+	- [concepts](#concepts)
+		- [What's the difference between a site and an origin?](#What's%20the%20difference%20between%20a%20site%20and%20an%20origin?)
+- [checking referer header](#checking%20referer%20header)
+- [Be aware of cross-origin, same-site attacks](#Be%20aware%20of%20cross-origin,%20same-site%20attacks)
 
 # cause
 ## A relevant action
@@ -52,7 +50,7 @@ This meets the conditions required for CSRF:
 - The attacker can easily determine the values of the request parameters that are needed to perform the action
 
 you can exploit it using :
-[[examples#basic| basic payload]]
+[[OLD/WEB/vulnerabilities/CSRF/attack/Examples#basic| basic payload]]
 
 
 # defense
@@ -105,7 +103,27 @@ is somewhat <mark style="background: #D2B3FFA6;">less safe</mark> because the qu
 
 explicitly setting <mark style="background: #ADCCFFA6;">your own SameSite restrictions</mark> with each cookie you issue => you can control exactly which contexts the cookie will be used in, regardless of the browser
 ideally, you should use the `Strict` policy by default, then lower this to `Lax` only if you have a good reason to do so.
+### concepts
 
+![[Pasted image 20230905141119.png]]
+![[Pasted image 20230905141141.png]]
+
+#### What's the difference between a site and an origin? 
+
+| **Request from**          | **Request to**                 | **Same-site?**        | **Same-origin?**           |
+| ------------------------- | ------------------------------ | --------------------- | -------------------------- |
+| `https://example.com`     | `https://example.com`          | Yes                   | Yes                        |
+| `https://app.example.com` | `https://intranet.example.com` | Yes                   | No: mismatched domain name |
+| `https://example.com`     | `https://example.com:8080`     | Yes                   | No: mismatched port        |
+| `https://example.com`     | `https://example.co.uk`        | No: mismatched eTLD   | No: mismatched domain name |
+| `https://example.com`     | `http://example.com`           | No: mismatched scheme | No: mismatched scheme      |
+
+- top-level domain (TLD) -> `.com` or `.net`
+- "effective top-level domain" (eTLD) -> `.co.uk`
+- SameSite restriction levels: -> `Set-Cookie:` `SameSite=?`
+  - [`Strict`](https://portswigger.net/web-security/csrf/bypassing-samesite-restrictions#strict) -> does not match the site currently shown in the browser's address bar, it will not include the cookie
+  - [`Lax`](https://portswigger.net/web-security/csrf/bypassing-samesite-restrictions#lax) -> default for Chrome -> OK if:  1)`GET` method 2)top-level navigation(such as clicking on a link).
+  - [`None`](https://portswigger.net/web-security/csrf/bypassing-samesite-restrictions#none) ->  disables SameSite -> cookie is intended to be used from a third-party context -> + `Secure`
 ---
 ## checking referer header
 ---
@@ -115,3 +133,4 @@ isolating insecure content
 - user-upload files on a separate site from any sensitive functionality or data
 - sibling domains
 
+/gitcommi

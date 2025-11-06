@@ -1,4 +1,4 @@
-no defense -> upload server-side scripts+execute as code =>  simple RCE via web shell upload [[OLD/WEB/vulnerabilities/File Upload/payload#basic|basic]]
+no defense -> upload server-side scripts+execute as code =>  simple RCE via web shell upload [[OLD/WEB/vulnerabilities/File Upload/Examples#basic|basic]]
 # Exploiting flawed validation 
 
 ## Flawed file type validation
@@ -9,17 +9,17 @@ no defense -> upload server-side scripts+execute as code =>  simple RCE via web 
 		- each part contains a `Content-Disposition` (basic information about the input field)
 			- may contain their own `Content-Type` header
 ##### exploit
-=> **change the `Content-Type` header** [[OLD/WEB/vulnerabilities/File Upload/payload#Flawed file type validation|example]]
+=> **change the `Content-Type` header** [[OLD/WEB/vulnerabilities/File Upload/Examples#Flawed file type validation|example]]
 ## Preventing file execution in user-accessible directories
 
 - find a way to **upload in other directories**
-  - `filename` field in `multipart/form-data` [[OLD/WEB/vulnerabilities/File Upload/payload#Preventing file execution in user-accessible directories|example]]
+  - `filename` field in `multipart/form-data` [[OLD/WEB/vulnerabilities/File Upload/Examples#Preventing file execution in user-accessible directories|example]]
 - server serves the contents of the file as plain text -> *source code leakage* (no RCE)
 ## Insufficient blacklisting
 
 ### Overriding the server configuration
 
-- search for the *webserver config files* -> change the content of it to allow RCE [[OLD/WEB/vulnerabilities/File Upload/payload#Overriding the server configuration|example]] 
+- search for the *webserver config files* -> change the content of it to allow RCE [[OLD/WEB/vulnerabilities/File Upload/Examples#Overriding the server configuration|example]] 
 	- apache: `.htaccess` , `/etc/apache2/apache2.conf`
 	- IIS: `web.config`
 	- ...
@@ -34,7 +34,7 @@ no defense -> upload server-side scripts+execute as code =>  simple RCE via web 
 	- `exploit%2Ephp`
 - server validation in high level language (PHP, Java)but the server processes the file using low level languages(C/C++) -> **semicolons** or URL-encoded **null byte characters** before the file extension 
 	- `exploit.asp;.jpg`
-	- `exploit.asp%00.jpg` [[OLD/WEB/vulnerabilities/File Upload/payload#Obfuscating file extensions|example]]
+	- `exploit.asp%00.jpg` [[OLD/WEB/vulnerabilities/File Upload/Examples#Obfuscating file extensions|example]]
 - **multibyte unicode characters** -> may converted to null bytes after notmalization
 	- filename passed as UTF-8 but then converted to ASCII
 	- `xC0 x2E`, `xC4 xAE` or `xC0 xAE` -> `x2E` 
@@ -47,7 +47,7 @@ no defense -> upload server-side scripts+execute as code =>  simple RCE via web 
 	- signature (magic number/magic bytes )
 		- JPEG: `FF D8 FF`
 		- ...
-=> create a **polyglot JPEG** file containing malicious code within its metadata. [[OLD/WEB/vulnerabilities/File Upload/payload#Flawed validation of the file's contents|example]]
+=> create a **polyglot JPEG** file containing malicious code within its metadata. [[OLD/WEB/vulnerabilities/File Upload/Examples#Flawed validation of the file's contents|example]]
 
 ## Exploiting file upload race conditions
 #todo

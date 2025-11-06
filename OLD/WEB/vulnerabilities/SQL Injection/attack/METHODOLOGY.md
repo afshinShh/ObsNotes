@@ -1,6 +1,6 @@
 qw# Retrieving hidden data
 
-simple attack -> `'+OR+1=1--`  [[OLD/WEB/vulnerabilities/SQL Injection/attack/payload#Retrieving hidden data#simple attack|example]]
+simple attack -> `'+OR+1=1--`  [[OLD/WEB/vulnerabilities/SQL Injection/attack/Examples#Retrieving hidden data#simple attack|example]]
 # In-Band SQL injection 
 ## UNION attacks
 ##### concept:
@@ -9,12 +9,12 @@ simple attack -> `'+OR+1=1--`  [[OLD/WEB/vulnerabilities/SQL Injection/attack/pa
 - The **data types** in each column must be compatible between the individual queries.
 
 ### Examining the database [[SQLi#DBMS Identification |payloads]]
-- database type and version [[OLD/WEB/vulnerabilities/SQL Injection/attack/payload#Examining the database|examples]]
+- database type and version [[OLD/WEB/vulnerabilities/SQL Injection/attack/Examples#Examining the database|examples]]
 	- _Microsoft, MySQL_ -> `SELECT @@version`
 	- _PostgreSQL_ -> `SELECT version()`
 	- _Oracle_ -> `SELECT * FROM v$version`
 ### Listing the contents 
-- _Oracle_ [[OLD/WEB/vulnerabilities/SQL Injection/attack/payload#Listing the contents|examples]]
+- _Oracle_ [[OLD/WEB/vulnerabilities/SQL Injection/attack/Examples#Listing the contents|examples]]
   - `all_tables`
   - `all_tab_columns`
 - _all other databases_ -> `information_schema` 
@@ -47,13 +47,13 @@ select group_concat(column_name) from information_schema.columns where table_sch
 ## Error-based
 
 ### triggering conditional errors
-- injecting different boolean conditions makes no difference to the application's responses -> *raise an error* by *injecting a condition query* -> use *`CASE`* keyword [[OLD/WEB/vulnerabilities/SQL Injection/attack/payload#triggering conditional errors|examples]]
+- injecting different boolean conditions makes no difference to the application's responses -> *raise an error* by *injecting a condition query* -> use *`CASE`* keyword [[OLD/WEB/vulnerabilities/SQL Injection/attack/Examples#triggering conditional errors|examples]]
 ### verbose SQL error messages
 
 - verbose error -> find out about *context* -> easier to construct a valid query:
 > `Unterminated string literal started at position 52 in SQL SELECT * FROM tracking WHERE id = '''. Expected char`
 
-- generate an error message that *contains some of the data* that is returned by the query -> turns blind into visible -> use *`CAST()`* keyword: [[OLD/WEB/vulnerabilities/SQL Injection/attack/payload#verbose SQL error messages|example]]
+- generate an error message that *contains some of the data* that is returned by the query -> turns blind into visible -> use *`CAST()`* keyword: [[OLD/WEB/vulnerabilities/SQL Injection/attack/Examples#verbose SQL error messages|example]]
 >`CAST((SELECT example_column FROM example_table) AS int)`
 >-> `ERROR: invalid input syntax for type integer: "Example data"`
 # Inferential(Blind) SQL injection
@@ -66,11 +66,11 @@ select group_concat(column_name) from information_schema.columns where table_sch
 2) determine the length of data you want to retrive using *`LENGTH`* 
 3) use: 
 	- Oracle: *`SUBSTR`*
-	- non-Oracle: *`SUBSTRING`* [[OLD/WEB/vulnerabilities/SQL Injection/attack/payload#triggering conditional responses|example]]
+	- non-Oracle: *`SUBSTRING`* [[OLD/WEB/vulnerabilities/SQL Injection/attack/Examples#triggering conditional responses|example]]
 
 ## triggering time delays
 
- - application catches database errors and handles them -> *delay* in *execution* of the SQL *query* [[OLD/WEB/vulnerabilities/SQL Injection/attack/payload#triggering time delays|examples]]
+ - application catches database errors and handles them -> *delay* in *execution* of the SQL *query* [[OLD/WEB/vulnerabilities/SQL Injection/attack/Examples#triggering time delays|examples]]
 look for syntax in different databases -> [[cheatsheet(portswigger)#Time delays|Here]]
 > `SELECT * FROM users WHERE id = 1; IF (1=1) WAITFOR DELAY '00:00:05'--`
 ## out-of-band (OAST) techniques
