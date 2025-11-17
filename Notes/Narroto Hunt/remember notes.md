@@ -186,4 +186,4 @@ param_maker() {
 - proxy through burp + turn on HTTP2  
 
 
-/gitcom
+/gitcomm
