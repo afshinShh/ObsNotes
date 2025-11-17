@@ -63,7 +63,7 @@
 - config files
 ### tools 
 - FFUF
-- recollapse
+- ***[recollapse](https://github.com/0xacb/recollapse)***
 - crunch
 - hand
 - GAP
@@ -88,12 +88,34 @@ wList_maker() {
     seq 101 300 >> list.tmp
     echo $1 >> list.tmp
     seq 301 600 >> list.tmp
-} #you MUST filter out all then find your hook when fuzzing => Now thats a good FUZZ
+} #you MUST filter out all then find your hook when fuzzing -> -mc all -fs [something] => Now thats a good FUZZ
 ```
 ### inputs
+- WAF, **checker function**, restriction, validation, etc bypass
+- use *[recollapse](https://github.com/0xacb/recollapse)*
+- Ranges 
+	- 0x00, 0x2F
+	- 0x3A, 0x40
+	- 0x5B, 0x60
 ### files
+1. recognize the *Web Server architecture*
+2. recognize the *filename patterns*
+	- login.php
+	- loginUser.php
+	- LoginUser.php
+	- user_count.php => FUZZlowercase_ FUZZlowercase.php
+3. FUZZ for JS files
+4. FUZZ on status codes
 ### endpoints
 - => function()
+- Flask, Rails,Express,etc are route-based
+- use Ffuf for normal fuzzing *partially* 
+-  `/api/users/all`
+	- `/api/users/FUZZ`
+	- `/api/FUZZ/all`
+	- `/api/FUZZ`  
+- again ... you MUST use a hook
+- **FOLLOW THE LEAST CHANGE PRINCIPLE**
 ### parameters
 - query string parameters can be increased, as long as the server handles the request (in average 25 -> 40 params)
 - the number of parameters included in each HTTP request is called a ***chunk***
@@ -150,4 +172,18 @@ param_maker() {
     fi
 }
 ```
-/gitc
+### wordlist
+- generic -> **[wordlist_with_underscore.txt](https://wordlists-cdn.assetnote.io/data/manual/wordlist_with_underscores.txt)** 
+- make you own 
+	- 3(.-_ included) & 4 alphanumeric ->  crunch
+	- ASCII characters are good to fuzz
+	- **PATERNS** again
+	- gather wordlists by Hand
+
+### over CDN 
+- lower your threads + delay
+- capture by burp => add the corresponding headers
+- proxy through burp + turn on HTTP2  
+
+
+/gitcom
