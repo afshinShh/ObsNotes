@@ -55,7 +55,7 @@
 	- parameter
 	- header
 - you should balance the fuzzing condition
-- ***FOLLOW the LEAST CHANGE principle***
+- ===***FOLLOW the LEAST CHANGE principle***=== (no kermanshaahi hack :)
 ### hidden resources
 - unlinked directories|files
 - development|testing environments
@@ -72,11 +72,28 @@
 	- discover parameters at first and filterout (leach:) 
 - x8 | Arjun
 - paramMiner
+	- mess with the configs -> goes to target tree 
+	- its wordlist is goated
 - IIS shortname scanner
 ### checking phase
+- ===**check the reliability of fuzzing**===
+	- find a ***hook*** (static files are better)
+	- verify the fuzzing by the hook (my pov: *dont use automatic filtering*)
+- repeat  
+-  testing your hook: 
+```bash
+wList_maker() {
+    seq 1 100 > list.tmp
+    echo $1 >> list.tmp
+    seq 101 300 >> list.tmp
+    echo $1 >> list.tmp
+    seq 301 600 >> list.tmp
+} #you MUST filter out all then find your hook when fuzzing => Now thats a good FUZZ
+```
 ### inputs
 ### files
 ### endpoints
+- => function()
 ### parameters
 - query string parameters can be increased, as long as the server handles the request (in average 25 -> 40 params)
 - the number of parameters included in each HTTP request is called a ***chunk***
@@ -88,8 +105,10 @@
 - every web app has hidden parameters
 	- Findable in web app
 	- *similar to other parameter names*
-		- yahoo_home_ui
-		- yahoo_home_redirect
+		- yahoo_home_url -> yahoo_home_redirect
+		- use_local_engine -> reflects into engine json object
+			- ? -> frontend json object
+			- use_FUZZ_engine -> use_remote_engine
 	- totally new
 - ==**programmers use the same parameter names on different pages**==
 	- (e.g all params -> unfurl (extract params) -> use elsewhere)
@@ -102,4 +121,33 @@
 	- (passive (waymore + paramSpider)(`inurl:? || inurl:&`) + active (manually like GAP + automated like x8 + fallparams))
 	-  (e.g manual GAP -> replace values -> interesting behavior | e.g automated x8)
 	- *MANUALL is ALWASY BETTER* (false positive)
-/gitcommi
+```bash
+param_maker() {
+    filename="$1"
+    value="$2"
+    counter=0
+    query_string=""
+
+    while IFS= read -r keyword
+    do
+        if [ -n "$keyword" ]
+        then
+            counter=$((counter+1))
+            query_string="${query_string}${keyword}=${value}${counter}&"
+        fi
+
+        if [ $counter -eq 25 ]
+        then
+            echo "${query_string%?}"
+            query_string=""
+            counter=0
+        fi
+    done < "$filename"
+
+    if [ $counter -gt 0 ]
+    then
+        echo "${query_string%?}"
+    fi
+}
+```
+/gitc
