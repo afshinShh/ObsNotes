@@ -6,7 +6,7 @@
 - [ ]  **detect Entry points** [[SQLi#Entry point detection |payloads]]
 	- [ ] all user inputs that can intract with database 
 	- [ ] any sign of sql query in response (r.g Errors)
-	- [ ] possible Headers (blind works here)
+	- [ ] po￼ssible Headers (blind works here)
 		- [ ] User-agent 
 		- [ ] Cookie
 		- [ ] Referer
