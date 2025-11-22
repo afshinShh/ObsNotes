@@ -1,6 +1,7 @@
 
 # test & exploit
- 
+
+Burp Suit professional-> right-click request -> Engagement tools -> Generate CSRF PoC 
 no defense -> create a form ( [[OLD/WEB/vulnerabilities/CSRF/attack/Examples#basic| basic payload]] )
 ## Bypassing CSRF-token validation
 

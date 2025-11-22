@@ -23,4 +23,4 @@
 - [ ] GET-based CSRF 
 - [ ] server requester function + whitelist => SSRF
 # Request Smuggling
-/git
+
