@@ -46,7 +46,7 @@
 ### Resetting user passwords | Changing user passwords |  Forget Password
 - <mark style="background: #BBFABBA6;">Links are getting dynamically generated </mark>
 	- [ ] Parameter Tempering 
-		- [ ] [Password Poisening](https://portswigger.net/web-security/host-header/exploiting/password-reset-poisoning) Attack (when links  are getting created by a third party ) [[OLD/WEB/vulnerabilities/Authentication vulnerabilities/payload#Resetting user passwords#password reset poisoning via middleware|senario]]
+		- [ ] [Password Poisening](https://portswigger.net/web-security/host-header/exploiting/password-reset-poisoning) Attack (when links are getting created by a third party ) [[OLD/WEB/vulnerabilities/Authentication vulnerabilities/payload#Resetting user passwords#password reset poisoning via middleware|senario]]
 			- [ ] Test Host Header Injection 
 			- [ ] Test Host Header injection through middlewares (`X-Forwarded-Host`)
 - [ ] if you can **access directly without being logged in** as the victim user (example: usename can be provided within hidden field)

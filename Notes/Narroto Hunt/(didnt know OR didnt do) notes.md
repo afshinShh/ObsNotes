@@ -84,3 +84,4 @@ log=[]; let anchor =document.createElement('a'); for(let i=0;i<0x10ffff; i++){ a
 #TODO 
 - [**Waf Evasion Techniques**](https://blog.isec.pl/waf-evasion-techniques/)
 - [An Interesting XSS-Bypassing WAF](https://labs.cognisys.group/posts/An-Intresting-XSS-Bypassing-WAF/)
+# FUZZing
