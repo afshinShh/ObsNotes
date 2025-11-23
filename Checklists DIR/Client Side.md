@@ -1,8 +1,8 @@
 # CSRF
 - Conditions
 	- [ ] The targeted functionality or feature must be ==privileged==
-		- [ ] session ID must be a cookie with the ==SameSite== cookie policy set to "None" or "Lax" -> [[OLD/WEB/vulnerabilities/CSRF/concepts and defense#Strict SameSite cookies|Concept]]
-		- [ ] HTTP request shouldn't carry any ==unpredictable values==
+	- [ ] session ID must be a cookie with the ==SameSite== cookie policy set to "None" or "Lax" -> [[OLD/WEB/vulnerabilities/CSRF/concepts and defense#Strict SameSite cookies|Concept]]
+	- [ ] HTTP request shouldn't carry any ==unpredictable values==
 
 - need POC? ->  [[OLD/WEB/vulnerabilities/CSRF/attack/Examples#POCs|POC examples]]
 
