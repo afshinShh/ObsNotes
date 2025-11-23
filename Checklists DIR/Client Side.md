@@ -6,19 +6,20 @@
 
 - need POC? ->  [[OLD/WEB/vulnerabilities/CSRF/attack/Examples#POCs|POC examples]]
 
-- [ ] _unpredictable_ Header based Authorization (like JWT OR custom header) =>  CSRF patched (Unless...)
+- [ ] _unpredictable_ Header based Authorization (like JWT OR custom header) =>  CSRF patched (Unless...?)
 - [ ] is there any XSS ? -> CSRF is unavoidable  
 - [ ]  it checks **`Referer`**? [[OLD/WEB/vulnerabilities/CSRF/attack/Examples#Referrer-based CSRF|Examples]]
 	- [ ] request without a referer header
 	- [ ] bypass the checker function
-- [ ] Application supports **Flash** ?
+- [ ] Application supports <mark style="background: #FFB86CA6;">Flash</mark> ?
 	- [ ] use malicious Flash file (.swf) -> Flash-based CSRF ([poc](https://github.com/appsecco/json-flash-csrf-poc?))
-- [ ] Change **Content-Type** (Json based CSRF) [[OLD/WEB/vulnerabilities/CSRF/attack/Examples#Content-Type based CSRF|Examples]]
+- [ ] Change **Content-Type** (<mark style="background: #FFB86CA6;">Json based</mark> CSRF) [[OLD/WEB/vulnerabilities/CSRF/attack/Examples#Content-Type based CSRF|Examples]]
 	- [ ] **`text/plain`**
 	- [ ] `application/x-www-form-urlencoded`
 	- [ ] `multipart/form-data`
 - [ ] Check Other Protocols
-	- [ ] cross-site WebSocket hijacking (CSWSH) ([[OLD/WEB/vulnerabilities/CSRF/attack/Examples#cross-site WebSocket hijacking (CSWSH)|Example]]) 
+	- [ ] cross-site <mark style="background: #FFB86CA6;">WebSocket</mark> hijacking (CSWSH) ([[OLD/WEB/vulnerabilities/CSRF/attack/Examples#cross-site WebSocket hijacking (CSWSH)|Example]]) 
+- [ ] Check CSRF in <mark style="background: #FFB86CA6;">Graphql</mark> endpoints [[OLD/WEB/vulnerabilities/CSRF/attack/Examples#CSRF in Graphql endpoints|Example POC]]
 ## Bypassing CSRF-token validation
 
 - [ ] change request method (e.g post to get) 
@@ -39,4 +40,3 @@
 			- [ ] use csrf-token+csrfKey on another user
 			- [ ] find sink where you can inject cookie [[OLD/WEB/vulnerabilities/CSRF/attack/Examples#token tied to non-session cookie|Example Senario]] 
 		- [ ] same csrf is duplicated in cookie ? -> Create and inject csrf cookie (same as injecting csrfKey)
-/git
