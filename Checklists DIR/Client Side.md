@@ -39,3 +39,4 @@
 			- [ ] use csrf-token+csrfKey on another user
 			- [ ] find sink where you can inject cookie [[OLD/WEB/vulnerabilities/CSRF/attack/Examples#token tied to non-session cookie|Example Senario]] 
 		- [ ] same csrf is duplicated in cookie ? -> Create and inject csrf cookie (same as injecting csrfKey)
+/git
