@@ -84,4 +84,33 @@ log=[]; let anchor =document.createElement('a'); for(let i=0;i<0x10ffff; i++){ a
 #TODO 
 - [**Waf Evasion Techniques**](https://blog.isec.pl/waf-evasion-techniques/)
 - [An Interesting XSS-Bypassing WAF](https://labs.cognisys.group/posts/An-Intresting-XSS-Bypassing-WAF/)
-# FUZZing
+# LiveHunts
+test your payloads in JSfiddle
+- use `target="_blank"`
+- You must be able to create Test cases dynamically
+- `?next= `
+	- use collaborator to see the exact changes 
+	- [ ] server-side request forgery
+	- [ ] host header manipulation (created link gets dynamically created )
+		- [ ] Start with ==changing the port== determine the reflection 
+		      (=> victim gets emailed with specified **_host+port_**) 
+		- [ ] x-... headers
+		- [ ] same HOST header different **SNI** 
+	- [ ] link poisoning
+		- [ ] **URL from input parameter**
+			- [ ] default behaviour
+			- [ ] ==find-able in DOM==
+			- [ ] ==fully hidden parameter==
+			- [ ] ==header==, example: referer
+	- [ ] Path manipulation 
+	- [ ] parameter manipulation 
+		- [ ] double `code` parameter (in this senario we could inject parameter after `next`)
+- `edit profile`
+	- [ ] other users profile
+	- [ ] Mass Assignment 
+ >  	update profile (only updates "about") from json data of profile and 
+		 **==HOOK==** again (you can find from DOM) => least change
+			name -> SSTI + DOM XSS (in comment section)
+			 backgound_url -> ssrf test 
+
+/gitcomm

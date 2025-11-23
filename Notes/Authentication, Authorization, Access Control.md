@@ -76,8 +76,6 @@ function myFunc(myObj) {
 ```
 ### indicators
 
-^891cd4
-
 - when does the **misconfigration** accurs ? -> any of these conditions:
 	- [ ] The request method is GET.
 	- [ ] The authentication mechanism is through the cookie header.
