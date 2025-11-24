@@ -1,4 +1,3 @@
-
 - unicodes are decoded in js code
 	- in nodejs apps : yashar === y\u0061shar
 - HTML attributes are decoded automatically

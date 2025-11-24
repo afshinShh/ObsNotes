@@ -31,6 +31,28 @@ test your payloads in JSfiddle
 	- .com.attacker.com
 	- .com@attacker.com
 	- .computer
+- `registration`
+	- ==When you see encoded data in proxy it must be encoded clientside== = in DOM
+	- use "*Step inner*" functionality of debugger to trace other functions  
+	- [ ] `afshin+num@gmail.com` ==  `a.f.s.h.in@gamil.com` ==  `afshin@gmail.com` ?
+		- [ ] same  OTP -> use to **bypass ratelimit** and account locking  => bruteforce
+		- [ ] different OTPs for each variation forget password => **password spray** (keep the OTP value then change the variation)
+- [ ] ``<svg/onload=eval(`'`+URL)>`` -> loads the script from url before check by the WAF  (why? :) => `https://site.com/#';alert(origin)`
+- [ ] wanna ATO ?
+	- [ ] token hijacking
+	- [ ] change password
+	- [ ] Link Account
+- [ ] ==**Application to Web(A2W)**(from mobile app to web app) = GOLD==
+	- [ ] **Magic(Deep) Links**  
+	- [ ] `tokenAuth` route -> token to cookie convertor
+		- [ ] it redirects -> it is client side redirect via JS -> js scheme 403 -> bypass with `\t`
+	- [ ] use mobile view of debugger
+- [ ] ==needs to be  ***Accept*** ed?== -> modern CSRF  
+	- [ ] the url results to a request (hDOM) -> this request is **FULL AUTHORIZED**
+		- [ ] e.g: `https://www.capcut.com/approval-result?id=7375174162874286097&status=1` if you change `id` 
+- [ ] Search the Sinks first -> why ? usually less in number 
+	- [ ] different pages -> loading different JSs => new sources & sinks => *search again* 
+	- [ ] sources + sinks != same place
 # superbet.ro (small scope)
 - [ ] user lock in in bruteforce ?
 - [ ] no registration ? -> internal ?
@@ -47,4 +69,4 @@ test your payloads in JSfiddle
 - *don't fuzz on SAPs unless you see some signs*
 - if SAP + RestAPI -> 2 different domains => token based auth
 - if HTTP status redirected => CRLF injection 
-/git
+/gitcomm
