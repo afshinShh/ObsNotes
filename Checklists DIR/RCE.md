@@ -1,0 +1,21 @@
+- [ ] Identify Input Vectors
+	- [ ] <mark style="background: #BBFABBA6;">Command-line argument injection</mark>: APIs that execute shell commands, CLI tools, system utilities
+	- [ ] <mark style="background: #BBFABBA6;">Template engines</mark>: User-provided templates or template variables (Jinja2, Twig, Freemarker, Thymeleaf, ERB, Handlebars)
+	- [ ] <mark style="background: #BBFABBA6;"> File uploads</mark> : Server-side processing of images, documents, archives, media files
+	- [ ] <mark style="background: #BBFABBA6;">Deserialization endpoints</mark>: APIs accepting serialized objects (Java, .NET, Python pickle, PHP serialize, Ruby Marshal)
+	- [ ] <mark style="background: #BBFABBA6;">Expression Language fields</mark>: Search filters, calculations, dynamic queries (SpEL, OGNL, MVEL, EL)
+	- [ ] <mark style="background: #BBFABBA6;">Webhook URLs</mark>: Server-side fetches triggered by user-supplied URLs
+	- [ ] Log file paths: Log injection leading to log processing (LogForge, Log4Shell)
+	- [ ] <mark style="background: #BBFABBA6;">Configuration files</mark>: Upload or modification of config files (.htaccess, web.config, cron jobs)
+	- [ ] <mark style="background: #BBFABBA6;">Email/document processing</mark>: Mail parsers, PDF generators, office document converters
+	- [ ] <mark style="background: #BBFABBA6;">Image manipulation</mark>: ImageMagick, GraphicsMagick, Pillow, GD library operations
+	- [ ] <mark style="background: #BBFABBA6;">Video/audio processing</mark>: FFmpeg, ExifTool, media transcoders
+- [ ] Test Payloads by Context
+	- [ ] Command Injection Payloads [[Notes/RCE#Code Injection|RCE]]
+	- [ ] [Server-Side Template Injection (SSTI) Payloads
+	- [ ] [Expression Language (EL) Injection]
+	- [ ] [Deserialization Payloads]
+- [ ] [4. Confirm the Vulnerability]
+- [ ] [3. Advanced Techniques]
+	- [ ] [Bypass Techniques]
+	- [ ] [Blind RCE Detection]

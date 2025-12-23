@@ -69,4 +69,3 @@ test your payloads in JSfiddle
 - *don't fuzz on SAPs unless you see some signs*
 - if SAP + RestAPI -> 2 different domains => token based auth
 - if HTTP status redirected => CRLF injection 
-/gitcomm

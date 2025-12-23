@@ -59,3 +59,4 @@
 - Narrow Recon (JS)
 - replacement after ruleset (= checker function or waf) is a killer
 - to know a program we must explore it like a nomal user 
+# Authentication

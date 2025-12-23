@@ -225,3 +225,4 @@ param_maker() {
 - lower your threads + delay
 - capture by burp => add the corresponding headers
 - proxy through burp + turn on HTTP2  
+# Authentication
