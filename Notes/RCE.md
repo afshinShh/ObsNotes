@@ -55,7 +55,7 @@ occurs when an attacker can execute arbitrary code on a target machine because o
 2. Submit test payloads to the input locations in order to detect potential vulnerabilities.
 3. If your requests are blocked, try protection bypass techniques and see if your payload succeeds.
 4. Finally, confirm the vulnerability by trying to execute harmless commands such as `whoami`, `ls`, and, `sleep 5`.
-
+/gitco
 ## Mechanisms
 
 ### Code Injection

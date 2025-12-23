@@ -17,19 +17,36 @@
 	- [ ] Web Shell Upload
 	- [ ] .htaccess / web.config Injection
 	- [ ] 6zArchive Extraction
-	- [ ] ImageMagick Exploits
+	- [ ] **ImageMagick** Exploits
 		- [ ] MSL (Magick Scripting Language) injection
 		- [ ] Label injection for RCE
 		- [ ] SVG with embedded scripts
-- [ ] **PDF Processing** 
-	- [ ]  PDF Processing RCE
-	- [ ] LaTeX Injection
-	- [ ] XSL-FO Injection (Apache FOP)
-- [ ] **Office Document Processing**
-	- [ ] XXE in DOCX/XLSX
-	- [ ] Macro-enabled Documents
-		- [ ] DOCM, XLSM, PPTM files with VBA macros
-		- [ ] Excel 4.0 macros (XLM) bypass modern protections
-		- [ ] DDE (Dynamic Data Exchange) injection
-	- [ ] LibreOffice/OpenOffice Exploits
-/gitco
+	- [ ] **PDF Processing** 
+		- [ ]  PDF Processing RCE
+		- [ ] LaTeX Injection
+		- [ ] XSL-FO Injection (Apache FOP)
+	- [ ] **Office Document Processing**
+		- [ ] XXE in DOCX/XLSX
+		- [ ] Macro-enabled Documents
+			- [ ] DOCM, XLSM, PPTM files with VBA macros
+			- [ ] Excel 4.0 macros (XLM) bypass modern protections
+			- [ ] DDE (Dynamic Data Exchange) injection
+		- [ ] LibreOffice/OpenOffice Exploits
+- [ ] ==**Container Escape**==
+	- [ ] Privileged Container
+	- [ ] Docker Socket Exposure
+	- [ ] using Kernel Exploits
+- [ ] **==Prototype Pollution==**  -> [[Notes/RCE#Prototype Pollution → RCE (Node.js)|RCE]] (e.g : React2Shell) 
+- [ ] **==SQL Injection==** → [[Notes/RCE#SQL Injection → RCE|RCE]]
+- [ ] ==**Path Traversal**==→ [[Notes/RCE#1. Path Traversal → RCE|RCE]]
+- [ ] ==**SSRF**==→ [[Notes/RCE#2. SSRF → RCE|RCE]]
+- [ ] ==**XXE**==→ [[Notes/RCE#3. XXE → RCE|RCE]]
+- [ ] ==**SSTI**==→ File Write → [[Notes/RCE#4. SSTI → File Write → RCE|RCE]]
+
+- [ ] <mark style="background: #FF5582A6;">CVEs</mark> [[Notes/RCE#Real-World CVEs and Cases|Real-World CVEs and Cases]]
+	- [ ] FFmpeg / ExifTool Exploits
+	- [ ] Log4Shell(CVE-2021-44228) - react2shell(CVE-2025-55182) ....
+
+
+- ###### [[Notes/RCE#Impact Categories|How to measure the impact?]]
+- ##### **[[Notes/RCE#Remediation Recommendations|Remediation]]**
