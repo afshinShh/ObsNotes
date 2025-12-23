@@ -10,9 +10,9 @@
 	- [ ] Profile account page
 	- [ ] ERROR pages
 - [ ] determine the type
-	- [ ] header based (server side)? [[unprocessed-obsidians/Notes/Request Manipulation#Open Redirect#header based (= serverside redirect)|e.g]]
-	- [ ] HTML/Javascript based (client side) [[unprocessed-obsidians/Notes/Request Manipulation#Open Redirect#JS based(= client side redirect)|e.g]]
-- [ ] find the <mark style="background: #FFF3A3A6;">checker function</mark> [[unprocessed-obsidians/Notes/Request Manipulation#Open Redirect#checker function|e.g]]
+	- [ ] header based (server side)? [[Notes/Request Manipulation#Open Redirect#header based (= serverside redirect)|e.g]]
+	- [ ] HTML/Javascript based (client side) [[Notes/Request Manipulation#Open Redirect#JS based(= client side redirect)|e.g]]
+- [ ] find the <mark style="background: #FFF3A3A6;">checker function</mark> [[Notes/Request Manipulation#Open Redirect#checker function|e.g]]
 	- [ ] FUZZ to bypass
 		- [ ] ratelimit (OR not :) ? -> [[URL Validation#Open Redirect Manual list |manual fuzz]] 
 		- [ ] url validation [cheatsheet](https://portswigger.net/web-security/ssrf/url-validation-bypass-cheat-sheet) | [[URL Validation#[PayloadsAllTheThings](https //github.com/swisskyrepo/PayloadsAllTheThings/tree/master)|payload all the things]]

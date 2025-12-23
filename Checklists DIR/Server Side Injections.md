@@ -23,7 +23,7 @@
 		- [ ] Time based [[unprocessed-obsidians/OLD/WEB/vulnerabilities/SQL Injection/attack/METHODOLOGY#triggering time delays|METHODOLOGY]] | [[SQLi#time based |payloads]] 
 
 - [ ] **Bypass Authentication** [[SQLi#Authentication bypass |payloads]]
-- [ ] SQLmap? [[unprocessed-obsidians/Notes/Server Side Injections#SQLmap|see here]] 
+- [ ] SQLmap? [[Notes/Server Side Injections#SQLmap|see here]] 
 # C|SSTI (Client|Server side template injection)
 - [ ] try simple detection payloads 
 	- [ ] can you invoke some errors ? -> [[SSTI#Detect#Special characters | Special characters ]]

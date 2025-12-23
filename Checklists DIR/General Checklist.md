@@ -1,7 +1,7 @@
 # Generic
 -> combination of <mark style="background: #FFB86CA6;">web application hacker's handbook </mark> and <mark style="background: #FFB86CA6;">jason's methodology</mark>
 ## Task Checklist
-/gitcom
+/gitcomm
 ### App Recon and analysis
 
 - [ ] Map visible content

@@ -10,8 +10,8 @@
 	- [ ] <mark style="background: #BBFABBA6;">Email/document processing</mark>: Mail parsers, PDF generators, office document converters
 	- [ ] <mark style="background: #BBFABBA6;">Image manipulation</mark>: ImageMagick, GraphicsMagick, Pillow, GD library operations
 	- [ ] <mark style="background: #BBFABBA6;">Video/audio processing</mark>: FFmpeg, ExifTool, media transcoders
-- [ ] Assess the mechanisms behind [[unprocessed-obsidians/Notes/RCE#Mechanisms|Examples]]
-	- [ ] Test Payloads by Context [[unprocessed-obsidians/Notes/RCE#Hunt#2. Test Payloads by Context|Examples]]
+- [ ] Assess the mechanisms behind [[Notes/RCE#Mechanisms|Examples]]
+	- [ ] Test Payloads by Context [[Notes/RCE#Hunt#2. Test Payloads by Context|Examples]]
 # Chain different type of bugs (RCE Chains)
 - [ ] **==File Upload==** 
 	- [ ] Web Shell Upload
@@ -36,17 +36,17 @@
 	- [ ] Privileged Container
 	- [ ] Docker Socket Exposure
 	- [ ] using Kernel Exploits
-- [ ] **==Prototype Pollution==**  -> [[unprocessed-obsidians/Notes/RCE#Prototype Pollution → RCE (Node.js)|RCE]] (e.g : React2Shell) 
-- [ ] **==SQL Injection==** → [[unprocessed-obsidians/Notes/RCE#SQL Injection → RCE|RCE]]
-- [ ] ==**Path Traversal**==→ [[unprocessed-obsidians/Notes/RCE#1. Path Traversal → RCE|RCE]]
-- [ ] ==**SSRF**==→ [[unprocessed-obsidians/Notes/RCE#2. SSRF → RCE|RCE]]
-- [ ] ==**XXE**==→ [[unprocessed-obsidians/Notes/RCE#3. XXE → RCE|RCE]]
-- [ ] ==**SSTI**==→ File Write → [[unprocessed-obsidians/Notes/RCE#4. SSTI → File Write → RCE|RCE]]
+- [ ] **==Prototype Pollution==**  -> [[Notes/RCE#Prototype Pollution → RCE (Node.js)|RCE]] (e.g : React2Shell) 
+- [ ] **==SQL Injection==** → [[Notes/RCE#SQL Injection → RCE|RCE]]
+- [ ] ==**Path Traversal**==→ [[Notes/RCE#1. Path Traversal → RCE|RCE]]
+- [ ] ==**SSRF**==→ [[Notes/RCE#2. SSRF → RCE|RCE]]
+- [ ] ==**XXE**==→ [[Notes/RCE#3. XXE → RCE|RCE]]
+- [ ] ==**SSTI**==→ File Write → [[Notes/RCE#4. SSTI → File Write → RCE|RCE]]
 
-- [ ] <mark style="background: #FF5582A6;">CVEs</mark> [[unprocessed-obsidians/Notes/RCE#Real-World CVEs and Cases|Real-World CVEs and Cases]]
+- [ ] <mark style="background: #FF5582A6;">CVEs</mark> [[Notes/RCE#Real-World CVEs and Cases|Real-World CVEs and Cases]]
 	- [ ] FFmpeg / ExifTool Exploits
 	- [ ] Log4Shell(CVE-2021-44228) - react2shell(CVE-2025-55182) ....
 
 
-- ###### [[unprocessed-obsidians/Notes/RCE#Impact Categories|How to measure the impact?]]
-- ##### **[[unprocessed-obsidians/Notes/RCE#Remediation Recommendations|Remediation]]**
+- ###### [[Notes/RCE#Impact Categories|How to measure the impact?]]
+- ##### **[[Notes/RCE#Remediation Recommendations|Remediation]]**

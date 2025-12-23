@@ -143,7 +143,7 @@
 			- [ ] bypass checker function (e.g `https://default-host.com &@foo.evil-user.net#@bar.evil-user.net/`)
 			- [ ] if CORS on .site.com -> XSS on subdomains 
 		- [ ] if SSO works by **JSONP** and the JavaScript object is accessible **any other cross site** ->[ account takeover ](https://memoryleaks.ir/vulnerability-discovery-in-sso-authentication-scheme/)
-			- [ ] [[unprocessed-obsidians/Notes/Authentication, Authorization, Access Control#indicators|Indicators of misconfig]]
+			- [ ] [[Notes/Authentication, Authorization, Access Control#indicators|Indicators of misconfig]]
 				- [ ] check for leaked credentials
 				- [ ] change `Referer` headers  
 - [ ] is Authorization token, short lived and one-time use ?
