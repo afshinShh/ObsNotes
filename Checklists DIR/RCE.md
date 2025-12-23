@@ -10,11 +10,8 @@
 	- [ ] <mark style="background: #BBFABBA6;">Email/document processing</mark>: Mail parsers, PDF generators, office document converters
 	- [ ] <mark style="background: #BBFABBA6;">Image manipulation</mark>: ImageMagick, GraphicsMagick, Pillow, GD library operations
 	- [ ] <mark style="background: #BBFABBA6;">Video/audio processing</mark>: FFmpeg, ExifTool, media transcoders
-- [ ] Test Payloads by Context
-	- [ ] Command Injection Payloads [[Notes/RCE#Code Injection|RCE]]
-	- [ ] [Server-Side Template Injection (SSTI) Payloads
-	- [ ] [Expression Language (EL) Injection]
-	- [ ] [Deserialization Payloads]
+- [ ] Assesss the mechanisms behind [[Notes/RCE#Mechanisms|Examples]]
+- [ ] Test Payloads by Context [[Notes/RCE#Hunt|Examples]]
 - [ ] [4. Confirm the Vulnerability]
 - [ ] [3. Advanced Techniques]
 	- [ ] [Bypass Techniques]
