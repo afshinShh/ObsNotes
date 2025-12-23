@@ -11,7 +11,7 @@
 ## Brute Force protection | acount locking |  Lock Out | rate limits
 
   - [ ]  Ensure the account has been locked after 3-5 incorrect attempts
-  - [ ] <mark style="background: #ADCCFFA6;">include your own login credentials</mark> at regular intervals throughout the wordlist. [[OLD/WEB/vulnerabilities/Authentication vulnerabilities/payload#IP block|example]] 
+  - [ ] <mark style="background: #ADCCFFA6;">include your own login credentials</mark> at regular intervals throughout the wordlist. [[unprocessed-obsidians/OLD/WEB/vulnerabilities/Authentication vulnerabilities/payload#IP block|example]] 
   - [ ] Explore similar endpoints (`/api/v3/sign-up`, `/Sing-up`, `/SignUp`,...)
   - [ ] Blank Characters in Code or Parameters (code=`1234%0a`)
   - [ ] append random parameters
@@ -46,7 +46,7 @@
 ### Resetting user passwords | Changing user passwords |  Forget Password
 - <mark style="background: #BBFABBA6;">Links are getting dynamically generated </mark>
 	- [ ] Parameter Tempering 
-		- [ ] [Password Poisening](https://portswigger.net/web-security/host-header/exploiting/password-reset-poisoning) (Link Poisoning) Attack (when links are getting created by a third party ) [[OLD/WEB/vulnerabilities/Authentication vulnerabilities/payload#Resetting user passwords#password reset poisoning via middleware|senario]]
+		- [ ] [Password Poisening](https://portswigger.net/web-security/host-header/exploiting/password-reset-poisoning) (Link Poisoning) Attack (when links are getting created by a third party ) [[unprocessed-obsidians/OLD/WEB/vulnerabilities/Authentication vulnerabilities/payload#Resetting user passwords#password reset poisoning via middleware|senario]]
 			- [ ] Test Host Header Injection 
 			- [ ] Test Host Header injection through middlewares (`X-Forwarded-Host`)
 - [ ] if you can **access directly without being logged in** as the victim user (example: usename can be provided within hidden field)
@@ -63,8 +63,8 @@
 - [ ] Second factor of authentication should not be **brute-force-able** 
 - [ ] Second factor of authentication should not be **removable**
 - [ ] Second factor of authentication should not be **Reusable** 
-- [ ] verification code on a separate page ->  *"logged in" state before code verification* [[OLD/WEB/vulnerabilities/Authentication vulnerabilities/payload#Bypassing two-factor authentication#simple bypass|senario]]
-- [ ]  *doesn't verify* that the *same user* is completing the second step [[OLD/WEB/vulnerabilities/Authentication vulnerabilities/payload#Bypassing two-factor authentication#broken logic|senario]]
+- [ ] verification code on a separate page ->  *"logged in" state before code verification* [[unprocessed-obsidians/OLD/WEB/vulnerabilities/Authentication vulnerabilities/payload#Bypassing two-factor authentication#simple bypass|senario]]
+- [ ]  *doesn't verify* that the *same user* is completing the second step [[unprocessed-obsidians/OLD/WEB/vulnerabilities/Authentication vulnerabilities/payload#Bypassing two-factor authentication#broken logic|senario]]
 - [ ] some checks are in *client side* ?
 	- [ ] EASY way: response manipulation
 	- [ ] HARD way: debug and analyse the client side code
@@ -143,7 +143,7 @@
 			- [ ] bypass checker function (e.g `https://default-host.com &@foo.evil-user.net#@bar.evil-user.net/`)
 			- [ ] if CORS on .site.com -> XSS on subdomains 
 		- [ ] if SSO works by **JSONP** and the JavaScript object is accessible **any other cross site** ->[ account takeover ](https://memoryleaks.ir/vulnerability-discovery-in-sso-authentication-scheme/)
-			- [ ] [[Notes/Authentication, Authorization, Access Control#indicators|Indicators of misconfig]]
+			- [ ] [[unprocessed-obsidians/Notes/Authentication, Authorization, Access Control#indicators|Indicators of misconfig]]
 				- [ ] check for leaked credentials
 				- [ ] change `Referer` headers  
 - [ ] is Authorization token, short lived and one-time use ?

@@ -1,7 +1,7 @@
 # Generic
 -> combination of <mark style="background: #FFB86CA6;">web application hacker's handbook </mark> and <mark style="background: #FFB86CA6;">jason's methodology</mark>
 ## Task Checklist
-
+/gitcom
 ### App Recon and analysis
 
 - [ ] Map visible content
@@ -13,7 +13,7 @@
 - [ ] Gather wordlists for specific techniology (Assetnote ones are excellent)
 - [ ] Map the attack surface (Spider)
 - [ ] Identify all javascript files for later analysis
-/gitcom
+
 ## Test handling of access
 ### Authentication
 - [ ] Test password quality rules
