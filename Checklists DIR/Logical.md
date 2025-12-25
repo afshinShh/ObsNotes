@@ -92,22 +92,44 @@
 ## 2.7 Dynamic Prices, Prices with Tolerance, or Referral Schemes
 
 ## 2.8 Discount Codes, Vouchers, Offers, Reward Points, and Gift Cards
-- [ ] 2.8.1 Enumeration and Guessing
+- [ ] 2.8.1 **Enumeration** and Guessing
 - [ ] 2.8.2 Vouchers and Offers Stacking
-- [ ] 2.8.3 Earning More Points or Cash Return than the Price when Buying an Item
+- [ ] 2.8.3 **Earning More Points or Cash Return than the Price** when Buying an Item
 - [ ] 2.8.4 Using Expired, Invalid, or Other Users' Codes
-- [ ] 2.8.5 State and Basket Manipulation
+- [ ] 2.8.5 State and **Basket Manipulation**
 	- [ ] 2.8.6 Refund Abuse
-- [ ] 2.8.7 Buy-X-Get-Y-Free
+- [ ] 2.8.7 **Buy-X-Get-Y-Free**
+	- [ ] not discounting the cheapest item in 3 for 2
+	- [ ] 3 for 2 
+		- [ ] can become 2 for 1 (free item counts as 3)
+		- [ ] can become 33% off the whole bascket (1 expensive + 2 cheap)
+		- [ ] can become 4 for 2 (adding 4 item instead of 3) 
+		- [ ] can become 3 for 1 due to logical issues
 - [ ] 2.8.8 Ordering Out of Stock or Unreleased Items
+	- e.g: when the out of stock items are cheaper
+		- [ ]  buying and cancelling to lower the target stock temporary
 - [ ] 2.8.9 Bypassing Other Restrictions
+	- [ ] abusing customer specific offers
+	- [ ] use one time voucher multiple time
 - [ ] 2.8.10 Point Transfer
 
 ## 2.9 Cryptography Issues
+- [ ] bruteforce the secret key
+- [ ] length-extension attack
+- [ ] use of forgeable delimeter
+	- e.g: ![[Pasted image 20251225233501.png]]
 ## 2.10 Downloadable and Virtual Goods
-
+- [ ] direct object reference attack (IDOR)
 ## 2.11 Hidden and Insecure Backend APIs
+- [ ] mobile or tablet app APIs 
+- [ ] access control issues
 
 ## 2.12 Using Test Data in Production Environment
+- [ ] change the HOST header to a knwon internal domain
+- [ ] debugging and test pages with juicy functionality
+- [ ] tokens, dummmy vaia
 
 ## 2.13 Currency Arbitrage in Deposit/Buy and Withdrawal/Refund
+- [ ] deposit in one currency and withdraw with another => if the methods are different 
+/git 
+- ![[Pasted image 20251225234133.png]]  
