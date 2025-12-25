@@ -168,8 +168,37 @@
 - [ ] post Auth redirect + login CSRF 
 	- [ ] ![[Pasted image 20250925183740.png]]
 
-# Session management #TODO
+# Session management 
 
+> **from my old notes**
 
-
-
+- [ ] Test tokens for meaning
+- [ ] Test tokens for predictability
+- [ ] Check for insecure transmission of tokens
+  - [ ] Missing Secure flag on cookies?
+  - [ ] Sent over HTTP?
+- [ ] Check for disclosure of tokens in logs and URL params
+- [ ] Check mapping of tokens to sessions(can they be reused?)
+- [ ] Check session termination
+  - [ ] Does logout fully invalidate the session token?
+  - [ ] Is there session rotation on login/logout/privilege change?
+  - [ ] Check session timeout enforcement (client/server).
+  - [ ] Token reuse across devices; device binding enforced?
+  - [ ] Cookie partitioning/CHIPS behavior in embedded/3rd‑party contexts.
+- [ ] Check for session fixation
+  - [ ] Are session tokens retained pre/post-authentication?
+  - [ ] Can a specific token be forced on a user?
+- [ ] Check for cross-site request forgery
+  - [ ] Presence and validation of Anti-CSRF tokens?
+  - [ ] Use of SameSite cookie attribute?
+    - Check if `Lax` or `Strict`. `None` requires `Secure`.
+  - [ ] Check Referer/Origin header validation.
+  - [ ] Try removing token parameter.
+  - [ ] Try switching request method (POST -> GET).
+  - [ ] Try changing Content-Type.
+  - [ ] Use Burp CSRF PoC generator.
+  - [ ] Test login CSRF and OAuth state parameter integrity.
+  - [ ] Validate `Origin` and `Sec-Fetch-*` headers on state‑changing requests.
+- [ ] Check cookie scope
+  - [ ] Domain and Path attributes too broad?
+  - [ ] HttpOnly flag missing?
