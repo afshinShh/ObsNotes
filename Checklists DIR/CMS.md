@@ -16,8 +16,8 @@
   - [ ] Check /wp-includes/ for server details
   - [ ] Look for debug logs: /wp-content/debug.log
   - [ ] Test non-existent paths for error messages revealing info
-  - [ ] #note use `wp-json` route to identify the publicly accessible routes of the plugins
-    - [ ] e.g `/wp-json/performance-monitor/v1/system_info`
+  > [!note] use `wp-json` route to identify the publicly accessible routes 
+    >> [!example] `/wp-json/performance-monitor/v1/system_info`
 - [ ] **Default pages exposure**
   - [ ] Access /readme.html, /wp-admin/upgrade.php, /wp-admin/install.php, /wp-mail.php, /wp-admin/setup-config.php
   - [ ] Note any misconfigurations or leftover files
@@ -38,8 +38,12 @@
   - [ ] Via REST API: /wp-json/wp/v2/users (list exposed users)
 - [ ] Check for exposed **xmlrpc.php**
   - [ ] Test accessibility: POST to /xmlrpc.php with system.listMethods
-> note 
+> [!note] XMLRPC is commonly used for  
+>> Remote content publishing
+>>Integration with mobile apps
+>> Communication with external services like Jetpack
 
+/gitco
 ## 2. Scanning
 - [ ] **Vulnerable plugins and themes**
   - [ ] Cross-reference enumerated plugins/themes with NVD or WPScan results for CVEs
@@ -60,8 +64,10 @@
   - [ ] Test contact forms by injecting malicious URLs in fields like Name/Cognome
   - [ ] Verify if auto-response emails include injected hyperlinks for phishing
 - [ ] **Server-Side Request Forgery (SSRF)** via xmlrpc.php
-  - [ ] Enumerate methods: POST with system.listMethods, look for pingback.ping
-  - [ ] Exploit: POST with pingback.ping to request internal/external resources (e.g., http://attacker-ip)
+  - [ ] <mark style="background: #FFB86CA6;">Enumerate methods</mark>: POST with `system.listMethods`, look for pingback.ping
+    - [ ]  ![[Pasted image 20260103152902.png]]
+  - [ ] Exploit: POST with `pingback.ping` to request internal/external resources 
+    - [ ] ![[Pasted image 20260103153027.png]]
 - [ ] **Server-Side DNS Exfiltration (Blind)**
   - [ ] Inject crafted inputs (e.g., email like test@attacker.oastify.com) in forms/plugins (e.g., HubSpot)
   - [ ] Monitor for outbound DNS queries confirming exfiltration
