@@ -15,19 +15,19 @@ curl -s https://example.com | grep -i '<meta name="generator"' | grep -o 'WordPr
   - [ ] Retrieve server headers: `curl -I https://example.com`
   - [ ] Check for PHP/Nginx/Apache versions in responses (e.g., on non-existent pages like /x.php)
 - [ ] **Information disclosure**
-  - [ ] Review robots.txt for disallowed paths
-  - [ ] Check /wp-includes/ for server details
-  - [ ] Look for debug logs: /wp-content/debug.log
+  - [ ] Review `robots.txt `for disallowed paths
+  - [ ] Check `/wp-includes/` for server details
+  - [ ] Look for debug logs:` /wp-content/debug.log`
   - [ ] Test non-existent paths for error messages revealing info
   > [!note] use `wp-json` route to identify the publicly accessible routes 
     >> [!example] `/wp-json/performance-monitor/v1/system_info`
 - [ ] **Default pages exposure**
-  - [ ] Access /readme.html, /wp-admin/upgrade.php, /wp-admin/install.php, /wp-mail.php, /wp-admin/setup-config.php
+  - [ ] Access `/readme.html`, `/wp-admin/upgrade.php`, `/wp-admin/install.php`, `/wp-mail.php`, `/wp-admin/setup-config.php`
   - [ ] Note any misconfigurations or leftover files
 - [ ] **Directory listing**
-  - [ ] Test directories like /wp-content/uploads/ for enabled listings
+  - [ ] Test directories like `/wp-content` and `/wp-content/uploads/`for enabled listings
 - [ ] **Enumerate plugins**
-  - [ ] Scan for plugin paths: 
+  - [ ] Scan for plugin paths: `wp-content/plugins/`
 ```bash
 curl -H 'Cache-Control: no-cache, no-store' -L -ik -s https://example.com/ | grep -E 'wp-content/plugins/' | sed -E 's,href=|src=,THIIIIS,g' | awk -F "THIIIIS" '{print $2}' | cut -d "'" -f2
 ```
@@ -37,7 +37,7 @@ curl -H 'Cache-Control: no-cache, no-store' -L -ik -s https://example.com/ | gre
 wpscan --url https://example.com --wp-content-dir /wp-content/ --enumerate vp --plugins-detection aggressive --api-token <token> --random-user-agent
 ```
 - [ ] **Enumerate themes**
-  - [ ] Scan for theme paths: 
+  - [ ] Scan for theme paths: `wp-content/themes`
 ```bash
 curl -s -X GET https://example.com | grep -E 'wp-content/themes' | sed -E 's,href=|src=,THIIIIS,g' | awk -F "THIIIIS" '{print $2}' | cut -d "'" -f2
 ```
@@ -68,11 +68,12 @@ for i in {1..100}; do curl -s -L -i http://example.com/?author=$i | grep -E -o "
   - [ ] Check for weak ciphers (RC4, 3DES, CBC modes)
 - [ ] **Missing security headers**
   - [ ] Inspect responses for absence of X-XSS-Protection, X-Frame-Options, Content-Security-Policy, etc.
+    - [ ] example of proper security headers: ![[Pasted image 20260103162624.png]] 
 - [ ] **CORS misconfiguration**
   - [ ] Test if Access-Control-Allow-Origin reflects arbitrary Origins
 - [ ] **Improper error handling**
-  - [ ] Trigger errors (e.g., via oEmbed or /wp-links-opml.php) to check for verbose disclosures
-  - [ ] Attempt to download debug logs
+  - [ ] Trigger errors (e.g., via oEmbed or `/wp-links-opml.php`) to check for verbose disclosures
+  - [ ] Attempt to download debug logs `/wp-content/debug.log`
 /gitcomm
 ## 3. Enumeration and Exploitation
 - [ ] **HyperLink Injection (HLI)** in plugins (e.g., Contact Form 7)
@@ -89,12 +90,12 @@ for i in {1..100}; do curl -s -L -i http://example.com/?author=$i | grep -E -o "
 - [ ] **Host Header Redirection**
   - [ ] Modify Host header in requests to check if redirects use it insecurely
   - [ ] Attempt to redirect to attacker-controlled domains
-
 - [ ] **Brute-force authentication**
-  - [ ] Via login form (no rate limits/CAPTCHA): Use Hydra `hydra -l <user> -P passwords.txt example.com http-post-form "/?wp-login.php:log=^USER^&pwd=^PASS^&wp-submit=Log+In:F=incorrect" -V`
+  - [ ] Via login form (no rate limits/CAPTCHA): `wp-login.php`
+    - [ ] `hydra -l <user> -P passwords.txt example.com http-post-form "/?wp-login.php:log=^USER^&pwd=^PASS^&wp-submit=Log+In:F=incorrect" -V`
   - [ ] Via xmlrpc.php: POST with **system.multicall** and **wp.getUsersBlogs** for credential validation
-  - [ ] ![[Pasted image 20260103154443.png]]
-   > [!example]
+    - [ ] ![[Pasted image 20260103154443.png]]
+     > [!example]
 ```xml
 POST /xmlrpc.php HTTP/1.1
 Host: domain-fake.com
