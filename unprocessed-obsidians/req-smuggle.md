@@ -73,6 +73,7 @@ Modern variations include:
    A
    X
    ```
+```
 
    Send this request, then send a normal request. If the normal request experiences a time delay, CL.TE might be present.
 
@@ -88,6 +89,7 @@ Modern variations include:
 
    X
    ```
+```
 
    Send this request, then send a normal request. If the normal request experiences a time delay, TE.CL might be present.
 
@@ -105,6 +107,7 @@ Modern variations include:
 
    G
    ```
+```
 
    Send twice. The second response should indicate an unrecognized method like `GPOST`.
 
@@ -128,6 +131,7 @@ Modern variations include:
 
 
    ```
+```
 
    Send twice. The second request should show the effect of the smuggled `GPOST`.
 
@@ -152,6 +156,7 @@ Modern variations include:
 
 
    ```
+```
 
    Send twice. The second request should show the effect of the smuggled `GPOST`, confirming that one server ignored the obfuscated `Transfer-encoding: cow` header.
 
@@ -334,7 +339,6 @@ mindmap
    ```
 
 4. **H2C Upgrade Smuggling Pattern**:
-
 ```
 GET / HTTP/1.1
 Host: vulnerable-website.com

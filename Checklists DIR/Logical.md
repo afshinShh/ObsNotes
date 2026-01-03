@@ -131,5 +131,5 @@
 
 ## 2.13 Currency Arbitrage in Deposit/Buy and Withdrawal/Refund
 - [ ] deposit in one currency and withdraw with another => if the methods are different 
-/git 
+
 - ![[Pasted image 20251225234133.png]]  

@@ -1,0 +1,27 @@
+
+- [ ] [**Order Types in Trading** (Overview from Nobitex article)](https://nobitex.ir/mag/order-types-in-trading/)
+  - [ ] **Basic Execution Orders** (Immediate or price-specific trades)
+    - [ ] **Market Order**: Executes immediately at current market price; prioritizes speed, risks slippage.
+    - [ ] **Limit Order**: Executes only at specified price or better; offers price control, may not fill if price doesn't reach.
+  - [ ] **Conditional Orders** (Activate based on price triggers for risk management)
+    - [ ] **Stop Order**: Becomes market/limit order when price hits trigger; used for entry/exit.
+      - [ ] **Stop-Market Order**: Triggers immediate market order; quick but slippage-prone.
+      - [ ] **Stop-Limit Order**: Triggers limit order; adds price control, risks non-execution.
+    - [ ] **Stop-Loss Order**: Sells to limit losses at set level; often market-based, prevents whipsaws with care.
+    - [ ] **Trailing Stop Order**: Adjusts stop dynamically with favorable moves; locks profits, adaptive.
+    - [ ] **Take Profit Orders** (Secure gains at target)
+      - [ ] **Take Profit Market Order**: Closes at profit via market; fast, potential slippage.
+      - [ ] **Take Profit Limit Order**: Closes via limit; precise, may miss if skipped.
+  - [ ] **Advanced Strategy Orders** (Combine multiple conditions or scale trades)
+    - [ ] **Scale Order**: Splits large trade into smaller limits at varying prices; reduces impact, gradual.
+    - [ ] **OCO (One Cancels the Other)**: Two linked orders; one executes, other cancels; manages scenarios.
+    - [ ] **Bracket Order**: Entry with take-profit and stop-loss; automated risk/reward.
+    - [ ] **Trigger Order**: Activates at target, partial fills ok; flexible for illiquid markets.
+  - [ ] **Execution Modifiers** (Control timing, completeness, or book placement)
+    - [ ] **Time in Force (TIF)**: Specifies order duration.
+      - [ ] **GTC (Good Till Canceled)**: Active until canceled; long-term.
+      - [ ] **Day Order**: Expires end of day; short-term.
+      - [ ] **IOC (Immediate or Cancel)**: Executes available, cancels rest; partial ok, urgent.
+      - [ ] **FOK (Fill or Kill)**: Full immediate execution or cancel; no partials.
+    - [ ] **AON (All or None)**: Full execution or none; no time pressure, avoids fragments.
+    - [ ] **Post-Only Order**: Adds to book without taking; maker-focused, cancels if matches.

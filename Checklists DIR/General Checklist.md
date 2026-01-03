@@ -509,7 +509,7 @@ A combination of several Hunter's methodology and the Web Application Hacker's H
   - [ ] Command injection in string fields
   - [ ] Path traversal in file operations
 
-### Server-Sent Events (SSE) Testing
+### Server-Sent Events (SSE) Testing #TODO
 
 - [ ] Identify SSE endpoints (`Content-Type: text/event-stream`)
 - [ ] Test for authentication bypass
@@ -550,3 +550,5 @@ A combination of several Hunter's methodology and the Web Application Hacker's H
   - SQLi: Comments (`/**/`), Encoding, Case Variation.
   - XSS: Obfuscation, different tags/events, encoding.
 - [ ] HTTP/2/3 behavior differences, domain fronting checks, SNI/Host mismatch.
+- [ ] *bypass the waf by injecting large dummy parameters*
+- [ ] *bypass the waf by uploading long dummy  injected data before the actual payload*  

@@ -22,5 +22,6 @@
 - [ ] authentication flow  -> ATO
 - [ ] GET-based CSRF 
 - [ ] server requester function + whitelist => SSRF
+# Response Splitting (CRLF) #TODO
 # Request Smuggling
 
