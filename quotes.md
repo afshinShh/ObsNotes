@@ -1,10 +1,10 @@
-
+> [!qoute]
 > “A little learning is a dangerous thing; Drink deep, or taste not the Pierian spring”
 > 
 >> **Alexander Pope**
 
-
-> “You must understand that there is more than one path to the top of the mountain”
+>[!qoute]
+>“You must understand that there is more than one path to the top of the mountain”
 > 
 > “It is difficult to understand the universe if you only study one planet”
 > 
@@ -17,3 +17,5 @@
 > “If you know the way broadly you will see it in everything.”
 >  
  >>  **Miyamoto Musashi**
+ 
+/gitcom

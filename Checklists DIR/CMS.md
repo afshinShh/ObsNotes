@@ -38,6 +38,7 @@
   - [ ] Via REST API: /wp-json/wp/v2/users (list exposed users)
 - [ ] Check for exposed **xmlrpc.php**
   - [ ] Test accessibility: POST to /xmlrpc.php with system.listMethods
+> note 
 
 ## 2. Scanning
 - [ ] **Vulnerable plugins and themes**
