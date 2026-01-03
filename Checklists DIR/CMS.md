@@ -21,6 +21,9 @@ curl -s https://example.com | grep -i '<meta name="generator"' | grep -o 'WordPr
   - [ ] Test non-existent paths for error messages revealing info
   > [!note] use `wp-json` route to identify the publicly accessible routes 
     >> [!example] `/wp-json/performance-monitor/v1/system_info`
+```bash
+curl -s example.com -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36" | jq -r '.routes | keys[]'
+```
 - [ ] **Default pages exposure**
   - [ ] Access `/readme.html`, `/wp-admin/upgrade.php`, `/wp-admin/install.php`, `/wp-mail.php`, `/wp-admin/setup-config.php`
   - [ ] Note any misconfigurations or leftover files
@@ -74,7 +77,7 @@ for i in {1..100}; do curl -s -L -i http://example.com/?author=$i | grep -E -o "
 - [ ] **Improper error handling**
   - [ ] Trigger errors (e.g., via oEmbed or `/wp-links-opml.php`) to check for verbose disclosures
   - [ ] Attempt to download debug logs `/wp-content/debug.log`
-/gitcomm
+
 ## 3. Enumeration and Exploitation
 - [ ] **HyperLink Injection (HLI)** in plugins (e.g., Contact Form 7)
   - [ ] Test contact forms by injecting malicious URLs in fields like Name/Cognome
@@ -154,3 +157,4 @@ Content-Type: text/xml
 - Use random user agents and proxies to avoid detection.
 - Reference WPScan API for vulnerability databases.
 - Focus on impactful issues in modern setups; avoid basic scans only.
+/gitcomm
