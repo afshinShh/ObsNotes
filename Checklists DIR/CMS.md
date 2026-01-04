@@ -20,6 +20,7 @@ curl -s https://example.com | grep -i '<meta name="generator"' | grep -o 'WordPr
   - [ ] Look for debug logs:` /wp-content/debug.log`
   - [ ] Test non-existent paths for error messages revealing info
   > [!note] use `wp-json` route to identify the publicly accessible routes 
+  > - remembetr that permalink must not be on plain (workaround ? -=> `?rest_route=`)
     >> [!example] `/wp-json/performance-monitor/v1/system_info`
 ```bash
 curl -s example.com -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36" | jq -r '.routes | keys[]'
@@ -157,4 +158,4 @@ Content-Type: text/xml
 - Use random user agents and proxies to avoid detection.
 - Reference WPScan API for vulnerability databases.
 - Focus on impactful issues in modern setups; avoid basic scans only.
-/gitcomm
+/gitcommi
