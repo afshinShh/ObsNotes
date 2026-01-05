@@ -1,5 +1,5 @@
 # Trader's Dictionary Checklist
-
+- ==visit this [url](https://www.babypips.com/forexpedia/topics) for more tems, categorized by their topic of discuss==
 ## Trading Terms
 - [ ] **Ask**: The price at which a trader is willing to sell an asset.
 - [ ] **Bid**: The price at which a trader is willing to buy a particular asset.
@@ -34,7 +34,7 @@
 	- An example of a market with high volatility: 
 	      ![[Pasted image 20260105115257.png]]
 	-  An example of a market with low volatility: ![[Pasted image 20260105115331.png]]
-## Order Types in Trading
+# Order Types in Trading
 - [Overview from Nobitex article](https://nobitex.ir/mag/order-types-in-trading/)
 
   - [ ] **Basic Execution Orders** (Immediate or price-specific trades)
