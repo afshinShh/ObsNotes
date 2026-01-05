@@ -133,3 +133,13 @@
 - [ ] deposit in one currency and withdraw with another => if the methods are different 
 
 - ![[Pasted image 20251225234133.png]]  
+# WSTG Payment Functionality
+
+### Payment Gateway Integration Methods
+> [!question] which one of these ?
+- [ ] Redirecting the user to a third-party payment gateway.
+- [ ] Loading a third-party payment gateway in an IFRAME on the application.
+- [ ] Having a HTML form that makes a cross-domain POST request to a third-party payment gateway.
+- [ ] Accepting the card details directly, and then making a POST from the application backend to the payment gateway’s API.
+### PCI DSS
+it applies to any system that “**stores**, **processes** or **transmits**” cardholder data (i.e, debit or credit card details)

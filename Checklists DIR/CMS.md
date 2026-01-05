@@ -158,4 +158,3 @@ Content-Type: text/xml
 - Use random user agents and proxies to avoid detection.
 - Reference WPScan API for vulnerability databases.
 - Focus on impactful issues in modern setups; avoid basic scans only.
-/gitcommi
