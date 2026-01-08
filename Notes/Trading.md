@@ -62,4 +62,3 @@
       - [ ] **FOK (Fill or Kill)**: Full immediate execution or cancel; no partials.
     - [ ] **AON (All or None)**: Full execution or none; no time pressure, avoids fragments.
     - [ ] **Post-Only Order**: Adds to book without taking; maker-focused, cancels if matches.
-/gitcomm

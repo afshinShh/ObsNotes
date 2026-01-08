@@ -143,3 +143,5 @@
 - [ ] Accepting the card details directly, and then making a POST from the application backend to the payment gateway’s API.
 ### PCI DSS
 it applies to any system that “**stores**, **processes** or **transmits**” cardholder data (i.e, debit or credit card details)
+
+/gitc
