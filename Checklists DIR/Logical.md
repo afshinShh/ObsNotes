@@ -144,4 +144,3 @@
 ### PCI DSS
 it applies to any system that “**stores**, **processes** or **transmits**” cardholder data (i.e, debit or credit card details)
 
-/gitc

