@@ -804,4 +804,3 @@ the reality behind the last three lies is that :
 - [ ] ==a way to make the back-end server respond to a request without waiting for the body to arrive== 
 	- [ ] Linux: [single-packet attack](https://portswigger.net/research/the-single-packet-attack-making-remote-race-conditions-local) on a static file on a target running nginx
 	- [ ] Windows: `CON, PRN, AUX, NUL, COM1, COM2, COM3, COM4, COM5, COM6, COM7...` as the name of the file
-/git
