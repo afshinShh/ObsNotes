@@ -436,4 +436,3 @@ Once the payload is written,you can execute arbitrary system commands via the be
 - Replace `redis` with the Redis container hostname or IP address (e.g., `127.0.0.1`, `redis-service`, or an internal IP)
 - The `--path-as-is` flag prevents cURL from normalizing the request path
 - The `Connection: keep-alive` header improves reliability but is not strictly required (but the response you will get might defer if you dont use it)
-/gitcomm
