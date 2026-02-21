@@ -27,13 +27,17 @@
 # C|SSTI (Client|Server side template injection)
 - [ ] **Detect** 
 	- [ ] in what context you are?
-		- [ ] Plaintext context (reflected) where you can directly input HTML 
-		      `freemarker=Hello ${7*7} =>  Hello 49`
-			- [ ] can you invoke Expression ? -> [[SSTI#Detect#[Template Expressions - Seclist ](https //github.com/danielmiessler/SecLists/blob/master/Fuzzing/template-engines-expression.txt) | Seclist FUZZing list ]]
-			- [ ] can you invoke some errors ? -> [[SSTI#Detect#Special characters | Special characters ]]
+		- [ ] Plaintext context (reflected) where you can directly input HTML (likely XSS)
+		      `render('Hello ' + username)` therefore  `?username=${7*7}` => ` Hello 49 `
 		- [ ] Code context
-		      `personal_greeting=username}}<tag> =>  Hello user01 <tag>`
+		      `greeting = getQueryParameter('greeting');`
+		      `engine.render("Hello {{"+greeting+"}}", data)`
+		       therefore
+		      `?greeting=data.username}}<tag>` => `Hello Carlos<tag>`
 			- [ ] break out of the template statement and inject HTML tag after it 
+	- [ ] can you invoke Expression ? -> [[SSTI#Detect#[Template Expressions - Seclist ](https //github.com/danielmiessler/SecLists/blob/master/Fuzzing/template-engines-expression.txt) | Seclist FUZZing list ]]
+	- [ ] can you invoke some errors ? -> [[SSTI#Detect#Special characters | Special characters ]]
+
 - [ ] **look for template** behavior -> [link to research](https://medium.com/@0xAwali/template-engines-injection-101-4f2fe59e5756)
 	- [ ] ![[Pasted image 20251029224436.png]]
 - [ ] **Exploit** 
