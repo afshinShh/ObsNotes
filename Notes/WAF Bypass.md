@@ -1,25 +1,40 @@
-# WAF Bypass Techniques
+** Table of Contents **
 
-A Web Application Firewall (WAF) is a security tool that protects web applications from various attacks by analyzing HTTP requests and applying rules to identify and block suspicious traffic. This document outlines effective techniques to bypass WAF protections during security assessments.
+- [WAFs](#WAFs)
+	- [WAF Overview](#WAF%20Overview)
+	- [Popular WAFs](#Popular%20WAFs)
+	- [Detection Methods](#Detection%20Methods)
+		- [Fingerprinting WAFs](#Fingerprinting%20WAFs)
+	- [Bypass Techniques](#Bypass%20Techniques)
+		- [1. Use Residential IPs](#1.%20Use%20Residential%20IPs)
+		- [2. Fortify Headless Browsers](#2.%20Fortify%20Headless%20Browsers)
+		- [3. Use Web Scraping APIs](#3.%20Use%20Web%20Scraping%20APIs)
+		- [4. Call the Origin Server Directly](#4.%20Call%20the%20Origin%20Server%20Directly)
+		- [5. Utilize WAF Solvers](#5.%20Utilize%20WAF%20Solvers)
+		- [6. Reverse Engineer JavaScript Challenges](#6.%20Reverse%20Engineer%20JavaScript%20Challenges)
+		- [7. CAPTCHA Bypass Techniques](#7.%20CAPTCHA%20Bypass%20Techniques)
+			- [Cloudflare Turnstile Bypass](#Cloudflare%20Turnstile%20Bypass)
+		- [8. Avoid Honeypot Traps](#8.%20Avoid%20Honeypot%20Traps)
+		- [9. Defeat Browser Fingerprinting](#9.%20Defeat%20Browser%20Fingerprinting)
+		- [10. TLS Fingerprinting Evasion](#10.%20TLS%20Fingerprinting%20Evasion)
+		- [11. Simulate Human Behavior](#11.%20Simulate%20Human%20Behavior)
+		- [12. Evading ML-Based WAFs](#12.%20Evading%20ML-Based%20WAFs)
+		- [SQL Injection Specific WAF Bypasses](#SQL%20Injection%20Specific%20WAF%20Bypasses)
+		- [XSS-Specific WAF Bypasses](#XSS-Specific%20WAF%20Bypasses)
+		- [GraphQL‑Specific WAF Bypasses](#GraphQL%E2%80%91Specific%20WAF%20Bypasses)
+	- [Advanced Techniques](#Advanced%20Techniques)
+		- [HTTP Protocol Level Bypasses](#HTTP%20Protocol%20Level%20Bypasses)
+			- [HTTP/2, HTTP/3 & Advanced Protocol Bypasses](#HTTP/2,%20HTTP/3%20&%20Advanced%20Protocol%20Bypasses)
+		- [SNI (Server Name Indication) Manipulation & Evasion](#SNI%20(Server%20Name%20Indication)%20Manipulation%20&%20Evasion)
+		- [Domain Fronting](#Domain%20Fronting)
+	- [Tools](#Tools)
+		- [WAF Fingerprinting Tools](#WAF%20Fingerprinting%20Tools)
+		- [WAF Testing Tools](#WAF%20Testing%20Tools)
+		- [WAF Evasion Tools](#WAF%20Evasion%20Tools)
 
-```mermaid
-graph TD
-    A[Client] -->|HTTP Request| B[WAF]
-    B -->|Filtered Request| C[Web Application]
-    C -->|Response| D[WAF]
-    D -->|Filtered Response| A
+# WAFs
 
-    E[Attacker] -->|Malicious Request| B
-    B -->|Blocked| E
-
-    F[Attacker with<br>Bypass Techniques] -->|Obfuscated<br>Malicious Request| B
-    B -->|Request Appears Legitimate| C
-
-    style B fill:#f9a,stroke:#333,color:#333
-    style E fill:#f66,stroke:#333,color:#333
-    style F fill:#f66,stroke:#333,color:#333
-```
-
+- A Web Application Firewall (WAF) is a security tool that protects web applications from various attacks by analyzing HTTP requests and applying rules to identify and block suspicious traffic.
 ## WAF Overview
 
 WAFs operate in two primary models:
@@ -47,34 +62,6 @@ WAFs operate in two primary models:
 - **Coraza** - Modern open‑source WAF written in Go
 
 ## Detection Methods
-
-```mermaid
-flowchart LR
-    A[WAF Detection Methods] --> B[Control Page Analysis]
-    A --> C[HTTP Header Inspection]
-    A --> D[Cookie Analysis]
-    A --> E[Route Examination]
-    A --> F[JavaScript Object Analysis]
-
-    B --> B1[Block Pages]
-    B --> B2[Challenge Pages]
-    B --> B3[CAPTCHA Systems]
-
-    C --> C1[Custom Security Headers]
-    C --> C2[Server Headers]
-    C --> C3[CDN Markers]
-
-    D --> D1[WAF-specific Cookies]
-    D --> D2[Challenge Cookies]
-
-    E --> E1[CDN Paths]
-    E --> E2[WAF Asset Routes]
-
-    F --> F1[Protection Objects]
-    F --> F2[Challenge Scripts]
-
-    style A fill:#f96,stroke:#333,stroke-width:2px,color:#333
-```
 
 1. **Inspect Control Pages** - Many WAFs display specific pages when blocking access
 2. **Analyze HTTP Headers** - Check response headers for WAF-specific indicators
@@ -109,13 +96,13 @@ Some specific fingerprints of common WAFs:
 
 Headless browsers often set special headers or variables that help WAFs recognize them as automation tools. Use the following libraries to make headless browsers appear more human-like:
 
-- `undetected_chromedriver` for Selenium
-- `puppeteer-extra-plugin-stealth` for Puppeteer/Playwright
-- `playwright-extra` with `playwright-extra-plugin-stealth` for Playwright
+- [ ] `undetected_chromedriver` for Selenium
+- [ ] `puppeteer-extra-plugin-stealth` for Puppeteer/Playwright
+- [ ] `playwright-extra` with `playwright-extra-plugin-stealth` for Playwright
 
 ### 3. Use Web Scraping APIs
 
-Services like ZenRows implement sophisticated anti-bot techniques including:
+Services like **ZenRows** implement sophisticated anti-bot techniques including:
 
 - Premium proxies
 - JS rendering
@@ -125,11 +112,11 @@ Services like ZenRows implement sophisticated anti-bot techniques including:
 
 ### 4. Call the Origin Server Directly
 
-- Use services like Shodan or tools like CloudFlair to find the origin server IP
-- Forge requests to make them appear as coming from a valid domain
-- Bypass the WAF layer completely by contacting the server directly
-- Check historical DNS records (e.g., with `securitytrails` API) – 2024 research found ~40 % of Fortune‑100 origins exposed via stale A records
-- Check `Alt-Svc` leakage for HTTP/3, misconfigured Workers/Edge redirects exposing bucket hostnames
+- [ ] Use services like ==Shodan== or tools like ==CloudFlair== to find the origin server IP
+- [ ] Forge requests to make them appear as coming from a valid domain
+- [ ] Bypass the WAF layer completely by ==contacting the server directly==
+- [ ] ==Check historical DNS records (e.g., with `securitytrails` API)== – 2024 research found ~40 % of Fortune‑100 origins exposed via stale A records
+- [ ] Check ==`Alt-Svc` leakage for HTTP/3==, misconfigured Workers/Edge redirects exposing bucket hostnames
 
 ```mermaid
 sequenceDiagram
@@ -155,16 +142,16 @@ sequenceDiagram
 
 ### 6. Reverse Engineer JavaScript Challenges
 
-- Analyze injected JavaScript snippets used by WAFs
-- Understand how the challenge works
-- Create custom solutions that satisfy the challenge requirements
+- [ ] Analyze injected JavaScript snippets used by WAFs
+- [ ] Understand how the challenge works
+- [ ] Create custom solutions that satisfy the challenge requirements
 
 ### 7. CAPTCHA Bypass Techniques
 
-- **Cloudflare Turnstile** – low‑friction CAPTCHA replacement; see `cloudflare_turnstile_bypass` PoC (GUI‑driven, YMMV)
-- **Use CAPTCHA solving services** - Though often expensive and not always reliable
-- **Utilize automated CAPTCHA solvers** - Various libraries exist for different CAPTCHA types
-- **Implement prevention measures** - Use techniques that prevent CAPTCHAs from appearing
+- [ ] **Cloudflare Turnstile** – low‑friction CAPTCHA replacement; see `cloudflare_turnstile_bypass` PoC (GUI‑driven, YMMV)
+- [ ] **Use CAPTCHA solving services** - Though often expensive and not always reliable
+- [ ] **Utilize automated CAPTCHA solvers** - Various libraries exist for different CAPTCHA types
+- [ ] **Implement prevention measures** - Use techniques that prevent CAPTCHAs from appearing
 
 #### Cloudflare Turnstile Bypass
 
@@ -190,35 +177,67 @@ setTimeout(() => submitWithToken(token), 60000);
 
 ### 8. Avoid Honeypot Traps
 
-- Don't interact with invisible elements (`display: none`)
-- Skip elements with zero opacity or positioned off-screen
-- Analyze HTML structure to identify potential honeypots
-- Avoid filling hidden form fields
+- [ ] Don't interact with invisible elements (`display: none`)
+- [ ] Skip elements with zero opacity or positioned off-screen
+- [ ] Analyze HTML structure to identify potential honeypots
+- [ ] Avoid filling hidden form fields
 
 ### 9. Defeat Browser Fingerprinting
 
-- Randomize or spoof canvas fingerprinting results
-- Use plugins that add noise to fingerprint data
-- Modify user agent and other HTTP headers periodically
-- Spoof hardware and software features to appear as different devices
+- [ ] Randomize or spoof canvas fingerprinting results
+- [ ] Use plugins that add noise to fingerprint data
+- [ ] Modify user agent and other HTTP headers periodically
+- [ ] Spoof hardware and software features to appear as different devices
 
 ### 10. TLS Fingerprinting Evasion
 
-- Modify TLS parameters during handshake
-- Use libraries that allow customization of SSL/TLS configuration
-- Match TLS fingerprints of legitimate browsers
-- Randomise both JA3 and JA4 fingerprints using libraries such as `noble-tls` or `ja4py`
-- Consider using the `abuse-ssl-bypass-waf` tool to find supported SSL/TLS ciphers
-- Align cipher suites, ALPN order, and signature algorithms with target browser versions.
+- [ ] Modify TLS parameters during handshake
+- [ ] Use libraries that allow customization of SSL/TLS configuration
+- [ ] Match TLS fingerprints of legitimate browsers
+- [ ] Randomise both JA3 and JA4 fingerprints using libraries such as `noble-tls` or `ja4py`
+- [ ] Consider using the `abuse-ssl-bypass-waf` tool to find supported SSL/TLS ciphers
+- [ ] Align cipher suites, ALPN order, and signature algorithms with target browser versions.
 
 ### 11. Simulate Human Behavior
 
-- Add random delays between requests
-- Follow logical navigation patterns
-- Implement mouse movements and scrolling behavior
-- Interact with page elements naturally
-- Vary request patterns and timing
-- Use browser engines (Playwright/Selenium) with stealth plugins to match DOM APIs and canvas behavior.
+- [ ] Add random delays between requests
+- [ ] Follow logical navigation patterns
+- [ ] Implement mouse movements and scrolling behavior
+- [ ] Interact with page elements naturally
+- [ ] Vary request patterns and timing
+- [ ] Use browser engines (Playwright/Selenium) with stealth plugins to match DOM APIs and canvas behavior.
+### 12. Evading ML-Based WAFs
+
+```bash
+# 1. Semantic Evasion: Use synonyms and paraphrasing
+# Instead of: <script>alert(1)</script>
+# Try: <svg/onload=self[atob('YWxlcnQ='):](1)>
+
+# 2. Adversarial Token Injection: Add noise tokens
+<script>/*benign benign benign benign benign*/alert(1)</script>
+
+# 3. Embedding Space Manipulation: Use non-ASCII lookalikes
+<ѕcript>alert(1)</ѕcript>  # Cyrillic 's' characters
+
+# 4. Feature Engineering Bypass: Target low-weight features
+# AI WAFs often ignore certain request parts
+POST /upload
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary
+
+------WebKitFormBoundary
+Content-Disposition: form-data; name="file"; filename="<script>alert(1)</script>"
+# Payload in filename field (often not heavily weighted)
+
+# 5. Context Confusion: Mix attack vectors
+# Combine SQL injection syntax with XSS to confuse classifiers
+'><script>alert(1)</script>' UNION SELECT 1--
+```
+
+**Tools:**
+
+- `ml-waf-evasion-toolkit` (2024) - Research tool for testing ML WAF robustness
+- `adversarial-payload-generator` - Generates adversarial examples against WAF classifiers
+
 
 ```mermaid
 mindmap
@@ -249,73 +268,44 @@ mindmap
       Proxy Rotators
       Web Scraping APIs
 ```
+### SQL Injection Specific WAF Bypasses
 
-### 12. SQL Injection Specific WAF Bypasses
-
-- **Case variation**: `SeLeCt`, `UnIoN` instead of `SELECT`, `UNION`
-- **Comment injection**: `UN/**/ION SE/**/LECT` to break up keywords
-- **Alternate encodings**:
-  - URL encoding: `UNION` → `%55%4E%49%4F%4E`
-  - Hex encoding: `SELECT` → `0x53454C454354`
-  - Unicode encoding
-- **Whitespace manipulation**: `UNION/**/SELECT` or using tabs/newlines/carriage returns
-- **Numeric representations**:
-  - `1` → `1-0`, `1+0`, `CHAR(49)`
-- **String concatenation**:
-  - MySQL: `CONCAT('a','b')`
-  - Oracle: `'a'||'b'`
-  - MSSQL: `'a'+'b'`
-- **Null byte injection**:
+- [ ] **Case variation**: `SeLeCt`, `UnIoN` instead of `SELECT`, `UNION`
+- [ ] **Comment injection**: `UN/**/ION SE/**/LECT` to break up keywords
+- [ ] **Alternate encodings**:
+  - [ ] URL encoding: `UNION` → `%55%4E%49%4F%4E`
+  - [ ] Hex encoding: `SELECT` → `0x53454C454354`
+  - [ ] Unicode encoding
+- [ ] **Whitespace manipulation**: `UNION/**/SELECT` or using tabs/newlines/carriage returns
+- [ ] **Numeric representations**:
+  - [ ] `1` → `1-0`, `1+0`, `CHAR(49)`
+- [ ] **String concatenation**:
+  - [ ] MySQL: `CONCAT('a','b')`
+  - [ ] Oracle: `'a'||'b'`
+  - [ ] MSSQL: `'a'+'b'`
+- [ ] **Null byte injection**:
   ```
   %00' UNION SELECT password FROM Users WHERE username='xyz'--
   ```
-- **Double encoding**:
+- [ ] **Double encoding**:
   ```
   First pass: / → %2f
   Second pass: %2f → %252f
   ```
-- **SQLMAP tamper scripts**:
-  - Use Atlas tool for suggesting tamper scripts
-  - Try multiple tamper scripts in combination
-  - Customize tamper scripts for specific WAFs
-- **JSON-Based SQL Injection** (CVE-2023-50969):
-  - Many WAFs (AWS, Cloudflare, F5, Imperva) don't properly support JSON syntax in SQL
-  - Example: `{"id": {"$gt": "' OR 1=1--"}}`
-  - Use SQLMap with JSON parameter support for exploitation
-- Leverage mixed encodings (half‑width Unicode, overlong UTF‑8), embedded comments, and case folding differences.
-
-```mermaid
-graph TD
-    A[SQL Injection WAF Bypass] --> B[Syntax Manipulation]
-    A --> C[Character Encodings]
-    A --> D[Alternative Representations]
-    A --> E[SQLMap Tamper Scripts]
-
-    B --> B1[Case Variation<br>SeLeCt]
-    B --> B2[Comment Insertion<br>UN/**/ION]
-    B --> B3[Whitespace Manipulation<br>UNION++++SELECT]
-
-    C --> C1[URL Encoding<br>%55%4E%49%4F%4E]
-    C --> C2[Hex Encoding<br>0x53454C454354]
-    C --> C3[Double Encoding<br>%252f]
-    C --> C4[Unicode Encoding]
-
-    D --> D1[String Alternatives]
-    D --> D2[Numeric Alternatives]
-    D --> D3[JSON-Based Injection]
-
-    E --> E1[Multiple Script Chaining]
-    E --> E2[WAF-Specific Scripts]
-
-    style A fill:#f96,stroke:#333,stroke-width:2px,color:#333
-    style B,C,D,E fill:#bbf,stroke:#333,color:#333
-```
-
-### 13. XSS-Specific WAF Bypasses
+- [ ] **SQLMAP tamper scripts**:
+  - [ ] Use Atlas tool for suggesting tamper scripts
+  - [ ] Try multiple tamper scripts in combination
+  - [ ] Customize tamper scripts for specific WAFs
+- [ ] **JSON-Based SQL Injection** (CVE-2023-50969):
+  - [ ] Many WAFs (AWS, Cloudflare, F5, Imperva) don't properly support JSON syntax in SQL
+  - [ ] Example: `{"id": {"$gt": "' OR 1=1--"}}`
+  - [ ] Use SQLMap with JSON parameter support for exploitation
+- [ ] Leverage mixed encodings (half‑width Unicode, overlong UTF‑8), embedded comments, and case folding differences.
+### XSS-Specific WAF Bypasses
 
 - **Context-Aware Payloads**: Craft payloads based on where they will be inserted:
 
-  ```
+  ```js
   # HTML Context
   <img src=x onerror=alert(1)>
 
@@ -369,33 +359,85 @@ graph TD
   ```
 
 - **CSP Bypass Techniques**:
-  - JSONP endpoint abuse: `<script src="https://allowed-domain.com/jsonp?callback=alert(1)"></script>`
-  - DOM clobbering: `<form id=self><input name=location>` then `self.location`
-  - Using allowed domains: Find script sources whitelisted in CSP that can be abused
-  - Abuse JSONP, postMessage, or gadget endpoints on allowed origins; check Trusted Types gaps.
+  - [ ] ==JSONP== endpoint abuse: `<script src="https://allowed-domain.com/jsonp?callback=alert(1)"></script>`
+  - [ ] ==DOM clobbering==: `<form id=self><input name=location>` then `self.location`
+  - [ ] Using allowed domains: Find ==script sources whitelisted== in CSP that can be abused
+  - [ ] Abuse JSONP, ==postMessage==, or ==gadget endpoints== on allowed origins; check Trusted Types gaps.
 
 - **Polyglot XSS**: Payloads that work in multiple contexts:
   ```
   jaVasCript:/*-/*`/*\`/*'/*"/**/(/* */oNcliCk=alert() )//%0D%0A%0D%0A//</stYle/</titLe/</teXtarEa/</scRipt/--!>\x3csVg/<sVg/oNloAd=alert()//>\x3e
   ```
 
-### 14. HTTP Protocol Level Bypasses
+### GraphQL‑Specific WAF Bypasses
 
-- **HTTP Method Obfuscation**:
-  - Using uncommon HTTP methods
-  - Modifying case of HTTP methods (e.g., `gEt` instead of `GET`)
-  - Adding tabs or spaces before HTTP methods
+- [ ] **Introspection & alias spamming**: use deeply nested aliases to evade depth limits.
+- [ ] **Batch operations**: bundle many queries in one request to sneak payloads through superficial query‑string filters.
+- [ ] **Query name tampering**: mask malicious fields behind benign names.
+- **Tools**: `graphql‑cop`, `inql`, `Escape p‑cli` for automated fuzzing.
+	- Test batched queries with differing operation names, file upload scalars, and custom directives; many WAFs only parse shallow GraphQL.
 
-- **Request Header Manipulation**:
-  - Adding excessive headers to confuse WAF processing
-  - Using duplicate headers with different values
-  - Adding headers that make the request appear to come from internal networks or spoof identity. Many applications, especially behind misconfigured reverse proxies, trust headers like `X-Forwarded-For` or `X-Forwarded-Host` to determine the client's IP or the requested host. Manipulating these can lead to various vulnerabilities:
-    - Password Reset Poisoning: Injecting headers like `X-Forwarded-Host: attacker.com` can cause the application to generate password reset links pointing to the attacker's domain.
-    - Bypassing IP Restrictions: Using `X-Forwarded-For: <trusted_ip>` or similar headers can bypass IP-based access controls if the server trusts the header.
-    - Open Redirects: Manipulating host-related headers (`X-Forwarded-Host`, `Referer`) can redirect users to malicious sites.
-    - SSRF: Headers like `X-Forwarded-For` or `X-Real-IP` can be manipulated to target internal IPs (e.g., `169.254.169.254` for AWS metadata service).
-  - Common Headers for Spoofing/Bypass: Attackers may use a variety of headers to manipulate server behavior or bypass WAF rules. Some common examples include:
+## Advanced Techniques
+
+- [ ] **HTTP Request Manipulation**:
+  - [ ] **Multiple Content-Encoding Headers**: Send multiple headers with conflicting values
+    Content-Encoding: invalid
+    Content-Encoding: gzip
+  - [ ] ==**8k Bypass** ==: Overloading request parameters to overwhelm WAF processing
+  - [ ] **Unicode Normalization Exploitation**: Using characters that normalize to malicious values
     ```
+    # Using NFKD normalization forms
+    unicodedata.normalize('NFKD', payload)
+    ```
+
+- **WAF Fuzzing Automation**:
+  - [ ] Using tools like "Wafer" to automate WAF bypass discovery
+  - [ ] Systematically testing edge cases in WAF rule processing
+  - [ ] Combining multiple evasion techniques in automated sequences
+  - [ ] Add feedback‑driven payload evolution (genetic algorithms) to evade ML‑based detections.
+
+- [ ] **Advanced Encoding Techniques**:
+  - [ ] **HTML Tag Encodings**: Injecting symbols at specific points
+  - [ ] **Specialized DOM Events**: Triggering DOM events that bypass filtering
+  - [ ] **Double Unicode Escaping**: `\u00\u0036\u0031` for character '1'
+  - [ ] **MIME Smuggling**: multipart boundary tricks, mixed `Content‑Type` declarations through chained proxies.
+
+- [ ] **IP Fragmentation Attacks**:
+  - [ ] Fragment HTTP requests across multiple packets
+  - [ ] WAFs may reassemble these differently than the target server
+  - [ ] Beware of modern middleboxes normalizing or dropping fragments; measure viability before use.
+
+- [ ] **Timing-Based Techniques**:
+  - [ ] Leveraging WAF timeout discrepancies
+  - [ ] Sending requests when WAF processing is at peak load
+  - [ ] Use request coalescing and long‑lived HTTP/2 streams to alter inspection timing.
+
+- [ ] **Machine Learning-Based Evasion**:
+  - [ ] Using ML to generate payloads that evade detection
+  - [ ] Adjusting payloads based on WAF feedback
+  - [ ] Gradually evolving attack patterns to avoid signature detection
+  - [ ] Cloudflare **AI WAF Attack Score** can be tricked by embedding payloads in lesser‑weighted features (e.g., multipart filenames)
+  - [ ] Vary entropy and payload tokenization to mislead n‑gram/embedding models.
+
+- [ ] **Browser Bugs Exploitation**:
+  - [ ] Leveraging browser-specific parsing quirks
+  - [ ] Using differences between how WAFs and browsers interpret content
+### HTTP Protocol Level Bypasses
+
+- [ ] **HTTP Method Obfuscation**:
+  - [ ] Using uncommon HTTP methods
+  - [ ] Modifying case of HTTP methods (e.g., `gEt` instead of `GET`)
+  - [ ] Adding tabs or spaces before HTTP methods
+
+- [ ] **Request Header Manipulation**:
+  - [ ] Adding ==excessive headers== to confuse WAF processing
+  - [ ] Using ==duplicate headers== with different values
+  - [ ] Adding headers that make the request appear to come from internal networks or spoof identity. Many applications, especially behind misconfigured reverse proxies, trust headers like `X-Forwarded-For` or `X-Forwarded-Host` to determine the client's IP or the requested host. Manipulating these can lead to various vulnerabilities:
+    - [ ] **Password Reset Poisoning**: Injecting headers like `X-Forwarded-Host: attacker.com` can cause the application to generate password reset links pointing to the attacker's domain.
+    - [ ] **Bypassing IP Restrictions**: Using `X-Forwarded-For: <trusted_ip>` or similar headers can bypass IP-based access controls if the server trusts the header.
+    - [ ] **Open Redirects**: Manipulating host-related headers (`X-Forwarded-Host`, `Referer`) can redirect users to malicious sites.
+    - [ ] **SSRF**: Headers like `X-Forwarded-For` or `X-Real-IP` can be manipulated to target internal IPs (e.g., `169.254.169.254` for AWS metadata service).
+  - Common Headers for Spoofing/Bypass:
     X-Forwarded-Host: attacker.com
     X-Forwarded-For: 127.0.0.1
     X-Client-IP: 127.0.0.1
@@ -407,24 +449,21 @@ graph TD
     Forwarded: for=127.0.0.1;host=attacker.com
     Referer: attacker.com
     Origin: null / attacker.com
-    # And many variations like X-Forwarded, X-Forwarded-By, etc.
-    ```
+    And many variations like X-Forwarded, X-Forwarded-By, etc.
 
-- **HTTP Parameter Pollution**:
-  - Using multiple parameters with the same name
+- [ ] **HTTP Parameter Pollution**:
+  - [ ] Using multiple parameters with the same name
 
-  ```
-  ?id=safe&id=malicious
-  ```
+`  ?id=safe&id=malicious`
 
-  - Mix sources (query, body, headers, cookies) to exploit precedence ambiguities across proxies/gateways.
+  - [ ] Mix sources (query, body, headers, cookies) to exploit precedence ambiguities across proxies/gateways.
 
-- **HTTP RFC Inconsistencies**:
-  - Exploiting differences in how servers handle HTTP specification
-  - Using newline variations (CR, LF, CRLF)
-  - Adding unexpected line breaks in headers
+- [ ] **HTTP RFC Inconsistencies**:
+  - [ ] Exploiting differences in how servers handle HTTP specification
+  - [ ] Using newline variations (==CR, LF, CRLF==)
+  - [ ] Adding ==unexpected line breaks== in headers
 
-- **Host Header Spoofing**:
+- [ ] **Host Header Spoofing**:
   - The `Host` header specifies the hostname the client wants to connect to, crucial for virtual hosting and reverse proxies.
   - If a WAF/proxy relies solely on the `Host` header for filtering, it can be bypassed by sending a legitimate `Host` header value while the actual connection (e.g., SNI in TLS, IP address) points to a blocked or different target.
   - **Mechanism**:
@@ -433,124 +472,46 @@ graph TD
     3. The HTTP `Host` header is set to `legit.example.net` (a domain allowed by the WAF).
     4. The WAF sees `Host: legit.example.net` and may allow the request, which is then routed to `evil.example.com` by the underlying infrastructure if it uses the `Host` header for routing or if the IP was already resolved to `evil.example.com`.
 
-  - **Example with `curl`**:
-
-    ```bash
+> [!example ] **Example with `curl`**:
+```bash
     # SNI will be evil.example.com (matching the URL)
     # Host header is spoofed to legit.example.net
     curl -H "Host: legit.example.net" https://evil.example.com
-    ```
-
-    ```mermaid
-    sequenceDiagram
-        participant Alice as Alice (Attacker)
-        participant Proxy as WAF/Proxy
-        participant TargetServer as evil.example.com
-        participant AllowedServer as legit.example.net
-
-        Alice->>Proxy: TLS Handshake (SNI: evil.example.com, connects to IP of evil.example.com)
-        Proxy-->>TargetServer: Forwards TLS Handshake
-        TargetServer-->>Proxy: TLS Handshake Response
-        Proxy-->>Alice: TLS Handshake Response
-
-        Alice->>Proxy: HTTP Request (Host: legit.example.net) [Encrypted in TLS]
-        Note over Proxy: Proxy inspects Host header 'legit.example.net' (Allowed)
-        Proxy->>TargetServer: HTTP Request (Host: legit.example.net)
-        TargetServer->>Proxy: HTTP Response
-        Proxy->>Alice: HTTP Response
-    ```
-
-  - **Applicability**:
-    - Bypasses filters that only check the `Host` header.
-    - Can bypass restrictions like file upload size limits if the spoofed `Host` points to a domain with fewer restrictions.
+```
   - **Protection**:
     - WAFs should verify that the hostname in the SNI and the `Host` header are identical.
     - If they mismatch, the request should be blocked (e.g., Fortinet's "Domain Fronting Protection").
     - This check prevents the simple Host Header Spoofing described.
     - Enforce strict ALPN and certificate SAN checks; for HTTP/2 enforce `:authority` ≈ SNI.
 
-### 15. Advanced Techniques
 
-- **HTTP Request Manipulation**:
-  - **Multiple Content-Encoding Headers**: Send multiple headers with conflicting values
-    ```
-    Content-Encoding: invalid
-    Content-Encoding: gzip
-    ```
-  - **8k Bypass**: Overloading request parameters to overwhelm WAF processing
-  - **Unicode Normalization Exploitation**: Using characters that normalize to malicious values
-    ```
-    # Using NFKD normalization forms
-    unicodedata.normalize('NFKD', payload)
-    ```
+#### HTTP/2, HTTP/3 & Advanced Protocol Bypasses
 
-- **WAF Fuzzing Automation**:
-  - Using tools like "Wafer" to automate WAF bypass discovery
-  - Systematically testing edge cases in WAF rule processing
-  - Combining multiple evasion techniques in automated sequences
-  - Add feedback‑driven payload evolution (genetic algorithms) to evade ML‑based detections.
-
-- **Advanced Encoding Techniques**:
-  - **HTML Tag Encodings**: Injecting symbols at specific points
-  - **Specialized DOM Events**: Triggering DOM events that bypass filtering
-  - **Double Unicode Escaping**: `\u00\u0036\u0031` for character '1'
-  - **MIME Smuggling**: multipart boundary tricks, mixed `Content‑Type` declarations through chained proxies.
-
-- **IP Fragmentation Attacks**:
-  - Fragment HTTP requests across multiple packets
-  - WAFs may reassemble these differently than the target server
-  - Beware of modern middleboxes normalizing or dropping fragments; measure viability before use.
-
-- **Timing-Based Techniques**:
-  - Leveraging WAF timeout discrepancies
-  - Sending requests when WAF processing is at peak load
-  - Use request coalescing and long‑lived HTTP/2 streams to alter inspection timing.
-
-- **Machine Learning-Based Evasion**:
-  - Using ML to generate payloads that evade detection
-  - Adjusting payloads based on WAF feedback
-  - Gradually evolving attack patterns to avoid signature detection
-  - Cloudflare **AI WAF Attack Score** can be tricked by embedding payloads in lesser‑weighted features (e.g., multipart filenames)
-  - Vary entropy and payload tokenization to mislead n‑gram/embedding models.
-
-- **Browser Bugs Exploitation**:
-  - Leveraging browser-specific parsing quirks
-  - Using differences between how WAFs and browsers interpret content
-
-### 16. HTTP/2, HTTP/3 & Advanced Protocol Bypasses
-
-- **HTTP/2 `:authority` Header Bypass**:
-  - HTTP/2 replaces the `Host` header with the `:authority` pseudo-header for the target URI. The `:authority` field includes the hostname and optionally the port.
-  - WAFs/proxies not correctly parsing the binary and compressed HTTP/2 protocol may fail to extract or compare the `:authority` field with the SNI.
-  - This can bypass domain fronting or `Host` header validation checks that rely on HTTP/1.1's `Host` header.
-  - For instance, some WAFs' domain fronting protection mechanisms may only be effective for HTTP/1.1 and not for HTTP/2.
-  - Example (`curl` automatically uses `:authority` for HTTP/2 when a `Host` header is provided):
-    ```bash
+- [ ] **HTTP/2 ==`:authority`== Header Bypass**:
+  - [ ] HTTP/2 replaces the `Host` header with the `:authority` pseudo-header for the target URI. The `:authority` field includes the hostname and optionally the port.
+  - [ ] WAFs/proxies not correctly parsing the binary and compressed HTTP/2 protocol may fail to extract or compare the `:authority` field with the SNI.
+  - [ ] This can bypass domain fronting or `Host` header validation checks that rely on HTTP/1.1's `Host` header.
+  - [ ] For instance, some WAFs' domain fronting protection mechanisms may only be effective for HTTP/1.1 and not for HTTP/2.
+  > [!example] Example (`curl` automatically uses `:authority` for HTTP/2 when a `Host` header is provided):
+```bash
     curl --http2 -H "Host: legit-looking-domain.com" https://actual-target-server.com/index.html
-    ```
+```
 
 - **HTTP/3 (QUIC) Bypass**:
   - HTTP/3 operates over QUIC (UDP), which multiplexes streams and integrates TLS 1.3+.
   - If a WAF or proxy does not support or deeply inspect QUIC/HTTP/3 traffic, it cannot analyze the encrypted stream to apply policies based on HTTP content or SNI (within QUIC's TLS handshake).
   - Enterprises may block outgoing UDP to non-standard ports, but HTTP/3 typically uses 443/UDP. If allowed, it can be a bypass vector.
   - Servers can announce HTTP/3 support via the `Alt-Svc` HTTP header in responses to HTTP/1.1 or HTTP/2 requests.
-  - Example (`curl`):
-    ```bash
+> [!example] Example (`curl`):
+```bash
     curl --http3 https://example.net
-    ```
+```
 
 - **HTTP/2 Rapid Reset flood** (CVE‑2023‑44487): send a burst of `RST_STREAM` frames to overwhelm back‑ends while front‑end WAFs proxy at HTTP/1.1.
 - **HTTP/2 CONTINUATION Flooding** (2024 research): stress header compression/HPACK handling on middleboxes.
 
-### 17. GraphQL‑Specific WAF Bypasses
 
-- **Introspection & alias spamming**: use deeply nested aliases to evade depth limits.
-- **Batch operations**: bundle many queries in one request to sneak payloads through superficial query‑string filters.
-- **Query name tampering**: mask malicious fields behind benign names.
-- **Tools**: `graphql‑cop`, `inql`, `Escape p‑cli` for automated fuzzing.
-- Test batched queries with differing operation names, file upload scalars, and custom directives; many WAFs only parse shallow GraphQL.
-
-### 18. SNI (Server Name Indication) Manipulation & Evasion
+### SNI (Server Name Indication) Manipulation & Evasion
 
 Server Name Indication (SNI) is a TLS protocol extension where the client indicates the hostname it is attempting to connect to during the TLS handshake. This is crucial for servers hosting multiple websites on a single IP address. Since the SNI is typically sent in cleartext (in the `ClientHello` message, unless Encrypted Client Hello - ECH - is used), web filters can inspect it to enforce policies.
 
@@ -564,16 +525,15 @@ SNI spoofing is a technique to bypass web filters that rely solely or primarily 
 
 **Examples:**
 
-- **Using `openssl`**:
-
-  ```bash
+> [!example]  **Using `openssl`**:
+```bash
   # Connects to IP 198.51.100.23 (blocked.example.org)
   # but presents 'allowed.example.com' as SNI
   openssl s_client -connect 198.51.100.23:443 -servername allowed.example.com
-  ```
+```
 
-- **Using `curl`**:
-  ```bash
+> [!example] **Using `curl`**:
+```bash
   # Tells curl to connect to 198.51.100.23 (IP of blocked.example.org)
   # for any request to allowed.example.com.
   # The SNI will be 'allowed.example.com'.
@@ -581,7 +541,7 @@ SNI spoofing is a technique to bypass web filters that rely solely or primarily 
   curl -k --connect-to allowed.example.com::198.51.100.23 \
        -H "Host: blocked.example.org" \
        https://allowed.example.com
-  ```
+```
 
   - `-k`: Ignores certificate warnings (since the presented cert for `blocked.example.org` won't match `allowed.example.com`).
   - `--connect-to host1:port1:host2:port2`: Resolves `host1:port1` to `host2:port2`. Here, `allowed.example.com` (default port 443) is directed to `198.51.100.23` (default port 443 if not specified after IP).
@@ -594,13 +554,13 @@ SNI spoofing is a technique to bypass web filters that rely solely or primarily 
 - **Explicit Proxies (Normal/Non-Transparent)**:
   - Can still be effective. The client can specify the target IP address in the HTTP `CONNECT` request to the proxy.
   - The client then performs the TLS handshake through the proxy, sending the spoofed SNI.
-  - Example with `curl` and an explicit proxy:
-    ```bash
+ > [!example]  Example with `curl` and an explicit proxy:
+```bash
     curl --proxy http://proxy.internal:8080 -k \
          --connect-to allowed.example.com::198.51.100.23 \
          -H "Host: blocked.example.org" \
          https://allowed.example.com
-    ```
+```
   - **Proxy Behavior Variance**: Some proxies might honor the IP in the `CONNECT` request, while others might resolve the hostname from the SNI themselves, potentially thwarting the bypass.
 - **TLS Inspecting Proxies**: SNI spoofing can sometimes work even if the proxy performs TLS inspection, provided the proxy forwards the client's spoofed SNI and connects to the IP specified in the `CONNECT` request (rather than resolving the spoofed SNI).
 
@@ -619,12 +579,12 @@ SNI spoofing is a technique to bypass web filters that rely solely or primarily 
     2. TLS handshake begins; `ClientHello` is sent without the SNI extension.
     3. The server might return a default certificate (e.g., for a generic CDN hostname), potentially causing a mismatch warning that the client might need to ignore (e.g., `curl --insecure`).
     4. The HTTP `Host` header in the encrypted request can still be set to the desired target hostname.
-  - **Example (`curl`)**:
-    ```bash
+ > [!example] **Example (`curl`)**:
+```bash 
     # Request to IP 151.101.194.133, no SNI sent.
     # Spoofed Host header: compass-test.global.ssl.fastly.net
     curl --insecure -v -H "Host: compass-test.global.ssl.fastly.net" https://151.101.194.133/index.html
-    ```
+```
   - **Impact**: This can bypass WAFs/proxies that rely on the presence of SNI for policy enforcement or domain fronting detection (which compares SNI to `Host` header).
     - Explicit proxies might block direct IP connections in `CONNECT` requests if configured to do so.
     - Transparent proxies might be more susceptible if they only inspect SNI.
@@ -636,7 +596,7 @@ SNI spoofing is a technique to bypass web filters that rely solely or primarily 
   - **Mitigation (Defensive)**: Defenders might choose to block ECH connections or attempt to strip ECH information from DNS `HTTPS` records. However, this can break legitimate ECH-enabled clients and has privacy implications.
   - Note: ECH support is expanding in modern browsers; expect increased prevalence in 2025.
 
-### 19. Domain Fronting
+### Domain Fronting
 
 Domain fronting is a technique to bypass web filters and censorship by masking the true destination of a connection. It leverages Content Delivery Networks (CDNs) by sending a request with an SNI (Server Name Indication) of a legitimate, allowed domain, while the HTTP `Host` header specifies a different, potentially blocked, domain that is also served by the same CDN.
 
@@ -711,39 +671,8 @@ Fastly is a CDN known to allow domain fronting (at the time of the referenced ar
 - **TLS Inspection**: This detection requires TLS inspection capabilities.
 - **Limitations**: Even with detection, sophisticated attackers might find ways to bypass these checks, for example, by finding subdomains or services on allowed CDNs that have more relaxed policies.
 
-### 20. Evading ML-Based WAFs
 
-```bash
-# 1. Semantic Evasion: Use synonyms and paraphrasing
-# Instead of: <script>alert(1)</script>
-# Try: <svg/onload=self[atob('YWxlcnQ='):](1)>
-
-# 2. Adversarial Token Injection: Add noise tokens
-<script>/*benign benign benign benign benign*/alert(1)</script>
-
-# 3. Embedding Space Manipulation: Use non-ASCII lookalikes
-<ѕcript>alert(1)</ѕcript>  # Cyrillic 's' characters
-
-# 4. Feature Engineering Bypass: Target low-weight features
-# AI WAFs often ignore certain request parts
-POST /upload
-Content-Type: multipart/form-data; boundary=----WebKitFormBoundary
-
-------WebKitFormBoundary
-Content-Disposition: form-data; name="file"; filename="<script>alert(1)</script>"
-# Payload in filename field (often not heavily weighted)
-
-# 5. Context Confusion: Mix attack vectors
-# Combine SQL injection syntax with XSS to confuse classifiers
-'><script>alert(1)</script>' UNION SELECT 1--
-```
-
-**Tools:**
-
-- `ml-waf-evasion-toolkit` (2024) - Research tool for testing ML WAF robustness
-- `adversarial-payload-generator` - Generates adversarial examples against WAF classifiers
-
-## Recommended Tools
+## Tools
 
 ### WAF Fingerprinting Tools
 
@@ -773,18 +702,3 @@ Content-Disposition: form-data; name="file"; filename="<script>alert(1)</script>
 - **enumXFF** - Enumerates IPs in X-Forwarded-Headers to bypass restrictions
 - **WAF Bypass Tool** - Open source tool from Nemesida
 - **noble‑tls / uTLS / tls-client** – spoof browser‑grade TLS stacks programmatically
-
-## WAF Bypass Chaining
-
-Combine multiple techniques for more effective bypassing:
-
-1. Use residential proxies
-2. Implement a fortified headless browser
-3. Add human-like behavior simulation
-4. Apply CAPTCHA bypass when needed
-5. Avoid honeypot traps
-6. Mix multiple encoding techniques
-7. Exploit request parsing inconsistencies
-8. Use ML-generated payloads that evade signature detection
-9. Align TLS/JA3 with real browsers and switch to HTTP/3 where inspection is weaker
-10. Pivot to origin when feasible; fall back to stealth browser automation with humanization
