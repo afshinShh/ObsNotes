@@ -101,5 +101,5 @@ test your payloads in JSfiddle
 - ![[Pasted image 20260205132132.png]]
 	- [ ] ~~hardcoded ?~~
 	- [ ] ~~gets the url from previous state?~~
-	- [x] uses storage (local storage, cookie) 
+	- [ ] uses storage (local storage, cookie) 
 		- => you can change it to attacker.com => ATO

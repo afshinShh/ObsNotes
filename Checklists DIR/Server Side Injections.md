@@ -30,7 +30,7 @@
 		- [ ] Plaintext context (reflected) where you can directly input HTML (likely XSS)
 		      `render('Hello ' + username)` therefore  `?username=${7*7}` => ` Hello 49 `
 		- [ ] Code context
-		      `greeting = getQueryParameter('greeting');`
+				      `greeting = getQueryParameter('greeting');`
 		      `engine.render("Hello {{"+greeting+"}}", data)`
 		       therefore
 		      `?greeting=data.username}}<tag>` => `Hello Carlos<tag>`
@@ -59,4 +59,3 @@
 - [source: Successful Errors: New Code Injection and SSTI Techniques](https://github.com/vladko312/Research_Successful_Errors/blob/main/README.md)
 - [SSTImap](https://github.com/vladko312/SSTImap) uses this approach for blind detection 
 - [ ] [[Payloads/SSTI#Blind Erorr-Based|list of payloads for manual detection and exploitation based oin the template parser and language]]
-/gitcomm

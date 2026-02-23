@@ -59,4 +59,25 @@
 - Narrow Recon (JS)
 - replacement after ruleset (= checker function or waf) is a killer
 - to know a program we must explore it like a nomal user 
-# Authentication
+# Wide Recon -> wider attack surface
+- [ ] choosing a program
+- [ ] domain discovery
+	- [ ]  google dork
+		- [ ] footer's legal information
+	- [ ] favicon/logo search 
+	- [ ] TLD search 
+		- [x] mirror domain 
+		- [ ] seperate domain
+- tld search oneliner also you can use [tldx as the better alternative](https://github.com/brandonyoungdev/tldx)
+```bash
+curl -s https://data.iana.org/TLD/tlds-alpha-by-domain.txt | tail -n +2 | tr 'A-Z' 'a-z' | sed 's/^/domain:/'
+```
+- [ ] whois 
+- [ ] reverse whois
+	- [ ] `website.informer.com`
+	- [ ] `viewdns.info`
+- [ ] name resolution   
+- [ ] monitor the sites with no http response 
+- [ ] Avoid falling into third-parties 
+# Narrow recon -> more features
+/gitcomm
