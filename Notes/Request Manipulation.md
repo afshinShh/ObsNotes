@@ -151,16 +151,16 @@ opening [the link](https://github.com/julz0815/mtech-training/blob/4a0d8fcec1d38
 -  another example for same level CSPT: ![[Pasted image 20260216152207.png]]
 	- The URL which I used was similar to `https://example.com/viewpost/%252e%252e%2f%252e%252e%2f%252e%252e%2fredirect%3fu=https:%2f%2fattacker.com`. The WAF and the browser decoded this URL to `https://example.com/viewpost/%2e%2e/%2e%2e/%2e%2e/redirect?u=https://attacker.com` which has a positive depth, so the request wasn't blocked. The app decoded the payload once, and URL which got passed to fetch was `https://example.com/api/posts/get_content/%2e%2e/%2e%2e/%2e%2e/redirect?u=https://attacker.com`, which is equivalent to `https://example.com/redirect?u=https://attacker.com`
 ## Chains 
-• [CSPT & File Upload Bypasses ](https://blog.doyensec.com/2025/01/09/cspt-file-upload.html)
-• [CSPT Reports & Techniques ](https://medium.com/@renwa/client-side-path-traversal-cspt-bug-bounty-reports-and-techniques-8ee6cd2e7ca1)
-• [Automating CSPT Discovery ](https://vitorfalcao.com/posts/automating-cspt-discovery/)
-• [Saving CSRF with CSPT ](https://netragard.com/saving-csrf-client-side-path-traversal-to-the-rescue/)
-• [The Power of CSPT  ](https://medium.com/@Nightbloodz/the-power-of-client-side-path-traversal-how-i-found-and-escalated-2-bugs-through-670338afc90f)
-• [Fetch Diversion ](https://acut3.net/posts/2023-01-03-fetch-diversion/)
-•[ CSTP Attacks ](https://mr-medi.github.io/research/2022/11/04/practical-client-side-path-traversal-attacks.html)
-• [CSPT → Open Redirect → XSS](https://x.com/samwcyo/status/1437030056627523590)
-• [CSPT → JSONP → XSS](https://x.com/HusseiN98D/status/1809164551822172616)
-• [CSPT → JSONP → XSS](https://x.com/isira_adithya/status/1809228815002136719)
-• [CSPT → XSS](https://x.com/RonMasas/status/1759603359646974386)
-• [CSTP → ATO](https://kapytein.nl/security/web/2023/12/17/from-an-innocent-client-side-path-traversal-to-account-takeover/)
-/gitcomm
+
+**• [CSPT & File Upload Bypasses ](https://blog.doyensec.com/2025/01/09/cspt-file-upload.html)**
+**• [CSPT Reports & Techniques ](https://medium.com/@renwa/client-side-path-traversal-cspt-bug-bounty-reports-and-techniques-8ee6cd2e7ca1)**
+**• [Automating CSPT Discovery ](https://vitorfalcao.com/posts/automating-cspt-discovery/)**
+**• [Saving CSRF with CSPT ](https://netragard.com/saving-csrf-client-side-path-traversal-to-the-rescue/)**
+**• [The Power of CSPT  ](https://medium.com/@Nightbloodz/the-power-of-client-side-path-traversal-how-i-found-and-escalated-2-bugs-through-670338afc90f)**
+**• [Fetch Diversion ](https://acut3.net/posts/2023-01-03-fetch-diversion/)**
+**•[ CSTP Attacks ](https://mr-medi.github.io/research/2022/11/04/practical-client-side-path-traversal-attacks.html)**
+**• [CSPT → Open Redirect → XSS](https://x.com/samwcyo/status/1437030056627523590)**
+**• [CSPT → JSONP → XSS](https://x.com/HusseiN98D/status/1809164551822172616)**
+**• [CSPT → JSONP → XSS](https://x.com/isira_adithya/status/1809228815002136719)**
+**• [CSPT → XSS](https://x.com/RonMasas/status/1759603359646974386)**
+**• [CSTP → ATO](https://kapytein.nl/security/web/2023/12/17/from-an-innocent-client-side-path-traversal-to-account-takeover/)**
