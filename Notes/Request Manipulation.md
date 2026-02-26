@@ -164,3 +164,4 @@ opening [the link](https://github.com/julz0815/mtech-training/blob/4a0d8fcec1d38
 **• [CSPT → JSONP → XSS](https://x.com/isira_adithya/status/1809228815002136719)**
 **• [CSPT → XSS](https://x.com/RonMasas/status/1759603359646974386)**
 **• [CSTP → ATO](https://kapytein.nl/security/web/2023/12/17/from-an-innocent-client-side-path-traversal-to-account-takeover/)**
+/git
