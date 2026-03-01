@@ -80,53 +80,53 @@ File upload vulnerabilities can manifest in various upload functionality pattern
    - Change file extensions after client-side validation
 
 2. **Extension-Based Testing**:
-   - Test alternate extensions for web shells:
-     ```
-     .php, .php3, .php4, .php5, .phtml, .phar, .phpt, .pht, .phps, .php2, .php6, .php7, .inc, .shtml, .pgif
-     .asp, .aspx, .ashx, .asmx, .cer, .asa
-     .jsp, .jspx, .jsw, .jsv, .jspf
-     .cfm, .cfml, .cfc, .dbm (Coldfusion)
-     .pl, .py, .rb, .cgi
-     ```
-   - Test double extensions:
-     ```
-     file.jpg.php
-     file.php.jpg
-     file.php.jpeg
-     file.php%00.jpg  # Null byte (older versions)
-     file.php%20.jpg  # URL encoded space
-     file.php%0d%0a.jpg # CRLF injection
-     file.php.blah123jpg # If regex is weak
-     ```
-   - Test case sensitivity bypass:
-     ```
-     file.PhP
-     file.Php5
-     file.AspX
-     file.pHp
-     file.pHP5
-     file.PhAr
-     ```
-   - Test trailing characters/delimiters:
-     ```
-     file.php.....
-     file.php/
-     file.php.\
-     file.php. # Trailing dot (Windows specific)
-     file.php%20 # Trailing space
-     file.php%09 # Trailing tab
-     file.php%0a # Trailing newline
-     file.php%0d # Trailing carriage return
-     file.php::$DATA # NTFS Alternate Data Stream (Windows specific)
-     file. # No extension
-     .html # Just extension
-     ```
-   - Test filename manipulation:
-     ```
-     # Try to cut extension with max filename length limit
-     # Try empty filename: .php
-     # Send filename parameter twice: filename="allowed.jpg";filename="shell.php"
-     ```
+   - [ ] Test alternate extensions for web shells:
+ ```
+ .php, .php3, .php4, .php5, .phtml, .phar, .phpt, .pht, .phps, .php2, .php6, .php7, .inc, .shtml, .pgif
+ .asp, .aspx, .ashx, .asmx, .cer, .asa
+ .jsp, .jspx, .jsw, .jsv, .jspf
+ .cfm, .cfml, .cfc, .dbm (Coldfusion)
+ .pl, .py, .rb, .cgi
+ ```
+- Test double extensions:
+ ```
+ file.jpg.php
+ file.php.jpg
+ file.php.jpeg
+ file.php%00.jpg  # Null byte (older versions)
+ file.php%20.jpg  # URL encoded space
+ file.php%0d%0a.jpg # CRLF injection
+ file.php.blah123jpg # If regex is weak
+ ```
+- Test case sensitivity bypass:
+ ```
+ file.PhP
+ file.Php5
+ file.AspX
+ file.pHp
+ file.pHP5
+ file.PhAr
+ ```
+- Test trailing characters/delimiters:
+ ```
+ file.php.....
+ file.php/
+ file.php.\
+ file.php. # Trailing dot (Windows specific)
+ file.php%20 # Trailing space
+ file.php%09 # Trailing tab
+ file.php%0a # Trailing newline
+ file.php%0d # Trailing carriage return
+ file.php::$DATA # NTFS Alternate Data Stream (Windows specific)
+ file. # No extension
+ .html # Just extension
+ ```
+- Test filename manipulation:
+ ```
+ # Try to cut extension with max filename length limit
+ # Try empty filename: .php
+ # Send filename parameter twice: filename="allowed.jpg";filename="shell.php"
+ ```
 
 3. **Content-Type Testing**:
    - Modify the Content-Type header to bypass MIME validation:
