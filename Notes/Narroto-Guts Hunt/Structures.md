@@ -14,10 +14,10 @@
 # Wide Recon -> wider attack surface
 - [ ] domain discovery
 	- [ ]  google dork
-		- [ ] footer's legal information
+		- [ ] ==footer's legal information==
 	- [ ] favicon/logo search 
-	- [ ] TLD search 
-		- [x] mirror domain 
+	- [ ] ==TLD search== the findings could be either: 
+		- [ ] mirror domain
 		- [ ] seperate domain
 	- [ ] certificate search
 		- [ ] => new domain, subdomain, property
@@ -134,5 +134,4 @@ curl -s https://data.iana.org/TLD/tlds-alpha-by-domain.txt | tail -n +2 | tr 'A-
 	- [ ] change password
 	- [ ] account bind (linking victim's account to that account = in other words: integrations)
 - [ ] PII information leakage
-
 
