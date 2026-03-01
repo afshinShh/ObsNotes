@@ -110,4 +110,11 @@ test your payloads in JSfiddle
 		- XSS senarios we tested:
 			- [ ] login + Open Link + redirecetUrl 
 			- [ ] changing  SuccessRedirectUrl in DOM
-	- we detected another similar paramter named `redirectTo` 
+	- Go on the breakpoint of redirecturl
+	- You can change the value by using several approches in order to see it in the action 
+		1. **Throw an error**  by a character like `%0A` in middle of its value 
+		2. **Use other schemes** like `tel:` and obsereve
+	- we also detected another similar paramter named `redirectTo` 
+		Changing localstorage -> it gets xss but we need a way to inject it 
+		(Also Reading the source code shows that all the sanitization occurs before seting the local storage value )
+	- /login was getting concatenated with the final url value => Only dom debugging could have find this

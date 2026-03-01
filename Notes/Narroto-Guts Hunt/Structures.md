@@ -45,13 +45,21 @@ curl -s https://data.iana.org/TLD/tlds-alpha-by-domain.txt | tail -n +2 | tr 'A-
 - better to use old diffrernt snapshots in wayback machine [How?](https://archive.org/developers/wayback-cdx-server.html)
 	- use `fl=timestamp` + `collapse=digest` for differet hashes
 	- you can use [robofinder](https://github.com/Spix0r/robofinder) for robots.txt
+server API - `https://archive.org/developers/wayback-cdx-server.html`
+> [!example] usage examples :
+```
+https://web.archive.org/cdx/search/cdx?url=https://icollab.info
+https://web.archive.org/web/2021|208105512if_/http://icollab.info
+https://web.archive.org/cdx/search/cdx?url=*.capcut.com/*&fl=timestamp,original&collapse=digest
+https://web.archive.org/cdx/search/cdx?url=*.capcut.com/&fl=original&collapse=urlkey
+```
 - Katana is not good with DOM 
 	- *Passive Crawling always / active crawling only in automation*
 - [ ] phase 0
 - [ ] phase 1
 	- [ ] passive crawling
 		- [ ] search engine dorking 
-			- [ ] google ==and== bing (NOT OR)
+			- [ ] google ==and== bing (NOT OR) + DuckDuckGo
 			- [ ] repeat the search with the ommited results included
 			- [ ] make your own dork strings based on the target
 - [ ] `ext:html` -> when you see raw HTML page test for DOM XSS (some of them might hide functionality behind) 

