@@ -135,3 +135,4 @@ curl -s https://data.iana.org/TLD/tlds-alpha-by-domain.txt | tail -n +2 | tr 'A-
 	- [ ] account bind (linking victim's account to that account = in other words: integrations)
 - [ ] PII information leakage
 
+/gitcomm
