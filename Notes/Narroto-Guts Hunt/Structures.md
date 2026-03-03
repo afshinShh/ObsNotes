@@ -56,7 +56,12 @@ https://web.archive.org/cdx/search/cdx?url=*.capcut.com/&fl=original&collapse=ur
 - Katana is not good with DOM 
 	- *Passive Crawling always / active crawling only in automation*
 - [ ] phase 0
-- [ ] phase 1
+	- [ ] work with every bit of app like a normal user 
+	- [ ] build mind-map
+	- [ ] do not fall into rabbit holes
+	- [ ] figure out as many functionalities as possible 
+	- [ ] you will see the patterns with enough hunt
+- [ ] phase 1 
 	- [ ] passive crawling
 		- [ ] search engine dorking 
 			- [ ] google ==and== bing (NOT OR) + DuckDuckGo
@@ -143,4 +148,3 @@ https://web.archive.org/cdx/search/cdx?url=*.capcut.com/&fl=original&collapse=ur
 	- [ ] account bind (linking victim's account to that account = in other words: integrations)
 - [ ] PII information leakage
 
-/gitcomm

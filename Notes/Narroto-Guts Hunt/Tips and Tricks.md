@@ -16,6 +16,7 @@ Object.keys(window).filter(k => !k.indexOf('on'))
 - use breakpoint and then ==browse the site== 
 	- (in some cases, breakpoint won't trigger if you reload the same page)
 	- You must reach such a level in JS debugging that enables you to find and trace every client‑side functionality you encounter while testing an application
+	- ==Conditional-Breakpoints== allow you to pause *ONLY* in your terms (they DO NOT change the value on the fly, they only check that for you)
 - in SPAs, there is plenty of ==client-side redirects== => DOM XSS
 	- [ ] Pause the state you are in with DOM using escape
 	- [ ] throw exception to furthur understand the procecss 
@@ -23,6 +24,8 @@ Object.keys(window).filter(k => !k.indexOf('on'))
 		- [ ] `tel:` scheme 
 	- [ ] Enable breakpoints on related event listener from *Dev Tools -> Source -> Event Listener Breakpoints* 
 		- [ ] ![[Pasted image 20260301150611.png]]
+- [ ] checkout [[unprocessed-obsidians/xss#Framework‑specific Gotchas|Framework‑specific Gotchas]] 
+> [!example] Examples: `dangerouslySetInnerHTML`, `v-html`, `{@html ...}`, `next/script strategy="beforeInteractive"`, `innerHTML` ,...
 # **FUZZ the whitespaces allowed** 
 - [ ] (re read js for hackers)
 - FUZZ for *HTML tags*
@@ -98,7 +101,9 @@ for (let x in _W)
 - [ ] `window.valueOf = alert; window + 1` -> use **parentheses-less payloads**
 ### PostMessage
 - doesn't generate http req => burp doesn't capture 
-- search for EventListeners 
+- search
+	- EventListeners
+	- `window.close` 
 - Chrome (not burp's)
 - important properties 
 	- e.source ->  *we cannot forge* 
@@ -268,7 +273,7 @@ param_maker() {
 		- [ ] while logged in
 ### registration 
 - [ ] special accounts (specially in cases when the asset is not core)
-	- [ ] `noreply@github.com`
+	- [ ] `noreply@github.com` 
 	- [ ] `support@company.com`
 - [ ] instant login after inregisteration
 	- [ ] `victim@gmail.com%0a` _(%0a means 0 - 20 HEX)_
@@ -328,18 +333,36 @@ param_maker() {
 		- [ ] ==deep links==
 			-  where to look more?
 				- [ ] switch between different environmnets (mobile,desktop,...)
+				- typical flow:
+					1. client -> website + redirect_uri  
+					2. (if logged-in) -> token -> redirect_uri  
+					3. app + token -> HTTP request + token  
+					4. if token === true -> login
+
 		- [ ] ==hDOM==
-### **transfer (2 apps  1login/1not_login)** (NO OAUTH)
+### **transfer (2 apps one of them login other one not_login)** (NO OAUTH)
 - custom implementations
 - senarios:
-	- [ ] redirect URL to grab token
-	- [ ] CORS (rare)
-	- [ ] JSONP call (insecure by default)
-	- [ ] top level cookies (.domain)
-	- [ ] **==confirmation HTTP request==** **[[Live Hunts#Authneticarion transfer bug between mac app and webappz | Senario for multiple 1 click ATO on capcup]]**
+	- website <=> website
+		- [ ] redirect URL to grab token
+		- [ ] CORS (rare)
+		- [ ] JSONP call (insecure by default)
+		- [ ] top level cookies (.domain)
+		- [ ] **==confirmation HTTP request==** **[[Live Hunts#Authneticarion transfer bug between mac app and webappz | Senario for multiple 1 click ATO on capcup]]**
+		- [ ] PostMessage
+	- app <=> website
+		- [ ] redirect back URL
+		- [ ] polling implementation
 - [ ] how does the app manages to redirect back the users ?
+	- [ ] ex: `website -> oauth ->  ok (website login) -> app -> website -> app login -> ok`
+	- [ ] ex2: `app -> website -> oauth -> ...` 
 - [ ]  find the flaw in the flow
+- [ ] if you see third party implementation, implement it yourself to understand it better
 ### other schemes
+- [ ] ==**Magic Links**==
+	-  Senario : when you are logged-in for application but not with the website 
+	-  Link + random generated token (one time code) -> when you open it **=> website login**
+	- [ ] cancel when redirection and see the traffic 
 
 # Mobile pentest
 ## installation
