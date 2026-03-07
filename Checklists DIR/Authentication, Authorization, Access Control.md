@@ -101,6 +101,7 @@
 	- [ ] Test to change the ID like parameters
 	- [ ] Get ID from one endpoint use it in another one situation [Google BBP](https://caesarevan23.medium.com/google-vrp-insecure-direct-object-reference-3133-70-a0e37023a4c7)
 		- [ ] check *Refresh Token Endpoint* for Misconfiguration -> can lead to account takeover
+	- [ ] test RRE (Recursive Request Exploits) request chains in case of unauthenticated requests that only require random id identifier in or to authorize your request (example: video stream endpoints) [[Notes/Authentication, Authorization, Access Control#Recursive Request Exploits (RRE)|more information]]  [Burp Extension for automated detection](https://github.com/jumpycastle/rre-burp/tree/main/)
 ## HTTP basic authentication
 - [ ] BruteForce attacks 
 	- [ ] default credentials 
@@ -110,9 +111,6 @@
 - [ ] **Forced Browsing** (directly requesting the resource behind the authentication wall)
       ![[Pasted image 20250921210252.png]]
 - [ ] **HTTP verb Tempering**
-
-
-
 ## Trusted IP|HOST whitelist
 
 - [ ] test these checks manually [[Checklists DIR/Authentication, Authorization, Access Control#Blocking the remote user's IP address| Blocking the remote user's IP address]] 

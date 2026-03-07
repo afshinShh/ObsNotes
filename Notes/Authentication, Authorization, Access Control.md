@@ -154,3 +154,27 @@ public function destroyAddress($id, Request $request)
     }
 ```
 
+### Recursive Request Exploits (RRE)
+- reference:
+	- [How I Accessed 1,800 Company Livestreams and Uncovered a New Web Exploit Class: RRE](https://jumpycastle.dev/how-i-accessed-1-800-company-livestreams-and-uncovered-a-new-web-exploit-class-rre-f74b7ef996e7)
+- ==tracing a supply chain backward==. The final product looks secure, but one unverified supplier upstream (an API leaking sensitive data in this case) can compromise everything downstream. And the **first reference** where a sensitive value appeared is exactly where you should be validating.
+- an example of this behavior seen in video streaming providers: ![[Pasted image 20260307205513.png]]
+- automated appoach ? 
+	- (Github Link: [https://github.com/jumpycastle/rre-burp](https://github.com/jumpycastle/rre-burp)) that traces web request chains backward, starting from a known sensitive target (like a stream ID) and recursively walking upstream to find where that value first entered the system.
+		- ![[Pasted image 20260307205749.png]]
+		- The chain shows:
+			✅ `vod_...` (stream id) — final target
+			✅ `/v2/game_or_event/...` (metadata referencing stream id)
+			✅ `/v2/highlights/...` (references metadata)
+			❌ `/api/search?q=...` (**no auth**) ← first unauthenticated reference
+#### Remediation Checklist
+- **Enforce Strong Authentication at Every Step**  
+    Every API that contributes to an entitlement should enforce authN/Z. If one hop skips validation, the entire chain can be reconstructed.
+- **Don’t Expose Sensitive Parameters via Low-Trust Inputs**  
+    Public metadata (episode slugs, titles) should never generate access grants or leak identifiers like `video_stream_id`. Treat upstream APIs that return sensitive values as high-trust boundaries.
+- **Use Short-Lived, Scoped Tokens**  
+    Entitlement tokens should expire quickly and bind to a session or device. Rotate or reissue tokens per session to limit replay.
+- **Enforce DRM + Session Binding for Streams**  
+    Token-only access is often bypassable. Combine DRM with secure authentication (cookies/tokens) and encrypted manifests to raise the bar.
+- **Always On, Always Leaks**  
+    Idle or pre-live streams expand your attack surface. Gate or disable endpoints until showtime — and log access attempts outside live windows..
