@@ -132,3 +132,4 @@ ideally, you should use the `Strict` policy by default, then lower this to `L
 isolating insecure content 
 - user-upload files on a separate site from any sensitive functionality or data
 - sibling domains
+

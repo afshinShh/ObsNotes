@@ -110,3 +110,28 @@ For session invalidation purposes, the .NET framework utilizes _Session.Abandon(
 	-  This attack is usually mounted with the help of attacker-crafted web pages that the victim must visit or interact with. These web pages contain malicious requests that essentially inherit the identity and privileges of the victim to perform an undesired function on the victim's behalf.
 - [[Notes/Request Manipulation#Open Redirect|Open Redirects ]] <-- With a focus on user sessions: 
 	- An Open Redirect vulnerability occurs when an attacker can redirect a victim to an attacker-controlled site by abusing a legitimate application's redirection functionality. In such cases, all the attacker has to do is specify a website under their control in a redirection URL of a legitimate website and pass this URL to the victim.
+## Cross-Site WebSocket Hijacking (CSWSH)
+
+- The impact is similar to a `Cross-Site Request Forgery (CSRF)` attack, but more powerful since it’s two-way: the malicious site can also read the responses to malicious requests. Normally a CSRF attack can’t read the server’s responses – unless the targeted server supports `Cross-Origin Resource Sharing (CORS)` requests
+#### conditions 
+1) The app uses ==cookie-based authentication==  
+2) The authentication cookie is set to ==SameSite=None==  
+3) The WebSocket server ==does not validate the Origin== of the Websocket handshake request (and does not use another means to validate the source of requests, such as authenticating in the first WebSocket message).
+
+This seems like a lot of things that have to line up, but CSWSH has been more common than I expected. If I had to speculate:  
+1) Cookies are still fairly popular compared to token auth.  
+2) Authentication services often operate across different origins forcing session cookies to use SameSite=None and to rely on CSRF tokens as the main mechanism to defeat CSRF, which aren’t applied to WebSocket handshakes.  
+3) The ws library for Nodejs and for other common webapp frameworks don’t enforce validating the Origin.
+### Total Cookie Protection
+- Over the past several years Firefox has been locking down their [“Enhanced Tracking Protection” feature](https://chromestatus.com/feature/5088147346030592).
+- Total Cookie Protection works by isolating cookies to the site in which they are created. Essentially <mark style="background: #ADCCFFA6;">each site has its own cookie storage partition</mark> to prevent third parties linking a user’s browsing history together. This is designed to prevent a tracker.com script loaded on site A to set a cookie which can be read by a tracker.com script loaded on site B. ==><mark style="background: #ADCCFFA6;"> stops cookie-based CSWSH</mark> => A malicious site cannot perform a successful cross-site WebSocket handshake with a user’s cookie, since that cookie is outside the current cookie storage partition. This applies <mark style="background: #ADCCFFA6;">even if the cookie is configured as SameSite=None.</mark>
+### Private Network Access
+- The [Private Network Access specification](https://wicg.github.io/private-network-access/) acknowledges that an increasing amount of services run on a user’s localhost and their private network, and describes a control similar to CORS to prevent public Internet resources from making unapproved requests to private resources. See for instance [this incredible writeup against Tailscale](https://emily.id.au/tailscale).
+
+- Within the Private Network Access specification, IP address spaces are divided into three types: `public`,` private`, and `local`. A request <mark style="background: #BBFABBA6;">(even a GET request</mark>) that is made from a more public to a more private address space<mark style="background: #BBFABBA6;"> triggers a preflight OPTIONS request </mark>that has the ==Access-Control-Request-Private-Network: true== header attached by Chrome, and must receive a corresponding ==Access-Control-Allow-Private-Network: true== header in the response for the main request to be sent.
+- [called out in the specification](https://wicg.github.io/private-network-access/#integration-websockets), since Private Network Access uses CORS preflight requests as the protection method, and WebSockets do not follow SOP and thus do not use preflight requests => ==Private Network Access in Chrome does not block CSWSH against private networks.==
+### Mitigation
+
+- WebSocket server **should first check the Origin of the WebSocket handshake request**. If the request does not come from a trusted and expected Origin, then the WebSocket handshake should fail. “`Missing Origin Validation in WebSockets`” has its own Common Weakness Enumeration [CWE-1385](https://cwe.mitre.org/data/definitions/1385.html).
+- thinking of setting CSRF cookie ? => **[you can’t set arbitrary headers](https://github.com/whatwg/websockets/issues/16)**. There are some workarounds such as putting a token in the [Sec-WebSocket-Protocol header](https://ably.com/blog/websocket-authentication) or authenticating in the first WebSocket message.
+- `SameSite=Lax` by default (not all the browsers support this)

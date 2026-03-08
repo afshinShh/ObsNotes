@@ -18,7 +18,7 @@
 	- [ ] `application/x-www-form-urlencoded`
 	- [ ] `multipart/form-data`
 - [ ] Check Other Protocols
-	- [ ] cross-site <mark style="background: #FFB86CA6;">WebSocket</mark> hijacking (CSWSH) ([[unprocessed-obsidians/OLD/WEB/vulnerabilities/CSRF/attack/Examples#cross-site WebSocket hijacking (CSWSH)|Example]]) 
+		- [ ] cross-site <mark style="background: #FFB86CA6;">WebSocket</mark> hijacking (CSWSH) ([[Session#Cross-Site WebSocket Hijacking (CSWSH) |Notes]]) ([[unprocessed-obsidians/OLD/WEB/vulnerabilities/CSRF/attack/Examples#cross-site WebSocket hijacking (CSWSH)|Example]]) 
 - [ ] Check CSRF in <mark style="background: #FFB86CA6;">Graphql</mark> endpoints [[unprocessed-obsidians/OLD/WEB/vulnerabilities/CSRF/attack/Examples#CSRF in Graphql endpoints|Example POC]]
 ## Bypassing CSRF-token validation
 
@@ -40,3 +40,4 @@
 			- [ ] use csrf-token+csrfKey on another user
 			- [ ] find sink where you can inject cookie [[unprocessed-obsidians/OLD/WEB/vulnerabilities/CSRF/attack/Examples#token tied to non-session cookie|Example Senario]] 
 		- [ ] same csrf is duplicated in cookie ? -> Create and inject csrf cookie (same as injecting csrfKey)
+/gitcomm

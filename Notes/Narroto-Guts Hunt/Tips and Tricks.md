@@ -13,7 +13,7 @@ Object.keys(window).filter(k => !k.indexOf('on'))
 		- *window.location*
 		- *window.location.href*
 - in complex targets, try to change the ==final value of the parameter== you can control (after all the sanitization, changes and Rulesets) and confirm there exists XSS then try to bypass the logic.
-- use breakpoint and then ==browse the site== 
+- use breakpoint and then ==browse the site==  [reference](https://developer.chrome.com/docs/devtools/javascript/breakpoints#overview) 
 	- (in some cases, breakpoint won't trigger if you reload the same page)
 	- You must reach such a level in JS debugging that enables you to find and trace every client‑side functionality you encounter while testing an application
 	- ==Conditional-Breakpoints== allow you to pause *ONLY* in your terms (they DO NOT change the value on the fly, they only check that for you)
@@ -100,7 +100,12 @@ for (let x in _W)
 - [ ] `[alert][0].call(this, origin)`
 - [ ] `window.valueOf = alert; window + 1` -> use **parentheses-less payloads**
 ### PostMessage
+[reference ](https://rhynorater.github.io/postMessage-Braindump)
 - doesn't generate http req => burp doesn't capture 
+- syntax: `addEventListener("message", (e)=>{})` syntax
+	- companies often use `event.origin` to check the origin of the postMessage (however, they also often use ==regex== to do this and mess up)
+		 1. Not escaping a `.` in a domain. For example, the value `wwwRgoogle.com` will pass the regex `/^www.google.com$/`
+		 2. Forgetting the `$` character: For example, the value `www.google.com.poc.rhynorater.com` will pass the regex `/^www\.google\.com/`
 - search
 	- EventListeners
 	- `window.close` 
@@ -118,7 +123,6 @@ for (let x in _W)
 	- dom invader doesnt detect listeners in app
 	- BUT *if a message sent dominvader captures it* + you must test messages for each listener manually (source code)
 	  - ==best way to trace== ? => search for unique string and debug in debugger
-
 #TODO 
 - [**Waf Evasion Techniques**](https://blog.isec.pl/waf-evasion-techniques/)
 - [An Interesting XSS-Bypassing WAF](https://labs.cognisys.group/posts/An-Intresting-XSS-Bypassing-WAF/)
