@@ -94,7 +94,7 @@ _Tip:_ If the `callback` or `json` GET parameters are not present in the request
 
 - OAuth is an open standard for **access delegation** -> Authorization method 
 	- using it as authentication method -> pseudo-authentication
--  [[unprocessed-obsidians/OLD/WEB/vulnerabilities/Authentication vulnerabilities/OAuth/concepts and defense|concepts and defense]]
+-  [[Notes/OLD Notes/WEB/vulnerabilities/Authentication vulnerabilities/OAuth/concepts and defense|concepts and defense]]
 - authorization code flow with PKCE
 	- ![[Pasted image 20250924233858.png]]
 #### Understanding Key OAuth Parameters

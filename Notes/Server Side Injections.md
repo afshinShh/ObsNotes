@@ -1,6 +1,6 @@
 # SQLi
 
-[[unprocessed-obsidians/OLD/WEB/vulnerabilities/SQL Injection/concepts|General Concepts (Old notes)]]
+[[Notes/OLD Notes/WEB/vulnerabilities/SQL Injection/concepts|General Concepts (Old notes)]]
 
 ![types of SQL injection](https://tryhackme-images.s3.amazonaws.com/user-uploads/62a7685ca6e7ce005d3f3afe/room-content/62a7685ca6e7ce005d3f3afe-1716989638556)
 
@@ -8,12 +8,12 @@
 ## In-band 
 - ERROR based
 - Union based
-[[unprocessed-obsidians/OLD/WEB/vulnerabilities/SQL Injection/attack/METHODOLOGY#In-Band SQL injection|Manual Exploitation]] (OLD notes)
+[[Notes/OLD Notes/WEB/vulnerabilities/SQL Injection/attack/METHODOLOGY#In-Band SQL injection|Manual Exploitation]] (OLD notes)
 
 ## Inferential 
  - Boolean based
  - Time based
-[[unprocessed-obsidians/OLD/WEB/vulnerabilities/SQL Injection/attack/METHODOLOGY#Inferential(Blind) SQL injection|Manual Exploitation]] (OLD notes)
+[[Notes/OLD Notes/WEB/vulnerabilities/SQL Injection/attack/METHODOLOGY#Inferential(Blind) SQL injection|Manual Exploitation]] (OLD notes)
 ## SQLmap
 ### ***[see Command generator](https://acorzo1983.github.io/SQLMapCG/)***
 

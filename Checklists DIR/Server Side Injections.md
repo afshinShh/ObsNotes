@@ -15,12 +15,12 @@
 > data = related data (to that specified input you used) in response
 - [ ] **Dumping Database manually?**
 	- [ ] data retrivied? 
-		- [ ] UNION based [[unprocessed-obsidians/OLD/WEB/vulnerabilities/SQL Injection/attack/METHODOLOGY#UNION attacks|METHODOLOGY]] 
+		- [ ] UNION based [[Notes/OLD Notes/WEB/vulnerabilities/SQL Injection/attack/METHODOLOGY#UNION attacks|METHODOLOGY]] 
 	- [ ] existence of input is getting checked? (so there is data)
-		- [ ] difference in response ? -> Boolean based [[unprocessed-obsidians/OLD/WEB/vulnerabilities/SQL Injection/attack/METHODOLOGY#Boolean-based|METHODOLOGY]]
-		- [ ] you can raise any Error ? -> Error based [[unprocessed-obsidians/OLD/WEB/vulnerabilities/SQL Injection/attack/METHODOLOGY#Error-based|METHODOLOGY]]  
+		- [ ] difference in response ? -> Boolean based [[Notes/OLD Notes/WEB/vulnerabilities/SQL Injection/attack/METHODOLOGY#Boolean-based|METHODOLOGY]]
+		- [ ] you can raise any Error ? -> Error based [[Notes/OLD Notes/WEB/vulnerabilities/SQL Injection/attack/METHODOLOGY#Error-based|METHODOLOGY]]  
 	- [ ] there is no data but you can make delays ?
-		- [ ] Time based [[unprocessed-obsidians/OLD/WEB/vulnerabilities/SQL Injection/attack/METHODOLOGY#triggering time delays|METHODOLOGY]] | [[SQLi#time based |payloads]] 
+		- [ ] Time based [[Notes/OLD Notes/WEB/vulnerabilities/SQL Injection/attack/METHODOLOGY#triggering time delays|METHODOLOGY]] | [[SQLi#time based |payloads]] 
 
 - [ ] **Bypass Authentication** [[SQLi#Authentication bypass |payloads]]
 - [ ] SQLmap? [[Notes/Server Side Injections#SQLmap|see here]] 
