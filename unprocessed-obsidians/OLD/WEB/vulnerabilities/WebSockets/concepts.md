@@ -20,8 +20,12 @@
 <mark style="background: #FFF3A3A6;">HTTP</mark> -> client sends request and server responds | Even if the network connection stays open, this will be used for a separate transaction of a request and a response.
 
 <mark style="background: #FFF3A3A6;">WebSockets</mark> -> initiated over HTTP | typically long-lived | Messages can be sent in either direction at any time and are not transactional in nature ->  low-latency or server-initiated messages: (like real-time feeds of financial data)
+![[Pasted image 20260311203055.png]]
+- Text representation of a WebSocket frame [reference](https://aretekzs.com/posts/fuzzing-ws/#1)
+-  Messages in WebSocket connection are transmitted as *frames*, which are low-level units that encapsulate the actual payload. Each frame includes metadata such as an _opcode_ (indicating message type), *masking information* (required for client-to-server messages to mitigate attacks such as cache poisoning), and fragmentation *flags* (to support message splitting across multiple frames). Each message can be composed of one or more frames, and *messages can be of two different types: text or binary*. Both types can be intermixed within the same session.
 ## How are WebSocket connections established?
 
+- ![[Pasted image 20260311210740.png]]
 ```js
 var ws = new WebSocket("wss://normal-website.com/chat");
 ```
@@ -55,7 +59,62 @@ Sec-WebSocket-Accept: 0FFP+2nmNIf/h+4BP36k9uzrYGk=
 ```json
 {"user":"Hal Pline","content":"I wanted to be a Playstation growing up, not a device to answer your inane questions"}
 ```
+## A Look at [Socket.IO](https://socket.io/) 
+- source article -> [Mastering WebSockets Vulnerabilities](https://deepstrike.io/blog/mastering-websockets-vulnerabilities) 
 
+[Socket.IO](https://socket.io/) is a popular JavaScript library that builds an additional protocol layer on top of WebSockets, providing extra features like automatic reconnection, heartbeats, and high-level events.
+
+_How to Spot It:_
+- Look for `?EIO=` in the handshake URL (e.g., `?EIO=4`)
+- Watch for specific framing patterns in the messages
+
+_Common [Socket.IO](https://socket.io/) Frames:_
+- `40` - Connection opened successfully
+- `2` and `3` - Ping/Pong heartbeats to keep the connection alive
+- `42["eventName", payload]` - Event with data (e.g., `42["message","hello"]`)
+
+_Why It Matters:_
+==Each event== maps directly to server-side handlers, making them equivalent to HTTP endpoints that ==require proper validation and authorization== if not ? => may be vulnerable
+### Basic [Socket.IO](http://Socket.IO) fuzzing
+> [!example] Intruder example:
+```python
+import burp.api.montoya.http.message.params.HttpParameter as HttpParameter
+
+def queue_websockets(upgrade_request, message):
+    connection = websocket_connection.create(
+        upgrade_request.withUpdatedParameters(HttpParameter.urlParameter("EIO", "4")))
+    connection.queue('40')
+    connection.queue('42["message","hello"]')
+
+@Pong("3")
+def handle_outgoing_message(websocket_message):
+    results_table.add(websocket_message)
+
+@PingPong("2", "3")
+def handle_incoming_message(websocket_message):
+    results_table.add(websocket_message)
+```
+**Use case:** More advanced attacks with better connection management.
+
+> [!example] HTTP adapter variant:
+```python
+import burp.api.montoya.http.message.params.HttpParameter as HttpParameter
+
+def create_connection(upgrade_request):
+    connection = websocket_connection.create(
+        upgrade_request.withUpdatedParameters(HttpParameter.urlParameter("EIO", "4")))
+    connection.queue('40')
+    connection.decIn()
+    return connection
+
+@Pong("3")
+def handle_outgoing_message(websocket_message):
+    results_table.add(websocket_message)
+
+@PingPong("2", "3")
+def handle_incoming_message(websocket_message):
+    results_table.add(websocket_message)
+```
 ---
 # Manipulating WebSocket traffic
 
