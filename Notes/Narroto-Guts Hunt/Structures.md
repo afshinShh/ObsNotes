@@ -6,11 +6,13 @@
 - *modern websites cannob be crawled by automated tools*
 - *always update your wordlist* 
 - *should review checker functions in js*
+- *Complexity may be benefitial to you if you get used to it* 
 - Narrow Recon (most difficult)-> ***ThreatModeling*** (add context to tests) -> Test
 - Go as deep as you can but dont skip
 - Narrow Recon (JS)
 - replacement after ruleset (= checker function or waf) is a killer
 - to know a program we must explore it like a nomal user 
+- Paid features are golden areas
 # Wide Recon -> wider attack surface
 - [ ] domain discovery
 	- [ ]  google dork
@@ -112,39 +114,38 @@ https://web.archive.org/cdx/search/cdx?url=*.capcut.com/&fl=original&collapse=ur
 - XSS is not related to content-type => always check for it (e.g  json:) 
 	- doesnt url encode/decode
 	- XSS in json sent data -> must be *DOM XSS* 
-# XSS
-## Contexts: 
-- **Outside a tag**
-	- script tag
-	- tag + event handler
-	-  `</a>` + js scheme 
-	- non executable tag (eg `</title>`)
-- **Inside a tag** 
-	- break the attribute & tag 
-	- break the attribute + event handler
-	- dangrous attributes
-		- href in `<a>` tag
-		- src / srcdoc in `<iframe>`
-- **JS context**
-	- close `</script>`
-	- break the context ( use expressions "-" )
-- **DOM**
-	- reflected but not in source code (ctrl + u ) => DOM
-	- look for dangerous sinks
-		- predefined-sinks
-			- `document.write` , `document.writeln`
-			- `window.open` , `window.location.assign`
-		- custom sinks 
-			- (ex: `loadExternalScript` in https://amazon.com)
-- **postMessage**
-	- dangerous sink ? yes 
-		- can we control input? yes
-			- is it vulnerable? depends => can I Exploit my friend?
-	- we cannot forge e.origin in message 
-	- not only XSS but CSRF or ATO
-## Post XSS
-- [ ] ATO
-	- [ ] change password
-	- [ ] account bind (linking victim's account to that account = in other words: integrations)
-- [ ] PII information leakage
 
+# Reporting
+## sections 
+### attack scenario
+- [ ]  avoid using 
+	- [ ] potentially
+	- [ ] attacker can (without POC)
+		- [ ] attacker can achieve RCE by this CVE...
+		- [ ] attacker can exploit XSS into ATO 
+	- [ ] may, might
+- [ ] precisely write what you have done
+- [ ] straight to the point + scenario
+> [!example]
+> ![[Pasted image 20260312182906.png]]
+
+> [!example]
+> ![[Pasted image 20260312183111.png]]
+### steps to reproduce 
+- [ ] do not teach triager team anything
+- [ ] be clear, be precise, steps by steps 
+- [ ] include Burp packets (text or image) 
+> [!example] attacker side: ... victim side: ...
+### POC Video
+- [ ] less than 2 minute (most effective is 30 seconds)
+- [ ] only show the attack scenario
+- [ ] only read one or 2 most important files you can read in case of LFI dont go furthure 
+### going forward 
+- [ ] ask the program to grant premission 
+- [ ] Wordpress -> takeover -> plugin (Shell) -> i did not 
+### CVSS /CWE 
+- [[Reporting#CVSS CWE|more details here]]
+## mistakes
+- [ ] unnecessary data + long report
+- [ ] ==potentially== attacker ==can==,... 
+- [ ] ==simple POC== at start (Then complex exploit)

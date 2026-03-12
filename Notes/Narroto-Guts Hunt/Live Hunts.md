@@ -1,4 +1,3 @@
-
 # CapCut
 test your payloads in JSfiddle
 - use `target="_blank"`
@@ -135,4 +134,6 @@ test your payloads in JSfiddle
 		- [x] get the token by fetch(`/logger?token'+'window.location.hash.split('#')[1]')`
 			- fetch failed -> browser doesnt allow passing credentials (why?)
 			-  final exploit using XHR: ![[Pasted image 20260303192142.png]] 
- 
+# Royalcanin
+- ![[Pasted image 20260312172156.png]]
+- 

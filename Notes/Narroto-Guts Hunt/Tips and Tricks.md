@@ -26,6 +26,40 @@ Object.keys(window).filter(k => !k.indexOf('on'))
 		- [ ] ![[Pasted image 20260301150611.png]]
 - [ ] checkout [[unprocessed-obsidians/xss#Framework‑specific Gotchas|Framework‑specific Gotchas]] 
 > [!example] Examples: `dangerouslySetInnerHTML`, `v-html`, `{@html ...}`, `next/script strategy="beforeInteractive"`, `innerHTML` ,...
+## Contexts: 
+- **Outside a tag**
+	- script tag
+	- tag + event handler
+	-  `</a>` + js scheme 
+	- non executable tag (eg `</title>`)
+- **Inside a tag** 
+	- break the attribute & tag 
+	- break the attribute + event handler
+	- dangrous attributes
+		- href in `<a>` tag
+		- src / srcdoc in `<iframe>`
+- **JS context**
+	- close `</script>`
+	- break the context ( use expressions "-" )
+- **DOM**
+	- reflected but not in source code (ctrl + u ) => DOM
+	- look for dangerous sinks
+		- predefined-sinks
+			- `document.write` , `document.writeln`
+			- `window.open` , `window.location.assign`
+		- custom sinks 
+			- (ex: `loadExternalScript` in https://amazon.com)
+- **postMessage**
+	- dangerous sink ? yes 
+		- can we control input? yes
+			- is it vulnerable? depends => can I Exploit my friend?
+	- we cannot forge e.origin in message 
+	- not only XSS but CSRF or ATO
+## Post XSS
+- [ ] ATO
+	- [ ] change password
+	- [ ] account bind (linking victim's account to that account = in other words: integrations)
+- [ ] PII information leakage
 # **FUZZ the whitespaces allowed** 
 - [ ] (re read js for hackers)
 - FUZZ for *HTML tags*
@@ -313,7 +347,10 @@ param_maker() {
 		- [ ] exists or not ?
 		- [ ] valid or not ?
 		- [ ] *state reuse*
-	- [ ] attacker grabs au thorization code and forces the victim to open it.
+	- [ ] ==Data in state==
+		- [ ] high likely is vulnerable (why ? -> custom code)
+		- [ ] check every parameter in state object 
+	- [ ] attacker grabs authorization code and forces the victim to open it.
 		- [ ] *if the user is already authenticated* => link account
 - [ ] evil application
 	- [ ] race condition 
@@ -342,7 +379,6 @@ param_maker() {
 					2. (if logged-in) -> token -> redirect_uri  
 					3. app + token -> HTTP request + token  
 					4. if token === true -> login
-
 		- [ ] ==hDOM==
 ### **transfer (2 apps one of them login other one not_login)** (NO OAUTH)
 - custom implementations
@@ -354,9 +390,26 @@ param_maker() {
 		- [ ] top level cookies (.domain)
 		- [ ] **==confirmation HTTP request==** **[[Live Hunts#Authneticarion transfer bug between mac app and webappz | Senario for multiple 1 click ATO on capcup]]**
 		- [ ] PostMessage
+		- [ ] different URLs data transmission (same origin Senario)
+			1. `https://site.com/google_links` (message + token)
+				- evenHandler -> onchange LocalStorage -> active (Close (2))
+			2. window open -> `https://site.com/auth/google/link` -> done
+				- token -> LocalStorage -> save
 	- app <=> website
-		- [ ] redirect back URL
-		- [ ] polling implementation
+		- [ ] redirect back URL (you clicked on redirect to app) => you must steal the victim token
+		- [ ] ==polling implementation== =>  One Click ATO (You only need to send the link to the user
+		      1. user clicks on "login with X" in application 
+		      2. user is redirected to website + *signature* 
+		      3. application keeps sending http requests + signature 
+		      4. after user login in website -> signature will be updated
+		      5. application authenticates using signature 
+		- How do you patch this behavior ?
+			- [ ]  is there any **Consent** ?
+				- [ ] can be CSRFed?
+					- [ ] can be Bypassed? ...
+			- [ ] is there any other restrictions (like IP)? 
+
+
 - [ ] how does the app manages to redirect back the users ?
 	- [ ] ex: `website -> oauth ->  ok (website login) -> app -> website -> app login -> ok`
 	- [ ] ex2: `app -> website -> oauth -> ...` 
@@ -367,7 +420,7 @@ param_maker() {
 	-  Senario : when you are logged-in for application but not with the website 
 	-  Link + random generated token (one time code) -> when you open it **=> website login**
 	- [ ] cancel when redirection and see the traffic 
-
+- [ ] qrcode login
 # Mobile pentest
 ## installation
 - [ ] genymotion
@@ -512,6 +565,9 @@ Java.perform(function () {
 > - [`scheme://host/`] -> manifest file
 > - `scheme://host/[path?QS]`-> in codes
 > 
+
+>[!example]
+>  `https://snapp.com?uri=snapp://taxi/get?data={"54.32","245,065"}` => redirected by JS 
 
 - Network tab in Chorom is a nice place to find em . 
 - How to test if the deep link you captured in requests actually exists?
