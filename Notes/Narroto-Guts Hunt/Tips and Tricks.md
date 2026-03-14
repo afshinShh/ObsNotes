@@ -49,6 +49,9 @@ Object.keys(window).filter(k => !k.indexOf('on'))
 			- `window.open` , `window.location.assign`
 		- custom sinks 
 			- (ex: `loadExternalScript` in https://amazon.com)
+	- look for application-specific patterns in sources
+		- `.get("`
+		- `location.search`
 - **postMessage**
 	- dangerous sink ? yes 
 		- can we control input? yes
@@ -60,7 +63,7 @@ Object.keys(window).filter(k => !k.indexOf('on'))
 	- [ ] change password
 	- [ ] account bind (linking victim's account to that account = in other words: integrations)
 - [ ] PII information leakage
-# **FUZZ the whitespaces allowed** 
+## **FUZZ the whitespaces allowed** 
 - [ ] (re read js for hackers)
 - FUZZ for *HTML tags*
 	- <img{fuzz}>src{fuzz}onerror=test
@@ -76,7 +79,7 @@ const worked = p => result.push(p); for (let i=0;i<=0x10ffff; ++i)
 ```js
 log=[]; let anchor =document.createElement('a'); for(let i=0;i<0x10ffff; i++){ anchor.href = `javascript${String.fromCodePoint(i)};`; if (anchor.protocol === 'javascript:'){ log.push(i) } }
 ```
-# **bypass**
+## **bypass**
 - [ ] known waf ? -> search the net 
 - [ ] CDN or application based ? -> build your own payload
 - [ ] you see JS protection ? -> go for debugger
@@ -143,7 +146,9 @@ for (let x in _W)
 - search
 	- EventListeners
 	- `window.close` 
-- Chrome (not burp's)
+- use Chrome (not burp's)
+- [ ] check layers of frame in top section of browser console 
+	- ![[Pasted image 20260313153934.png]]
 - important properties 
 	- e.source ->  *we cannot forge* 
 	- e.origin -> *we cannot forge* 
@@ -462,7 +467,6 @@ param_maker() {
         - [ ] `adb shell mount -o rw,remount /dev/block/by-name/system /`
       - [ ] Move the certificate again
         - [ ] `mv /sdcard/9a5ba575.0 /system/etc/security/cacerts/`
-
     - [ ] Set correct ownership
       - [ ] `chown root:root /system/etc/security/cacerts/9a5ba575.0`
     - [ ] Set correct permissions
@@ -593,3 +597,4 @@ Java.perform(function () {
 	    - NO?
 			- [ ] different urls
 			- [ ] try bypasses
+# File Upload
