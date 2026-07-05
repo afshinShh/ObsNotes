@@ -171,3 +171,73 @@ opening [the link](https://github.com/julz0815/mtech-training/blob/4a0d8fcec1d38
 	• CSPT vulnerability class explained (https://www.youtube.com/watch?v=z27bkSMARA8)
 - **Labs**
 	• CSPT Playground (https://github.com/doyensec/CSPTPlayground)
+## CSPT Across Every Major Frontend Framework 
+- [source](https://lab.ctbb.show/research/the-dot-dot-slash-that-frameworks-hand-you) (MUST READ)
+### Path Params: Does `%2F` Decode to `/`?
+
+|Framework|Source|`%2F` → `/`?|`%2E%2E` → `..`?|Double-Encode (`%252F`)?|Decode Function|
+|---|---|---|---|---|---|
+|**React Router**|`useParams()`|YES|YES|YES (decode + replace)|`decodeURIComponent` + `.replace(/%2F/g, "/")`|
+|**Next.js**|`useParams()` / page `await params`|NO (re-encoded)|YES|NO|`getParamValue()` re-encodes|
+|**Next.js**|Route handler `await params`|YES|YES|NO|`getRouteMatcher()` → `decode`|
+|**Vue Router**|`route.params.*`|YES|YES|NO|`decodeURIComponent` via `decodeParams()`|
+|**Nuxt** (client)|`useRoute().params.*`|YES|YES|NO|Inherits Vue Router `decodeParams()`|
+|**Nuxt** (server)|`getRouterParam(event, 'id')`|NO|NO|NO|Raw from radix3 (no decode by default)|
+|**Nuxt** (server)|`getRouterParam(event, 'id', { decode: true })`|YES|YES|NO|`decodeURIComponent`|
+|**Angular**|`paramMap.get()`|YES|YES|NO|`decodeURIComponent` via `decode()`|
+|**SvelteKit**|`params.*` in load functions|YES|YES|NO (`%25`-split blocks)|`decode_pathname()` + `decode_params()`|
+|**Ember** (`:param`)|`params.*` in model hook|YES|YES|NO (`normalizePath` re-encodes %)|`normalizePath()` + `findHandler()` → `decodeURIComponent`|
+|**Ember** (`*wildcard`)|`params.*` in model hook|NO (star skips final decode)|Partial|NO|`normalizePath()` only (no final decode)|
+|**SolidStart**|`useParams()`|NO|NO|NO|None (raw from URL)|
+
+### Query Params: Decoded Everywhere
+
+Every framework decodes query parameters. There are no exceptions.
+
+|Framework|Source|Decoded?|Notes|
+|---|---|---|---|
+|**React Router**|`useSearchParams()`|YES|Standard `URLSearchParams`|
+|**Next.js**|`useSearchParams()` / `searchParams`|YES|Standard `URLSearchParams`|
+|**Vue Router**|`route.query.*`|YES|Vue’s `parseQuery()`, `+` stays literal|
+|**Nuxt** (client)|`useRoute().query.*`|YES|Inherits Vue Router `parseQuery()`|
+|**Nuxt** (server)|`getQuery(event)`|YES|`ufo` library decodes|
+|**Angular**|`queryParamMap.get()`|YES|`decodeQuery()` → `decodeURIComponent`|
+|**SvelteKit**|`url.searchParams` / `$page.url.searchParams`|YES|Standard `URLSearchParams`|
+|**Ember**|Query params in model hook|YES|Browser-decoded|
+|**SolidStart**|`useSearchParams()`|YES|Standard `URLSearchParams`|
+
+### XSS Sinks: The Escalation Function
+
+|Framework|Dangerous Render|Syntax|Compiles To|
+|---|---|---|---|
+|**React**|`dangerouslySetInnerHTML`|`<div dangerouslySetInnerHTML= />`|`element.innerHTML = val`|
+|**Next.js**|`dangerouslySetInnerHTML`|Same as React|`element.innerHTML = val`|
+|**Vue / Nuxt**|`v-html`|`<div v-html="val" />`|`element.innerHTML = val`|
+|**Angular**|`[innerHTML]` + `bypassSecurityTrustHtml()`|`<div [innerHTML]="val">`|`element.innerHTML = val` (bypasses sanitizer)|
+|**SvelteKit**|`{@html}`|`{@html val}`|`element.innerHTML = val`|
+|**Ember**|Triple curlies / `htmlSafe()`|`}`|`insertAdjacentHTML('beforeend', val)`|
+|**SolidStart**|`innerHTML`|`<div innerHTML={val} />`|`element.innerHTML = val`|
+
+### Safe Sources: What Won’t Betray You
+
+|Framework|Safe Source|Why|
+|---|---|---|
+|**React Router**|`useLocation().pathname`|Preserves `%2F` encoding|
+|**Next.js**|`useParams()` / page `await params`|`getParamValue()` re-encodes `%2F`|
+|**Vue Router**|`route.path`, `route.fullPath`|Preserves `%2F` encoding|
+|**Nuxt** (client)|`route.path`, `route.fullPath`|Inherits Vue Router encoding preservation|
+|**Nuxt** (server)|`getRouterParam()` without `{ decode: true }`|Raw from radix3, no decode|
+|**Angular**|`router.url`|Preserves `%2F` encoding|
+|**SvelteKit**|Param matchers (`[id=id]`)|Rejects non-matching values at route level|
+|**Ember**|`window.location.pathname`|Raw browser value, bypasses route-recognizer|
+|**SolidStart**|`useParams()` (single segment)|Router never calls `decodeURIComponent`|
+
+### Server-Side / Secondary Traversal Sinks
+
+|Framework|Server Sink|Params Decoded?|Risk|
+|---|---|---|---|
+|**Next.js**|Route handler `await params` → `fetch()`|YES (auto-decoded)|SSRF to internal services|
+|**Nuxt**|`getRouterParam(event, 'id', { decode: true })` → `$fetch()`|YES (opt-in)|SSRF to internal services|
+|**SvelteKit**|`+page.server.ts` / `+server.ts` params → `fetch()`|YES (`decode_params()`)|SSRF, bypasses `hooks.server.ts`|
+|**SolidStart**|`query("use server")` args → `fetch()`|Passthrough (exact client string)|SSRF if input already decoded|
+

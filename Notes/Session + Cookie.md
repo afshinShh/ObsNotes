@@ -135,3 +135,245 @@ This seems like a lot of things that have to line up, but CSWSH has been more co
 - WebSocket server **should first check the Origin of the WebSocket handshake request**. If the request does not come from a trusted and expected Origin, then the WebSocket handshake should fail. “`Missing Origin Validation in WebSockets`” has its own Common Weakness Enumeration [CWE-1385](https://cwe.mitre.org/data/definitions/1385.html).
 - thinking of setting CSRF cookie ? => **[you can’t set arbitrary headers](https://github.com/whatwg/websockets/issues/16)**. There are some workarounds such as putting a token in the [Sec-WebSocket-Protocol header](https://ably.com/blog/websocket-authentication) or authenticating in the first WebSocket message.
 - `SameSite=Lax` by default (not all the browsers support this)
+
+
+
+# Cookie Security
+
+## Cookie attributes
+
+**“Ultimate” cookie:**
+
+```http
+Set-Cookie: __Host-SessionID=3h93...; Path=/; Secure; HttpOnly; SameSite=Strict
+````
+
+---
+
+### Secure attribute
+
+The `Secure` attribute ensures the cookie is only sent over HTTPS (except localhost).
+
+- Protects **confidentiality only** (not integrity)
+- [ ] Can still be modified via:
+    - [ ] Local disk access
+    - [ ] JavaScript (indirect overwrite scenarios)
+
+**Browser behavior:**
+
+- [ ] `http:` cannot set `Secure` cookies (Chrome ≥52, Firefox ≥52)
+- [ ] Firefox allows `Secure` on `localhost` (≥75)
+
+---
+
+### HttpOnly attribute
+
+Prevents JavaScript access via `document.cookie`.
+
+- Protects **confidentiality only**
+- Still vulnerable to overwrite via cookie jar flooding
+---
+
+### Path attribute
+
+Defines when a cookie is sent based on request path.
+
+Example: `Path=/docs`
+
+**Matches:**
+
+- `/docs`
+- `/docs/`
+- `/docs/Web/`
+- `/docs/Web/HTTP`
+
+**Does NOT match:**
+
+- `/`
+- `/docsets`
+- `/fr/docs`
+#### Notes
+
+- `/` acts as directory separator
+- Subdirectories are included
+#### Cookie scope vs Same-Origin Policy
+- ![[Pasted image 20260423201324.png]]
+#### Isolation of applications on shared host
+- ![[Pasted image 20260423201335.png]]
+### Domain attribute
+
+Defines which hosts receive the cookie.
+
+- **Not set** → only exact host
+- **Set** → applies to domain **and all subdomains**
+
+> ⚠️ IE sends cookies to subdomains even if not specified
+
+### Expires attribute
+
+Defines expiration as an HTTP-date.
+
+- Not set → session cookie
+- Browser decides session lifetime
+- Session cookies **may persist across restarts**
+### Max-Age attribute
+
+- Defines lifetime in seconds
+- Overrides `Expires` if both are set
+
+### SameSite attribute
+
+Controls cross-site cookie behavior.
+#### Values:
+
+- **Strict**
+    - Only same-site requests
+    - Blocks all cross-site usage
+- **Lax** (default)
+    - Blocks most cross-site
+    - Allows top-level navigation via:
+        - `GET`, `HEAD`, `OPTIONS`, `TRACE`
+- **None**
+    - Allows all cross-site requests
+    - Requires `Secure`
+```http
+SameSite=None; Secure
+```
+
+> [!info]  
+> Chrome treats cookies without `SameSite` as `None` for ~2 minutes, then `Lax`.
+
+> [!info]  
+> Same-site ≠ Same-origin. `SameSite` only affects cross-site requests.
+### Cookie prefix
+
+Adds enforced constraints via naming.
+- `__Secure-`
+    - Requires `Secure`
+- `__Host-`
+    - Requires:
+        - `Secure`
+        - `Path=/`
+    - Disallows:
+        - `Domain`
+
+### Cookie-list sorting (RFC6265)
+
+Cookies are sent in this order:
+1. Longer `Path` first
+2. Older cookies first (if same path length)
+therefore If an app uses the **first cookie**, you can
+- Inject a cookie with **longer Path** => Override server-side parsing logic
+### References
+
+- [https://developer.mozilla.org/en-US/docs/Web/API/document/cookie](https://developer.mozilla.org/en-US/docs/Web/API/document/cookie)
+- [https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie)
+- [https://tools.ietf.org/html/rfc6265#section-5.4](https://tools.ietf.org/html/rfc6265#section-5.4)
+## Cookie Bomb
+
+- A **cookie bomb** floods a victim’s browser with a large number of oversized cookies for a domain (and its subdomains).
+### Impact
+
+- Browser sends **huge HTTP requests** (Cookie header bloat)
+- Server may reject requests (header size limits)
+- Results in **client-side DoS** for that domain
+
+### Key Idea
+
+Exploit browser behavior:
+- Cookies are automatically attached to every request
+- No strict per-request size normalization on client side
+
+### References
+
+- https://book.hacktricks.xyz/pentesting-web/hacking-with-cookies/cookie-bomb
+- https://hackerone.com/reports/57356
+- https://speakerdeck.com/filedescriptor/the-cookie-monster-in-your-browsers?slide=26
+
+## Cookie Jar Overflow
+
+Browsers enforce limits on:
+- Number of cookies per domain
+- Total cookie storage
+
+This can be abused to **evict existing cookies**.
+### Primitive
+
+```javascript id="w3md8x"
+// Fill cookie jar
+for (let i = 0; i < 700; i++) {
+    document.cookie = `cookie${i}=${i}; Secure`;
+}
+
+// Clear them (optional cleanup)
+for (let i = 0; i < 700; i++) {
+    document.cookie = `cookie${i}=${i}; expires=Thu, 01 Jan 1970 00:00:01 GMT`;
+}
+````
+
+### Exploitation
+
+- Force eviction of:
+    - Session cookies
+    - `HttpOnly` cookies (indirectly)
+- Replace with attacker-controlled values
+
+> [!info]  
+> Third-party cookies (different domain) are not overwritten.
+
+---
+
+### References
+
+- [https://book.hacktricks.xyz/pentesting-web/hacking-with-cookies/cookie-jar-overflow](https://book.hacktricks.xyz/pentesting-web/hacking-with-cookies/cookie-jar-overflow)
+- [https://www.sjoerdlangkemper.nl/2020/05/27/overwriting-httponly-cookies-from-javascript-using-cookie-jar-overflow/](https://www.sjoerdlangkemper.nl/2020/05/27/overwriting-httponly-cookies-from-javascript-using-cookie-jar-overflow/)
+---
+
+## Cookie Tossing
+
+If you control a **subdomain** (or achieve XSS on it), you can set cookies affecting the parent domain and other subdomains.
+### Why it works
+
+- Cookies with `Domain=example.com` apply to:
+    - `example.com`
+    - `*.example.com`
+### Attack Vectors
+
+- **Session fixation**
+    - Pre-set session ID before login
+- **Data exfiltration**
+    - Victim unknowingly uses attacker-controlled session
+- **CSRF bypass**
+    - Predictable/known token value set pre-auth
+- **Cookie bomb chaining**
+    - Combine with cookie flooding
+### Duplicate Cookie Behavior
+
+Browsers may send **multiple cookies with same name** if scope differs.
+If backend:
+- Uses **first cookie only** → exploitable
+### Bypass techniques
+
+- Set cookie with **longer `Path`** → higher priority
+- Example:
+```http
+Cookie: session=attacker; session=victim
+```
+
+### If duplicates are rejected
+
+Fallback strategies:
+
+- **Cookie jar overflow**
+    - [ ] Evict legit cookie, replace with attacker one
+- **Name mutation tricks**
+    - [ ] Encoding:
+        - `%00`
+        - `%20`
+        - `%09`
+    - [ ] Case variations:
+        - `Session`
+        - `session`
+### References
+
+- [https://book.hacktricks.xyz/pentesting-web/hacking-with-cookies/cookie-tossing](https://book.hacktricks.xyz/pentesting-web/hacking-with-cookies/cookie-tossing)

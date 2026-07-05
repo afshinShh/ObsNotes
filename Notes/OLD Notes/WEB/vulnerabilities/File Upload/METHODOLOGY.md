@@ -7,7 +7,7 @@ no defense -> upload server-side scripts+execute as code =>  simple RCE via web 
 	- [ ] *simple text* -> `application/x-www-form-url-encoded`
 	- [ ] *large amounts of binary data*, such as an entire *image file* or a *PDF* document -> `multipart/form-data`
 		- [ ] each part contains a `Content-Disposition` (basic information about the input field)
-			- [ ] may contain their own `Content-Type` header
+	- [ ] may contain their own `Content-Type` header
 ##### exploit
 => **change the `Content-Type` header** [[Notes/OLD Notes/WEB/vulnerabilities/File Upload/Examples#Flawed file type validation|example]]
 ## Preventing file execution in user-accessible directories

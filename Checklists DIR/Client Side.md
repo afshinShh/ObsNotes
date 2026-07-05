@@ -18,7 +18,7 @@
 	- [ ] `application/x-www-form-urlencoded`
 	- [ ] `multipart/form-data`
 - [ ] Check Other Protocols
-		- [ ] cross-site <mark style="background: #FFB86CA6;">WebSocket</mark> hijacking (CSWSH) ([[Session#Cross-Site WebSocket Hijacking (CSWSH) |Notes]]) ([[Notes/OLD Notes/WEB/vulnerabilities/CSRF/attack/Examples#cross-site WebSocket hijacking (CSWSH)|Example]]) 
+		- [ ] cross-site <mark style="background: #FFB86CA6;">WebSocket</mark> hijacking (CSWSH) ([[Session + Cookie#Cross-Site WebSocket Hijacking (CSWSH)|Notes]]) ([[Notes/OLD Notes/WEB/vulnerabilities/CSRF/attack/Examples#cross-site WebSocket hijacking (CSWSH)|Example]]) 
 - [ ] Check CSRF in <mark style="background: #FFB86CA6;">Graphql</mark> endpoints [[Notes/OLD Notes/WEB/vulnerabilities/CSRF/attack/Examples#CSRF in Graphql endpoints|Example POC]]
 ## Bypassing CSRF-token validation
 

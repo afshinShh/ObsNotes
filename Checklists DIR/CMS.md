@@ -84,7 +84,7 @@ for i in {1..100}; do curl -s -L -i http://example.com/?author=$i | grep -E -o "
   - [ ] Test contact forms by injecting malicious URLs in fields like Name/Cognome
   - [ ] Verify if auto-response emails include injected hyperlinks for phishing
 - [ ] **Server-Side Request Forgery (SSRF)** via xmlrpc.php
-  - [ ] <mark style="background: #FFB86CA6;">Enumerate methods</mark>: POST with `system.listMethods`, look for pingback.ping
+  - [ ] <mark style="background: #FFB86CA6;">Enumerate methods</mark>: POST with 3`system.listMethods`, look for pingback.ping
     - [ ]  ![[Pasted image 20260103152902.png]]
   - [ ] Exploit: POST with `pingback.ping` to request internal/external resources 
     - [ ] ![[Pasted image 20260103153027.png]]

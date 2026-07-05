@@ -59,3 +59,37 @@
 - [source: Successful Errors: New Code Injection and SSTI Techniques](https://github.com/vladko312/Research_Successful_Errors/blob/main/README.md)
 - [SSTImap](https://github.com/vladko312/SSTImap) uses this approach for blind detection 
 - [ ] [[Payloads/SSTI#Blind Erorr-Based|list of payloads for manual detection and exploitation based oin the template parser and language]]
+
+
+# File Upload
+
+for the full comprehensive methodology go [[File Upload|Here]] 
+1. **Discovery Phase**:
+   - [ ] Map all file upload functionality
+   - [ ] Identify client-side and server-side validation patterns
+   - [ ] Document allowed file types and upload restrictions
+
+2. **Initial Testing Phase**:
+   - [ ] Test baseline functionality with expected file types
+   - [ ] Test basic restriction bypasses:
+     - [ ] Extension manipulation
+     - [ ] Content-Type manipulation
+     - [ ] Simple payload attempts
+
+3. **Advanced Testing Phase**:
+   - [ ] Test for complex bypass techniques:
+     - [ ] Polyglot files
+     - [ ] Metadata injection
+     - [ ] Race conditions
+     - [ ] Upload directory traversal
+
+4. **Exploitation Phase**:
+   - [ ] Verify code execution for successful uploads
+   - [ ] Test chained attack scenarios
+   - [ ] Document impact and attack chains
+
+5. **Post-Exploitation Testing**:
+   - [ ] Test upload persistence
+   - [ ] Test access control on uploaded files
+   - [ ] Test ability to access uploads across user contexts
+

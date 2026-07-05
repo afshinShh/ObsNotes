@@ -1,4 +1,4 @@
-# XSS
+ # XSS
 - 80% of time should be spent in **Debugger** 
 	- start with `HTML injection` of some sort
 	- use `Step in` option for detailed JS analysis more often
@@ -12,11 +12,11 @@ Object.keys(window).filter(k => !k.indexOf('on'))
 		- *window.open*
 		- *window.location*
 		- *window.location.href*
-- in complex targets, try to change the ==final value of the parameter== you can control (after all the sanitization, changes and Rulesets) and confirm there exists XSS then try to bypass the logic.
+- in complex targets, try to change the ==final value of the parameter== you can control (after all the sanitization, changes and Rulesets) and confirm there exists XSS then try to bypass the logic there.
 - use breakpoint and then ==browse the site==  [reference](https://developer.chrome.com/docs/devtools/javascript/breakpoints#overview) 
 	- (in some cases, breakpoint won't trigger if you reload the same page)
 	- You must reach such a level in JS debugging that enables you to find and trace every client‑side functionality you encounter while testing an application
-	- ==Conditional-Breakpoints== allow you to pause *ONLY* in your terms (they DO NOT change the value on the fly, they only check that for you)
+	- ==Conditional-Breakpoints== allow you to pause *ONLY* in your terms (they DO NOT change the value on the fly, they only check if your condition holds)
 - in SPAs, there is plenty of ==client-side redirects== => DOM XSS
 	- [ ] Pause the state you are in with DOM using escape
 	- [ ] throw exception to furthur understand the procecss 
@@ -36,9 +36,9 @@ Object.keys(window).filter(k => !k.indexOf('on'))
 	- break the attribute & tag 
 	- break the attribute + event handler
 	- dangrous attributes
-		- href in `<a>` tag
-		- src / srcdoc in `<iframe>`
+		- **href in `<a>` tag** (in ==SPAs== the programmer must explicitly allow dangerous html unless in this tag)
 - **JS context**
+	- src / srcdoc in `<iframe>`
 	- close `</script>`
 	- break the context ( use expressions "-" )
 - **DOM**
@@ -53,8 +53,8 @@ Object.keys(window).filter(k => !k.indexOf('on'))
 		- `.get("`
 		- `location.search`
 - **postMessage**
-	- dangerous sink ? yes 
-		- can we control input? yes
+	- dangerous sink ? if yes: 
+		- can we control input? if yes:
 			- is it vulnerable? depends => can I Exploit my friend?
 	- we cannot forge e.origin in message 
 	- not only XSS but CSRF or ATO
@@ -81,13 +81,13 @@ log=[]; let anchor =document.createElement('a'); for(let i=0;i<0x10ffff; i++){ a
 ```
 ## **bypass**
 - [ ] known waf ? -> search the net 
-- [ ] CDN or application based ? -> build your own payload
-- [ ] you see JS protection ? -> go for debugger
+- [ ] CDN or application based ? -> build your own custom payload
+- [ ] you see JS protection ? -> go to debugger in order to bypass that 
 - Do not use noisy Strings  
 	- `<x> -> <x onxxx -> <x onxxx= `
 ### in HTML tags
 - [ ] fuzz to find a valid tag
-- [ ] *<ta[FUZZ]g> (it will get valid server side)* #gold (***change after ruleset is a killer***)
+- [ ] *<ta[FUZZ]g> (it will get valid at server side)* #gold (***change after ruleset is a killer***)
 - [ ] waf confusion 
 	- [ ] *use HTML encoding* #gold
 		- [ ] `<img src onerror=alert(1)` -> 403
@@ -105,7 +105,7 @@ log=[]; let anchor =document.createElement('a'); for(let i=0;i<0x10ffff; i++){ a
 	- [ ] `[]['cons' + 'tructor']['const' + 'ructor']('aler' + 't(origin)')()`
 	- [ ]  `this['aler' + 't']()`
 	- [ ] `a = this; a['a' + 'lert'](origin)`
-> [!note] scripts to find custom window object specific to that webapp and consequently bypassing the waf in new fasion #gold 
+> [!note] scripts to find custom window object specific to that webapp and consequently bypassing the waf  #gold 
 ```js
 for (let x in window)
 	    if (window[x] === window)
@@ -176,6 +176,7 @@ for (let x in _W)
 	- header
 - you should balance the fuzzing condition
 - ===***FOLLOW the LEAST CHANGE principle***=== (no kermanshaahi hack :)
+- Understand when/where not to FUZZ (ex: when you see the response is unchanged whatever paramtere you passing to the endpoint (=> *React SPAs with a big chunk of HTML in response with no change in repsonse*))
 ### hidden resources
 - unlinked directories|files
 - development|testing environments
@@ -319,7 +320,7 @@ param_maker() {
 	- [ ] `noreply@github.com` 
 	- [ ] `support@company.com`
 - [ ] instant login after inregisteration
-	- [ ] `victim@gmail.com%0a` _(%0a means 0 - 20 HEX)_
+	- [ ] `victim@gmail.com%0a` _(%0a means 0 - 20 HEX here)_
 	- [ ] `victim+a@gmail.com`
 - [ ] confirmation link ?
 	- [ ] verification bypass
@@ -327,8 +328,15 @@ param_maker() {
 ### sign in
 - [ ] test over 100 page => pattern 
 - [ ] determine the pattern look for ==custom ones==
-- [ ] try to manipulate the flow'
+- [ ] try to manipulate the flow
 ### 2FA 
+- maximum severity wouldn't exceed above medium (because you dont have the password for the previous step)
+- Google authenticator implementation => buggy
+-  possible flows :
+	- [ ] ==credentials -> login session -> 2FA -> session update== (buggy)
+		- [ ] send HTTP request to all  endpoints without having the 2FA session
+	- [ ] credentials -> 2FA -> login session
+- [ ] consider testing response manipulation 
 ### OAuth
 - [ ] providers (ONLY for unknown providers)
 	- [ ] code expiratinon
@@ -597,4 +605,55 @@ Java.perform(function () {
 	    - NO?
 			- [ ] different urls
 			- [ ] try bypasses
+# Automation tips
+- use github + discord for ==**tracking the changes in js files**== of the site (also include checking the source maps )
+	- ![[Pasted image 20260409192610.png]]
+	- ALSO you must **prefetch the changing factor** like hash in the filenames everytime you request them
 # File Upload
+- [ ] **Architecture**
+	- [ ] document root (old school)
+	- [ ] route based applications
+- [ ] **Uploader**
+	- [ ] HTML
+		- [ ] simple form
+		- [ ] JavaScript
+	- [ ] action point
+		- [ ] data
+			- [ ] all in one
+			- [ ] separated parameters
+			- [ ] mass assignment?
+		- [ ] url
+			- [ ] ssrf
+			- [ ] manipulation
+		- [ ] form content type
+			- [ ] json
+			- [ ] multipart
+	- [ ] verifications
+		- [ ] extension
+		- [ ] file contents
+			- [ ] magic byte 
+			- [ ] full check (the image must be valid )
+				- [ ] exiftool --comment 
+		- [ ] [**content type**](https://github.com/BlackFan/content-type-research/blob/master/XSS.md)  -> XSS  (you must find the hole that trusts the domain we uploaded the file into)
+			- [ ] often in S3 cases whichever content-type you request holds goes into the response (dynamic) => checker function gaurds S3 
+				- [ ] an example flow: ![[Pasted image 20260409221251.png]]
+		- [ ] CSP => [check here](https://csp-evaluator.withgoogle.com/) + look for CSP bypasses 
+	- [ ] files
+		- [ ] html
+		- [ ] xml
+		- [ ] svg
+- [ ] **storage**
+	- [ ] same domain
+	- [ ] different domain
+	- [ ] s3 (third parties)
+- [ ] **server**
+	- [ ] domain
+		- [ ] different domain
+		- [ ] same domain
+	- [ ] direct file
+		- [ ] extension
+		- [ ] name
+		- [ ] content type
+	- [ ] indirect file
+		- [ ] tokenized
+		- [ ] signed

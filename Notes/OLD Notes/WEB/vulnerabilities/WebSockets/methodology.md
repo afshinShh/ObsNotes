@@ -2,9 +2,10 @@
 ## Manipulating WebSocket messages
 
 [[Notes/OLD Notes/WEB/vulnerabilities/WebSockets/concepts#Manipulating WebSocket traffic|manipulate WebSocket]] 
--> test for xss by changing message [[Notes/OLD Notes/WEB/vulnerabilities/WebSockets/Examples#Manipulating WebSocket messages|payload]]
+-> test the HTTP vulnerabilities in websocket context [[Notes/OLD Notes/WEB/vulnerabilities/WebSockets/Examples#Manipulating WebSocket messages|Examples]]
 ## Manipulating the WebSocket handshake
 [[Notes/OLD Notes/WEB/vulnerabilities/WebSockets/concepts#Manipulating WebSocket connections|Manipulating WebSocket connections]]
+- [ ]  Test for [[Session + Cookie#Cross-Site WebSocket Hijacking (CSWSH)| Cross-Site WebSocket Hijacking (CSWSH) ]] 
 ## tools
 -  [WebSocket Turbo Intruder](https://portswigger.net/bappstore/ba292c5982ea426c95c9d7325d9a1066) by portswigger
 - [wsrepl](https://github.com/doyensec/wsrepl) (Websocket Read-Eval-Print Loop (REPL) for pentesters) from doyensec - see the paper here: ([Streamlining Websocket Pentesting with wsrepl](https://blog.doyensec.com/2023/07/18/streamlining-websocket-pentesting-with-wsrepl.html))

