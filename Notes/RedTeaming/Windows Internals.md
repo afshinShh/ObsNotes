@@ -197,3 +197,59 @@ dv.table(["Section", "Purpose"], [
 ])
 ```
 ## interacting with windows internals
+
+- An application by default normally cannot interact with the kernel or modify physical hardware and requires an interface. This problem is solved through the use of processor modes and access levels.
+- A Windows processor has a _user_ and _kernel_ mode. The processor will switch between these modes depending on access and requested mode.
+- The switch between user mode and kernel mode is often facilitated by system and API calls. In documentation, this point is sometimes referred to as the "_Switching Point_."
+```dataviewjs
+dv.table(["User Mode", "Kernel Mode"], [
+  ["No direct hardware access", "Direct hardware access"],
+  ["Creates a process in a private virtual address space", "Ran in a single shared virtual address space"],
+  ["Access to \"owned memory locations\"", "Access to entire physical memory"]
+])
+```
+
+
+![[Pasted image 20260705223031.png]]
+
+>[!example] inject a message box into our local process to demonstrate a proof-of-concept to interact with memory.
+- [ ] to obtain the handle of the specified process:
+```cpp
+HANDLE hProcess = OpenProcess(
+	PROCESS_ALL_ACCESS, // Defines access rights
+	FALSE, // Target handle will not be inhereted
+	DWORD(atoi(argv[1])) // Local process supplied by command-line arguments 
+);
+```
+- [ ] to allocate a region of memory with the payload buffer:
+```cpp
+remoteBuffer = VirtualAllocEx(
+	hProcess, // Opened target process
+	NULL, 
+	sizeof payload, // Region size of memory allocation
+	(MEM_RESERVE | MEM_COMMIT), // Reserves and commits pages
+	PAGE_EXECUTE_READWRITE // Enables execution and read/write access to the commited pages
+);
+```
+- [ ] to write the payload to the allocated region of memory:
+```cpp
+WriteProcessMemory(
+	hProcess, // Opened target process
+	remoteBuffer, // Allocated memory region
+	payload, // Data to write
+	sizeof payload, // byte size of data
+	NULL
+);
+```
+- [ ] to execute our payload from memory:
+```cpp
+remoteThread = CreateRemoteThread(
+	hProcess, // Opened target process
+	NULL, 
+	0, // Default size of the stack
+	(LPTHREAD_START_ROUTINE)remoteBuffer, // Pointer to the starting address of the thread
+	NULL, 
+	0, // Ran immediately after creation
+	NULL
+); 
+```
