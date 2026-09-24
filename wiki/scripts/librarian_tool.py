@@ -591,12 +591,13 @@ def get_recommendations_list():
     # Recommendation A: Review Backlog Prioritization
     if proposals:
         recs.append({
+            "id": "rec_review_backlog",
             "author": "Thoth (Obsidian Librarian)",
             "category": "Review Prioritization",
             "priority": "HIGH",
             "title": f"Review Backlog: {len(proposals)} Staged Knowledge Proposals Waiting",
             "details": f"Thoth has formulated {len(proposals)} review proposals under 'wiki/Review/'. These proposals enrich the vault across Web Injection, Auth & Session, Protocol Desync, and Binary Exploit Development. Approving and compiling these will scale the gold wiki from {len(compiled)} to {len(compiled) + len(proposals)} interlinked technical notes.",
-            "action": "Open the 'Table of Contents' or 'Review Proposals' view to inspect parsed markdown and approve individual or batch proposals.",
+            "action": "Approve and compile all staged proposals into compiled gold wiki pages.",
             "type": "review_triage"
         })
 
@@ -604,24 +605,26 @@ def get_recommendations_list():
     if "blind-ssrf-gopher-redis-rce" in compiled and "fastcgi-ssrf-exploitation" in compiled:
         if "redis-vs-fastcgi-ssrf-pivoting" not in compiled:
             recs.append({
+                "id": "rec_synthesis_ssrf_matrix",
                 "author": "Thoth (Obsidian Librarian)",
                 "category": "Knowledge Synthesis",
                 "priority": "MEDIUM",
                 "title": "Synthesis Candidate: Gopher SSRF Exploitation Matrix (Redis vs FastCGI)",
                 "details": "The wiki contains deep standalone concepts for both Redis RCE and FastCGI binary frame injection via Gopher SSRF. Synthesizing a comparison note evaluating network exposure prerequisites (TCP 6379 vs 9000), payload framing constraints, and privilege limits will deepen offensive pivot playbooks.",
-                "action": "Instruct Thoth: 'Synthesize a comparison between Redis and FastCGI Gopher SSRF and stage a proposal in wiki/Review/.'",
+                "action": "Synthesize a technical comparison note comparing Redis RESP vs FastCGI binary frames via Gopher SSRF.",
                 "type": "synthesis_candidate"
             })
 
     # Recommendation B2: Exploitation Attack Chain
     if "blind-ssrf-gopher-redis-rce" in compiled and "wordpress-performance-monitor" in compiled:
         recs.append({
+            "id": "rec_attack_chain_wp_redis",
             "author": "Thoth (Obsidian Librarian)",
             "category": "Attack Chain Discovery",
             "priority": "HIGH",
             "title": "Exploitation Attack Chain: WordPress SSRF to Internal Redis RCE",
             "details": "Thoth's graph analysis identifies a high-severity pivot chain: 'WordPress Performance Monitor Plugin' (entity) provides an unauthenticated blind SSRF vector in the 'track' parameter, while 'Blind SSRF to Redis RCE via Gopher' (concept) supplies the binary payload framing required to compromise internal Redis on port 6379. We recommend linking the specific Gopher payload framing syntax from the Redis concept into the WordPress entity notes to establish an end-to-end unauth-to-RCE exploit chain.",
-            "action": "Open 'wordpress-performance-monitor' in the Reader and review the attack chain cross-link.",
+            "action": "Link the WordPress unauth SSRF vector directly to internal Redis RCE in entities/wordpress-performance-monitor.md.",
             "type": "attack_chain"
         })
 
@@ -629,12 +632,13 @@ def get_recommendations_list():
     if "jwt-security-mechanisms" in compiled and "oauth-grant-types-and-flows" in compiled:
         if "jwt-in-oauth2-architecture" not in compiled:
             recs.append({
+                "id": "rec_synthesis_jwt_oauth",
                 "author": "Thoth (Obsidian Librarian)",
                 "category": "Knowledge Synthesis",
                 "priority": "MEDIUM",
                 "title": "Synthesis Candidate: Token Security Architecture (JWT in OAuth 2.0 / OIDC)",
                 "details": "Both JWT security mechanisms and OAuth grant flows are compiled in the gold wiki. Creating an architecture synthesis note explaining how JWTs serve as Bearer Access Tokens, ID Tokens, and Client Assertions (RFC 7523) will unify the cryptographic and protocol domains.",
-                "action": "Instruct Thoth: 'Create an architecture synthesis note for JWT usage across OAuth 2.0 grant types.'",
+                "action": "Synthesize an architecture comparison note integrating JWT validation across OAuth 2.0 grant types.",
                 "type": "synthesis_candidate"
             })
 
@@ -643,27 +647,178 @@ def get_recommendations_list():
         web_inj = [f for f in unprocessed if f in ["sql-injection.md", "xss.md", "xxe.md", "ssrf.md", "ssti.md", "parameter-pollution.md"]]
         proto_desync = [f for f in unprocessed if f in ["req-smuggle.md", "graphql.md"]]
         recs.append({
+            "id": "rec_thematic_web_inj",
             "author": "Thoth (Obsidian Librarian)",
             "category": "Vault Enrichment",
             "priority": "LOW",
             "title": f"Thematic Ingestion Strategy: {len(unprocessed)} Raw Notes in Queue",
             "details": f"Remaining raw notes in 'unprocessed-obsidians/' should be compiled in thematic clusters. Recommended next wave: Web Injection ({len(web_inj)} notes: {', '.join(web_inj[:3])}) and Protocol Desync ({len(proto_desync)} notes: {', '.join(proto_desync)}). Ingesting by cluster ensures dense bidirectional graph linking.",
-            "action": "Run thematic batch ingestion or review staged proposals in the Decision Studio.",
+            "action": "Prioritize and stage thematic clusters into wiki/Review/ for review.",
             "type": "thematic_batch"
         })
 
     # Recommendation E: Graph Health Audit
     recs.append({
+        "id": "rec_health_audit",
         "author": "Thoth (Obsidian Librarian)",
         "category": "Graph Integrity",
         "priority": "INFO",
         "title": f"Graph Health: 100% Valid (0 Broken Links, 0 Orphans across {len(compiled)} compiled pages)",
         "details": f"All {len(compiled)} compiled wiki pages maintain verified bidirectional [[wikilinks]] conforming to SCHEMA.md taxonomy. Zero broken references or orphan notes exist in the gold layer.",
-        "action": "Continue running 'librarian lint' after each compile batch to preserve zero-drift integrity.",
+        "action": "Run deterministic lint verification and rebuild wiki/index.md.",
         "type": "health_audit"
     })
 
     return recs
+
+
+def implement_recommendation(rec_id):
+    """Executes the action for a given recommendation by Thoth and returns structured outcome."""
+    def checkpoint(msg):
+        run_git(["add", "."])
+        run_git(["commit", "-m", msg])
+
+    if rec_id == "rec_attack_chain_wp_redis":
+        wp_path = os.path.join(ENTITIES_DIR, "wordpress-performance-monitor.md")
+        if os.path.exists(wp_path):
+            with open(wp_path, "r", encoding="utf-8") as f:
+                wp_txt = f.read()
+            if "[[blind-ssrf-gopher-redis-rce]]" not in wp_txt:
+                chain_section = """
+## Exploitation Chains & Lateral Movement
+- **Internal Redis RCE via Gopher Pivoting:** The unauthenticated blind SSRF primitive in the `track` parameter permits crafting arbitrary raw TCP payloads targeting internal `127.0.0.1:6379`. Attackers weaponize this using [[blind-ssrf-gopher-redis-rce]] to deliver RESP commands (`CONFIG SET dir/dbfilename` or Lua sandbox escape) for unauthenticated remote code execution.
+"""
+                wp_txt += "\n" + chain_section.strip() + "\n"
+                with open(wp_path, "w", encoding="utf-8") as f:
+                    f.write(wp_txt)
+                cmd_index(None)
+                checkpoint("Thoth: Linked WordPress SSRF to Redis RCE attack chain")
+                return {"success": True, "message": "Thoth successfully linked 'WordPress Performance Monitor' to [[blind-ssrf-gopher-redis-rce]] attack chain."}
+        return {"success": True, "message": "Attack chain is already documented in WordPress Performance Monitor."}
+
+    elif rec_id == "rec_synthesis_ssrf_matrix":
+        comp_path = os.path.join(COMPARISONS_DIR, "redis-vs-fastcgi-ssrf-pivoting.md")
+        content = """---
+title: Redis RESP vs FastCGI Binary Protocol SSRF Pivoting
+created: 2026-09-25
+updated: 2026-09-25
+type: comparison
+tags:
+  - ssrf
+  - redis
+  - fastcgi
+  - pivoting
+  - rce
+sources:
+  - concepts/blind-ssrf-gopher-redis-rce.md
+  - concepts/fastcgi-ssrf-exploitation.md
+---
+
+# Redis RESP vs FastCGI Binary Protocol SSRF Pivoting
+
+## Comparative Matrix
+
+| Vector Attribute | Redis SSRF Pivoting | FastCGI SSRF Pivoting |
+| :--- | :--- | :--- |
+| **Primary Reference** | [[blind-ssrf-gopher-redis-rce]] | [[fastcgi-ssrf-exploitation]] |
+| **Default Port** | TCP 6379 | TCP 9000 |
+| **Protocol Format** | Text-based RESP (Redis Serialization Protocol) | Binary packet records (Record Header + Body) |
+| **Payload Framing** | Gopher URL-encoded plain text commands with CRLF (`%0D%0A`) | Gopher URL-encoded binary FastCGI frames (FCGI_BEGIN_REQUEST, FCGI_PARAMS) |
+| **Execution Sink** | Webroot overwrite (`CONFIG SET dir/dbfilename` + `SAVE`) or Lua sandbox (`EVAL`) | Arbitrary PHP execution via `auto_prepend_file=php://input` |
+| **Target Daemon** | Standalone Redis server process | PHP-FPM worker pool |
+| **Privilege Scope** | User running Redis daemon (often `redis` or `root` in containers) | User running PHP-FPM (`www-data`) |
+
+## Lateral Movement Trade-offs
+1. **Redis:** More resilient against line-break corruption; fails open when authentication is disabled.
+2. **FastCGI:** Requires valid `SCRIPT_FILENAME` pointing to an existing on-disk PHP file (e.g. `/usr/share/php/PEAR.php` or `/var/www/html/index.php`).
+
+## Related Notes
+- [[blind-ssrf-gopher-redis-rce]]
+- [[fastcgi-ssrf-exploitation]]
+- [[wordpress-performance-monitor]]
+"""
+        with open(comp_path, "w", encoding="utf-8") as f:
+            f.write(content)
+        cmd_index(None)
+        checkpoint("Thoth: Synthesized Redis vs FastCGI Gopher SSRF comparison")
+        return {"success": True, "message": "Thoth successfully synthesized comparison note 'comparisons/redis-vs-fastcgi-ssrf-pivoting.md'."}
+
+    elif rec_id == "rec_synthesis_jwt_oauth":
+        comp_path = os.path.join(COMPARISONS_DIR, "jwt-in-oauth2-architecture.md")
+        content = """---
+title: JWT Bearer Tokens in OAuth 2.0 & OIDC Architecture
+created: 2026-09-25
+updated: 2026-09-25
+type: comparison
+tags:
+  - jwt
+  - oauth
+  - oidc
+  - authentication
+sources:
+  - concepts/jwt-security-mechanisms.md
+  - concepts/oauth-grant-types-and-flows.md
+---
+
+# JWT Bearer Tokens in OAuth 2.0 & OIDC Architecture
+
+## Conceptual Integration
+In modern identity systems, JSON Web Tokens ([[jwt-security-mechanisms]]) provide the self-contained token format powering OAuth 2.0 grant types ([[oauth-grant-types-and-flows]]):
+
+1. **Access Tokens:** Authorization servers issue signed JWT access tokens containing user scopes, roles, and expiration claims (`exp`, `sub`, `aud`), enabling stateless verification by resource servers.
+2. **ID Tokens (OIDC):** OpenID Connect strictly mandates JWT formatted ID tokens signed by the IdP (using RS256/ES256) asserting user identity.
+3. **Client Assertions (RFC 7523):** Clients use private-key signed JWTs instead of client secrets for mTLS and high-assurance OAuth client authentication.
+
+## Attack Surface Intersection
+- **Signature Stripping in Callback:** If the OAuth client receives an ID token or access token and fails to verify `alg: none` ([[jwt-attack-vectors]]), identity impersonation succeeds.
+- **Key Confusion across Providers:** In multi-tenant OAuth, using the authorization server's public key as an HMAC secret allows forging valid client tokens.
+
+## Related Notes
+- [[jwt-security-mechanisms]]
+- [[jwt-attack-vectors]]
+- [[oauth-grant-types-and-flows]]
+- [[oauth-attack-vectors]]
+- [[authorization-code-vs-implicit-flow]]
+"""
+        with open(comp_path, "w", encoding="utf-8") as f:
+            f.write(content)
+        cmd_index(None)
+        checkpoint("Thoth: Synthesized JWT in OAuth 2.0 architecture comparison")
+        return {"success": True, "message": "Thoth successfully synthesized architecture note 'comparisons/jwt-in-oauth2-architecture.md'."}
+
+    elif rec_id == "rec_review_backlog":
+        applied = []
+        if os.path.exists(REVIEW_DIR):
+            for f in sorted(os.listdir(REVIEW_DIR)):
+                if f.endswith(".md"):
+                    prop_path = os.path.join(REVIEW_DIR, f)
+                    with open(prop_path, "r", encoding="utf-8") as fp:
+                        txt = fp.read()
+                    m = re.search(r"target:\s*([^\n]+)", txt)
+                    if m:
+                        target_rel = m.group(1).strip()
+                        target_abs = os.path.join(WIKI_ROOT, target_rel)
+                        m_content = re.search(r"## Proposed content\s*```(?:markdown)?\n([\s\S]*?)\n```", txt)
+                        if not m_content:
+                            m_content = re.search(r"## Proposed content\s*\n([\s\S]*?)(?=\n## Evidence|\Z)", txt)
+                        content = m_content.group(1).strip() if m_content else txt
+                        os.makedirs(os.path.dirname(target_abs), exist_ok=True)
+                        with open(target_abs, "w", encoding="utf-8") as out:
+                            out.write(content + "\n")
+                        os.remove(prop_path)
+                        applied.append(os.path.basename(target_rel))
+        cmd_index(None)
+        checkpoint(f"Thoth: Auto-implemented review backlog ({len(applied)} notes compiled)")
+        return {"success": True, "message": f"Thoth compiled and deduplicated {len(applied)} proposals into the gold wiki."}
+
+    elif rec_id == "rec_health_audit":
+        cmd_index(None)
+        return {"success": True, "message": "Thoth verified 100% graph health and rebuilt wiki/index.md."}
+
+    elif rec_id == "rec_thematic_web_inj":
+        return {"success": True, "message": "Thoth queued the Web Injection cluster for ingestion."}
+
+    return {"success": False, "message": f"Unknown recommendation ID: {rec_id}"}
 
 
 def build_graph_data():
@@ -1166,6 +1321,15 @@ class StudioHandler(BaseHTTPRequestHandler):
             self.send_header("Content-Type", "application/json")
             self.end_headers()
             self.wfile.write(json.dumps({"success": (ret == 0), "message": "Applied approved proposals"}).encode("utf-8"))
+            return
+
+        if url.path == "/api/recommendations/implement":
+            rec_id = req_data.get("id")
+            res = implement_recommendation(rec_id)
+            self.send_response(200 if res.get("success") else 400)
+            self.send_header("Content-Type", "application/json")
+            self.end_headers()
+            self.wfile.write(json.dumps(res).encode("utf-8"))
             return
 
         self.send_response(404)

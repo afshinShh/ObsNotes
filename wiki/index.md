@@ -1,7 +1,7 @@
 # Wiki Index
 
 > Content catalog for the Offensive Security & Bug Bounty LLM Wiki.
-> Last updated: 2026-09-24 | Total pages: 13
+> Last updated: 2026-09-25 | Total pages: 14
 
 ## Entities
 - [[jwt-tool]] — **JWT Tool** (`jwt_tool`) is a Python-based security auditing and exploitation utility authored by [ticarpi](https://github.com/ticarpi/jwt_tool). It is the standard specialized CLI tool used by red teams and bug bounty researchers to analyze, tamper with, crack, and forge JSON Web Tokens across web applications and API endpoints.
@@ -23,6 +23,7 @@
 ## Comparisons
 - [[authorization-code-vs-implicit-flow]] — OAuth 2.0 ([RFC 6749](https://datatracker.ietf.org/doc/html/rfc6749)) originally defined the Implicit Flow for single-page applications (SPAs) and client-side web apps that could not securely maintain a client secret. Subsequent security analyses revealed fundamental vulnerabilities in transmitting access tokens via front-channel browser redirects. Consequently, the OAuth Working Group deprecated the Implicit Flow in OAuth 2.1 in favor of the Authorization Code Flow with Proof Key for Code Exchange (PKCE / RFC 7636).
 - [[jwt-vs-session-cookies]] — A critical architectural decision in web application engineering is choosing between client-stored, cryptographically signed tokens (JSON Web Tokens) and server-managed session identifiers (stateful cookies). Both approaches offer distinct advantages and operational failure modes regarding scalability, revocation latency, and vulnerability exposure.
+- [[redis-vs-fastcgi-ssrf-pivoting]] — # Redis RESP vs FastCGI Binary Protocol SSRF Pivoting
 
 ## Queries
 <!-- Alphabetical within section -->
