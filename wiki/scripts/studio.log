@@ -2368,3 +2368,89 @@ TypeError: Object of type date is not JSON serializable
 127.0.0.1 - - [25/Sep/2026 01:17:14] "GET /api/stats HTTP/1.1" 200 -
 === Applying Approved Proposals ===
 [*] Creating Git checkpoint: 'checkpoint: pre-apply proposals snapshot'...
+[+] Checkpoint committed successfully:
+[master b24e751] checkpoint: pre-apply proposals snapshot
+ 2 files changed, 31 insertions(+)
+[*] Skipping 2026-09-24-sources-sql-injection-proposal.md (decision: pending)
+[*] Skipping 2026-09-24-sql-injection-testing-proposal.md (decision: pending)
+[*] Skipping 2026-09-24-sources-xss-proposal.md (decision: pending)
+[*] Skipping 2026-09-24-cross-site-scripting-proposal.md (decision: pending)
+[*] Skipping 2026-09-24-sources-ssti-proposal.md (decision: pending)
+[*] Skipping 2026-09-24-server-side-template-injection-proposal.md (decision: pending)
+[*] Skipping 2026-09-24-sources-xxe-proposal.md (decision: pending)
+[*] Skipping 2026-09-24-xml-external-entity-injection-proposal.md (decision: pending)
+[*] Skipping 2026-09-24-sources-parameter-pollution-proposal.md (decision: pending)
+[*] Skipping 2026-09-24-http-parameter-pollution-proposal.md (decision: pending)
+[*] Skipping 2026-09-24-sources-req-smuggle-proposal.md (decision: pending)
+[*] Skipping 2026-09-24-http-request-smuggling-proposal.md (decision: pending)
+[*] Skipping 2026-09-24-cl-te-vs-te-cl-proposal.md (decision: pending)
+[*] Skipping 2026-09-24-sources-graphql-proposal.md (decision: pending)
+[*] Skipping 2026-09-24-graphql-security-proposal.md (decision: pending)
+[*] Skipping 2026-09-24-sources-idor-proposal.md (decision: pending)
+[*] Skipping 2026-09-24-insecure-direct-object-reference-proposal.md (decision: pending)
+[*] Skipping 2026-09-24-sources-race-condition-proposal.md (decision: pending)
+[*] Skipping 2026-09-24-race-condition-attacks-proposal.md (decision: pending)
+[*] Skipping 2026-09-24-sources-open-redirect-proposal.md (decision: pending)
+[*] Skipping 2026-09-24-open-redirect-attacks-proposal.md (decision: pending)
+[*] Skipping 2026-09-24-sources-development-proposal.md (decision: pending)
+[*] Skipping 2026-09-24-exploit-development-proposal.md (decision: pending)
+[+] Compiled target written: sources/shellcode.md
+[*] Skipping 2026-09-24-shellcode-development-proposal.md (decision: pending)
+[*] Skipping 2026-09-24-sources-fuzzing-proposal.md (decision: pending)
+[*] Skipping 2026-09-24-sources-course-proposal.md (decision: pending)
+[*] Skipping 2026-09-24-sources-edr-proposal.md (decision: pending)
+[*] Skipping 2026-09-24-edr-detection-methods-proposal.md (decision: pending)
+[*] Skipping 2026-09-24-av-vs-edr-proposal.md (decision: pending)
+[*] Skipping 2026-09-24-sources-initial-access-proposal.md (decision: pending)
+[*] Skipping 2026-09-24-initial-access-vectors-proposal.md (decision: pending)
+[*] Skipping 2026-09-24-edr-evasion-techniques-proposal.md (decision: pending)
+[*] Skipping 2026-09-24-sources-mitigations-proposal.md (decision: pending)
+[*] Skipping 2026-09-24-exploit-mitigations-proposal.md (decision: pending)
+[*] Skipping 2026-09-24-sources-osint-proposal.md (decision: pending)
+[*] Skipping 2026-09-24-osint-reconnaissance-proposal.md (decision: pending)
+[*] Skipping 2026-09-24-sources-osint-method-proposal.md (decision: pending)
+[*] Skipping 2026-09-24-osint-investigation-techniques-proposal.md (decision: pending)
+[*] Skipping 2026-09-24-sources-bug-identification-proposal.md (decision: pending)
+[*] Skipping 2026-09-24-vulnerability-research-methodology-proposal.md (decision: pending)
+[*] Skipping 2026-09-24-sources-ai-proposal.md (decision: pending)
+[+] Compiled target written: concepts/ai-security-testing.md
+[*] Skipping 2026-09-24-sources-insecure-deserialization-proposal.md (decision: pending)
+[*] Skipping 2026-09-24-deserialization-attacks-proposal.md (decision: pending)
+[*] Skipping 2026-09-24-sources-ssrf-proposal.md (decision: pending)
+[*] Skipping 2026-09-24-server-side-request-forgery-proposal.md (decision: pending)
+[*] Skipping 2026-09-24-blind-ssrf-gopher-redis-rce-update-proposal.md (decision: pending)
+[*] Skipping 2026-09-24-fastcgi-ssrf-exploitation-update-proposal.md (decision: pending)
+[*] Skipping 2026-09-24-oauth-attack-vectors-update-proposal.md (decision: pending)
+[*] Skipping 2026-09-24-jwt-attack-vectors-update-proposal.md (decision: pending)
+[*] Skipping 2026-09-24-fuzzing-techniques-proposal.md (decision: pending)
+[*] Deduplicating review proposals...
+=== Post-Application Vault Deduplication ===
+  [-] Removed applied proposal: 2026-09-24-sources-shellcode-proposal.md
+  [-] Removed applied proposal: 2026-09-24-ai-security-testing-proposal.md
+  [-] Removed raw duplicate: raw/articles/ai.md
+  [-] Removed raw duplicate: raw/articles/bug-identification.md
+  [-] Removed raw duplicate: raw/articles/course.md
+  [-] Removed raw duplicate: raw/articles/development.md
+  [-] Removed raw duplicate: raw/articles/edr.md
+  [-] Removed raw duplicate: raw/articles/fuzzing.md
+  [-] Removed raw duplicate: raw/articles/graphql.md
+  [-] Removed raw duplicate: raw/articles/idor.md
+  [-] Removed raw duplicate: raw/articles/initial-access.md
+  [-] Removed raw duplicate: raw/articles/insecure-deserialization.md
+  [-] Removed raw duplicate: raw/articles/mitigations.md
+  [-] Removed raw duplicate: raw/articles/open-redirect.md
+  [-] Removed raw duplicate: raw/articles/osint-method.md
+  [-] Removed raw duplicate: raw/articles/osint.md
+  [-] Removed raw duplicate: raw/articles/parameter-pollution.md
+  [-] Removed raw duplicate: raw/articles/race-condition.md
+  [-] Removed raw duplicate: raw/articles/req-smuggle.md
+  [-] Removed raw duplicate: raw/articles/shellcode.md
+  [-] Removed raw duplicate: raw/articles/sql-injection.md
+  [-] Removed raw duplicate: raw/articles/ssrf.md
+  [-] Removed raw duplicate: raw/articles/ssti.md
+  [-] Removed raw duplicate: raw/articles/xss.md
+  [-] Removed raw duplicate: raw/articles/xxe.md
+[+] Deduplication complete. Removed 2 proposals and 23 raw duplicates.
+[*] Rebuilding Wiki Index and updating Audit Log...
+[+] Rebuilt /home/omp/Desktop/RED/Knowledge/ObsNotes_clean/wiki/index.md (16 total pages indexed)
+[*] Creating Git checkpoint: 'feat(wiki): apply 2 approved proposals into compiled wiki'...

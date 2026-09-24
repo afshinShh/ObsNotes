@@ -1,22 +1,4 @@
 ---
-type: llm-wiki-review
-status: needs-review
-decision: approve
-revision: 1
-operation: create
-target: sources/shellcode.md
-sources:
-  - raw/articles/shellcode.md
----
-
-# Proposed Wiki change
-
-## What will change
-Establishes the provenance anchor for Shellcode Engineering notes ingested from `unprocessed-obsidians/shellcode.md`, linking primary source notes to compiled concepts.
-
-## Proposed content
-
----
 title: Source Note - Shellcode Architecture & Development
 created: 2026-09-24
 updated: 2026-09-24
@@ -48,9 +30,3 @@ The source note covers machine code payload engineering, Position-Independent Co
 ## Related Pages
 - [[shellcode-development]]
 - [[initial-access-vectors]]
-
-## Evidence and uncertainty
-Directly transcribed and normalized from `unprocessed-obsidians/shellcode.md`. Standard binary payload and position-independent execution techniques.
-
-## Human feedback
-Optionally explain or edit what should change.

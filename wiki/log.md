@@ -68,3 +68,7 @@
 
 ## [2026-09-24] lint | Post-apply graph verification
 - 13 pages scanned. Broken links: 0. Orphans: 0. Verdict: PERFECT (All green).
+
+## [2026-09-25] apply | Applied 2 approved proposals
+- Applied compiled page: sources/shellcode.md
+- Applied compiled page: concepts/ai-security-testing.md

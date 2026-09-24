@@ -1,22 +1,4 @@
 ---
-type: llm-wiki-review
-status: needs-review
-decision: approve
-revision: 1
-operation: create
-target: concepts/ai-security-testing.md
-sources:
-  - raw/articles/ai.md
----
-
-# Proposed Wiki change
-
-## What will change
-Compiles a dedicated concept page detailing AI and Large Language Model (LLM) security testing: direct and indirect prompt injection, tool chaining escalation, agent memory poisoning, and insecure output handling.
-
-## Proposed content
-
----
 title: AI & LLM Application Security Testing & Jailbreak Vectors
 created: 2026-09-24
 updated: 2026-09-24
@@ -89,9 +71,3 @@ Treating LLM generated responses as trusted:
 - [[ai]]
 - [[cross-site-scripting]]
 - [[server-side-template-injection]]
-
-## Evidence and uncertainty
-Synthesized from `unprocessed-obsidians/ai.md`. Covers OWASP Top 10 for LLMs, prompt injection, tool agency risks, and testing methodologies.
-
-## Human feedback
-Optionally explain or edit what should change.
