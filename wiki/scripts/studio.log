@@ -2338,3 +2338,33 @@ TypeError: Object of type date is not JSON serializable
 127.0.0.1 - - [25/Sep/2026 01:16:03] "GET /api/stats HTTP/1.1" 200 -
 127.0.0.1 - - [25/Sep/2026 01:16:13] "GET /api/proposals HTTP/1.1" 200 -
 127.0.0.1 - - [25/Sep/2026 01:16:13] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:16:22] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:16:22] "GET /api/recommendations HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:16:23] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:16:23] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:16:25] "GET /api/note?path=Review%2F2026-09-24-sources-osint-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:16:25] "GET /api/note?path=Review%2F2026-09-24-sources-shellcode-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:16:34] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:16:34] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:16:40] "GET /api/note?path=Review%2F2026-09-24-sources-fuzzing-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:16:41] "GET /api/note?path=Review%2F2026-09-24-sources-fuzzing-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:16:41] "GET /api/note?path=Review%2F2026-09-24-sources-edr-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:16:44] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:16:44] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:16:52] "GET /api/note?path=Review%2F2026-09-24-ai-security-testing-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:16:54] "GET /api/note?path=Review%2F2026-09-24-blind-ssrf-gopher-redis-rce-update-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:16:54] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:16:54] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:16:55] "GET /api/note?path=Review%2F2026-09-24-edr-evasion-techniques-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:16:55] "GET /api/note?path=Review%2F2026-09-24-exploit-development-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:16:56] "GET /api/note?path=Review%2F2026-09-24-jwt-attack-vectors-update-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:16:56] "GET /api/note?path=Review%2F2026-09-24-oauth-attack-vectors-update-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:16:58] "GET /api/note?path=Review%2F2026-09-24-sources-ssti-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:04] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:04] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:11] "GET /api/note?path=server-side-template-injection HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:12] "GET /api/note?path=Review%2F2026-09-24-ai-security-testing-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:14] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:14] "GET /api/stats HTTP/1.1" 200 -
+=== Applying Approved Proposals ===
+[*] Creating Git checkpoint: 'checkpoint: pre-apply proposals snapshot'...

