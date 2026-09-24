@@ -129,7 +129,7 @@
     .graph-ctrls { position: absolute; bottom: 12px; right: 12px; display: flex; flex-direction: column; gap: 5px; z-index: 10; }
     .ctrl-b { width: 30px; height: 30px; border-radius: 5px; background: rgba(24,24,32,0.9); border: 1px solid var(--border); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; cursor: pointer; }
     .ctrl-b:hover { background: var(--accent); }
-    .graph-legend-box { position: absolute; bottom: 12px; left: 12px; background: rgba(18, 18, 24, 0.9); border: 1px solid var(--border); border-radius: 6px; padding: 8px 12px; z-index: 10; font-size: 0.74rem; display: flex; flex-direction: column; gap: 4px; }
+    .graph-legend-box { position: absolute; bottom: 12px; left: 12px; background: rgba(18, 18, 24, 0.85); backdrop-filter: blur(6px); border: 1px solid var(--border); border-radius: 6px; padding: 6px 10px; z-index: 10; font-size: 0.72rem; display: flex; flex-direction: column; gap: 3px; max-width: 140px; }
     .legend-item { display: flex; align-items: center; gap: 6px; cursor: pointer; }
     .legend-color { width: 8px; height: 8px; border-radius: 50%; }
 
@@ -599,10 +599,10 @@
         document.getElementById('stat-nodes').innerText = data.nodes.length;
         document.getElementById('stat-edges').innerText = data.edges.length;
 
-        // Arrange in spiral with wider spacing
+        // Arrange in spiral with much wider spacing
         gNodes = data.nodes.map((n, i) => {
-          const phi = i * 0.65;
-          const dist = 90 + Math.sqrt(i) * 110;
+          const phi = i * 0.7;
+          const dist = 140 + Math.sqrt(i) * 160;
           return {
             ...n,
             x: Math.cos(phi) * dist,
@@ -748,7 +748,7 @@
     function updateGraphPhysics() {
       const active = gNodes.filter(n => (!n.is_proposal || showProposals) && typeFilters[n.type]);
 
-      // Repulsion (wider spacing: 5000, 600px radius)
+      // Repulsion (expansive force: 15000, 900px radius)
       for (let i = 0; i < active.length; i++) {
         const na = active[i];
         for (let j = i + 1; j < active.length; j++) {
@@ -756,8 +756,8 @@
           let dx = nb.x - na.x;
           let dy = nb.y - na.y;
           let d2 = dx * dx + dy * dy || 1;
-          if (d2 < 360000) { // ~600px radius
-            let f = 4500 / (d2 + 100);
+          if (d2 < 810000) { // ~900px radius
+            let f = 15000 / (d2 + 100);
             let d = Math.sqrt(d2);
             let fx = (dx / d) * f;
             let fy = (dy / d) * f;
@@ -767,7 +767,7 @@
         }
       }
 
-      // Edge Springs (wider rest distance: 175px)
+      // Edge Springs (expansive rest distance: 320px)
       gEdges.forEach(e => {
         if (e.s.is_proposal && !showProposals) return;
         if (e.t.is_proposal && !showProposals) return;
@@ -776,7 +776,7 @@
         let dx = e.t.x - e.s.x;
         let dy = e.t.y - e.s.y;
         let d = Math.sqrt(dx * dx + dy * dy) || 1;
-        let f = (d - 175) * 0.035;
+        let f = (d - 320) * 0.035;
         let fx = (dx / d) * f;
         let fy = (dy / d) * f;
         if (e.s !== dragNode) { e.s.vx += fx; e.s.vy += fy; }
@@ -786,13 +786,40 @@
       // Gravity & Damping
       active.forEach(n => {
         if (n === dragNode) return;
-        n.vx -= n.x * 0.008;
-        n.vy -= n.y * 0.008;
-        n.vx *= 0.88;
-        n.vy *= 0.88;
+        n.vx -= n.x * 0.003;
+        n.vy -= n.y * 0.003;
+        n.vx *= 0.86;
+        n.vy *= 0.86;
         n.x += n.vx;
         n.y += n.vy;
       });
+
+      // DEDICATED BOUNDING-BOX COLLISION PASS (Zero Overlapping Labels)
+      const boxW = 160;
+      const boxH = 46;
+      for (let i = 0; i < active.length; i++) {
+        const na = active[i];
+        for (let j = i + 1; j < active.length; j++) {
+          const nb = active[j];
+          let dx = nb.x - na.x;
+          let dy = nb.y - na.y;
+          let absX = Math.abs(dx);
+          let absY = Math.abs(dy);
+          if (absX < boxW && absY < boxH) {
+            let overlapX = boxW - absX;
+            let overlapY = boxH - absY;
+            if (overlapX < overlapY) {
+              let sign = dx > 0 ? 1 : -1;
+              if (na !== dragNode) na.x -= (overlapX * 0.5) * sign;
+              if (nb !== dragNode) nb.x += (overlapX * 0.5) * sign;
+            } else {
+              let sign = dy > 0 ? 1 : -1;
+              if (na !== dragNode) na.y -= (overlapY * 0.5) * sign;
+              if (nb !== dragNode) nb.y += (overlapY * 0.5) * sign;
+            }
+          }
+        }
+      }
     }
 
     function drawGraphCanvas() {
@@ -825,8 +852,8 @@
         gCtx.beginPath();
         gCtx.moveTo(e.s.x, e.s.y);
         gCtx.lineTo(e.t.x, e.t.y);
-        gCtx.strokeStyle = isHi ? 'rgba(179, 136, 255, 0.8)' : (isDim ? 'rgba(255,255,255,0.02)' : 'rgba(255,255,255,0.12)');
-        gCtx.lineWidth = isHi ? 2 : 1;
+        gCtx.strokeStyle = isHi ? 'rgba(179, 136, 255, 0.85)' : (isDim ? 'rgba(255,255,255,0.02)' : 'rgba(255,255,255,0.1)');
+        gCtx.lineWidth = isHi ? 2.2 : 1;
         gCtx.stroke();
       });
 
@@ -841,7 +868,7 @@
         const isMatch = graphQuery && n.label.toLowerCase().includes(graphQuery);
 
         gCtx.save();
-        gCtx.globalAlpha = isDim ? 0.2 : 1.0;
+        gCtx.globalAlpha = isDim ? 0.18 : 1.0;
 
         // Proposal dashed outline
         if (n.is_proposal) {
@@ -869,22 +896,30 @@
         gCtx.fillStyle = NODE_COLORS[n.type] || '#fff';
         gCtx.fill();
 
-        // LEGIBLE LABELS WITH DARK BACKDROP BADGES
-        const showLbl = isHi || isNeigh || isMatch || (zoom > 0.8) || (n.degree >= 3);
+        // SMART LEVEL-OF-DETAIL LABELS WITH TRUNCATION & HOVER EXPANSION
+        const isPrimary = isHi || isNeigh || isMatch;
+        const showLbl = isPrimary || (zoom > 1.1) || (n.degree >= 5);
+
         if (showLbl) {
           const fontSize = Math.max(9, Math.min(13, 11 / zoom));
           gCtx.font = `bold ${fontSize}px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif`;
-          const text = n.label;
+
+          // If primary/hovered, show full title. Otherwise, truncate to 20 chars to prevent collision!
+          let text = n.label;
+          if (!isPrimary && text.length > 20) {
+            text = text.substring(0, 18) + '…';
+          }
+
           const textMetrics = gCtx.measureText(text);
           const textW = textMetrics.width;
-          const padX = 6;
+          const padX = isPrimary ? 8 : 5;
           const padY = 2;
           const textH = fontSize;
           const boxX = n.x - textW / 2 - padX;
           const boxY = n.y + n.radius + 6;
 
-          // Pill background for maximum readability
-          gCtx.fillStyle = isHi ? 'rgba(124, 77, 255, 0.95)' : 'rgba(14, 14, 20, 0.9)';
+          // Pill background for maximum contrast and zero collisions
+          gCtx.fillStyle = isHi ? 'rgba(124, 77, 255, 0.95)' : (isNeigh ? 'rgba(40, 40, 56, 0.92)' : 'rgba(14, 14, 20, 0.88)');
           gCtx.beginPath();
           if (gCtx.roundRect) {
             gCtx.roundRect(boxX, boxY, textW + padX * 2, textH + padY * 2, 4);
@@ -892,12 +927,12 @@
             gCtx.rect(boxX, boxY, textW + padX * 2, textH + padY * 2);
           }
           gCtx.fill();
-          gCtx.strokeStyle = isHi ? '#b388ff' : 'rgba(255,255,255,0.14)';
+          gCtx.strokeStyle = isHi ? '#b388ff' : (isNeigh ? 'rgba(179, 136, 255, 0.4)' : 'rgba(255,255,255,0.12)');
           gCtx.lineWidth = 1;
           gCtx.stroke();
 
           // Label text
-          gCtx.fillStyle = isHi ? '#ffffff' : '#e2e2ec';
+          gCtx.fillStyle = isHi ? '#ffffff' : (isNeigh ? '#b388ff' : '#e2e2ec');
           gCtx.textAlign = 'center';
           gCtx.fillText(text, n.x, boxY + textH - 1);
         }
