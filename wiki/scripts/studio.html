@@ -2,17 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Agentic Librarian (Thoth) — Decision Studio & Knowledge Center</title>
+  <title>Thoth Librarian — Knowledge Center & Decision Studio</title>
   <script src="/marked.min.js"></script>
   <style>
     :root {
-      --bg: #121216;
-      --panel: #1a1a22;
-      --card: #22222e;
-      --card-hover: #2c2c3b;
-      --border: #2d2d3d;
+      --bg: #121217;
+      --sidebar: #171720;
+      --panel: #1c1c27;
+      --card: #222230;
+      --border: #2a2a3a;
       --text: #e2e2ec;
-      --muted: #8e8ea2;
+      --muted: #88889c;
       --accent: #7c4dff;
       --accent-hover: #966eff;
       --success: #00e676;
@@ -25,433 +25,437 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
     body { background: var(--bg); color: var(--text); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
 
-    /* Top Navigation */
-    #navbar { height: 54px; background: #0f0f13; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; z-index: 100; }
-    .nav-left { display: flex; align-items: center; gap: 20px; }
-    .logo { font-size: 1.05rem; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 8px; }
-    .logo span.badge-thoth { font-size: 0.7rem; background: rgba(124, 77, 255, 0.2); color: var(--purple); padding: 2px 7px; border-radius: 8px; border: 1px solid rgba(124,77,255,0.4); }
+    /* Top Global Header */
+    #navbar { height: 50px; background: #0e0e13; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 16px; z-index: 100; }
+    .brand { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 0.98rem; color: #fff; }
+    .badge-thoth { font-size: 0.7rem; background: rgba(124, 77, 255, 0.2); color: var(--purple); padding: 2px 7px; border-radius: 8px; border: 1px solid rgba(124,77,255,0.4); }
     .nav-tabs { display: flex; gap: 4px; }
-    .nav-tab { padding: 7px 14px; border-radius: 6px; font-size: 0.83rem; font-weight: 600; color: var(--muted); cursor: pointer; transition: 0.15s; display: flex; align-items: center; gap: 7px; }
+    .nav-tab { padding: 6px 12px; border-radius: 6px; font-size: 0.82rem; font-weight: 600; color: var(--muted); cursor: pointer; transition: 0.15s; display: flex; align-items: center; gap: 6px; }
     .nav-tab:hover { color: #fff; background: rgba(255,255,255,0.04); }
     .nav-tab.active { color: #fff; background: var(--border); border-bottom: 2px solid var(--accent); }
-    .nav-badge { padding: 2px 6px; border-radius: 10px; font-size: 0.7rem; font-weight: bold; background: #3e381e; color: var(--warn); }
+    .nav-badge { padding: 2px 6px; border-radius: 10px; font-size: 0.7rem; font-weight: bold; background: #2a2a3c; color: var(--text); }
 
-    /* Main Container */
-    #main-container { flex: 1; position: relative; overflow: hidden; }
-    .view-pane { position: absolute; inset: 0; display: none; }
-    .view-pane.active { display: flex; }
+    /* Main Split-View Workspace */
+    #main-container { flex: 1; display: flex; overflow: hidden; position: relative; }
 
-    /* Shared Buttons & Badges */
-    button { padding: 6px 12px; border: none; border-radius: 5px; font-weight: 600; cursor: pointer; transition: 0.15s; font-size: 0.8rem; }
+    /* Left Sidebar: Clean Table of Contents */
+    #toc-sidebar { width: 340px; background: var(--sidebar); border-right: 1px solid var(--border); display: flex; flex-direction: column; }
+    .toc-header-box { padding: 10px 12px; border-bottom: 1px solid var(--border); }
+    .toc-search { width: 100%; background: #121218; border: 1px solid var(--border); border-radius: 5px; padding: 6px 10px; color: #fff; font-size: 0.8rem; outline: none; }
+    #toc-tree { flex: 1; overflow-y: auto; padding: 8px; }
+
+    .toc-chapter { margin-bottom: 10px; }
+    .toc-chapter-title { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; color: var(--muted); padding: 6px 8px; display: flex; align-items: center; justify-content: space-between; letter-spacing: 0.5px; border-radius: 4px; cursor: pointer; user-select: none; }
+    .toc-chapter-title:hover { color: #fff; background: rgba(255,255,255,0.02); }
+    .toc-rows { margin-top: 2px; }
+    .toc-row { padding: 6px 10px; border-radius: 5px; font-size: 0.82rem; color: #cfcfe0; cursor: pointer; display: flex; align-items: center; justify-content: space-between; transition: 0.1s; margin-bottom: 2px; text-decoration: none; }
+    .toc-row:hover { background: #222230; color: #fff; }
+    .toc-row.active { background: #2c2c3e; color: #fff; font-weight: 600; border-left: 3px solid var(--accent); }
+    .toc-row-left { display: flex; align-items: center; gap: 8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .toc-num { color: var(--muted); font-size: 0.75rem; font-family: monospace; }
+    .toc-row-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    /* Right Main Content Pane */
+    #content-pane { flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative; }
+
+    /* Workspace Views */
+    .ws-view { position: absolute; inset: 0; display: none; flex-direction: column; }
+    .ws-view.active { display: flex; }
+
+    /* 1. Note Reader & Reviewer View */
+    #reader-toolbar { padding: 8px 16px; border-bottom: 1px solid var(--border); background: #161622; display: flex; justify-content: space-between; align-items: center; min-height: 44px; }
+    .reader-crumbs { font-size: 0.78rem; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+    .reader-subnav { display: flex; background: #121218; border-bottom: 1px solid var(--border); padding: 0 16px; gap: 6px; }
+    .reader-tab { padding: 7px 12px; font-size: 0.78rem; font-weight: 600; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; }
+    .reader-tab:hover { color: #fff; }
+    .reader-tab.active { color: #fff; border-bottom-color: var(--accent); }
+    #reader-body { flex: 1; overflow-y: auto; padding: 20px 28px; }
+
+    /* Buttons */
+    button { padding: 5px 10px; border: none; border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 0.78rem; transition: 0.15s; }
     .btn-approve { background: var(--success); color: #000; }
-    .btn-approve:hover { filter: brightness(1.15); }
     .btn-reject { background: var(--danger); color: #fff; }
     .btn-apply { background: var(--blue); color: #000; }
     .btn-apply-all { background: var(--accent); color: #fff; }
     .btn-apply-all:hover { background: var(--accent-hover); }
-    .badge { padding: 2px 7px; border-radius: 10px; font-size: 0.7rem; font-weight: bold; text-transform: uppercase; }
+
+    /* Badges */
+    .badge { padding: 2px 6px; border-radius: 8px; font-size: 0.68rem; font-weight: bold; text-transform: uppercase; }
     .badge-concept { background: rgba(179, 136, 255, 0.15); color: var(--purple); }
     .badge-entity { background: rgba(64, 196, 255, 0.15); color: var(--blue); }
     .badge-comparison { background: rgba(255, 145, 0, 0.15); color: var(--orange); }
     .badge-source { background: rgba(0, 230, 118, 0.15); color: var(--success); }
     .badge-proposal { background: rgba(255, 214, 0, 0.15); color: var(--warn); }
 
-    /* ========================================================================= */
-    /* 1. TABLE OF CONTENTS & NOTE READER (Split-view Wiki documentation)        */
-    /* ========================================================================= */
-    #toc-pane { width: 100%; height: 100%; display: flex; }
-    #toc-sidebar { width: 330px; border-right: 1px solid var(--border); display: flex; flex-direction: column; background: #14141a; }
-    .toc-search-box { padding: 12px; border-bottom: 1px solid var(--border); }
-    .toc-search-box input { width: 100%; background: #1b1b24; border: 1px solid var(--border); border-radius: 6px; padding: 7px 10px; color: #fff; font-size: 0.82rem; outline: none; }
-    #toc-tree { flex: 1; overflow-y: auto; padding: 10px; }
-    .toc-section { margin-bottom: 12px; }
-    .toc-section-header { font-size: 0.74rem; font-weight: 700; text-transform: uppercase; color: var(--muted); padding: 6px 8px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; border-radius: 4px; }
-    .toc-section-header:hover { color: #fff; background: rgba(255,255,255,0.03); }
-    .toc-items-container { margin-top: 2px; }
-    .toc-item { padding: 6px 10px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; font-size: 0.83rem; color: #c4c4d4; transition: 0.12s; margin-bottom: 2px; }
-    .toc-item:hover { background: #22222e; color: #fff; }
-    .toc-item.active { background: #2a2a3c; color: #fff; font-weight: 600; border-left: 3px solid var(--accent); }
-    .toc-item-title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 220px; }
+    /* Proposal Banner */
+    .proposal-banner { background: rgba(255, 214, 0, 0.08); border: 1px solid rgba(255, 214, 0, 0.25); border-radius: 6px; padding: 10px 14px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem; }
 
-    #toc-reader { flex: 1; display: flex; flex-direction: column; background: var(--bg); overflow: hidden; }
-    #reader-toolbar { padding: 10px 20px; border-bottom: 1px solid var(--border); background: #171720; display: flex; justify-content: space-between; align-items: center; min-height: 48px; }
-    .reader-breadcrumbs { font-size: 0.78rem; color: var(--muted); display: flex; align-items: center; gap: 6px; }
-    .reader-actions { display: flex; gap: 8px; align-items: center; }
-    #reader-tab-bar { display: flex; background: #131319; border-bottom: 1px solid var(--border); padding: 0 20px; gap: 4px; }
-    .reader-tab { padding: 8px 14px; font-size: 0.8rem; font-weight: 600; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; }
-    .reader-tab:hover { color: #fff; }
-    .reader-tab.active { color: #fff; border-bottom-color: var(--accent); }
-    #reader-content { flex: 1; overflow-y: auto; padding: 24px 30px; }
-
-    /* Notice Banner */
-    .proposal-banner { background: rgba(255, 214, 0, 0.08); border: 1px solid rgba(255, 214, 0, 0.3); border-radius: 6px; padding: 12px 16px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; font-size: 0.83rem; }
-
-    /* Markdown Styles */
-    .markdown-body { color: var(--text); line-height: 1.6; font-size: 0.92rem; max-width: 860px; }
-    .markdown-body h1 { font-size: 1.5rem; color: #fff; margin: 18px 0 10px; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
-    .markdown-body h2 { font-size: 1.25rem; color: #fff; margin: 16px 0 8px; border-bottom: 1px solid var(--border); padding-bottom: 4px; }
-    .markdown-body h3 { font-size: 1.05rem; color: #fff; margin: 12px 0 6px; }
+    /* Markdown Render */
+    .markdown-body { color: var(--text); line-height: 1.6; font-size: 0.9rem; max-width: 860px; }
+    .markdown-body h1 { font-size: 1.4rem; color: #fff; margin: 16px 0 8px; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
+    .markdown-body h2 { font-size: 1.2rem; color: #fff; margin: 14px 0 6px; border-bottom: 1px solid var(--border); padding-bottom: 4px; }
+    .markdown-body h3 { font-size: 1.02rem; color: #fff; margin: 12px 0 4px; }
     .markdown-body p { margin-bottom: 10px; }
-    .markdown-body ul, .markdown-body ol { margin-left: 20px; margin-bottom: 12px; }
-    .markdown-body code { background: #0c0c10; padding: 2px 5px; border-radius: 4px; color: #ff80ab; font-size: 0.85em; font-family: monospace; }
-    .markdown-body pre { background: #0c0c10; padding: 12px; border-radius: 6px; border: 1px solid var(--border); overflow-x: auto; margin-bottom: 12px; }
+    .markdown-body ul, .markdown-body ol { margin-left: 20px; margin-bottom: 10px; }
+    .markdown-body code { background: #0b0b10; padding: 2px 5px; border-radius: 4px; color: #ff80ab; font-size: 0.85em; font-family: monospace; }
+    .markdown-body pre { background: #0b0b10; padding: 12px; border-radius: 6px; border: 1px solid var(--border); overflow-x: auto; margin-bottom: 12px; }
     .markdown-body pre code { background: transparent; padding: 0; color: #b0bec5; }
-    .markdown-body table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
-    .markdown-body th, .markdown-body td { border: 1px solid var(--border); padding: 8px 12px; text-align: left; }
-    .markdown-body th { background: #1c1c26; color: #fff; }
-    .wikilink { background: rgba(124, 77, 255, 0.16); color: #b388ff; padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 0.85em; cursor: pointer; text-decoration: none; }
+    .markdown-body table { width: 100%; border-collapse: collapse; margin-bottom: 14px; font-size: 0.85rem; }
+    .markdown-body th, .markdown-body td { border: 1px solid var(--border); padding: 7px 10px; text-align: left; }
+    .markdown-body th { background: #191924; color: #fff; }
+    .wikilink { background: rgba(124, 77, 255, 0.16); color: #b388ff; padding: 1px 5px; border-radius: 4px; font-family: monospace; font-size: 0.85em; cursor: pointer; text-decoration: none; }
     .wikilink:hover { background: rgba(124, 77, 255, 0.3); color: #fff; }
 
     /* Diff View */
-    .diff-box { background: #0c0c10; border: 1px solid var(--border); border-radius: 6px; padding: 12px; font-family: monospace; font-size: 0.82rem; line-height: 1.45; overflow-x: auto; max-width: 860px; }
+    .diff-box { background: #0b0b10; border: 1px solid var(--border); border-radius: 6px; padding: 12px; font-family: monospace; font-size: 0.8rem; line-height: 1.45; overflow-x: auto; max-width: 860px; }
     .diff-line { white-space: pre-wrap; padding: 1px 4px; }
-    .diff-add { background: rgba(0, 230, 118, 0.16); color: #00e676; }
-    .diff-del { background: rgba(255, 82, 82, 0.16); color: #ff5252; }
+    .diff-add { background: rgba(0, 230, 118, 0.15); color: #00e676; }
+    .diff-del { background: rgba(255, 82, 82, 0.15); color: #ff5252; }
     .diff-hunk { background: rgba(124, 77, 255, 0.2); color: #80d8ff; font-weight: bold; }
-    .diff-ctx { color: #727282; }
+    .diff-ctx { color: #6a6a7a; }
 
-    /* Inspector Bottom Panel */
-    .links-panel { margin-top: 30px; border-top: 1px solid var(--border); padding-top: 16px; max-width: 860px; }
-    .links-title { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
-    .link-pill { display: inline-flex; align-items: center; gap: 6px; padding: 3px 8px; border-radius: 6px; background: #1b1b24; border: 1px solid var(--border); font-size: 0.76rem; color: var(--purple); cursor: pointer; margin: 0 6px 6px 0; text-decoration: none; }
+    /* Backlinks */
+    .links-panel { margin-top: 24px; border-top: 1px solid var(--border); padding-top: 14px; max-width: 860px; }
+    .links-title { font-size: 0.74rem; font-weight: 700; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+    .link-pill { display: inline-flex; align-items: center; gap: 5px; padding: 3px 8px; border-radius: 5px; background: #181822; border: 1px solid var(--border); font-size: 0.75rem; color: var(--purple); cursor: pointer; margin: 0 5px 5px 0; text-decoration: none; }
     .link-pill:hover { border-color: var(--purple); color: #fff; }
 
-    /* ========================================================================= */
-    /* 2. OBSIDIAN GRAPH PREVIEW PANE                                            */
-    /* ========================================================================= */
-    #graph-pane { width: 100%; height: 100%; position: relative; background: #0c0c10; overflow: hidden; }
+    /* 2. Obsidian Graph Canvas */
+    #graph-container { width: 100%; height: 100%; position: relative; background: #0a0a0e; overflow: hidden; }
     #graph-canvas { width: 100%; height: 100%; display: block; cursor: grab; }
     #graph-canvas:active { cursor: grabbing; }
+    .graph-hud { position: absolute; top: 12px; left: 12px; display: flex; gap: 8px; z-index: 10; }
+    .hud-card { background: rgba(18, 18, 24, 0.9); backdrop-filter: blur(8px); border: 1px solid var(--border); border-radius: 6px; padding: 6px 10px; font-size: 0.78rem; color: var(--text); display: flex; align-items: center; gap: 8px; }
+    .graph-ctrls { position: absolute; bottom: 12px; right: 12px; display: flex; flex-direction: column; gap: 5px; z-index: 10; }
+    .ctrl-b { width: 30px; height: 30px; border-radius: 5px; background: rgba(24,24,32,0.9); border: 1px solid var(--border); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; cursor: pointer; }
+    .ctrl-b:hover { background: var(--accent); }
+    .graph-legend-box { position: absolute; bottom: 12px; left: 12px; background: rgba(18, 18, 24, 0.9); border: 1px solid var(--border); border-radius: 6px; padding: 8px 12px; z-index: 10; font-size: 0.74rem; display: flex; flex-direction: column; gap: 4px; }
+    .legend-item { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+    .legend-color { width: 8px; height: 8px; border-radius: 50%; }
 
-    .graph-hud-top { position: absolute; top: 14px; left: 14px; display: flex; gap: 8px; z-index: 10; }
-    .hud-box { background: rgba(18, 18, 24, 0.88); backdrop-filter: blur(8px); border: 1px solid var(--border); border-radius: 6px; padding: 8px 12px; color: var(--text); }
-    .graph-search { background: #14141a; border: 1px solid var(--border); border-radius: 5px; padding: 5px 10px; color: #fff; font-size: 0.8rem; width: 200px; outline: none; }
-    .graph-legend { position: absolute; bottom: 14px; left: 14px; z-index: 10; font-size: 0.76rem; display: flex; flex-direction: column; gap: 5px; }
-    .legend-row { display: flex; align-items: center; gap: 7px; cursor: pointer; user-select: none; }
-    .legend-dot { width: 9px; height: 9px; border-radius: 50%; }
-    .graph-controls { position: absolute; bottom: 14px; right: 14px; display: flex; flex-direction: column; gap: 5px; z-index: 10; }
-    .ctrl-btn { width: 32px; height: 32px; border-radius: 6px; background: rgba(24,24,32,0.9); border: 1px solid var(--border); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; cursor: pointer; }
-    .ctrl-btn:hover { background: var(--accent); }
-
-    /* ========================================================================= */
-    /* 3. THOTH RECOMMENDATIONS & VAULT INTELLIGENCE PANE                        */
-    /* ========================================================================= */
-    #insights-pane { width: 100%; height: 100%; overflow-y: auto; padding: 30px; background: var(--bg); }
-    .thoth-hero { background: linear-gradient(135deg, rgba(124, 77, 255, 0.12) 0%, rgba(20, 20, 28, 0.8) 100%); border: 1px solid rgba(124, 77, 255, 0.3); border-radius: 8px; padding: 20px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; }
-    .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-bottom: 26px; }
-    .metric-card { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
-    .metric-val { font-size: 1.7rem; font-weight: 700; color: #fff; margin-bottom: 4px; }
-    .metric-label { font-size: 0.8rem; color: var(--muted); }
-    .recs-container { display: flex; flex-direction: column; gap: 12px; }
-    .rec-card { background: var(--panel); border-left: 4px solid var(--accent); border-radius: 0 8px 8px 0; padding: 16px; border-top: 1px solid var(--border); border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    /* 3. Thoth Recommendations View */
+    #insights-container { width: 100%; height: 100%; overflow-y: auto; padding: 24px; background: var(--bg); }
+    .thoth-banner { background: linear-gradient(135deg, rgba(124, 77, 255, 0.12) 0%, rgba(20, 20, 28, 0.8) 100%); border: 1px solid rgba(124, 77, 255, 0.3); border-radius: 8px; padding: 18px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+    .metrics-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 22px; }
+    .metric-box { background: var(--panel); border: 1px solid var(--border); border-radius: 6px; padding: 14px; }
+    .metric-num { font-size: 1.6rem; font-weight: 700; color: #fff; margin-bottom: 2px; }
+    .metric-txt { font-size: 0.76rem; color: var(--muted); }
+    .rec-card { background: var(--panel); border-left: 4px solid var(--accent); border-radius: 0 6px 6px 0; padding: 14px; border-top: 1px solid var(--border); border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); margin-bottom: 10px; }
     .rec-high { border-left-color: var(--danger); }
     .rec-medium { border-left-color: var(--warn); }
     .rec-low { border-left-color: var(--blue); }
     .rec-info { border-left-color: var(--purple); }
-    .rec-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-    .rec-title { font-size: 0.95rem; font-weight: 600; color: #fff; }
-    .rec-details { font-size: 0.84rem; color: var(--text); line-height: 1.5; margin-bottom: 8px; }
-    .rec-action { font-size: 0.78rem; color: var(--purple); font-weight: 500; }
   </style>
 </head>
 <body>
 
-  <!-- Top Navigation Header -->
+  <!-- Global Navigation Header -->
   <div id="navbar">
-    <div class="nav-left">
-      <div class="logo">
-        <span style="font-size: 1.2rem;">🧠</span>
-        <span>Decision Studio</span>
-        <span class="badge-thoth">Thoth Librarian</span>
+    <div class="brand">
+      <span style="font-size:1.15rem;">🪶</span>
+      <span>Thoth Decision Studio</span>
+      <span class="badge-thoth">Obsidian Knowledge Engine</span>
+    </div>
+    <div class="nav-tabs">
+      <div class="nav-tab active" data-view="reader" onclick="switchMainView('reader')">
+        <span>📚 Table of Contents & Reader</span>
       </div>
-      <div class="nav-tabs">
-        <div class="nav-tab active" data-view="toc" onclick="switchView('toc')">
-          <span>📚 Table of Contents & Reader</span>
-          <span class="nav-badge" style="background:#20202c; color:var(--purple);" id="nav-count-toc">0</span>
-        </div>
-        <div class="nav-tab" data-view="graph" onclick="switchView('graph')">
-          <span>🕸️ Obsidian Graph</span>
-        </div>
-        <div class="nav-tab" data-view="insights" onclick="switchView('insights')">
-          <span>💡 Thoth's Recommendations</span>
-          <span class="nav-badge" id="nav-count-proposals">0</span>
-        </div>
+      <div class="nav-tab" data-view="graph" onclick="switchMainView('graph')">
+        <span>🕸️ Obsidian Graph</span>
+        <span class="nav-badge" id="badge-graph-count">0</span>
+      </div>
+      <div class="nav-tab" data-view="insights" onclick="switchMainView('insights')">
+        <span>💡 Thoth's Recommendations</span>
+        <span class="nav-badge" id="badge-recs-count" style="color:var(--warn);">0</span>
       </div>
     </div>
     <div>
-      <button class="btn-apply-all" onclick="applyAll()">⚡ Apply All Approved</button>
+      <button class="btn-apply-all" onclick="applyAllApproved()">⚡ Apply All Approved</button>
     </div>
   </div>
 
-  <!-- Main Multi-View Container -->
+  <!-- Split View Container -->
   <div id="main-container">
 
-    <!-- =================================================================== -->
-    <!-- VIEW 1: TABLE OF CONTENTS & NOTE READER (Split-view Documentation) -->
-    <!-- =================================================================== -->
-    <div class="view-pane active" id="pane-toc">
-      <div id="toc-sidebar">
-        <div class="toc-search-box">
-          <input type="text" id="toc-search" placeholder="🔍 Search Table of Contents..." oninput="filterToc(this.value)">
-        </div>
-        <div id="toc-tree">Loading Table of Contents...</div>
+    <!-- LEFT SIDEBAR: Hierarchical Table of Contents -->
+    <div id="toc-sidebar">
+      <div class="toc-header-box">
+        <input type="text" class="toc-search" id="toc-search-input" placeholder="🔍 Search Table of Contents..." oninput="onFilterToc(this.value)">
       </div>
-      <div id="toc-reader">
+      <div id="toc-tree">Loading Table of Contents...</div>
+    </div>
+
+    <!-- RIGHT CONTENT: Multi-View Workspace -->
+    <div id="content-pane">
+
+      <!-- VIEW 1: Note Reader & Review Platform -->
+      <div class="ws-view active" id="view-reader">
         <div id="reader-toolbar">
-          <div class="reader-breadcrumbs" id="reader-crumbs">Select a note from the Table of Contents</div>
-          <div class="reader-actions" id="reader-actions" style="display:none;"></div>
+          <div class="reader-crumbs" id="reader-crumbs">Select a note from the Table of Contents</div>
+          <div id="reader-actions" style="display:flex; gap:6px; align-items:center;"></div>
         </div>
-        <div id="reader-tab-bar" style="display:none;">
+        <div class="reader-subnav" id="reader-subnav" style="display:none;">
           <div class="reader-tab active" data-tab="preview" onclick="switchReaderTab('preview')">📖 Rendered Markdown</div>
-          <div class="reader-tab" data-tab="diff" id="reader-diff-tab" onclick="switchReaderTab('diff')" style="display:none;">🔍 Proposed Changes (Diff)</div>
-          <div class="reader-tab" data-tab="raw" onclick="switchReaderTab('raw')">📝 Raw Source</div>
+          <div class="reader-tab" data-tab="diff" id="tab-diff" onclick="switchReaderTab('diff')" style="display:none;">🔍 Proposed Changes (Diff)</div>
+          <div class="reader-tab" data-tab="raw" onclick="switchReaderTab('raw')">📝 Raw Markdown</div>
         </div>
-        <div id="reader-content">
-          <div style="color: var(--muted); text-align: center; margin-top: 100px;">
-            <h3>Welcome to your Knowledge Base</h3>
-            <p style="margin-top: 8px;">Select any concept, entity, comparison, or proposal from the Table of Contents to review.</p>
+        <div id="reader-body">
+          <div style="color:var(--muted); text-align:center; margin-top:100px;">
+            <h3>Select a note from the Table of Contents</h3>
+            <p style="margin-top:6px; font-size:0.85rem;">Click any concept, entity, comparison, or review proposal on the left to read and review.</p>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- =================================================================== -->
-    <!-- VIEW 2: OBSIDIAN GRAPH PREVIEW                                      -->
-    <!-- =================================================================== -->
-    <div class="view-pane" id="pane-graph">
-      <div id="graph-pane">
-        <canvas id="graph-canvas"></canvas>
-        <div class="graph-hud-top">
-          <div class="hud-box">
-            <input type="text" class="graph-search" id="graph-search-input" placeholder="🔍 Search notes in graph..." oninput="onGraphSearch(this.value)">
-          </div>
-          <div class="hud-box" style="font-size:0.8rem; display:flex; gap:14px; align-items:center;">
-            <span>Nodes: <b id="graph-nodes-count">0</b></span>
-            <span>Links: <b id="graph-edges-count">0</b></span>
-          </div>
-        </div>
-        <div class="hud-box graph-legend">
-          <div class="legend-row" onclick="toggleGraphType('concept')"><span class="legend-dot" style="background:var(--purple)"></span> <span>Concepts</span></div>
-          <div class="legend-row" onclick="toggleGraphType('entity')"><span class="legend-dot" style="background:var(--blue)"></span> <span>Entities</span></div>
-          <div class="legend-row" onclick="toggleGraphType('comparison')"><span class="legend-dot" style="background:var(--orange)"></span> <span>Comparisons</span></div>
-          <div class="legend-row" onclick="toggleGraphType('source')"><span class="legend-dot" style="background:var(--success)"></span> <span>Sources</span></div>
-          <div class="legend-row" onclick="toggleGraphType('proposal')"><span class="legend-dot" style="background:var(--warn)"></span> <span>Proposals (In Review)</span></div>
-        </div>
-        <div class="graph-controls">
-          <div class="ctrl-btn" onclick="zoomGraph(1.2)" title="Zoom in">+</div>
-          <div class="ctrl-btn" onclick="zoomGraph(0.8)" title="Zoom out">−</div>
-          <div class="ctrl-btn" onclick="fitGraphView()" title="Fit / Center">⌖</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- =================================================================== -->
-    <!-- VIEW 3: THOTH'S RECOMMENDATIONS & INTELLIGENCE                      -->
-    <!-- =================================================================== -->
-    <div class="view-pane" id="pane-insights">
-      <div id="insights-pane">
-        <div class="thoth-hero">
-          <div>
-            <div style="font-size:1.15rem; font-weight:700; color:#fff; display:flex; align-items:center; gap:8px;">
-              <span>🪶</span> <span>Thoth — Agentic Librarian Intelligence</span>
+      <!-- VIEW 2: Obsidian Graph Canvas -->
+      <div class="ws-view" id="view-graph">
+        <div id="graph-container">
+          <canvas id="graph-canvas"></canvas>
+          <div class="graph-hud">
+            <div class="hud-card">
+              <input type="text" style="background:transparent; border:none; color:#fff; outline:none; font-size:0.78rem; width:150px;" id="graph-search" placeholder="🔍 Search in graph..." oninput="onGraphSearch(this.value)">
             </div>
-            <p style="font-size:0.83rem; color:var(--muted); margin-top:4px;">
-              Continuous real-time audit of vault graph density, attack chains, and knowledge cohesion based on current notes.
-            </p>
+            <div class="hud-card">
+              <span>Nodes: <b id="stat-nodes">0</b></span>
+              <span>·</span>
+              <span>Links: <b id="stat-edges">0</b></span>
+            </div>
+            <div class="hud-card">
+              <label style="display:flex; align-items:center; gap:5px; cursor:pointer;">
+                <input type="checkbox" id="chk-proposals" checked onchange="toggleProposalsFilter(this.checked)">
+                <span>Include Proposals</span>
+              </label>
+            </div>
           </div>
-          <div>
-            <button class="btn-apply-all" onclick="loadInsights()">🔄 Refresh Analysis</button>
+          <div class="graph-legend-box">
+            <div class="legend-item" onclick="toggleType('concept')"><span class="legend-color" style="background:var(--purple);"></span> <span>Concepts</span></div>
+            <div class="legend-item" onclick="toggleType('entity')"><span class="legend-color" style="background:var(--blue);"></span> <span>Entities</span></div>
+            <div class="legend-item" onclick="toggleType('comparison')"><span class="legend-color" style="background:var(--orange);"></span> <span>Comparisons</span></div>
+            <div class="legend-item" onclick="toggleType('source')"><span class="legend-color" style="background:var(--success);"></span> <span>Sources</span></div>
+            <div class="legend-item" onclick="toggleType('proposal')"><span class="legend-color" style="background:var(--warn);"></span> <span>Proposals (In Review)</span></div>
           </div>
-        </div>
-
-        <div class="metrics-grid">
-          <div class="metric-card">
-            <div class="metric-val" id="metric-total-pages">0</div>
-            <div class="metric-label">Compiled Wiki Pages</div>
-          </div>
-          <div class="metric-card">
-            <div class="metric-val" id="metric-total-links" style="color:var(--purple);">0</div>
-            <div class="metric-label">Verified Bidirectional Wikilinks</div>
-          </div>
-          <div class="metric-card">
-            <div class="metric-val" id="metric-density" style="color:var(--blue);">0.0</div>
-            <div class="metric-label">Graph Density (Links / Page)</div>
-          </div>
-          <div class="metric-card">
-            <div class="metric-val" id="metric-proposals" style="color:var(--warn);">0</div>
-            <div class="metric-label">Staged Review Proposals</div>
+          <div class="graph-ctrls">
+            <div class="ctrl-b" onclick="zoomGraph(1.2)" title="Zoom in">+</div>
+            <div class="ctrl-b" onclick="zoomGraph(0.8)" title="Zoom out">−</div>
+            <div class="ctrl-b" onclick="fitGraphView()" title="Fit / Center">⌖</div>
           </div>
         </div>
-
-        <h3 style="font-size:1.05rem; color:#fff; margin-bottom:12px;">Active Recommendations from Thoth</h3>
-        <div class="recs-container" id="recs-list">Loading recommendations...</div>
       </div>
+
+      <!-- VIEW 3: Thoth Recommendations -->
+      <div class="ws-view" id="view-insights">
+        <div id="insights-container">
+          <div class="thoth-banner">
+            <div>
+              <div style="font-size:1.1rem; font-weight:700; color:#fff; display:flex; align-items:center; gap:8px;">
+                <span>🪶</span> <span>Thoth — Agentic Knowledge Intelligence</span>
+              </div>
+              <p style="font-size:0.8rem; color:var(--muted); margin-top:4px;">
+                Continuous real-time audit of vault graph density, attack chains, and knowledge cohesion based on current notes.
+              </p>
+            </div>
+            <div>
+              <button class="btn-apply-all" onclick="loadRecommendations()">🔄 Refresh Analysis</button>
+            </div>
+          </div>
+
+          <div class="metrics-row">
+            <div class="metric-box">
+              <div class="metric-num" id="m-pages">0</div>
+              <div class="metric-txt">Compiled Wiki Pages</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-num" id="m-links" style="color:var(--purple);">0</div>
+              <div class="metric-txt">Verified Bidirectional Links</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-num" id="m-density" style="color:var(--blue);">0.0</div>
+              <div class="metric-txt">Graph Density (Links / Page)</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-num" id="m-proposals" style="color:var(--warn);">0</div>
+              <div class="metric-txt">Staged Review Proposals</div>
+            </div>
+          </div>
+
+          <h3 style="font-size:0.95rem; color:#fff; margin-bottom:12px; text-transform:uppercase; letter-spacing:0.5px;">Content Recommendations from Thoth</h3>
+          <div id="recs-list">Loading recommendations...</div>
+        </div>
+      </div>
+
     </div>
 
   </div>
 
   <script>
-    let currentView = 'toc';
-    let catalogItems = [];
-    let globalProposals = [];
+    let activeMainView = 'reader';
+    let catalog = [];
+    let proposalsList = [];
     let activeNote = null;
     let readerTab = 'preview';
-    let tocSearchTerm = '';
+    let tocFilterTerm = '';
 
-    // -------------------------------------------------------------------------
-    // VIEW SWITCHER
-    // -------------------------------------------------------------------------
-    function switchView(viewName) {
-      currentView = viewName;
+    // =========================================================================
+    // 1. NAVIGATION & INITIALIZATION
+    // =========================================================================
+    function switchMainView(view) {
+      activeMainView = view;
       document.querySelectorAll('.nav-tab').forEach(t => {
-        t.classList.toggle('active', t.getAttribute('data-view') === viewName);
+        t.classList.toggle('active', t.getAttribute('data-view') === view);
       });
-      document.querySelectorAll('.view-pane').forEach(p => {
-        p.classList.toggle('active', p.id === `pane-${viewName}`);
+      document.querySelectorAll('.ws-view').forEach(v => {
+        v.classList.toggle('active', v.id === `view-${view}`);
       });
-      if (viewName === 'graph') {
+      if (view === 'graph') {
         setTimeout(() => {
-          resizeGraphCanvas();
+          resizeCanvas();
           fitGraphView();
-          startGraphLoop();
+          startGraph();
         }, 50);
-      } else if (viewName === 'insights') {
-        loadInsights();
+      } else if (view === 'insights') {
+        loadRecommendations();
       }
     }
 
-    // -------------------------------------------------------------------------
-    // 1. TABLE OF CONTENTS TREE & NOTE READER
-    // -------------------------------------------------------------------------
-    async function loadCatalog() {
-      const res = await fetch('/api/toc');
-      catalogItems = await res.json();
-      document.getElementById('nav-count-toc').innerText = catalogItems.length;
+    // =========================================================================
+    // 2. TABLE OF CONTENTS TREE (Hierarchical Outline)
+    // =========================================================================
+    async function loadCatalogData() {
+      const [resToc, resProp] = await Promise.all([
+        fetch('/api/toc'),
+        fetch('/api/proposals')
+      ]);
+      catalog = await resToc.json();
+      proposalsList = await resProp.json();
 
-      const pRes = await fetch('/api/proposals');
-      globalProposals = await pRes.json();
-      document.getElementById('nav-count-proposals').innerText = globalProposals.length;
+      document.getElementById('badge-graph-count').innerText = catalog.length + proposalsList.length;
+      document.getElementById('badge-recs-count').innerText = proposalsList.length;
 
-      renderTocTree();
+      renderToc();
 
-      if (!activeNote && catalogItems.length > 0) {
-        openNote(catalogItems[0].path);
+      if (!activeNote && catalog.length > 0) {
+        openNote(catalog[0].path);
       }
     }
 
-    function renderTocTree() {
+    function renderToc() {
       const tree = document.getElementById('toc-tree');
-      const query = tocSearchTerm.toLowerCase();
-      const proposals = globalProposals;
+      const q = tocFilterTerm.toLowerCase();
 
-      // Group items into categories
-      const groups = {
-        'Concepts': { icon: '🟣', items: [] },
-        'Entities': { icon: '🔵', items: [] },
-        'Comparisons': { icon: '🟠', items: [] },
-        'Sources': { icon: '🟢', items: [] },
-        'Review Proposals': { icon: '🟡', items: [] }
-      };
+      const chapters = [
+        { id: 'concepts', title: '1. Concepts (Vulnerability Primitives)', type: 'concept', items: [] },
+        { id: 'entities', title: '2. Entities (Tools & Targets)', type: 'entity', items: [] },
+        { id: 'comparisons', title: '3. Comparisons (Technical Matrices)', type: 'comparison', items: [] },
+        { id: 'sources', title: '4. Sources (Provenance Notes)', type: 'source', items: [] },
+        { id: 'proposals', title: `5. Staged Review Proposals (${proposalsList.length})`, type: 'proposal', items: [] }
+      ];
 
-      catalogItems.forEach(item => {
-        if (query && !item.title.toLowerCase().includes(query) && !(item.tags || []).some(t => t.toLowerCase().includes(query))) return;
-        if (item.type === 'concept') groups['Concepts'].items.push(item);
-        else if (item.type === 'entity') groups['Entities'].items.push(item);
-        else if (item.type === 'comparison') groups['Comparisons'].items.push(item);
-        else if (item.type === 'source') groups['Sources'].items.push(item);
+      catalog.forEach(item => {
+        if (item.is_proposal || item.type === 'proposal') return;
+        if (q && !item.title.toLowerCase().includes(q) && !(item.tags || []).some(t => t.toLowerCase().includes(q))) return;
+        const chap = chapters.find(c => c.type === item.type);
+        if (chap) chap.items.push(item);
       });
 
-      proposals.forEach(p => {
-        const title = p.target;
-        if (query && !title.toLowerCase().includes(query)) return;
-        groups['Review Proposals'].items.push({
+      proposalsList.forEach((p, idx) => {
+        const title = p.target || p.filename;
+        if (q && !title.toLowerCase().includes(q)) return;
+        chapters[4].items.push({
           title: title,
           path: `Review/${p.filename}`,
           type: 'proposal',
-          decision: p.decision,
           is_proposal: true,
-          out_count: 0
+          decision: p.decision || 'pending',
+          filename: p.filename
         });
       });
 
       let html = '';
-      for (const [catName, group] of Object.entries(groups)) {
-        if (group.items.length === 0) continue;
+      chapters.forEach((chap, cIdx) => {
+        if (chap.items.length === 0) return;
         html += `
-          <div class="toc-section">
-            <div class="toc-section-header">
-              <span>${group.icon} ${catName}</span>
-              <span style="background:rgba(255,255,255,0.06); padding:1px 6px; border-radius:10px; font-size:0.7rem;">${group.items.length}</span>
+          <div class="toc-chapter">
+            <div class="toc-chapter-title">
+              <span>${chap.title}</span>
+              <span style="font-size:0.68rem; background:rgba(255,255,255,0.06); padding:1px 5px; border-radius:8px;">${chap.items.length}</span>
             </div>
-            <div class="toc-items-container">
-              ${group.items.map(it => `
-                <div class="toc-item ${activeNote && activeNote.path === it.path ? 'active' : ''}" onclick="openNote('${escapeHtml(it.path)}')">
-                  <span class="toc-item-title">${escapeHtml(it.title)}</span>
-                  ${it.decision ? `<span class="badge badge-proposal">${it.decision}</span>` : `<span style="font-size:0.7rem; color:var(--muted);">${it.out_count || 0} lnk</span>`}
+            <div class="toc-rows">
+              ${chap.items.map((it, rIdx) => `
+                <div class="toc-row ${activeNote && activeNote.path === it.path ? 'active' : ''}" onclick="openNote('${escapeHtml(it.path)}')">
+                  <div class="toc-row-left">
+                    <span class="toc-num">${cIdx+1}.${rIdx+1}</span>
+                    <span class="toc-row-title">${escapeHtml(it.title)}</span>
+                  </div>
+                  ${it.is_proposal ? `<span class="badge badge-proposal">${it.decision}</span>` : ''}
                 </div>
               `).join('')}
             </div>
           </div>
         `;
-      }
+      });
 
-      tree.innerHTML = html || '<div style="color:var(--muted); text-align:center; padding:20px;">No matching notes found.</div>';
+      tree.innerHTML = html || '<div style="color:var(--muted); text-align:center; padding:16px;">No matching notes found.</div>';
     }
 
-    function filterToc(term) {
-      tocSearchTerm = term;
-      loadCatalog();
+    function onFilterToc(term) {
+      tocFilterTerm = term;
+      renderToc();
     }
 
+    // =========================================================================
+    // 3. NOTE READER & IN-PLATFORM REVIEW
+    // =========================================================================
     async function openNote(notePath) {
       if (!notePath) return;
-      const crumbs = document.getElementById('reader-crumbs');
-      crumbs.innerText = `Loading wiki/${notePath}...`;
+      if (activeMainView !== 'reader') {
+        switchMainView('reader');
+      }
 
+      document.getElementById('reader-crumbs').innerText = `Loading wiki/${notePath}...`;
       const res = await fetch(`/api/note?path=${encodeURIComponent(notePath)}`);
       activeNote = await res.json();
+
       if (activeNote.error) {
-        document.getElementById('reader-content').innerHTML = `<div style="color:var(--danger); padding:30px;">${activeNote.error}</div>`;
+        document.getElementById('reader-body').innerHTML = `<div style="color:var(--danger); padding:20px;">${activeNote.error}</div>`;
         return;
       }
 
-      crumbs.innerHTML = `
+      // Breadcrumbs
+      const parts = activeNote.path.split('/');
+      const folder = parts.length > 1 ? parts[0] : 'wiki';
+      document.getElementById('reader-crumbs').innerHTML = `
         <span>wiki</span> <span>›</span>
-        <span>${escapeHtml(activeNote.path.split('/')[0])}</span> <span>›</span>
+        <span>${escapeHtml(folder)}</span> <span>›</span>
         <strong style="color:#fff;">${escapeHtml(activeNote.title)}</strong>
         <span class="badge badge-${activeNote.type || 'concept'}" style="margin-left:6px;">${activeNote.type}</span>
       `;
 
-      // Setup actions
+      // Actions in toolbar
       const actions = document.getElementById('reader-actions');
-      actions.style.display = 'flex';
-      let actionsHtml = '';
-
       if (activeNote.is_proposal) {
-        actionsHtml = `
-          <button class="btn-approve" onclick="setProposalDecision('${escapeHtml(activeNote.filename)}', 'approve')">✓ Approve</button>
-          <button class="btn-reject" onclick="setProposalDecision('${escapeHtml(activeNote.filename)}', 'reject')">✕ Reject</button>
-          <button class="btn-apply" onclick="applySingleProposal('${escapeHtml(activeNote.filename)}')">⚡ Apply Proposal</button>
+        actions.innerHTML = `
+          <button class="btn-approve" onclick="setDecision('${escapeHtml(activeNote.filename)}', 'approve')">✓ Approve</button>
+          <button class="btn-reject" onclick="setDecision('${escapeHtml(activeNote.filename)}', 'reject')">✕ Reject</button>
+          <button class="btn-apply" onclick="applySingle('${escapeHtml(activeNote.filename)}')">⚡ Apply Proposal</button>
         `;
       } else {
-        actionsHtml = `
+        actions.innerHTML = `
           <span style="font-size:0.75rem; color:var(--muted);">Updated: ${activeNote.frontmatter ? (activeNote.frontmatter.updated || '') : ''}</span>
         `;
       }
-      actions.innerHTML = actionsHtml;
 
-      // Setup diff tab
-      const diffTab = document.getElementById('reader-diff-tab');
+      // Subnav tabs
+      const diffTab = document.getElementById('tab-diff');
       if (activeNote.diff_text || activeNote.is_proposal) {
         diffTab.style.display = 'block';
       } else {
         diffTab.style.display = 'none';
         if (readerTab === 'diff') readerTab = 'preview';
       }
+      document.getElementById('reader-subnav').style.display = 'flex';
 
-      document.getElementById('reader-tab-bar').style.display = 'flex';
-      renderReaderBody();
-      renderTocTree();
+      renderReaderContent();
+      renderToc();
     }
 
     function switchReaderTab(tab) {
@@ -459,85 +463,84 @@
       document.querySelectorAll('.reader-tab').forEach(t => {
         t.classList.toggle('active', t.getAttribute('data-tab') === tab);
       });
-      renderReaderBody();
+      renderReaderContent();
     }
 
-    function renderReaderBody() {
+    function renderReaderContent() {
       if (!activeNote) return;
-      const content = document.getElementById('reader-content');
+      const body = document.getElementById('reader-body');
 
-      let bannerHtml = '';
+      let banner = '';
       if (activeNote.is_proposal) {
-        bannerHtml = `
+        banner = `
           <div class="proposal-banner">
             <div>
               <strong>🟡 Review Proposal Draft:</strong> Target <code>wiki/${escapeHtml(activeNote.target || activeNote.title)}</code>
-              <div style="font-size:0.78rem; color:var(--muted); margin-top:2px;">Status: ${activeNote.frontmatter ? activeNote.frontmatter.status : 'needs-review'} | Decision: <b>${activeNote.decision || 'pending'}</b></div>
+              <div style="font-size:0.76rem; color:var(--muted); margin-top:2px;">Status: ${activeNote.frontmatter ? activeNote.frontmatter.status : 'needs-review'} | Decision: <b>${activeNote.decision || 'pending'}</b></div>
             </div>
             <div style="display:flex; gap:6px;">
-              <button class="btn-approve" onclick="setProposalDecision('${escapeHtml(activeNote.filename)}', 'approve')">✓ Approve</button>
-              <button class="btn-apply" onclick="applySingleProposal('${escapeHtml(activeNote.filename)}')">⚡ Apply</button>
+              <button class="btn-approve" onclick="setDecision('${escapeHtml(activeNote.filename)}', 'approve')">✓ Approve</button>
+              <button class="btn-apply" onclick="applySingle('${escapeHtml(activeNote.filename)}')">⚡ Apply</button>
             </div>
           </div>
         `;
       }
 
-      let bodyHtml = '';
+      let contentHtml = '';
       if (readerTab === 'preview') {
-        const rawMd = activeNote.body || activeNote.raw || '';
-        bodyHtml = `<div class="markdown-body">${renderMarkdown(rawMd)}</div>`;
+        const raw = activeNote.body || activeNote.raw || '';
+        contentHtml = `<div class="markdown-body">${renderMarkdown(raw)}</div>`;
       } else if (readerTab === 'diff') {
         if (activeNote.diff_text) {
-          bodyHtml = `<div class="diff-box">${renderDiff(activeNote.diff_text)}</div>`;
+          contentHtml = `<div class="diff-box">${renderDiff(activeNote.diff_text)}</div>`;
         } else {
-          bodyHtml = `
-            <div style="font-size:0.83rem; color:var(--success); margin-bottom:8px;">✨ New Note Creation Diff:</div>
+          contentHtml = `
+            <div style="font-size:0.8rem; color:var(--success); margin-bottom:8px;">✨ New Note Creation Diff:</div>
             <div class="diff-box">${renderDiff((activeNote.body || '').split('\n').map(l => '+' + l).join('\n'))}</div>
           `;
         }
       } else if (readerTab === 'raw') {
-        bodyHtml = `<pre style="background:#0c0c10; padding:16px; border-radius:6px; border:1px solid var(--border); overflow-x:auto; color:#b0bec5; font-size:0.82rem; line-height:1.5;">${escapeHtml(activeNote.raw || activeNote.body)}</pre>`;
+        contentHtml = `<pre style="background:#0b0b10; padding:14px; border-radius:6px; border:1px solid var(--border); overflow-x:auto; color:#b0bec5; font-size:0.82rem; line-height:1.45;">${escapeHtml(activeNote.raw || activeNote.body)}</pre>`;
       }
 
-      // Backlinks & Outbound section
+      // Backlinks
       let linksHtml = '';
-      const backlinks = activeNote.backlinks || [];
-      const outbound = activeNote.outbound || [];
-
-      if (backlinks.length > 0 || outbound.length > 0) {
+      const bl = activeNote.backlinks || [];
+      const ob = activeNote.outbound || [];
+      if (bl.length > 0 || ob.length > 0) {
         linksHtml = `
           <div class="links-panel">
-            ${backlinks.length > 0 ? `
+            ${bl.length > 0 ? `
               <div class="links-title">🔗 Backlinks (Mentioned In)</div>
-              <div style="margin-bottom:14px;">
-                ${backlinks.map(b => `<a class="link-pill" onclick="openNote('${escapeHtml(b.path)}')"><span>[[${escapeHtml(b.title)}]]</span> <span style="font-size:0.68rem; color:var(--muted);">${b.type}</span></a>`).join('')}
+              <div style="margin-bottom:12px;">
+                ${bl.map(b => `<a class="link-pill" onclick="openNote('${escapeHtml(b.path)}')"><span>[[${escapeHtml(b.title)}]]</span> <span style="font-size:0.65rem; color:var(--muted);">${b.type}</span></a>`).join('')}
               </div>
             ` : ''}
-            ${outbound.length > 0 ? `
+            ${ob.length > 0 ? `
               <div class="links-title">↗️ Outbound References</div>
               <div>
-                ${outbound.map(l => `<span class="link-pill" style="color:var(--blue);" onclick="openNote('${escapeHtml(l)}')"><span>[[${escapeHtml(l)}]]</span></span>`).join('')}
+                ${ob.map(l => `<span class="link-pill" style="color:var(--blue);" onclick="openNote('${escapeHtml(l)}')"><span>[[${escapeHtml(l)}]]</span></span>`).join('')}
               </div>
             ` : ''}
           </div>
         `;
       }
 
-      content.innerHTML = bannerHtml + bodyHtml + linksHtml;
+      body.innerHTML = banner + contentHtml + linksHtml;
     }
 
-    async function setProposalDecision(filename, decision) {
+    async function setDecision(filename, dec) {
       await fetch('/api/proposals/decision', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ filename: filename, decision: decision })
+        body: JSON.stringify({ filename: filename, decision: dec })
       });
-      await loadCatalog();
+      await loadCatalogData();
       if (activeNote) openNote(activeNote.path);
     }
 
-    async function applySingleProposal(filename) {
-      if (!confirm(`Compile and apply proposal ${filename} to permanent wiki?`)) return;
+    async function applySingle(filename) {
+      if (!confirm(`Compile and commit proposal ${filename}?`)) return;
       const res = await fetch('/api/proposals/apply-single', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -545,38 +548,39 @@
       });
       const data = await res.json();
       if (data.success) {
-        alert(`Successfully applied: ${filename}`);
-        await loadCatalog();
+        alert(`Successfully compiled: ${filename}`);
+        await loadCatalogData();
       } else {
-        alert(`Apply failed: ${data.message}`);
+        alert(`Failed: ${data.message}`);
       }
     }
 
-    async function applyAll() {
-      if (!confirm("Apply all approved proposals into compiled wiki pages?")) return;
+    async function applyAllApproved() {
+      if (!confirm("Compile and apply all approved proposals?")) return;
       const res = await fetch('/api/apply', { method: 'POST' });
       const data = await res.json();
       alert(data.message);
-      await loadCatalog();
+      await loadCatalogData();
     }
 
-    // -------------------------------------------------------------------------
-    // 2. OBSIDIAN GRAPH PREVIEW (Canvas Force Simulation)
-    // -------------------------------------------------------------------------
-    let graphCanvas, graphCtx;
-    let graphNodes = [];
-    let graphEdges = [];
-    let gZoom = 1.0;
-    let gPanX = 0, gPanY = 0;
-    let isPanning = false, startMouseX = 0, startMouseY = 0;
-    let draggedNode = null;
-    let hoveredNode = null;
-    let selectedNodeId = null;
-    let graphFilter = { concept: true, entity: true, comparison: true, source: true, proposal: true };
-    let graphSearchQuery = '';
-    let graphSimRunning = false;
+    // =========================================================================
+    // 4. OBSIDIAN GRAPH PREVIEW & EXPLORER (Damped & Anti-Collision)
+    // =========================================================================
+    let gCanvas, gCtx;
+    let gNodes = [];
+    let gEdges = [];
+    let zoom = 1.0;
+    let panX = 0, panY = 0;
+    let isPan = false, mStartX = 0, mStartY = 0;
+    let dragNode = null;
+    let hoverNode = null;
+    let selectedId = null;
+    let showProposals = true;
+    let typeFilters = { concept: true, entity: true, comparison: true, source: true, proposal: true };
+    let graphQuery = '';
+    let simStarted = false;
 
-    const COLORS = {
+    const NODE_COLORS = {
       concept: '#b388ff',
       entity: '#40c4ff',
       comparison: '#ff9100',
@@ -584,125 +588,142 @@
       proposal: '#ffd600'
     };
 
-    function initGraphCanvas() {
-      graphCanvas = document.getElementById('graph-canvas');
-      graphCtx = graphCanvas.getContext('2d');
-      setupGraphInteraction();
+    function initCanvas() {
+      gCanvas = document.getElementById('graph-canvas');
+      gCtx = gCanvas.getContext('2d');
+      setupGraphEvents();
     }
 
-    async function fetchGraphData() {
+    async function fetchGraph() {
       const res = await fetch('/api/graph');
       const data = await res.json();
-      document.getElementById('graph-nodes-count').innerText = data.nodes.length;
-      document.getElementById('graph-edges-count').innerText = data.edges.length;
+      document.getElementById('stat-nodes').innerText = data.nodes.length;
+      document.getElementById('stat-edges').innerText = data.edges.length;
 
-      // Arrange nodes in spiral around (0,0)
-      graphNodes = data.nodes.map((n, i) => {
-        const phi = i * 0.45;
-        const dist = 30 + Math.sqrt(i) * 35;
+      // Arrange in spiral with wider spacing
+      gNodes = data.nodes.map((n, i) => {
+        const phi = i * 0.55;
+        const dist = 50 + Math.sqrt(i) * 55;
         return {
           ...n,
           x: Math.cos(phi) * dist,
           y: Math.sin(phi) * dist,
           vx: 0,
           vy: 0,
-          radius: 5 + Math.min(12, Math.sqrt(n.degree || 1) * 2.8)
+          radius: 5 + Math.min(10, Math.sqrt(n.degree || 1) * 2.5)
         };
       });
 
       const map = {};
-      graphNodes.forEach(n => { map[n.id] = n; });
-      graphEdges = data.edges.map(e => ({
-        sourceNode: map[e.source],
-        targetNode: map[e.target]
-      })).filter(e => e.sourceNode && e.targetNode);
+      gNodes.forEach(n => { map[n.id] = n; });
+      gEdges = data.edges.map(e => ({
+        s: map[e.source],
+        t: map[e.target]
+      })).filter(e => e.s && e.t);
 
       fitGraphView();
     }
 
-    function resizeGraphCanvas() {
-      if (!graphCanvas) return;
-      const rect = graphCanvas.parentElement.getBoundingClientRect();
-      graphCanvas.width = rect.width;
-      graphCanvas.height = rect.height;
+    function resizeCanvas() {
+      if (!gCanvas) return;
+      const rect = gCanvas.parentElement.getBoundingClientRect();
+      gCanvas.width = rect.width;
+      gCanvas.height = rect.height;
     }
 
     function fitGraphView() {
-      if (!graphCanvas) return;
-      gZoom = 1.0;
-      gPanX = graphCanvas.width / 2;
-      gPanY = graphCanvas.height / 2;
+      if (!gCanvas) return;
+      zoom = 0.9;
+      panX = gCanvas.width / 2;
+      panY = gCanvas.height / 2;
     }
 
     function zoomGraph(factor) {
-      gZoom *= factor;
-      gZoom = Math.max(0.2, Math.min(4.0, gZoom));
+      zoom *= factor;
+      zoom = Math.max(0.2, Math.min(4.0, zoom));
     }
 
-    function setupGraphInteraction() {
-      graphCanvas.addEventListener('mousedown', (e) => {
-        const pos = toGraphCoords(e.clientX, e.clientY);
-        const hit = getNodeAt(pos.x, pos.y);
+    function toggleProposalsFilter(checked) {
+      showProposals = checked;
+    }
+
+    function toggleType(tp) {
+      typeFilters[tp] = !typeFilters[tp];
+      document.querySelectorAll('.legend-item').forEach(el => {
+        if (el.innerText.toLowerCase().includes(tp)) {
+          el.style.opacity = typeFilters[tp] ? '1' : '0.3';
+        }
+      });
+    }
+
+    function onGraphSearch(q) {
+      graphQuery = q.toLowerCase().trim();
+    }
+
+    function setupGraphEvents() {
+      gCanvas.addEventListener('mousedown', (e) => {
+        const pos = toCoords(e.clientX, e.clientY);
+        const hit = findNode(pos.x, pos.y);
         if (hit) {
-          draggedNode = hit;
-          selectedNodeId = hit.id;
+          dragNode = hit;
+          selectedId = hit.id;
         } else {
-          isPanning = true;
-          startMouseX = e.clientX - gPanX;
-          startMouseY = e.clientY - gPanY;
-          selectedNodeId = null;
+          isPan = true;
+          mStartX = e.clientX - panX;
+          mStartY = e.clientY - panY;
+          selectedId = null;
         }
       });
 
       window.addEventListener('mousemove', (e) => {
-        if (currentView !== 'graph') return;
-        if (isPanning) {
-          gPanX = e.clientX - startMouseX;
-          gPanY = e.clientY - startMouseY;
-        } else if (draggedNode) {
-          const pos = toGraphCoords(e.clientX, e.clientY);
-          draggedNode.x = pos.x;
-          draggedNode.y = pos.y;
-          draggedNode.vx = 0;
-          draggedNode.vy = 0;
+        if (activeMainView !== 'graph') return;
+        if (isPan) {
+          panX = e.clientX - mStartX;
+          panY = e.clientY - mStartY;
+        } else if (dragNode) {
+          const pos = toCoords(e.clientX, e.clientY);
+          dragNode.x = pos.x;
+          dragNode.y = pos.y;
+          dragNode.vx = 0;
+          dragNode.vy = 0;
         } else {
-          const pos = toGraphCoords(e.clientX, e.clientY);
-          hoveredNode = getNodeAt(pos.x, pos.y);
-          graphCanvas.style.cursor = hoveredNode ? 'pointer' : 'grab';
+          const pos = toCoords(e.clientX, e.clientY);
+          hoverNode = findNode(pos.x, pos.y);
+          gCanvas.style.cursor = hoverNode ? 'pointer' : 'grab';
         }
       });
 
-      window.addEventListener('mouseup', (e) => {
-        if (draggedNode && Math.abs(draggedNode.vx) < 0.1 && Math.abs(draggedNode.vy) < 0.1) {
-          // Click action: open in reader!
-          if (draggedNode.path) {
-            switchView('toc');
-            openNote(draggedNode.path);
+      window.addEventListener('mouseup', () => {
+        if (dragNode && Math.abs(dragNode.vx) < 0.1 && Math.abs(dragNode.vy) < 0.1) {
+          // Open node in reader
+          if (dragNode.path) {
+            openNote(dragNode.path);
           }
         }
-        isPanning = false;
-        draggedNode = null;
+        isPan = false;
+        dragNode = null;
       });
 
-      graphCanvas.addEventListener('wheel', (e) => {
+      gCanvas.addEventListener('wheel', (e) => {
         e.preventDefault();
         const factor = e.deltaY < 0 ? 1.1 : 0.9;
         zoomGraph(factor);
       }, { passive: false });
     }
 
-    function toGraphCoords(cx, cy) {
-      const rect = graphCanvas.getBoundingClientRect();
+    function toCoords(cx, cy) {
+      const rect = gCanvas.getBoundingClientRect();
       return {
-        x: (cx - rect.left - gPanX) / gZoom,
-        y: (cy - rect.top - gPanY) / gZoom
+        x: (cx - rect.left - panX) / zoom,
+        y: (cy - rect.top - panY) / zoom
       };
     }
 
-    function getNodeAt(x, y) {
-      for (let i = graphNodes.length - 1; i >= 0; i--) {
-        const n = graphNodes[i];
-        if (!graphFilter[n.type]) continue;
+    function findNode(x, y) {
+      for (let i = gNodes.length - 1; i >= 0; i--) {
+        const n = gNodes[i];
+        if (n.is_proposal && !showProposals) continue;
+        if (!typeFilters[n.type]) continue;
         const dx = n.x - x;
         const dy = n.y - y;
         if (dx * dx + dy * dy <= (n.radius + 6) * (n.radius + 6)) return n;
@@ -710,73 +731,63 @@
       return null;
     }
 
-    function toggleGraphType(type) {
-      graphFilter[type] = !graphFilter[type];
-      document.querySelectorAll('.legend-row').forEach(row => {
-        if (row.innerText.toLowerCase().includes(type)) {
-          row.style.opacity = graphFilter[type] ? '1' : '0.3';
+    function startGraph() {
+      if (simStarted) return;
+      simStarted = true;
+
+      function step() {
+        if (activeMainView === 'graph') {
+          updateGraphPhysics();
+          drawGraphCanvas();
         }
-      });
-    }
-
-    function onGraphSearch(val) {
-      graphSearchQuery = val.toLowerCase().trim();
-    }
-
-    function startGraphLoop() {
-      if (graphSimRunning) return;
-      graphSimRunning = true;
-
-      function loop() {
-        if (currentView === 'graph') {
-          updatePhysics();
-          renderGraph();
-        }
-        requestAnimationFrame(loop);
+        requestAnimationFrame(step);
       }
-      requestAnimationFrame(loop);
+      requestAnimationFrame(step);
     }
 
-    function updatePhysics() {
-      const active = graphNodes.filter(n => graphFilter[n.type]);
-      
-      // Node-Node Repulsion
+    function updateGraphPhysics() {
+      const active = gNodes.filter(n => (!n.is_proposal || showProposals) && typeFilters[n.type]);
+
+      // Repulsion (wider spacing: 2500)
       for (let i = 0; i < active.length; i++) {
         const na = active[i];
         for (let j = i + 1; j < active.length; j++) {
           const nb = active[j];
           let dx = nb.x - na.x;
           let dy = nb.y - na.y;
-          let distSq = dx * dx + dy * dy || 1;
-          if (distSq < 160000) { // ~400px
-            let force = 900 / (distSq + 100);
-            let dist = Math.sqrt(distSq);
-            let fx = (dx / dist) * force;
-            let fy = (dy / dist) * force;
-            if (na !== draggedNode) { na.vx -= fx; na.vy -= fy; }
-            if (nb !== draggedNode) { nb.vx += fx; nb.vy += fy; }
+          let d2 = dx * dx + dy * dy || 1;
+          if (d2 < 250000) { // ~500px radius
+            let f = 1800 / (d2 + 100);
+            let d = Math.sqrt(d2);
+            let fx = (dx / d) * f;
+            let fy = (dy / d) * f;
+            if (na !== dragNode) { na.vx -= fx; na.vy -= fy; }
+            if (nb !== dragNode) { nb.vx += fx; nb.vy += fy; }
           }
         }
       }
 
-      // Edge Springs
-      graphEdges.forEach(e => {
-        if (!graphFilter[e.sourceNode.type] || !graphFilter[e.targetNode.type]) return;
-        let dx = e.targetNode.x - e.sourceNode.x;
-        let dy = e.targetNode.y - e.sourceNode.y;
-        let dist = Math.sqrt(dx * dx + dy * dy) || 1;
-        let force = (dist - 75) * 0.045;
-        let fx = (dx / dist) * force;
-        let fy = (dy / dist) * force;
-        if (e.sourceNode !== draggedNode) { e.sourceNode.vx += fx; e.sourceNode.vy += fy; }
-        if (e.targetNode !== draggedNode) { e.targetNode.vx -= fx; e.targetNode.vy -= fy; }
+      // Edge Springs (ideal length: 95px)
+      gEdges.forEach(e => {
+        if (e.s.is_proposal && !showProposals) return;
+        if (e.t.is_proposal && !showProposals) return;
+        if (!typeFilters[e.s.type] || !typeFilters[e.t.type]) return;
+
+        let dx = e.t.x - e.s.x;
+        let dy = e.t.y - e.s.y;
+        let d = Math.sqrt(dx * dx + dy * dy) || 1;
+        let f = (d - 95) * 0.04;
+        let fx = (dx / d) * f;
+        let fy = (dy / d) * f;
+        if (e.s !== dragNode) { e.s.vx += fx; e.s.vy += fy; }
+        if (e.t !== dragNode) { e.t.vx -= fx; e.t.vy -= fy; }
       });
 
-      // Center Gravity & Damping
+      // Gravity & Damping
       active.forEach(n => {
-        if (n === draggedNode) return;
-        n.vx -= n.x * 0.015;
-        n.vy -= n.y * 0.015;
+        if (n === dragNode) return;
+        n.vx -= n.x * 0.012;
+        n.vy -= n.y * 0.012;
         n.vx *= 0.88;
         n.vy *= 0.88;
         n.x += n.vx;
@@ -784,134 +795,137 @@
       });
     }
 
-    function renderGraph() {
-      if (!graphCtx) return;
-      const w = graphCanvas.width;
-      const h = graphCanvas.height;
-      graphCtx.clearRect(0, 0, w, h);
+    function drawGraphCanvas() {
+      if (!gCtx) return;
+      gCtx.clearRect(0, 0, gCanvas.width, gCanvas.height);
 
-      graphCtx.save();
-      graphCtx.translate(gPanX, gPanY);
-      graphCtx.scale(gZoom, gZoom);
+      gCtx.save();
+      gCtx.translate(panX, panY);
+      gCtx.scale(zoom, zoom);
 
-      const activeNeighbors = new Set();
-      const highlightId = selectedNodeId || (hoveredNode ? hoveredNode.id : null);
-      if (highlightId) {
-        activeNeighbors.add(highlightId);
-        graphEdges.forEach(e => {
-          if (e.sourceNode.id === highlightId) activeNeighbors.add(e.targetNode.id);
-          if (e.targetNode.id === highlightId) activeNeighbors.add(e.sourceNode.id);
+      const targetId = selectedId || (hoverNode ? hoverNode.id : null);
+      const neighbors = new Set();
+      if (targetId) {
+        neighbors.add(targetId);
+        gEdges.forEach(e => {
+          if (e.s.id === targetId) neighbors.add(e.t.id);
+          if (e.t.id === targetId) neighbors.add(e.s.id);
         });
       }
 
-      // Draw Edges
-      graphEdges.forEach(e => {
-        if (!graphFilter[e.sourceNode.type] || !graphFilter[e.targetNode.type]) return;
-        const isHighlight = highlightId && (e.sourceNode.id === highlightId || e.targetNode.id === highlightId);
-        const isDim = highlightId && !isHighlight;
+      // Edges
+      gEdges.forEach(e => {
+        if (e.s.is_proposal && !showProposals) return;
+        if (e.t.is_proposal && !showProposals) return;
+        if (!typeFilters[e.s.type] || !typeFilters[e.t.type]) return;
 
-        graphCtx.beginPath();
-        graphCtx.moveTo(e.sourceNode.x, e.sourceNode.y);
-        graphCtx.lineTo(e.targetNode.x, e.targetNode.y);
-        graphCtx.strokeStyle = isHighlight ? 'rgba(179, 136, 255, 0.8)' : (isDim ? 'rgba(255,255,255,0.03)' : 'rgba(255,255,255,0.12)');
-        graphCtx.lineWidth = isHighlight ? 2 : 1;
-        graphCtx.stroke();
+        const isHi = targetId && (e.s.id === targetId || e.t.id === targetId);
+        const isDim = targetId && !isHi;
+
+        gCtx.beginPath();
+        gCtx.moveTo(e.s.x, e.s.y);
+        gCtx.lineTo(e.t.x, e.t.y);
+        gCtx.strokeStyle = isHi ? 'rgba(179, 136, 255, 0.8)' : (isDim ? 'rgba(255,255,255,0.02)' : 'rgba(255,255,255,0.12)');
+        gCtx.lineWidth = isHi ? 2 : 1;
+        gCtx.stroke();
       });
 
-      // Draw Nodes
-      graphNodes.forEach(n => {
-        if (!graphFilter[n.type]) return;
-        const isHighlight = highlightId && highlightId === n.id;
-        const isNeighbor = activeNeighbors.has(n.id);
-        const isDim = highlightId && !isNeighbor;
-        const isSearchMatch = graphSearchQuery && n.label.toLowerCase().includes(graphSearchQuery);
+      // Nodes
+      gNodes.forEach(n => {
+        if (n.is_proposal && !showProposals) return;
+        if (!typeFilters[n.type]) return;
 
-        graphCtx.save();
-        graphCtx.globalAlpha = isDim ? 0.2 : 1.0;
+        const isHi = targetId && targetId === n.id;
+        const isNeigh = neighbors.has(n.id);
+        const isDim = targetId && !isNeigh;
+        const isMatch = graphQuery && n.label.toLowerCase().includes(graphQuery);
 
-        // Proposal dashed ring
+        gCtx.save();
+        gCtx.globalAlpha = isDim ? 0.2 : 1.0;
+
+        // Proposal dashed outline
         if (n.is_proposal) {
-          graphCtx.beginPath();
-          graphCtx.arc(n.x, n.y, n.radius + 3, 0, Math.PI * 2);
-          graphCtx.strokeStyle = '#ffd600';
-          graphCtx.setLineDash([3, 3]);
-          graphCtx.lineWidth = 1.5;
-          graphCtx.stroke();
-          graphCtx.setLineDash([]);
+          gCtx.beginPath();
+          gCtx.arc(n.x, n.y, n.radius + 3, 0, Math.PI * 2);
+          gCtx.strokeStyle = '#ffd600';
+          gCtx.setLineDash([3, 3]);
+          gCtx.lineWidth = 1.4;
+          gCtx.stroke();
+          gCtx.setLineDash([]);
         }
 
         // Highlight ring
-        if (isHighlight || isSearchMatch) {
-          graphCtx.beginPath();
-          graphCtx.arc(n.x, n.y, n.radius + 4, 0, Math.PI * 2);
-          graphCtx.strokeStyle = isHighlight ? '#b388ff' : '#40c4ff';
-          graphCtx.lineWidth = 2.5;
-          graphCtx.stroke();
+        if (isHi || isMatch) {
+          gCtx.beginPath();
+          gCtx.arc(n.x, n.y, n.radius + 4, 0, Math.PI * 2);
+          gCtx.strokeStyle = isHi ? '#b388ff' : '#40c4ff';
+          gCtx.lineWidth = 2.5;
+          gCtx.stroke();
         }
 
-        // Node Body
-        graphCtx.beginPath();
-        graphCtx.arc(n.x, n.y, n.radius, 0, Math.PI * 2);
-        graphCtx.fillStyle = COLORS[n.type] || '#fff';
-        graphCtx.fill();
+        // Circle body
+        gCtx.beginPath();
+        gCtx.arc(n.x, n.y, n.radius, 0, Math.PI * 2);
+        gCtx.fillStyle = NODE_COLORS[n.type] || '#fff';
+        gCtx.fill();
 
-        // Label
-        const showLabel = gZoom > 0.8 || isHighlight || isNeighbor || isSearchMatch;
-        if (showLabel) {
-          graphCtx.font = `${Math.max(9, 11 / gZoom)}px sans-serif`;
-          graphCtx.fillStyle = '#e2e2ec';
-          graphCtx.textAlign = 'center';
-          graphCtx.fillText(n.label, n.x, n.y + n.radius + 12);
+        // SMART LABEL DISPLAY: only on hover, neighbors, search match, or high zoom
+        const showLbl = isHi || isNeigh || isMatch || (zoom > 1.3);
+        if (showLbl) {
+          gCtx.font = `${Math.max(9, 11 / zoom)}px sans-serif`;
+          gCtx.fillStyle = '#e2e2ec';
+          gCtx.textAlign = 'center';
+          gCtx.fillText(n.label, n.x, n.y + n.radius + 12);
         }
 
-        graphCtx.restore();
+        gCtx.restore();
       });
 
-      graphCtx.restore();
+      gCtx.restore();
     }
 
-    // -------------------------------------------------------------------------
-    // 3. THOTH RECOMMENDATIONS & INTELLIGENCE
-    // -------------------------------------------------------------------------
-    async function loadInsights() {
-      const sRes = await fetch('/api/stats');
+    // =========================================================================
+    // 5. THOTH'S RECOMMENDATIONS
+    // =========================================================================
+    async function loadRecommendations() {
+      const [sRes, rRes] = await Promise.all([
+        fetch('/api/stats'),
+        fetch('/api/recommendations')
+      ]);
       const stats = await sRes.json();
-      document.getElementById('metric-total-pages').innerText = stats.total_pages || 0;
-      document.getElementById('metric-total-links').innerText = stats.total_links || 0;
-      const density = stats.total_pages > 0 ? (stats.total_links / stats.total_pages).toFixed(1) : 0;
-      document.getElementById('metric-density').innerText = density;
-      document.getElementById('metric-proposals').innerText = stats.proposals_count || 0;
-
-      const rRes = await fetch('/api/recommendations');
       const recs = await rRes.json();
-      const list = document.getElementById('recs-list');
 
+      document.getElementById('m-pages').innerText = stats.total_pages || 0;
+      document.getElementById('m-links').innerText = stats.total_links || 0;
+      document.getElementById('m-density').innerText = stats.total_pages > 0 ? (stats.total_links / stats.total_pages).toFixed(1) : 0;
+      document.getElementById('m-proposals').innerText = stats.proposals_count || 0;
+
+      const list = document.getElementById('recs-list');
       if (recs.length === 0) {
-        list.innerHTML = '<div style="color:var(--muted); padding:20px;">Vault is fully optimized! No pending recommendations.</div>';
+        list.innerHTML = '<div style="color:var(--muted); padding:16px;">All knowledge paths optimized!</div>';
         return;
       }
 
       list.innerHTML = recs.map(r => `
         <div class="rec-card rec-${(r.priority || 'low').toLowerCase()}">
-          <div class="rec-header">
-            <span class="rec-title">${escapeHtml(r.title)}</span>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <strong style="color:#fff; font-size:0.95rem;">${escapeHtml(r.title)}</strong>
             <div style="display:flex; gap:6px; align-items:center;">
-              <span style="font-size:0.75rem; color:var(--muted);">${escapeHtml(r.category || '')}</span>
+              <span style="font-size:0.72rem; color:var(--muted);">${escapeHtml(r.category || '')}</span>
               <span class="badge badge-${(r.priority || 'low').toLowerCase()}">${r.priority}</span>
             </div>
           </div>
-          <div class="rec-details">${escapeHtml(r.details)}</div>
-          <div class="rec-action">👉 Recommended Action: ${escapeHtml(r.action)}</div>
+          <p style="font-size:0.83rem; color:var(--text); line-height:1.45; margin-bottom:8px;">${escapeHtml(r.details)}</p>
+          <div style="font-size:0.78rem; color:var(--purple); font-weight:500;">👉 ${escapeHtml(r.action)}</div>
         </div>
       `).join('');
     }
 
-    // -------------------------------------------------------------------------
-    // HELPERS (Markdown & Diff Parsing)
-    // -------------------------------------------------------------------------
+    // =========================================================================
+    // 6. HELPERS
+    // =========================================================================
     function renderMarkdown(md) {
       if (!md) return '';
-      // Replace [[target|alias]] or [[target]]
       let text = md.replace(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (match, target, alias) => {
         return `<a class="wikilink" onclick="openNote('${escapeHtml(target.trim())}')">[[${escapeHtml(alias || target.trim())}]]</a>`;
       });
@@ -922,40 +936,38 @@
     }
 
     function renderDiff(diffText) {
-      if (!diffText) return '<div style="color:var(--muted); padding:10px;">No differences detected.</div>';
-      return diffText.split('\n').map(line => {
+      if (!diffText) return '<div style="color:var(--muted); padding:8px;">No changes.</div>';
+      return diffText.split('\n').map(l => {
         let cls = 'diff-ctx';
-        if (line.startsWith('+') && !line.startsWith('+++')) cls = 'diff-add';
-        else if (line.startsWith('-') && !line.startsWith('---')) cls = 'diff-del';
-        else if (line.startsWith('@@')) cls = 'diff-hunk';
-        return `<div class="diff-line ${cls}">${escapeHtml(line)}</div>`;
+        if (l.startsWith('+') && !l.startsWith('+++')) cls = 'diff-add';
+        else if (l.startsWith('-') && !l.startsWith('---')) cls = 'diff-del';
+        else if (l.startsWith('@@')) cls = 'diff-hunk';
+        return `<div class="diff-line ${cls}">${escapeHtml(l)}</div>`;
       }).join('');
     }
 
-    function escapeHtml(text) {
-      if (!text) return '';
-      return String(text).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
     }
 
-    // -------------------------------------------------------------------------
-    // INITIALIZATION
-    // -------------------------------------------------------------------------
-    async function initApp() {
-      await loadCatalog();
-      initGraphCanvas();
-      await fetchGraphData();
+    // =========================================================================
+    // STARTUP
+    // =========================================================================
+    async function initStudio() {
+      await loadCatalogData();
+      initCanvas();
+      await fetchGraph();
     }
 
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initApp);
+      document.addEventListener('DOMContentLoaded', initStudio);
     } else {
-      initApp();
+      initStudio();
     }
 
     window.addEventListener('resize', () => {
-      if (currentView === 'graph') {
-        resizeGraphCanvas();
-      }
+      if (activeMainView === 'graph') resizeCanvas();
     });
   </script>
 </body>

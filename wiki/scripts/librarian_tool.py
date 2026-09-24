@@ -613,6 +613,18 @@ def get_recommendations_list():
                 "type": "synthesis_candidate"
             })
 
+    # Recommendation B2: Exploitation Attack Chain
+    if "blind-ssrf-gopher-redis-rce" in compiled and "wordpress-performance-monitor" in compiled:
+        recs.append({
+            "author": "Thoth (Obsidian Librarian)",
+            "category": "Attack Chain Discovery",
+            "priority": "HIGH",
+            "title": "Exploitation Attack Chain: WordPress SSRF to Internal Redis RCE",
+            "details": "Thoth's graph analysis identifies a high-severity pivot chain: 'WordPress Performance Monitor Plugin' (entity) provides an unauthenticated blind SSRF vector in the 'track' parameter, while 'Blind SSRF to Redis RCE via Gopher' (concept) supplies the binary payload framing required to compromise internal Redis on port 6379. We recommend linking the specific Gopher payload framing syntax from the Redis concept into the WordPress entity notes to establish an end-to-end unauth-to-RCE exploit chain.",
+            "action": "Open 'wordpress-performance-monitor' in the Reader and review the attack chain cross-link.",
+            "type": "attack_chain"
+        })
+
     # Recommendation C: Token Security Architecture Synthesis
     if "jwt-security-mechanisms" in compiled and "oauth-grant-types-and-flows" in compiled:
         if "jwt-in-oauth2-architecture" not in compiled:
