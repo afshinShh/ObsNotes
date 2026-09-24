@@ -1447,6 +1447,25 @@ def cmd_studio(args):
         print(f"Decision Studio is {'RUNNING' if running else 'STOPPED'} on {url}")
         return 0 if running else 1
 
+    if getattr(args, "stop", False):
+        if not is_studio_running(port):
+            print(f"[*] Decision Studio is not running on port {port}.")
+            return 0
+        try:
+            res = subprocess.run(["fuser", "-k", f"{port}/tcp"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+            import time
+            time.sleep(0.5)
+            if not is_studio_running(port):
+                print(f"[+] Decision Studio on port {port} has been stopped.")
+                return 0
+            else:
+                subprocess.run(["pkill", "-f", f"studio.*--port {port}"], check=False)
+                print(f"[+] Decision Studio on port {port} terminated.")
+                return 0
+        except Exception as e:
+            print(f"[-] Error stopping Decision Studio: {e}")
+            return 1
+
     if getattr(args, "ensure_running", False):
         if is_studio_running(port):
             print(f"[+] Decision Studio is already running at: {url}")
@@ -1602,6 +1621,7 @@ def main():
     p_studio.add_argument("--ensure-running", action="store_true", help="Ensure studio is running in background without blocking")
     p_studio.add_argument("--daemon", action="store_true", help="Run as background daemon process")
     p_studio.add_argument("--status", action="store_true", help="Check if studio is running")
+    p_studio.add_argument("--stop", action="store_true", help="Stop running Decision Studio instance")
 
     args = parser.parse_args()
     if not args.subcommand:
