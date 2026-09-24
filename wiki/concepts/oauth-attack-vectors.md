@@ -130,6 +130,7 @@ Attacker uses Refresh Token with rotation bypass to maintain indefinite access
 7. **Secure Token Storage**: Use `__Host-` prefixed `HttpOnly; Secure; SameSite=Strict` cookies or memory-only storage.
 
 ## Related Pages
+- [[open-redirect-in-oauth-flows]]
 - [[oauth]]
 - [[oauth-grant-types-and-flows]]
 - [[authorization-code-vs-implicit-flow]]

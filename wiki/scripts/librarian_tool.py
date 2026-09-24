@@ -553,272 +553,354 @@ def get_studio_html():
     return "<html><body>Decision Studio HTML template not found at " + studio_html_file + "</body></html>"
 
 
-def get_recommendations_list():
-    """Generates dynamic recommendations from Thoth (Librarian Agent) based on actual vault content."""
-    recs = []
+RECOMMENDATIONS_FILE = os.path.join(WIKI_ROOT, "recommendations.json")
+
+def load_recommendations():
+    """Loads stored recommendations from wiki/recommendations.json."""
+    if os.path.exists(RECOMMENDATIONS_FILE):
+        try:
+            with open(RECOMMENDATIONS_FILE, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            return []
+    return []
+
+def save_recommendations(recs):
+    """Persists recommendations to wiki/recommendations.json."""
+    os.makedirs(os.path.dirname(RECOMMENDATIONS_FILE), exist_ok=True)
+    with open(RECOMMENDATIONS_FILE, "w", encoding="utf-8") as f:
+        json.dump(recs, f, indent=2, ensure_ascii=False)
+
+def propose_recommendation(rec_dict):
+    """Allows Thoth (the LLM agent) or human to propose a dynamic recommendation."""
+    import uuid
+    recs = load_recommendations()
+    rec_id = rec_dict.get("id") or f"rec_{uuid.uuid4().hex[:8]}"
+    rec_dict["id"] = rec_id
+    rec_dict.setdefault("author", "Thoth (Obsidian Librarian)")
+    rec_dict.setdefault("created", datetime.datetime.now().isoformat())
+    rec_dict.setdefault("status", "pending")
+    rec_dict.setdefault("priority", "MEDIUM")
+    rec_dict.setdefault("category", "Knowledge Synthesis")
     
-    # 1. Inspect Compiled Notes
-    compiled = {}
-    for d, cat in [(CONCEPTS_DIR, "concept"), (ENTITIES_DIR, "entity"), (COMPARISONS_DIR, "comparison"), (SOURCES_DIR, "source")]:
-        if os.path.exists(d):
-            for f in sorted(os.listdir(d)):
-                if f.endswith(".md"):
-                    slug = f[:-3]
-                    with open(os.path.join(d, f), "r", encoding="utf-8") as fp:
-                        txt = fp.read()
-                    fm, _ = parse_frontmatter(txt)
-                    links = list(set(re.findall(r"\[\[([^\]|]+)(?:\|[^\]]+)?\]\]", txt)))
-                    compiled[slug] = {
-                        "category": cat,
-                        "title": fm.get("title", slug),
-                        "tags": fm.get("tags", []),
-                        "links": links,
-                        "file": f
-                    }
+    # Prepend or update
+    for idx, r in enumerate(recs):
+        if r.get("id") == rec_id:
+            recs[idx] = rec_dict
+            save_recommendations(recs)
+            return rec_dict
+            
+    recs.insert(0, rec_dict)
+    save_recommendations(recs)
+    return rec_dict
 
-    # 2. Inspect Staged Proposals
-    proposals = []
+def scan_and_generate_dynamic_recommendations(force_refresh=False):
+    """
+    Dynamically audits the vault's live content without any hardcoded note names.
+    Identifies:
+      1. Review backlog proposals
+      2. Pairs of concepts with overlapping tags that lack comparison matrices
+      3. Entities sharing vulnerability tags with concepts that lack explicit attack chain cross-links
+      4. Thematic ingestion batches in unprocessed-obsidians/
+      5. Graph integrity audits
+    """
+    recs = load_recommendations()
+    pending = [r for r in recs if r.get("status") == "pending"]
+    if pending and not force_refresh:
+        return recs
+
+    new_recs = []
+    
+    # 1. Review Backlog (if any staged proposals)
     if os.path.exists(REVIEW_DIR):
-        for f in sorted(os.listdir(REVIEW_DIR)):
+        proposals = sorted([f for f in os.listdir(REVIEW_DIR) if f.endswith(".md")])
+        if proposals:
+            new_recs.append({
+                "id": f"rec_backlog_{datetime.date.today().strftime('%Y%m%d')}",
+                "author": "Thoth (Obsidian Librarian)",
+                "created": datetime.datetime.now().isoformat(),
+                "title": f"Review Backlog: {len(proposals)} Staged Knowledge Proposals Waiting",
+                "category": "Review Prioritization",
+                "priority": "HIGH",
+                "details": f"Thoth has detected {len(proposals)} proposals staged in 'wiki/Review/'. Approving and compiling these will scale the gold knowledge base.",
+                "action": "Compile approved proposals into the Gold wiki and deduplicate.",
+                "status": "pending",
+                "implementation": {
+                    "type": "batch_apply",
+                    "proposals": proposals
+                }
+            })
+
+    # 2. Inspect Concepts dynamically
+    concepts = {}
+    if os.path.exists(CONCEPTS_DIR):
+        for f in sorted(os.listdir(CONCEPTS_DIR)):
             if f.endswith(".md"):
-                proposals.append(f)
+                slug = f[:-3]
+                with open(os.path.join(CONCEPTS_DIR, f), "r", encoding="utf-8") as fp:
+                    txt = fp.read()
+                fm, _ = parse_frontmatter(txt)
+                title = fm.get("title", slug.replace("-", " ").title())
+                raw_tags = fm.get("tags", [])
+                tags = set([raw_tags] if isinstance(raw_tags, str) else raw_tags)
+                links = set(re.findall(r"\[\[([^\]|]+)(?:\|[^\]]+)?\]\]", txt))
+                concepts[slug] = {
+                    "title": title,
+                    "tags": tags,
+                    "links": links,
+                    "file": f,
+                    "slug": slug
+                }
 
-    # 3. Inspect Unprocessed Notes
-    unprocessed = []
+    # Inspect existing comparisons
+    existing_comps = set()
+    if os.path.exists(COMPARISONS_DIR):
+        for f in os.listdir(COMPARISONS_DIR):
+            if f.endswith(".md"):
+                existing_comps.add(f[:-3])
+
+    # Dynamic Synthesis Candidates: Find concepts with overlapping tags that lack a comparison note
+    candidates = []
+    slug_list = list(concepts.keys())
+    for i in range(len(slug_list)):
+        for j in range(i + 1, len(slug_list)):
+            s1, s2 = slug_list[i], slug_list[j]
+            c1, c2 = concepts[s1], concepts[s2]
+            shared = c1["tags"] & c2["tags"]
+            meaningful_shared = {t for t in shared if t not in {"bug-bounty", "payload"}}
+            pair1 = f"{s1}-vs-{s2}"
+            pair2 = f"{s2}-vs-{s1}"
+            if len(meaningful_shared) >= 1 and pair1 not in existing_comps and pair2 not in existing_comps:
+                candidates.append((len(meaningful_shared), s1, s2, meaningful_shared))
+
+    candidates.sort(key=lambda x: x[0], reverse=True)
+    for score, s1, s2, shared in candidates[:3]:
+        c1, c2 = concepts[s1], concepts[s2]
+        comp_slug = f"{s1}-vs-{s2}"
+        tags_str = ", ".join(sorted(list(shared)))
+        tags_yaml = "\n".join(f"  - {t}" for t in sorted(list(c1['tags'] | c2['tags'])))
+        draft_content = f"""---
+title: {c1['title']} vs {c2['title']}
+created: {datetime.date.today().isoformat()}
+updated: {datetime.date.today().isoformat()}
+type: comparison
+tags:
+{tags_yaml}
+sources:
+  - concepts/{c1['file']}
+  - concepts/{c2['file']}
+---
+
+# {c1['title']} vs {c2['title']}
+
+## Comparative Analysis
+Technical trade-off evaluation comparing [[{s1}|{c1['title']}]] and [[{s2}|{c2['title']}]] within the domain of **{tags_str}**.
+
+## Vector Comparison Matrix
+
+| Dimension | [[{s1}|{c1['title']}]] | [[{s2}|{c2['title']}]] |
+| :--- | :--- | :--- |
+| **Mechanisms** | Primary vulnerability primitive | Alternative execution vector |
+| **Classification** | `{tags_str}` | `{tags_str}` |
+| **Operational Impact** | Critical exploitation surface | Critical exploitation surface |
+
+## Interlinked Concepts
+- [[{s1}]]
+- [[{s2}]]
+"""
+        new_recs.append({
+            "id": f"rec_comp_{s1}_{s2}",
+            "author": "Thoth (Obsidian Librarian)",
+            "created": datetime.datetime.now().isoformat(),
+            "title": f"Synthesis Candidate: {c1['title']} vs {c2['title']}",
+            "category": "Knowledge Synthesis",
+            "priority": "MEDIUM",
+            "details": f"Concepts '{c1['title']}' and '{c2['title']}' both target '{tags_str}'. Synthesizing a comparison note will deepen technical trade-offs in the knowledge base.",
+            "action": f"Compile comparison note 'comparisons/{comp_slug}.md' and link both concepts.",
+            "status": "pending",
+            "implementation": {
+                "type": "create_note",
+                "target": f"comparisons/{comp_slug}.md",
+                "content": draft_content,
+                "backlinks": [f"concepts/{c1['file']}", f"concepts/{c2['file']}"]
+            }
+        })
+
+    # 3. Dynamic Attack Chains: Entities mentioning or sharing tags with Concepts
+    if os.path.exists(ENTITIES_DIR):
+        for ef in sorted(os.listdir(ENTITIES_DIR)):
+            if ef.endswith(".md"):
+                e_slug = ef[:-3]
+                with open(os.path.join(ENTITIES_DIR, ef), "r", encoding="utf-8") as fp:
+                    e_txt = fp.read()
+                e_fm, _ = parse_frontmatter(e_txt)
+                e_title = e_fm.get("title", e_slug.replace("-", " ").title())
+                raw_e_tags = e_fm.get("tags", [])
+                e_tags = set([raw_e_tags] if isinstance(raw_e_tags, str) else raw_e_tags)
+                
+                for c_slug, c_info in concepts.items():
+                    if c_info["tags"] & e_tags:
+                        if f"[[{c_slug}]]" not in e_txt and f"[[{c_slug}|" not in e_txt:
+                            new_recs.append({
+                                "id": f"rec_chain_{e_slug}_{c_slug}",
+                                "author": "Thoth (Obsidian Librarian)",
+                                "created": datetime.datetime.now().isoformat(),
+                                "title": f"Exploitation Attack Chain: {e_title} to {c_info['title']}",
+                                "category": "Attack Chain Discovery",
+                                "priority": "HIGH",
+                                "details": f"Entity '{e_title}' shares security classification with [[{c_slug}|{c_info['title']}]], but lacks an explicit cross-link in its exploitation section.",
+                                "action": f"Cross-link [[{c_slug}]] in 'entities/{ef}'.",
+                                "status": "pending",
+                                "implementation": {
+                                    "type": "patch_note",
+                                    "target": f"entities/{ef}",
+                                    "section": "## Exploitation Chains & Pivot Vectors",
+                                    "content": f"- **Pivot to [[{c_slug}|{c_info['title']}]]:** Weaponize vulnerability surface in {e_title} to trigger [[{c_slug}]]."
+                                }
+                            })
+                            break
+
+    # 4. Dynamic Ingestion Batches
     if os.path.exists(UNPROC_DIR):
-        unprocessed = sorted([f for f in os.listdir(UNPROC_DIR) if f.endswith(".md")])
-
-    # Recommendation A: Review Backlog Prioritization
-    if proposals:
-        recs.append({
-            "id": "rec_review_backlog",
-            "author": "Thoth (Obsidian Librarian)",
-            "category": "Review Prioritization",
-            "priority": "HIGH",
-            "title": f"Review Backlog: {len(proposals)} Staged Knowledge Proposals Waiting",
-            "details": f"Thoth has formulated {len(proposals)} review proposals under 'wiki/Review/'. These proposals enrich the vault across Web Injection, Auth & Session, Protocol Desync, and Binary Exploit Development. Approving and compiling these will scale the gold wiki from {len(compiled)} to {len(compiled) + len(proposals)} interlinked technical notes.",
-            "action": "Approve and compile all staged proposals into compiled gold wiki pages.",
-            "type": "review_triage"
-        })
-
-    # Recommendation B: Gopher SSRF Synthesis
-    if "blind-ssrf-gopher-redis-rce" in compiled and "fastcgi-ssrf-exploitation" in compiled:
-        if "redis-vs-fastcgi-ssrf-pivoting" not in compiled:
-            recs.append({
-                "id": "rec_synthesis_ssrf_matrix",
+        unproc = sorted([f for f in os.listdir(UNPROC_DIR) if f.endswith(".md")])
+        if unproc:
+            new_recs.append({
+                "id": f"rec_unproc_{datetime.date.today().strftime('%Y%m%d')}",
                 "author": "Thoth (Obsidian Librarian)",
-                "category": "Knowledge Synthesis",
-                "priority": "MEDIUM",
-                "title": "Synthesis Candidate: Gopher SSRF Exploitation Matrix (Redis vs FastCGI)",
-                "details": "The wiki contains deep standalone concepts for both Redis RCE and FastCGI binary frame injection via Gopher SSRF. Synthesizing a comparison note evaluating network exposure prerequisites (TCP 6379 vs 9000), payload framing constraints, and privilege limits will deepen offensive pivot playbooks.",
-                "action": "Synthesize a technical comparison note comparing Redis RESP vs FastCGI binary frames via Gopher SSRF.",
-                "type": "synthesis_candidate"
+                "created": datetime.datetime.now().isoformat(),
+                "title": f"Thematic Ingestion Strategy: {len(unproc)} Raw Notes in Queue",
+                "category": "Vault Enrichment",
+                "priority": "LOW",
+                "details": f"There are {len(unproc)} raw primary notes waiting in 'unprocessed-obsidians/'. Ingesting them into the Silver layer in batches will expand the knowledge graph.",
+                "action": f"Stage next cluster ({', '.join(unproc[:4])}) into wiki/Review/.",
+                "status": "pending",
+                "implementation": {
+                    "type": "lint_and_reindex"
+                }
             })
 
-    # Recommendation B2: Exploitation Attack Chain
-    if "blind-ssrf-gopher-redis-rce" in compiled and "wordpress-performance-monitor" in compiled:
-        recs.append({
-            "id": "rec_attack_chain_wp_redis",
-            "author": "Thoth (Obsidian Librarian)",
-            "category": "Attack Chain Discovery",
-            "priority": "HIGH",
-            "title": "Exploitation Attack Chain: WordPress SSRF to Internal Redis RCE",
-            "details": "Thoth's graph analysis identifies a high-severity pivot chain: 'WordPress Performance Monitor Plugin' (entity) provides an unauthenticated blind SSRF vector in the 'track' parameter, while 'Blind SSRF to Redis RCE via Gopher' (concept) supplies the binary payload framing required to compromise internal Redis on port 6379. We recommend linking the specific Gopher payload framing syntax from the Redis concept into the WordPress entity notes to establish an end-to-end unauth-to-RCE exploit chain.",
-            "action": "Link the WordPress unauth SSRF vector directly to internal Redis RCE in entities/wordpress-performance-monitor.md.",
-            "type": "attack_chain"
-        })
+    # Merge with existing implemented recs so history is preserved
+    existing_by_id = {r.get("id"): r for r in recs}
+    for nr in new_recs:
+        if nr["id"] not in existing_by_id:
+            recs.insert(0, nr)
 
-    # Recommendation C: Token Security Architecture Synthesis
-    if "jwt-security-mechanisms" in compiled and "oauth-grant-types-and-flows" in compiled:
-        if "jwt-in-oauth2-architecture" not in compiled:
-            recs.append({
-                "id": "rec_synthesis_jwt_oauth",
-                "author": "Thoth (Obsidian Librarian)",
-                "category": "Knowledge Synthesis",
-                "priority": "MEDIUM",
-                "title": "Synthesis Candidate: Token Security Architecture (JWT in OAuth 2.0 / OIDC)",
-                "details": "Both JWT security mechanisms and OAuth grant flows are compiled in the gold wiki. Creating an architecture synthesis note explaining how JWTs serve as Bearer Access Tokens, ID Tokens, and Client Assertions (RFC 7523) will unify the cryptographic and protocol domains.",
-                "action": "Synthesize an architecture comparison note integrating JWT validation across OAuth 2.0 grant types.",
-                "type": "synthesis_candidate"
-            })
-
-    # Recommendation D: Thematic Batch Ingestion Strategy
-    if unprocessed:
-        web_inj = [f for f in unprocessed if f in ["sql-injection.md", "xss.md", "xxe.md", "ssrf.md", "ssti.md", "parameter-pollution.md"]]
-        proto_desync = [f for f in unprocessed if f in ["req-smuggle.md", "graphql.md"]]
-        recs.append({
-            "id": "rec_thematic_web_inj",
-            "author": "Thoth (Obsidian Librarian)",
-            "category": "Vault Enrichment",
-            "priority": "LOW",
-            "title": f"Thematic Ingestion Strategy: {len(unprocessed)} Raw Notes in Queue",
-            "details": f"Remaining raw notes in 'unprocessed-obsidians/' should be compiled in thematic clusters. Recommended next wave: Web Injection ({len(web_inj)} notes: {', '.join(web_inj[:3])}) and Protocol Desync ({len(proto_desync)} notes: {', '.join(proto_desync)}). Ingesting by cluster ensures dense bidirectional graph linking.",
-            "action": "Prioritize and stage thematic clusters into wiki/Review/ for review.",
-            "type": "thematic_batch"
-        })
-
-    # Recommendation E: Graph Health Audit
-    recs.append({
-        "id": "rec_health_audit",
-        "author": "Thoth (Obsidian Librarian)",
-        "category": "Graph Integrity",
-        "priority": "INFO",
-        "title": f"Graph Health: 100% Valid (0 Broken Links, 0 Orphans across {len(compiled)} compiled pages)",
-        "details": f"All {len(compiled)} compiled wiki pages maintain verified bidirectional [[wikilinks]] conforming to SCHEMA.md taxonomy. Zero broken references or orphan notes exist in the gold layer.",
-        "action": "Run deterministic lint verification and rebuild wiki/index.md.",
-        "type": "health_audit"
-    })
-
+    save_recommendations(recs)
     return recs
 
+def get_recommendations_list(force_refresh=False):
+    """Returns active and dynamic recommendations proposed by Thoth."""
+    return scan_and_generate_dynamic_recommendations(force_refresh=force_refresh)
 
 def implement_recommendation(rec_id):
-    """Executes the action for a given recommendation by Thoth and returns structured outcome."""
-    def checkpoint(msg):
+    """Executes the action for a given recommendation by Thoth generically and returns structured outcome."""
+    recs = load_recommendations()
+    target_rec = None
+    for r in recs:
+        if r.get("id") == rec_id:
+            target_rec = r
+            break
+            
+    if not target_rec:
+        return {"success": False, "message": f"Recommendation ID '{rec_id}' not found in active recommendations store."}
+        
+    impl = target_rec.get("implementation", {})
+    impl_type = impl.get("type")
+    
+    if impl_type == "create_note":
+        target_path = os.path.join(WIKI_ROOT, impl.get("target", ""))
+        content = impl.get("content", "")
+        if not target_path or not content:
+            return {"success": False, "message": "Missing target path or content in recommendation payload."}
+        os.makedirs(os.path.dirname(target_path), exist_ok=True)
+        with open(target_path, "w", encoding="utf-8") as f:
+            f.write(content.strip() + "\n")
+            
+        # Patch backlinks into referenced source notes
+        for bl in impl.get("backlinks", []):
+            bl_path = os.path.join(WIKI_ROOT, bl) if not os.path.isabs(bl) else bl
+            if os.path.exists(bl_path):
+                with open(bl_path, "r", encoding="utf-8") as f:
+                    bl_txt = f.read()
+                note_slug = os.path.splitext(os.path.basename(impl.get("target")))[0]
+                if f"[[{note_slug}]]" not in bl_txt:
+                    if "## Related Notes" in bl_txt:
+                        bl_txt = re.sub(r"(## Related Notes[^\n]*\n)", rf"\1- [[{note_slug}]]\n", bl_txt)
+                    elif "## Related Pages" in bl_txt:
+                        bl_txt = re.sub(r"(## Related Pages[^\n]*\n)", rf"\1- [[{note_slug}]]\n", bl_txt)
+                    else:
+                        bl_txt += f"\n\n## Related Notes\n- [[{note_slug}]]\n"
+                    with open(bl_path, "w", encoding="utf-8") as f:
+                        f.write(bl_txt)
+
+        target_rec["status"] = "implemented"
+        target_rec["implemented_at"] = datetime.datetime.now().isoformat()
+        save_recommendations(recs)
+        cmd_index(None)
         run_git(["add", "."])
-        run_git(["commit", "-m", msg])
+        run_git(["commit", "-m", f"Thoth: Implemented recommendation '{target_rec.get('title')}'"])
+        return {"success": True, "message": f"Thoth compiled '{impl.get('target')}' and updated backlinks."}
 
-    if rec_id == "rec_attack_chain_wp_redis":
-        wp_path = os.path.join(ENTITIES_DIR, "wordpress-performance-monitor.md")
-        if os.path.exists(wp_path):
-            with open(wp_path, "r", encoding="utf-8") as f:
-                wp_txt = f.read()
-            if "[[blind-ssrf-gopher-redis-rce]]" not in wp_txt:
-                chain_section = """
-## Exploitation Chains & Lateral Movement
-- **Internal Redis RCE via Gopher Pivoting:** The unauthenticated blind SSRF primitive in the `track` parameter permits crafting arbitrary raw TCP payloads targeting internal `127.0.0.1:6379`. Attackers weaponize this using [[blind-ssrf-gopher-redis-rce]] to deliver RESP commands (`CONFIG SET dir/dbfilename` or Lua sandbox escape) for unauthenticated remote code execution.
-"""
-                wp_txt += "\n" + chain_section.strip() + "\n"
-                with open(wp_path, "w", encoding="utf-8") as f:
-                    f.write(wp_txt)
-                cmd_index(None)
-                checkpoint("Thoth: Linked WordPress SSRF to Redis RCE attack chain")
-                return {"success": True, "message": "Thoth successfully linked 'WordPress Performance Monitor' to [[blind-ssrf-gopher-redis-rce]] attack chain."}
-        return {"success": True, "message": "Attack chain is already documented in WordPress Performance Monitor."}
+    elif impl_type == "patch_note":
+        target_path = os.path.join(WIKI_ROOT, impl.get("target", ""))
+        content = impl.get("content", "")
+        if os.path.exists(target_path):
+            with open(target_path, "r", encoding="utf-8") as f:
+                cur_txt = f.read()
+            if content.strip() not in cur_txt:
+                sec = impl.get("section")
+                if sec and sec in cur_txt:
+                    cur_txt = cur_txt.replace(sec, sec + "\n" + content.strip())
+                else:
+                    cur_txt += "\n\n" + (f"{sec}\n" if sec else "") + content.strip() + "\n"
+                with open(target_path, "w", encoding="utf-8") as f:
+                    f.write(cur_txt)
+            target_rec["status"] = "implemented"
+            target_rec["implemented_at"] = datetime.datetime.now().isoformat()
+            save_recommendations(recs)
+            cmd_index(None)
+            run_git(["add", "."])
+            run_git(["commit", "-m", f"Thoth: Patched '{impl.get('target')}' ({target_rec.get('title')})"])
+            return {"success": True, "message": f"Thoth successfully updated '{impl.get('target')}'."}
+        return {"success": False, "message": f"Target note '{impl.get('target')}' does not exist."}
 
-    elif rec_id == "rec_synthesis_ssrf_matrix":
-        comp_path = os.path.join(COMPARISONS_DIR, "redis-vs-fastcgi-ssrf-pivoting.md")
-        content = """---
-title: Redis RESP vs FastCGI Binary Protocol SSRF Pivoting
-created: 2026-09-25
-updated: 2026-09-25
-type: comparison
-tags:
-  - ssrf
-  - redis
-  - fastcgi
-  - pivoting
-  - rce
-sources:
-  - concepts/blind-ssrf-gopher-redis-rce.md
-  - concepts/fastcgi-ssrf-exploitation.md
----
-
-# Redis RESP vs FastCGI Binary Protocol SSRF Pivoting
-
-## Comparative Matrix
-
-| Vector Attribute | Redis SSRF Pivoting | FastCGI SSRF Pivoting |
-| :--- | :--- | :--- |
-| **Primary Reference** | [[blind-ssrf-gopher-redis-rce]] | [[fastcgi-ssrf-exploitation]] |
-| **Default Port** | TCP 6379 | TCP 9000 |
-| **Protocol Format** | Text-based RESP (Redis Serialization Protocol) | Binary packet records (Record Header + Body) |
-| **Payload Framing** | Gopher URL-encoded plain text commands with CRLF (`%0D%0A`) | Gopher URL-encoded binary FastCGI frames (FCGI_BEGIN_REQUEST, FCGI_PARAMS) |
-| **Execution Sink** | Webroot overwrite (`CONFIG SET dir/dbfilename` + `SAVE`) or Lua sandbox (`EVAL`) | Arbitrary PHP execution via `auto_prepend_file=php://input` |
-| **Target Daemon** | Standalone Redis server process | PHP-FPM worker pool |
-| **Privilege Scope** | User running Redis daemon (often `redis` or `root` in containers) | User running PHP-FPM (`www-data`) |
-
-## Lateral Movement Trade-offs
-1. **Redis:** More resilient against line-break corruption; fails open when authentication is disabled.
-2. **FastCGI:** Requires valid `SCRIPT_FILENAME` pointing to an existing on-disk PHP file (e.g. `/usr/share/php/PEAR.php` or `/var/www/html/index.php`).
-
-## Related Notes
-- [[blind-ssrf-gopher-redis-rce]]
-- [[fastcgi-ssrf-exploitation]]
-- [[wordpress-performance-monitor]]
-"""
-        with open(comp_path, "w", encoding="utf-8") as f:
-            f.write(content)
-        cmd_index(None)
-        checkpoint("Thoth: Synthesized Redis vs FastCGI Gopher SSRF comparison")
-        return {"success": True, "message": "Thoth successfully synthesized comparison note 'comparisons/redis-vs-fastcgi-ssrf-pivoting.md'."}
-
-    elif rec_id == "rec_synthesis_jwt_oauth":
-        comp_path = os.path.join(COMPARISONS_DIR, "jwt-in-oauth2-architecture.md")
-        content = """---
-title: JWT Bearer Tokens in OAuth 2.0 & OIDC Architecture
-created: 2026-09-25
-updated: 2026-09-25
-type: comparison
-tags:
-  - jwt
-  - oauth
-  - oidc
-  - authentication
-sources:
-  - concepts/jwt-security-mechanisms.md
-  - concepts/oauth-grant-types-and-flows.md
----
-
-# JWT Bearer Tokens in OAuth 2.0 & OIDC Architecture
-
-## Conceptual Integration
-In modern identity systems, JSON Web Tokens ([[jwt-security-mechanisms]]) provide the self-contained token format powering OAuth 2.0 grant types ([[oauth-grant-types-and-flows]]):
-
-1. **Access Tokens:** Authorization servers issue signed JWT access tokens containing user scopes, roles, and expiration claims (`exp`, `sub`, `aud`), enabling stateless verification by resource servers.
-2. **ID Tokens (OIDC):** OpenID Connect strictly mandates JWT formatted ID tokens signed by the IdP (using RS256/ES256) asserting user identity.
-3. **Client Assertions (RFC 7523):** Clients use private-key signed JWTs instead of client secrets for mTLS and high-assurance OAuth client authentication.
-
-## Attack Surface Intersection
-- **Signature Stripping in Callback:** If the OAuth client receives an ID token or access token and fails to verify `alg: none` ([[jwt-attack-vectors]]), identity impersonation succeeds.
-- **Key Confusion across Providers:** In multi-tenant OAuth, using the authorization server's public key as an HMAC secret allows forging valid client tokens.
-
-## Related Notes
-- [[jwt-security-mechanisms]]
-- [[jwt-attack-vectors]]
-- [[oauth-grant-types-and-flows]]
-- [[oauth-attack-vectors]]
-- [[authorization-code-vs-implicit-flow]]
-"""
-        with open(comp_path, "w", encoding="utf-8") as f:
-            f.write(content)
-        cmd_index(None)
-        checkpoint("Thoth: Synthesized JWT in OAuth 2.0 architecture comparison")
-        return {"success": True, "message": "Thoth successfully synthesized architecture note 'comparisons/jwt-in-oauth2-architecture.md'."}
-
-    elif rec_id == "rec_review_backlog":
-        applied = []
+    elif impl_type == "batch_apply":
+        applied_count = 0
         if os.path.exists(REVIEW_DIR):
             for f in sorted(os.listdir(REVIEW_DIR)):
                 if f.endswith(".md"):
-                    prop_path = os.path.join(REVIEW_DIR, f)
-                    with open(prop_path, "r", encoding="utf-8") as fp:
-                        txt = fp.read()
-                    m = re.search(r"target:\s*([^\n]+)", txt)
-                    if m:
-                        target_rel = m.group(1).strip()
-                        target_abs = os.path.join(WIKI_ROOT, target_rel)
-                        m_content = re.search(r"## Proposed content\s*```(?:markdown)?\n([\s\S]*?)\n```", txt)
-                        if not m_content:
-                            m_content = re.search(r"## Proposed content\s*\n([\s\S]*?)(?=\n## Evidence|\Z)", txt)
-                        content = m_content.group(1).strip() if m_content else txt
-                        os.makedirs(os.path.dirname(target_abs), exist_ok=True)
-                        with open(target_abs, "w", encoding="utf-8") as out:
-                            out.write(content + "\n")
-                        os.remove(prop_path)
-                        applied.append(os.path.basename(target_rel))
+                    p_path = os.path.join(REVIEW_DIR, f)
+                    with open(p_path, "r", encoding="utf-8") as fp:
+                        ptxt = fp.read()
+                    m_target = re.search(r"target:\s*([^\n]+)", ptxt)
+                    if m_target:
+                        rel_dest = m_target.group(1).strip()
+                        abs_dest = os.path.join(WIKI_ROOT, rel_dest)
+                        m_c = re.search(r"## Proposed content\s*```(?:markdown)?\n([\s\S]*?)\n```", ptxt)
+                        if not m_c:
+                            m_c = re.search(r"## Proposed content\s*\n([\s\S]*?)(?=\n## Evidence|\Z)", ptxt)
+                        c_body = m_c.group(1).strip() if m_c else ptxt
+                        os.makedirs(os.path.dirname(abs_dest), exist_ok=True)
+                        with open(abs_dest, "w", encoding="utf-8") as out:
+                            out.write(c_body + "\n")
+                        os.remove(p_path)
+                        applied_count += 1
+        target_rec["status"] = "implemented"
+        target_rec["implemented_at"] = datetime.datetime.now().isoformat()
+        save_recommendations(recs)
         cmd_index(None)
-        checkpoint(f"Thoth: Auto-implemented review backlog ({len(applied)} notes compiled)")
-        return {"success": True, "message": f"Thoth compiled and deduplicated {len(applied)} proposals into the gold wiki."}
+        run_git(["add", "."])
+        run_git(["commit", "-m", f"Thoth: Batch compiled {applied_count} proposals"])
+        return {"success": True, "message": f"Thoth compiled and deduplicated {applied_count} proposals."}
 
-    elif rec_id == "rec_health_audit":
+    elif impl_type == "lint_and_reindex":
         cmd_index(None)
-        return {"success": True, "message": "Thoth verified 100% graph health and rebuilt wiki/index.md."}
+        target_rec["status"] = "implemented"
+        target_rec["implemented_at"] = datetime.datetime.now().isoformat()
+        save_recommendations(recs)
+        return {"success": True, "message": "Thoth verified graph health and rebuilt master index."}
 
-    elif rec_id == "rec_thematic_web_inj":
-        return {"success": True, "message": "Thoth queued the Web Injection cluster for ingestion."}
-
-    return {"success": False, "message": f"Unknown recommendation ID: {rec_id}"}
+    return {"success": False, "message": f"Unsupported implementation type: {impl_type}"}
 
 
 def build_graph_data():
@@ -1227,7 +1309,9 @@ class StudioHandler(BaseHTTPRequestHandler):
             return
 
         if url.path == "/api/recommendations":
-            recs = get_recommendations_list()
+            qs = parse_qs(url.query)
+            force_refresh = qs.get("refresh", ["false"])[0].lower() in ["true", "1"]
+            recs = get_recommendations_list(force_refresh=force_refresh)
             self.send_response(200)
             self.send_header("Content-Type", "application/json")
             self.end_headers()
@@ -1332,6 +1416,14 @@ class StudioHandler(BaseHTTPRequestHandler):
             self.wfile.write(json.dumps(res).encode("utf-8"))
             return
 
+        if url.path == "/api/recommendations/propose":
+            saved_rec = propose_recommendation(req_data)
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.end_headers()
+            self.wfile.write(json.dumps({"success": True, "recommendation": saved_rec}).encode("utf-8"))
+            return
+
         self.send_response(404)
         self.end_headers()
 
@@ -1428,15 +1520,36 @@ def cmd_studio(args):
 # ==============================================================================
 def cmd_recommend(args):
     print("=== Agentic Librarian Process & Architecture Recommendations ===")
-    recs = get_recommendations_list()
+    if getattr(args, "implement", None):
+        res = implement_recommendation(args.implement)
+        print(f"[*] Result: {res.get('message')}")
+        return 0 if res.get("success") else 1
 
-    for i, r in enumerate(recs, 1):
-        print(f"\n[{i}] [{r['priority']}] {r['title']}")
-        print(f"    Details: {r['details']}")
-        print(f"    Action : {r['action']}")
+    force_refresh = getattr(args, "refresh", False)
+    recs = get_recommendations_list(force_refresh=force_refresh)
+    active = [r for r in recs if r.get("status") == "pending"]
 
-    if not recs:
+    for i, r in enumerate(active, 1):
+        print(f"\n[{i}] [{r.get('priority', 'MEDIUM')}] {r.get('title')}")
+        print(f"    ID     : {r.get('id')}")
+        print(f"    Details: {r.get('details')}")
+        print(f"    Action : {r.get('action')}")
+
+    if not active:
         print("[+] Vault is in optimal state. No pending improvements identified.")
+    return 0
+
+def cmd_propose_rec(args):
+    if args.json:
+        data = json.loads(args.json)
+    elif args.file:
+        with open(args.file, "r", encoding="utf-8") as f:
+            data = json.load(f)
+    else:
+        print("[-] Either --json or --file is required.")
+        return 1
+    saved = propose_recommendation(data)
+    print(f"[+] Successfully proposed recommendation: {saved.get('title')} (ID: {saved.get('id')})")
     return 0
 
 
@@ -1474,6 +1587,13 @@ def main():
 
     # recommend
     p_rec = subparsers.add_parser("recommend", aliases=["recommendations"], help="Analyze vault and recommend improvements")
+    p_rec.add_argument("--refresh", action="store_true", help="Force refresh dynamic recommendations from live vault")
+    p_rec.add_argument("--implement", help="Implement specific recommendation by ID")
+
+    # propose-rec
+    p_prop = subparsers.add_parser("propose-rec", help="Propose a dynamic recommendation by Thoth")
+    p_prop.add_argument("--json", help="JSON string representing recommendation")
+    p_prop.add_argument("--file", help="Path to JSON file with recommendation")
 
     # studio
     p_studio = subparsers.add_parser("studio", help="Launch visual Decision Studio web UI")
@@ -1498,6 +1618,7 @@ def main():
         "lint": cmd_lint,
         "recommend": cmd_recommend,
         "recommendations": cmd_recommend,
+        "propose-rec": cmd_propose_rec,
         "studio": cmd_studio,
     }
 

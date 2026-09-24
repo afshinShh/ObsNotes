@@ -1,0 +1,131 @@
+[
+  {
+    "title": "Synthesis Candidate: Open Redirect vs OAuth Attack Vectors",
+    "category": "Attack Chain Discovery",
+    "priority": "HIGH",
+    "details": "Open redirect attacks are frequently weaponized in OAuth callback stealing. An explicit comparison and chain note links the flow seamlessly.",
+    "action": "Compile architecture note comparisons/open-redirect-in-oauth-flows.md.",
+    "implementation": {
+      "type": "create_note",
+      "target": "comparisons/open-redirect-in-oauth-flows.md",
+      "content": "---\ntitle: Open Redirect in OAuth Flows\ncreated: 2026-09-25\ntype: comparison\ntags: [oauth, open-redirect, ato]\nsources: [concepts/open-redirect-attacks.md, concepts/oauth-attack-vectors.md]\n---\n\n# Open Redirect in OAuth Flows\n\nCross-linking [[open-redirect-attacks]] with [[oauth-attack-vectors]].",
+      "backlinks": [
+        "concepts/open-redirect-attacks.md",
+        "concepts/oauth-attack-vectors.md"
+      ]
+    },
+    "id": "rec_a3b4000c",
+    "author": "Thoth (Obsidian Librarian)",
+    "created": "2026-09-25T02:02:54.836222",
+    "status": "implemented",
+    "implemented_at": "2026-09-25T02:03:07.651564"
+  },
+  {
+    "id": "rec_unproc_20260925",
+    "author": "Thoth (Obsidian Librarian)",
+    "created": "2026-09-25T02:02:44.174660",
+    "title": "Thematic Ingestion Strategy: 25 Raw Notes in Queue",
+    "category": "Vault Enrichment",
+    "priority": "LOW",
+    "details": "There are 25 raw primary notes waiting in 'unprocessed-obsidians/'. Ingesting them into the Silver layer in batches will expand the knowledge graph.",
+    "action": "Stage next cluster (ai.md, bug-identification.md, course.md, development.md) into wiki/Review/.",
+    "status": "pending",
+    "implementation": {
+      "type": "lint_and_reindex"
+    }
+  },
+  {
+    "id": "rec_chain_wordpress-performance-monitor_ai-security-testing",
+    "author": "Thoth (Obsidian Librarian)",
+    "created": "2026-09-25T02:02:44.174617",
+    "title": "Exploitation Attack Chain: WordPress Performance Monitor Plugin to AI & LLM Application Security Testing & Jailbreak Vectors",
+    "category": "Attack Chain Discovery",
+    "priority": "HIGH",
+    "details": "Entity 'WordPress Performance Monitor Plugin' shares security classification with [[ai-security-testing|AI & LLM Application Security Testing & Jailbreak Vectors]], but lacks an explicit cross-link in its exploitation section.",
+    "action": "Cross-link [[ai-security-testing]] in 'entities/wordpress-performance-monitor.md'.",
+    "status": "pending",
+    "implementation": {
+      "type": "patch_note",
+      "target": "entities/wordpress-performance-monitor.md",
+      "section": "## Exploitation Chains & Pivot Vectors",
+      "content": "- **Pivot to [[ai-security-testing|AI & LLM Application Security Testing & Jailbreak Vectors]]:** Weaponize vulnerability surface in WordPress Performance Monitor Plugin to trigger [[ai-security-testing]]."
+    }
+  },
+  {
+    "id": "rec_chain_jwt-tool_ai-security-testing",
+    "author": "Thoth (Obsidian Librarian)",
+    "created": "2026-09-25T02:02:44.174134",
+    "title": "Exploitation Attack Chain: JWT Tool (ticarpi) to AI & LLM Application Security Testing & Jailbreak Vectors",
+    "category": "Attack Chain Discovery",
+    "priority": "HIGH",
+    "details": "Entity 'JWT Tool (ticarpi)' shares security classification with [[ai-security-testing|AI & LLM Application Security Testing & Jailbreak Vectors]], but lacks an explicit cross-link in its exploitation section.",
+    "action": "Cross-link [[ai-security-testing]] in 'entities/jwt-tool.md'.",
+    "status": "pending",
+    "implementation": {
+      "type": "patch_note",
+      "target": "entities/jwt-tool.md",
+      "section": "## Exploitation Chains & Pivot Vectors",
+      "content": "- **Pivot to [[ai-security-testing|AI & LLM Application Security Testing & Jailbreak Vectors]]:** Weaponize vulnerability surface in JWT Tool (ticarpi) to trigger [[ai-security-testing]]."
+    }
+  },
+  {
+    "id": "rec_comp_edr-detection-methods_exploit-mitigations",
+    "author": "Thoth (Obsidian Librarian)",
+    "created": "2026-09-25T02:02:44.173617",
+    "title": "Synthesis Candidate: EDR Telemetry Architectures & Detection Mechanisms vs Modern Operating System & Kernel Exploit Mitigations",
+    "category": "Knowledge Synthesis",
+    "priority": "MEDIUM",
+    "details": "Concepts 'EDR Telemetry Architectures & Detection Mechanisms' and 'Modern Operating System & Kernel Exploit Mitigations' both target 'evasion, red-team'. Synthesizing a comparison note will deepen technical trade-offs in the knowledge base.",
+    "action": "Compile comparison note 'comparisons/edr-detection-methods-vs-exploit-mitigations.md' and link both concepts.",
+    "status": "pending",
+    "implementation": {
+      "type": "create_note",
+      "target": "comparisons/edr-detection-methods-vs-exploit-mitigations.md",
+      "content": "---\ntitle: EDR Telemetry Architectures & Detection Mechanisms vs Modern Operating System & Kernel Exploit Mitigations\ncreated: 2026-09-25\nupdated: 2026-09-25\ntype: comparison\ntags:\n  - evasion\n  - red-team\nsources:\n  - concepts/edr-detection-methods.md\n  - concepts/exploit-mitigations.md\n---\n\n# EDR Telemetry Architectures & Detection Mechanisms vs Modern Operating System & Kernel Exploit Mitigations\n\n## Comparative Analysis\nTechnical trade-off evaluation comparing [[edr-detection-methods|EDR Telemetry Architectures & Detection Mechanisms]] and [[exploit-mitigations|Modern Operating System & Kernel Exploit Mitigations]] within the domain of **evasion, red-team**.\n\n## Vector Comparison Matrix\n\n| Dimension | [[edr-detection-methods|EDR Telemetry Architectures & Detection Mechanisms]] | [[exploit-mitigations|Modern Operating System & Kernel Exploit Mitigations]] |\n| :--- | :--- | :--- |\n| **Mechanisms** | Primary vulnerability primitive | Alternative execution vector |\n| **Classification** | `evasion, red-team` | `evasion, red-team` |\n| **Operational Impact** | Critical exploitation surface | Critical exploitation surface |\n\n## Interlinked Concepts\n- [[edr-detection-methods]]\n- [[exploit-mitigations]]\n",
+      "backlinks": [
+        "concepts/edr-detection-methods.md",
+        "concepts/exploit-mitigations.md"
+      ]
+    }
+  },
+  {
+    "id": "rec_comp_edr-detection-methods_edr-evasion-techniques",
+    "author": "Thoth (Obsidian Librarian)",
+    "created": "2026-09-25T02:02:44.173610",
+    "title": "Synthesis Candidate: EDR Telemetry Architectures & Detection Mechanisms vs EDR Evasion Engineering & In-Memory Bypass Tradecraft",
+    "category": "Knowledge Synthesis",
+    "priority": "MEDIUM",
+    "details": "Concepts 'EDR Telemetry Architectures & Detection Mechanisms' and 'EDR Evasion Engineering & In-Memory Bypass Tradecraft' both target 'evasion, red-team'. Synthesizing a comparison note will deepen technical trade-offs in the knowledge base.",
+    "action": "Compile comparison note 'comparisons/edr-detection-methods-vs-edr-evasion-techniques.md' and link both concepts.",
+    "status": "pending",
+    "implementation": {
+      "type": "create_note",
+      "target": "comparisons/edr-detection-methods-vs-edr-evasion-techniques.md",
+      "content": "---\ntitle: EDR Telemetry Architectures & Detection Mechanisms vs EDR Evasion Engineering & In-Memory Bypass Tradecraft\ncreated: 2026-09-25\nupdated: 2026-09-25\ntype: comparison\ntags:\n  - evasion\n  - payload\n  - red-team\nsources:\n  - concepts/edr-detection-methods.md\n  - concepts/edr-evasion-techniques.md\n---\n\n# EDR Telemetry Architectures & Detection Mechanisms vs EDR Evasion Engineering & In-Memory Bypass Tradecraft\n\n## Comparative Analysis\nTechnical trade-off evaluation comparing [[edr-detection-methods|EDR Telemetry Architectures & Detection Mechanisms]] and [[edr-evasion-techniques|EDR Evasion Engineering & In-Memory Bypass Tradecraft]] within the domain of **evasion, red-team**.\n\n## Vector Comparison Matrix\n\n| Dimension | [[edr-detection-methods|EDR Telemetry Architectures & Detection Mechanisms]] | [[edr-evasion-techniques|EDR Evasion Engineering & In-Memory Bypass Tradecraft]] |\n| :--- | :--- | :--- |\n| **Mechanisms** | Primary vulnerability primitive | Alternative execution vector |\n| **Classification** | `evasion, red-team` | `evasion, red-team` |\n| **Operational Impact** | Critical exploitation surface | Critical exploitation surface |\n\n## Interlinked Concepts\n- [[edr-detection-methods]]\n- [[edr-evasion-techniques]]\n",
+      "backlinks": [
+        "concepts/edr-detection-methods.md",
+        "concepts/edr-evasion-techniques.md"
+      ]
+    }
+  },
+  {
+    "id": "rec_comp_blind-ssrf-gopher-redis-rce_fastcgi-ssrf-exploitation",
+    "author": "Thoth (Obsidian Librarian)",
+    "created": "2026-09-25T02:02:44.173598",
+    "title": "Synthesis Candidate: Blind SSRF to Redis RCE via Gopher vs FastCGI Protocol Injection via SSRF",
+    "category": "Knowledge Synthesis",
+    "priority": "MEDIUM",
+    "details": "Concepts 'Blind SSRF to Redis RCE via Gopher' and 'FastCGI Protocol Injection via SSRF' both target 'rce, ssrf'. Synthesizing a comparison note will deepen technical trade-offs in the knowledge base.",
+    "action": "Compile comparison note 'comparisons/blind-ssrf-gopher-redis-rce-vs-fastcgi-ssrf-exploitation.md' and link both concepts.",
+    "status": "pending",
+    "implementation": {
+      "type": "create_note",
+      "target": "comparisons/blind-ssrf-gopher-redis-rce-vs-fastcgi-ssrf-exploitation.md",
+      "content": "---\ntitle: Blind SSRF to Redis RCE via Gopher vs FastCGI Protocol Injection via SSRF\ncreated: 2026-09-25\nupdated: 2026-09-25\ntype: comparison\ntags:\n  - bug-bounty\n  - payload\n  - rce\n  - ssrf\nsources:\n  - concepts/blind-ssrf-gopher-redis-rce.md\n  - concepts/fastcgi-ssrf-exploitation.md\n---\n\n# Blind SSRF to Redis RCE via Gopher vs FastCGI Protocol Injection via SSRF\n\n## Comparative Analysis\nTechnical trade-off evaluation comparing [[blind-ssrf-gopher-redis-rce|Blind SSRF to Redis RCE via Gopher]] and [[fastcgi-ssrf-exploitation|FastCGI Protocol Injection via SSRF]] within the domain of **rce, ssrf**.\n\n## Vector Comparison Matrix\n\n| Dimension | [[blind-ssrf-gopher-redis-rce|Blind SSRF to Redis RCE via Gopher]] | [[fastcgi-ssrf-exploitation|FastCGI Protocol Injection via SSRF]] |\n| :--- | :--- | :--- |\n| **Mechanisms** | Primary vulnerability primitive | Alternative execution vector |\n| **Classification** | `rce, ssrf` | `rce, ssrf` |\n| **Operational Impact** | Critical exploitation surface | Critical exploitation surface |\n\n## Interlinked Concepts\n- [[blind-ssrf-gopher-redis-rce]]\n- [[fastcgi-ssrf-exploitation]]\n",
+      "backlinks": [
+        "concepts/blind-ssrf-gopher-redis-rce.md",
+        "concepts/fastcgi-ssrf-exploitation.md"
+      ]
+    }
+  }
+]

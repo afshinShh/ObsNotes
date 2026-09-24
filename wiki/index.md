@@ -1,7 +1,7 @@
 # Wiki Index
 
 > Content catalog for the Offensive Security & Bug Bounty LLM Wiki.
-> Last updated: 2026-09-25 | Total pages: 63
+> Last updated: 2026-09-25 | Total pages: 64
 
 ## Entities
 - [[jwt-tool]] — **JWT Tool** (`jwt_tool`) is a Python-based security auditing and exploitation utility authored by [ticarpi](https://github.com/ticarpi/jwt_tool). It is the standard specialized CLI tool used by red teams and bug bounty researchers to analyze, tamper with, crack, and forge JSON Web Tokens across web applications and API endpoints.
@@ -72,6 +72,7 @@
 - [[cl-te-vs-te-cl]] — HTTP request smuggling stems from parsing ambiguities between front-end reverse proxies and backend application servers. The two primary classic variants—**CL.TE** and **TE.CL**—depend on which server in the proxy pipeline prioritizes the `Content-Length` header versus the `Transfer-Encoding` header.
 - [[jwt-in-oauth2-architecture]] — # JWT Bearer Tokens in OAuth 2.0 & OIDC Architecture
 - [[jwt-vs-session-cookies]] — A critical architectural decision in web application engineering is choosing between client-stored, cryptographically signed tokens (JSON Web Tokens) and server-managed session identifiers (stateful cookies). Both approaches offer distinct advantages and operational failure modes regarding scalability, revocation latency, and vulnerability exposure.
+- [[open-redirect-in-oauth-flows]] — # Open Redirect in OAuth Flows
 - [[redis-vs-fastcgi-ssrf-pivoting]] — # Redis RESP vs FastCGI Binary Protocol SSRF Pivoting
 
 ## Queries

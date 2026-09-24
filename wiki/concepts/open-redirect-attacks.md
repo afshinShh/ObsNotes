@@ -64,6 +64,7 @@ url=data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==
 3. **Strict Domain Whitelisting**: Parse target URLs using robust standard URL libraries, extracting the `hostname` component and comparing against a strict exact-match whitelist.
 
 ## Related Pages
+- [[open-redirect-in-oauth-flows]]
 - [[open-redirect]]
 - [[cross-site-scripting]]
 - [[oauth-attack-vectors]]
