@@ -1,22 +1,4 @@
 ---
-type: llm-wiki-review
-status: needs-review
-decision: approve
-revision: 1
-operation: create
-target: sources/oauth.md
-sources:
-  - raw/articles/oauth.md
----
-
-# Proposed Wiki change
-
-## What will change
-Establishes the provenance anchor for OAuth 2.0 and OIDC security testing notes ingested from `unprocessed-obsidians/oauth.md`. Binds the primary vault document to compiled concept and comparison pages.
-
-## Proposed content
-
----
 title: Source Note - OAuth Security Testing
 created: 2026-09-24
 updated: 2026-09-24
@@ -55,9 +37,3 @@ The source note covers OAuth 2.0 and OpenID Connect (OIDC) security testing, aut
 - [[oauth-grant-types-and-flows]]
 - [[oauth-attack-vectors]]
 - [[authorization-code-vs-implicit-flow]]
-
-## Evidence and uncertainty
-Directly transcribed and normalized from `unprocessed-obsidians/oauth.md`. References RFC 6749, RFC 6819, RFC 7636, RFC 8252, RFC 8628, RFC 8693, RFC 9101, RFC 9126, RFC 9449, and OAuth 2.1 drafts. No factual contradictions.
-
-## Human feedback
-Optionally explain or edit what should change.

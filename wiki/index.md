@@ -1,7 +1,7 @@
 # Wiki Index
 
 > Content catalog for the Offensive Security & Bug Bounty LLM Wiki.
-> Last updated: 2026-09-24 | Total pages: 12
+> Last updated: 2026-09-24 | Total pages: 13
 
 ## Entities
 - [[jwt-tool]] — **JWT Tool** (`jwt_tool`) is a Python-based security auditing and exploitation utility authored by [ticarpi](https://github.com/ticarpi/jwt_tool). It is the standard specialized CLI tool used by red teams and bug bounty researchers to analyze, tamper with, crack, and forge JSON Web Tokens across web applications and API endpoints.
@@ -17,6 +17,7 @@
 
 ## Sources
 - [[jwt]] — # Source Note: JSON Web Tokens (JWT) Security
+- [[oauth]] — # Source Note: OAuth Security Testing
 - [[performance monitor]] — # Source Note: Performance Monitor
 
 ## Comparisons

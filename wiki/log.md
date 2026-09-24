@@ -41,3 +41,7 @@
 - Applied compiled page: concepts/oauth-attack-vectors.md
 - Applied compiled page: comparisons/jwt-vs-session-cookies.md
 - Applied compiled page: entities/jwt-tool.md
+
+## [2026-09-24] apply-single | Applied proposal: sources/oauth.md
+- Target: sources/oauth.md
+- Proposal: 2026-09-24-sources-oauth-proposal.md
