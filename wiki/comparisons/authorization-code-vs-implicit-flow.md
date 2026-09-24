@@ -1,22 +1,4 @@
 ---
-type: llm-wiki-review
-status: needs-review
-decision: approve
-revision: 1
-operation: create
-target: comparisons/authorization-code-vs-implicit-flow.md
-sources:
-  - raw/articles/oauth.md
----
-
-# Proposed Wiki change
-
-## What will change
-Compiles a technical comparison evaluating the OAuth 2.0 Authorization Code Flow (enhanced with PKCE) versus the legacy Implicit Flow, detailing security boundaries and explaining the technical rationale behind the deprecation of the Implicit Flow in OAuth 2.1.
-
-## Proposed content
-
----
 title: Authorization Code Flow (with PKCE) vs Implicit Flow
 created: 2026-09-24
 updated: 2026-09-24
@@ -77,9 +59,3 @@ When RFC 6749 was published in 2012, browser support for Cross-Origin Resource S
 - [[oauth]]
 - [[oauth-grant-types-and-flows]]
 - [[oauth-attack-vectors]]
-
-## Evidence and uncertainty
-Synthesized from `unprocessed-obsidians/oauth.md` cross-referenced with RFC 6749, RFC 7636, RFC 8252, and the OAuth 2.1 specification.
-
-## Human feedback
-Optionally explain or edit what should change.

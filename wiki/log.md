@@ -25,3 +25,7 @@
 - Deleted Review/ proposals (applied).
 - Removed redundant raw copy raw/articles/performance-monitor-ssrf.md; compiled pages now cite canonical vault source `BUG-Notes/performance monitor.md`.
 - Added provenance anchor: sources/performance monitor.md.
+
+## [2026-09-24] apply-single | Applied proposal: comparisons/authorization-code-vs-implicit-flow.md
+- Target: comparisons/authorization-code-vs-implicit-flow.md
+- Proposal: 2026-09-24-authorization-code-vs-implicit-flow-proposal.md

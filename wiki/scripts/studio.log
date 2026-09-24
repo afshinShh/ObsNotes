@@ -149,3 +149,19 @@
 127.0.0.1 - - [24/Sep/2026 20:55:45] "GET /api/proposals HTTP/1.1" 200 -
 127.0.0.1 - - [24/Sep/2026 20:55:45] "GET /api/stats HTTP/1.1" 200 -
 [*] Creating Git checkpoint: 'checkpoint: pre-apply 2026-09-24-authorization-code-vs-implicit-flow-proposal.md'...
+[+] Checkpoint committed successfully:
+[master 4cd4ea6] checkpoint: pre-apply 2026-09-24-authorization-code-vs-implicit-flow-proposal.md
+ 14 files changed, 1847 insertions(+), 56 deletions(-)
+ create mode 100644 wiki/Review/2026-09-24-authorization-code-vs-implicit-flow-proposal.md
+ create mode 100644 wiki/Review/2026-09-24-jwt-attack-vectors-proposal.md
+ create mode 100644 wiki/Review/2026-09-24-jwt-security-mechanisms-proposal.md
+ create mode 100644 wiki/Review/2026-09-24-jwt-tool-proposal.md
+ create mode 100644 wiki/Review/2026-09-24-jwt-vs-session-cookies-proposal.md
+ create mode 100644 wiki/Review/2026-09-24-oauth-attack-vectors-proposal.md
+ create mode 100644 wiki/Review/2026-09-24-oauth-grant-types-and-flows-proposal.md
+ create mode 100644 wiki/Review/2026-09-24-sources-jwt-proposal.md
+ create mode 100644 wiki/Review/2026-09-24-sources-oauth-proposal.md
+ create mode 100644 wiki/scripts/marked.min.js
+ create mode 100644 wiki/scripts/studio.log
+[+] Rebuilt /home/omp/Desktop/RED/Knowledge/ObsNotes_clean/wiki/index.md (5 total pages indexed)
+[*] Creating Git checkpoint: 'feat(wiki): apply comparisons/authorization-code-vs-implicit-flow.md'...

@@ -1,7 +1,7 @@
 # Wiki Index
 
 > Content catalog for the Offensive Security & Bug Bounty LLM Wiki.
-> Last updated: 2026-09-24 | Total pages: 4
+> Last updated: 2026-09-24 | Total pages: 5
 
 ## Entities
 - [[wordpress-performance-monitor]] — Performance Monitor is a WordPress plugin designed to measure site response times and server metrics. In vulnerable versions, an unauthenticated cURL wrapper endpoint permits full unauthenticated blind SSRF, enabling arbitrary scheme injection (including `gopher://`).
@@ -14,7 +14,7 @@
 - [[performance monitor]] — # Source Note: Performance Monitor
 
 ## Comparisons
-<!-- Alphabetical within section -->
+- [[authorization-code-vs-implicit-flow]] — OAuth 2.0 ([RFC 6749](https://datatracker.ietf.org/doc/html/rfc6749)) originally defined the Implicit Flow for single-page applications (SPAs) and client-side web apps that could not securely maintain a client secret. Subsequent security analyses revealed fundamental vulnerabilities in transmitting access tokens via front-channel browser redirects. Consequently, the OAuth Working Group deprecated the Implicit Flow in OAuth 2.1 in favor of the Authorization Code Flow with Proof Key for Code Exchange (PKCE / RFC 7636).
 
 ## Queries
 <!-- Alphabetical within section -->
