@@ -1,22 +1,4 @@
 ---
-type: llm-wiki-review
-status: needs-review
-decision: approve
-revision: 1
-operation: create
-target: concepts/jwt-security-mechanisms.md
-sources:
-  - raw/articles/jwt.md
----
-
-# Proposed Wiki change
-
-## What will change
-Compiles a dedicated concept page documenting JSON Web Token (RFC 7519) security architecture, token structure, cryptographic signing algorithms, standard claims validation, token binding extensions (DPoP, mTLS), and secure storage guidelines.
-
-## Proposed content
-
----
 title: JSON Web Token (JWT) Security Architecture & Mechanisms
 created: 2026-09-24
 updated: 2026-09-24
@@ -131,9 +113,3 @@ Mutual TLS client certificate-bound access tokens cryptographically bind the tok
 - [[jwt-tool]]
 - [[oauth-grant-types-and-flows]]
 - [[oauth-attack-vectors]]
-
-## Evidence and uncertainty
-Synthesized from `unprocessed-obsidians/jwt.md` cross-referenced with RFC 7519, RFC 7516, RFC 7518, RFC 8705, and RFC 9449. All claims are grounded in primary sources.
-
-## Human feedback
-Optionally explain or edit what should change.

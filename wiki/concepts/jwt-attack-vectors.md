@@ -1,22 +1,4 @@
 ---
-type: llm-wiki-review
-status: needs-review
-decision: approve
-revision: 1
-operation: create
-target: concepts/jwt-attack-vectors.md
-sources:
-  - raw/articles/jwt.md
----
-
-# Proposed Wiki change
-
-## What will change
-Compiles a dedicated concept page detailing JWT vulnerabilities and offensive exploitation vectors: algorithm manipulation (`none` algorithm, RS256-to-HS256 key confusion), header parameter injection (`jwk`, `jku`, `x5u`, `kid`), HMAC weak key brute-forcing and timing attacks, multi-auth confusion, and mobile/URL token leakage.
-
-## Proposed content
-
----
 title: JWT Vulnerabilities & Exploitation Vectors
 created: 2026-09-24
 updated: 2026-09-24
@@ -155,9 +137,3 @@ def probe_signature(sig_hex):
 - [[jwt-vs-session-cookies]]
 - [[oauth-attack-vectors]]
 - [[blind-ssrf-gopher-redis-rce]]
-
-## Evidence and uncertainty
-Synthesized from `unprocessed-obsidians/jwt.md`. All attack mechanics are verified against PortSwigger Web Security Academy research, RFC 7515/7518 specifications, and public CVE disclosures.
-
-## Human feedback
-Optionally explain or edit what should change.

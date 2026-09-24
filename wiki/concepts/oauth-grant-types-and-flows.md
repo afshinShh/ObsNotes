@@ -1,22 +1,4 @@
 ---
-type: llm-wiki-review
-status: needs-review
-decision: approve
-revision: 1
-operation: create
-target: concepts/oauth-grant-types-and-flows.md
-sources:
-  - raw/articles/oauth.md
----
-
-# Proposed Wiki change
-
-## What will change
-Compiles a dedicated concept page documenting OAuth 2.0 and OpenID Connect (OIDC) architecture, primary grant types, flow sequence mechanics, OAuth 2.1 modern specifications, and advanced enterprise extensions (PAR, JAR, JARM, FAPI).
-
-## Proposed content
-
----
 title: OAuth 2.0 & OIDC Grant Types and Flow Architecture
 created: 2026-09-24
 updated: 2026-09-24
@@ -142,9 +124,3 @@ Security profile designed for high-risk financial environments (Open Banking). F
 - [[authorization-code-vs-implicit-flow]]
 - [[jwt-security-mechanisms]]
 - [[jwt-attack-vectors]]
-
-## Evidence and uncertainty
-Synthesized from `unprocessed-obsidians/oauth.md` cross-referenced with RFC 6749, RFC 6819, RFC 7636, RFC 8252, RFC 9101, RFC 9126, RFC 9449, and OAuth 2.1 specifications.
-
-## Human feedback
-Optionally explain or edit what should change.

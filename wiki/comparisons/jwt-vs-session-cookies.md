@@ -1,22 +1,4 @@
 ---
-type: llm-wiki-review
-status: needs-review
-decision: approve
-revision: 1
-operation: create
-target: comparisons/jwt-vs-session-cookies.md
-sources:
-  - raw/articles/jwt.md
----
-
-# Proposed Wiki change
-
-## What will change
-Compiles a technical comparison analyzing architectural, operational, and security trade-offs between JSON Web Tokens (JWT) and Stateful Session Cookies across 8 key dimensions.
-
-## Proposed content
-
----
 title: "JWT vs Stateful Session Cookies: Architectural & Security Trade-Offs"
 created: 2026-09-24
 updated: 2026-09-24
@@ -78,9 +60,3 @@ Stateless JWTs cannot be revoked without introducing state:
 - [[jwt]]
 - [[jwt-security-mechanisms]]
 - [[jwt-attack-vectors]]
-
-## Evidence and uncertainty
-Synthesized from `unprocessed-obsidians/jwt.md` and industry security consensus (OWASP Session Management Cheat Sheet, RFC 7519).
-
-## Human feedback
-Optionally explain or edit what should change.

@@ -1,22 +1,4 @@
 ---
-type: llm-wiki-review
-status: needs-review
-decision: approve
-revision: 1
-operation: create
-target: entities/jwt-tool.md
-sources:
-  - raw/articles/jwt.md
----
-
-# Proposed Wiki change
-
-## What will change
-Compiles a dedicated entity profile documenting `jwt_tool` by ticarpi, a specialized security toolkit for testing, auditing, and exploiting JSON Web Tokens in penetration testing and bug bounty workflows.
-
-## Proposed content
-
----
 title: "JWT Tool (ticarpi)"
 created: 2026-09-24
 updated: 2026-09-24
@@ -84,9 +66,3 @@ python3 jwt_tool.py "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." -C -d /usr/share/w
 - [[jwt]]
 - [[jwt-security-mechanisms]]
 - [[jwt-attack-vectors]]
-
-## Evidence and uncertainty
-Documented directly from tool usage specifications and attack patterns in `unprocessed-obsidians/jwt.md` and official tool repository.
-
-## Human feedback
-Optionally explain or edit what should change.

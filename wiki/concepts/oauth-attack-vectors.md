@@ -1,22 +1,4 @@
 ---
-type: llm-wiki-review
-status: needs-review
-decision: approve
-revision: 1
-operation: create
-target: concepts/oauth-attack-vectors.md
-sources:
-  - raw/articles/oauth.md
----
-
-# Proposed Wiki change
-
-## What will change
-Compiles a dedicated concept page detailing OAuth 2.0 and OIDC attack surfaces: `redirect_uri` manipulation (open redirects, path traversal), CSRF and missing `state` parameter, authorization code injection/substitution, implicit flow vulnerabilities, scope elevation, multi-tenant IdP confusion, SSRF via redirect URIs, and full Account Takeover (ATO) exploitation chains.
-
-## Proposed content
-
----
 title: OAuth 2.0 & OIDC Vulnerabilities & Exploitation Vectors
 created: 2026-09-24
 updated: 2026-09-24
@@ -154,9 +136,3 @@ Attacker uses Refresh Token with rotation bypass to maintain indefinite access
 - [[jwt-attack-vectors]]
 - [[jwt-security-mechanisms]]
 - [[blind-ssrf-gopher-redis-rce]]
-
-## Evidence and uncertainty
-Synthesized from `unprocessed-obsidians/oauth.md` cross-referenced with RFC 6819 (OAuth 2.0 Threat Model), PortSwigger OAuth research, and OAuth 2.1 specifications.
-
-## Human feedback
-Optionally explain or edit what should change.

@@ -33,3 +33,11 @@
 ## [2026-09-24] apply-single | Applied proposal: sources/jwt.md
 - Target: sources/jwt.md
 - Proposal: 2026-09-24-sources-jwt-proposal.md
+
+## [2026-09-24] apply | Applied 6 approved proposals
+- Applied compiled page: concepts/jwt-security-mechanisms.md
+- Applied compiled page: concepts/jwt-attack-vectors.md
+- Applied compiled page: concepts/oauth-grant-types-and-flows.md
+- Applied compiled page: concepts/oauth-attack-vectors.md
+- Applied compiled page: comparisons/jwt-vs-session-cookies.md
+- Applied compiled page: entities/jwt-tool.md
