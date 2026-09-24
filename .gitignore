@@ -6,3 +6,4 @@ BUG-Notes/
 .trash/
 .DS_Store
 ASAP*
+wiki/scripts/*.log
