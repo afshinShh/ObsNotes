@@ -1,5 +1,39 @@
 [
   {
+    "id": "rec_chain_wordpress-performance-monitor_deserialization-attacks",
+    "author": "Thoth (Obsidian Librarian)",
+    "created": "2026-09-25T02:22:51.699661",
+    "title": "Exploitation Attack Chain: WordPress Performance Monitor Plugin to Insecure Deserialization & Object Injection Attacks",
+    "category": "Attack Chain Discovery",
+    "priority": "HIGH",
+    "details": "Entity 'WordPress Performance Monitor Plugin' shares security classification with [[deserialization-attacks|Insecure Deserialization & Object Injection Attacks]], but lacks an explicit cross-link in its exploitation section.",
+    "action": "Cross-link [[deserialization-attacks]] in 'entities/wordpress-performance-monitor.md'.",
+    "status": "pending",
+    "implementation": {
+      "type": "patch_note",
+      "target": "entities/wordpress-performance-monitor.md",
+      "section": "## Exploitation Chains & Pivot Vectors",
+      "content": "- **Pivot to [[deserialization-attacks|Insecure Deserialization & Object Injection Attacks]]:** Weaponize vulnerability surface in WordPress Performance Monitor Plugin to trigger [[deserialization-attacks]]."
+    }
+  },
+  {
+    "id": "rec_chain_jwt-tool_cross-site-scripting",
+    "author": "Thoth (Obsidian Librarian)",
+    "created": "2026-09-25T02:22:51.698938",
+    "title": "Exploitation Attack Chain: JWT Tool (ticarpi) to Cross-Site Scripting (XSS) Execution Contexts & Filter Evasion",
+    "category": "Attack Chain Discovery",
+    "priority": "HIGH",
+    "details": "Entity 'JWT Tool (ticarpi)' shares security classification with [[cross-site-scripting|Cross-Site Scripting (XSS) Execution Contexts & Filter Evasion]], but lacks an explicit cross-link in its exploitation section.",
+    "action": "Cross-link [[cross-site-scripting]] in 'entities/jwt-tool.md'.",
+    "status": "pending",
+    "implementation": {
+      "type": "patch_note",
+      "target": "entities/jwt-tool.md",
+      "section": "## Exploitation Chains & Pivot Vectors",
+      "content": "- **Pivot to [[cross-site-scripting|Cross-Site Scripting (XSS) Execution Contexts & Filter Evasion]]:** Weaponize vulnerability surface in JWT Tool (ticarpi) to trigger [[cross-site-scripting]]."
+    }
+  },
+  {
     "id": "rec_chain_wordpress-performance-monitor_cross-site-scripting",
     "author": "Thoth (Obsidian Librarian)",
     "created": "2026-09-25T02:10:54.052668",
