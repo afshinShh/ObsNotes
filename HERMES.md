@@ -14,6 +14,7 @@ Never mutate compiled pages (`wiki/concepts/`, `wiki/entities/`, `wiki/compariso
 1. Move or copy source material into `wiki/raw/<category>/` (or reference notes in `unprocessed-obsidians/`).
 2. Run `/llm-wiki-review` to extract entities, concepts, and relationships.
 3. Generate structured proposal files in `wiki/Review/` and halt execution.
-4. Wait for explicit human confirmation: `"Please proceed with the approved revision."`
-5. On approval, commit approved pages to `wiki/` and update `wiki/index.md` and `wiki/log.md`.
-6. **Post-Application Deduplication:** Remove temporary proposals from `wiki/Review/` and delete duplicate raw copies from `wiki/raw/` to keep the vault clean and link canonical vault sources directly.
+4. Wait for explicit human confirmation: `"Please proceed with the approved revision."` or approval via Decision Studio. At this exact moment, run `librarian studio --ensure-running --open` and provide `http://127.0.0.1:20888`.
+5. Run `librarian recommend` and deliver proactive process or architectural improvement recommendations.
+6. On approval, commit approved pages to `wiki/` and update `wiki/index.md` and `wiki/log.md`.
+7. **Post-Application Deduplication:** Remove temporary proposals from `wiki/Review/` and delete duplicate raw copies from `wiki/raw/` to keep the vault clean and link canonical vault sources directly.

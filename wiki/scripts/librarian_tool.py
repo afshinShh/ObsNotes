@@ -28,15 +28,61 @@ import subprocess
 import datetime
 import threading
 import webbrowser
+import difflib
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from urllib.parse import urlparse, parse_qs
 
-# Resolve Vault and Wiki roots
-DEFAULT_VAULT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-DEFAULT_WIKI_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+# Resolve the real path of the script even if invoked via a symlink
+SCRIPT_REAL_PATH = os.path.realpath(__file__)
+SCRIPT_DIR = os.path.dirname(SCRIPT_REAL_PATH)
 
-VAULT_ROOT = os.environ.get("OBSIDIAN_VAULT_PATH", DEFAULT_VAULT_ROOT)
-WIKI_ROOT = os.environ.get("WIKI_PATH", DEFAULT_WIKI_ROOT)
+def resolve_vault_and_wiki():
+    # 1. Environment variables if already set
+    env_vault = os.environ.get("OBSIDIAN_VAULT_PATH")
+    env_wiki = os.environ.get("WIKI_PATH")
+
+    # 2. Check ~/.hermes/.env or profile .env fallback if not in env
+    if not env_vault or not env_wiki:
+        for env_candidate in [
+            os.path.expanduser("~/.hermes/.env"),
+            os.path.expanduser("~/.hermes/profiles/obsidian-librarian/.env")
+        ]:
+            if os.path.exists(env_candidate):
+                try:
+                    with open(env_candidate, "r", encoding="utf-8") as f:
+                        for line in f:
+                            line = line.strip()
+                            if line.startswith("OBSIDIAN_VAULT_PATH=") and not env_vault:
+                                env_vault = line.split("=", 1)[1].strip()
+                            elif line.startswith("WIKI_PATH=") and not env_wiki:
+                                env_wiki = line.split("=", 1)[1].strip()
+                except Exception:
+                    pass
+
+    # 3. Path relative to script real location
+    if os.path.basename(SCRIPT_DIR) == "scripts" and os.path.basename(os.path.dirname(SCRIPT_DIR)) == "wiki":
+        default_wiki = os.path.abspath(os.path.join(SCRIPT_DIR, ".."))
+        default_vault = os.path.abspath(os.path.join(default_wiki, ".."))
+    else:
+        default_wiki = os.path.abspath(os.path.join(SCRIPT_DIR, ".."))
+        default_vault = os.path.abspath(os.path.join(default_wiki, ".."))
+
+    # 4. Check current working directory
+    cwd = os.getcwd()
+    if os.path.exists(os.path.join(cwd, "wiki", "SCHEMA.md")):
+        cwd_vault = cwd
+        cwd_wiki = os.path.join(cwd, "wiki")
+    elif os.path.exists(os.path.join(cwd, "SCHEMA.md")):
+        cwd_wiki = cwd
+        cwd_vault = os.path.abspath(os.path.join(cwd, ".."))
+    else:
+        cwd_vault, cwd_wiki = None, None
+
+    wiki_root = env_wiki or cwd_wiki or default_wiki
+    vault_root = env_vault or cwd_vault or default_vault
+    return os.path.abspath(vault_root), os.path.abspath(wiki_root)
+
+VAULT_ROOT, WIKI_ROOT = resolve_vault_and_wiki()
 REVIEW_DIR = os.path.join(WIKI_ROOT, "Review")
 RAW_DIR = os.path.join(WIKI_ROOT, "raw")
 SOURCES_DIR = os.path.join(WIKI_ROOT, "sources")
@@ -302,6 +348,44 @@ def cmd_apply(args):
     return 0
 
 
+def apply_single_proposal(proposal_file):
+    """Applies a single proposal file deterministically."""
+    if not os.path.exists(proposal_file):
+        return False, f"Proposal not found: {proposal_file}"
+
+    valid, data, err = validate_proposal_file(proposal_file)
+    if not valid:
+        return False, f"Validation failed: {err}"
+
+    target_rel = data["target"]
+    target_path = os.path.join(WIKI_ROOT, target_rel)
+    os.makedirs(os.path.dirname(target_path), exist_ok=True)
+
+    # Pre-apply checkpoint
+    cmd_checkpoint(argparse.Namespace(message=f"checkpoint: pre-apply {os.path.basename(proposal_file)}"))
+
+    # Write target file
+    with open(target_path, "w", encoding="utf-8") as f:
+        f.write(data["proposed_content"] + "\n")
+
+    # Remove proposal file from Review/
+    if os.path.exists(proposal_file):
+        os.remove(proposal_file)
+
+    # Rebuild index
+    cmd_index(argparse.Namespace())
+
+    # Log action
+    today = datetime.date.today().isoformat()
+    log_entry = f"\n## [{today}] apply-single | Applied proposal: {target_rel}\n- Target: {target_rel}\n- Proposal: {os.path.basename(proposal_file)}\n"
+    with open(LOG_FILE, "a", encoding="utf-8") as f:
+        f.write(log_entry)
+
+    # Post-apply checkpoint
+    cmd_checkpoint(argparse.Namespace(message=f"feat(wiki): apply {target_rel}"))
+    return True, f"Successfully applied {target_rel}"
+
+
 # ==============================================================================
 # 5. DEDUPLICATE
 # ==============================================================================
@@ -319,7 +403,7 @@ def cmd_deduplicate(args):
             with open(fpath, "r", encoding="utf-8") as f:
                 txt = f.read()
             fm, _ = parse_frontmatter(txt)
-            if fm.get("status") == "applied" or fm.get("decision") == "approve":
+            if fm.get("status") == "applied":
                 os.remove(fpath)
                 purged_proposals += 1
                 print(f"  [-] Removed applied proposal: {p}")
@@ -465,49 +549,96 @@ STUDIO_HTML = """<!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
   <title>Agentic Librarian — Decision Studio</title>
+  <script src="/marked.min.js"></script>
   <style>
     :root {
-      --bg: #1e1e24;
-      --card-bg: #2b2b36;
+      --bg: #1a1a20;
+      --sidebar-bg: #141418;
+      --card-bg: #22222b;
+      --card-hover: #2c2c37;
       --accent: #7c4dff;
       --accent-hover: #966eff;
-      --text: #e0e0e6;
+      --text: #e0e0e8;
       --muted: #9e9ea8;
-      --border: #3b3b4a;
+      --border: #323240;
       --success: #00c853;
       --danger: #ff5252;
       --warn: #ffd600;
+      --blue: #40c4ff;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
     body { background: var(--bg); color: var(--text); display: flex; height: 100vh; overflow: hidden; }
-    #sidebar { width: 380px; border-right: 1px solid var(--border); display: flex; flex-direction: column; background: #18181d; }
-    #header { padding: 18px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-    #header h2 { font-size: 1.1rem; color: #fff; display: flex; align-items: center; gap: 8px; }
-    #stats { padding: 12px 20px; background: rgba(124, 77, 255, 0.08); border-bottom: 1px solid var(--border); font-size: 0.85rem; color: var(--muted); display: flex; justify-content: space-between; }
+    #sidebar { width: 400px; border-right: 1px solid var(--border); display: flex; flex-direction: column; background: var(--sidebar-bg); }
+    #header { padding: 16px 18px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+    #header h2 { font-size: 1.05rem; color: #fff; display: flex; align-items: center; gap: 8px; }
+    #stats { padding: 10px 18px; background: rgba(124, 77, 255, 0.08); border-bottom: 1px solid var(--border); font-size: 0.8rem; color: var(--muted); display: flex; justify-content: space-between; }
     #proposals-list { flex: 1; overflow-y: auto; padding: 12px; }
-    .proposal-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 14px; margin-bottom: 10px; cursor: pointer; transition: all 0.15s; }
-    .proposal-card:hover { border-color: var(--accent); }
-    .proposal-card.active { border-color: var(--accent); background: #323240; }
-    .card-title { font-weight: 600; font-size: 0.95rem; margin-bottom: 6px; color: #fff; }
-    .card-meta { font-size: 0.8rem; color: var(--muted); display: flex; justify-content: space-between; }
-    .badge { padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: bold; text-transform: uppercase; }
+    
+    .proposal-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; margin-bottom: 10px; cursor: pointer; transition: all 0.15s; }
+    .proposal-card:hover { border-color: var(--accent); background: var(--card-hover); }
+    .proposal-card.active { border-color: var(--accent); background: #2f2f3d; }
+    .card-title { font-weight: 600; font-size: 0.92rem; margin-bottom: 6px; color: #fff; word-break: break-all; }
+    .card-meta { font-size: 0.78rem; color: var(--muted); display: flex; justify-content: space-between; align-items: center; }
+    .card-actions { display: flex; gap: 6px; margin-top: 8px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 8px; }
+    .card-btn { padding: 3px 8px; font-size: 0.75rem; border-radius: 4px; border: none; cursor: pointer; font-weight: 600; transition: 0.1s; }
+    
+    .badge { padding: 2px 7px; border-radius: 10px; font-size: 0.72rem; font-weight: bold; text-transform: uppercase; }
     .badge-pending { background: #3e381e; color: var(--warn); }
     .badge-approve { background: #1b3d27; color: var(--success); }
     .badge-reject { background: #3d1b1b; color: var(--danger); }
-    #main { flex: 1; display: flex; flex-direction: column; background: var(--bg); }
-    #toolbar { padding: 14px 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: #22222a; }
-    .btn-group { display: flex; gap: 10px; }
-    button { padding: 8px 16px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: 0.15s; font-size: 0.85rem; }
+    .badge-applied { background: #1a237e; color: #82b1ff; }
+    .badge-op-new { background: rgba(0, 200, 83, 0.15); color: #00e676; }
+    .badge-op-update { background: rgba(64, 196, 255, 0.15); color: #40c4ff; }
+
+    #main { flex: 1; display: flex; flex-direction: column; background: var(--bg); overflow: hidden; }
+    #toolbar { padding: 12px 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: #1f1f26; }
+    .toolbar-left { display: flex; align-items: center; gap: 8px; }
+    .btn-group { display: flex; gap: 8px; align-items: center; }
+    button { padding: 7px 14px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: 0.15s; font-size: 0.82rem; }
     .btn-approve { background: var(--success); color: #000; }
-    .btn-approve:hover { filter: brightness(1.1); }
+    .btn-approve:hover { filter: brightness(1.15); }
     .btn-reject { background: var(--danger); color: #fff; }
+    .btn-apply-one { background: var(--blue); color: #000; }
+    .btn-apply-one:hover { filter: brightness(1.15); }
     .btn-apply-all { background: var(--accent); color: #fff; }
     .btn-apply-all:hover { background: var(--accent-hover); }
+
+    #tab-bar { display: none; background: #18181f; border-bottom: 1px solid var(--border); padding: 0 24px; }
+    .tab { padding: 10px 16px; font-size: 0.85rem; font-weight: 600; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; transition: 0.15s; }
+    .tab:hover { color: #fff; }
+    .tab.active { color: #fff; border-bottom-color: var(--accent); }
+
     #content-view { flex: 1; overflow-y: auto; padding: 24px 30px; }
-    pre { background: #121216; padding: 16px; border-radius: 8px; border: 1px solid var(--border); overflow-x: auto; color: #b0bec5; font-size: 0.9rem; line-height: 1.5; font-family: monospace; }
-    h1, h2, h3 { color: #fff; margin-bottom: 12px; }
-    .feedback-box { margin-top: 20px; background: #22222a; padding: 16px; border-radius: 8px; border: 1px solid var(--border); }
-    textarea { width: 100%; height: 80px; background: #18181d; border: 1px solid var(--border); border-radius: 6px; color: #fff; padding: 10px; margin-top: 8px; resize: vertical; }
+    
+    .markdown-body { color: #e0e0e8; line-height: 1.6; font-size: 0.95rem; }
+    .markdown-body h1 { font-size: 1.6rem; color: #fff; margin: 18px 0 10px; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
+    .markdown-body h2 { font-size: 1.3rem; color: #fff; margin: 18px 0 10px; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
+    .markdown-body h3 { font-size: 1.1rem; color: #fff; margin: 14px 0 8px; }
+    .markdown-body p { margin-bottom: 12px; }
+    .markdown-body ul, .markdown-body ol { margin-left: 22px; margin-bottom: 14px; }
+    .markdown-body li { margin-bottom: 4px; }
+    .markdown-body table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+    .markdown-body th, .markdown-body td { border: 1px solid var(--border); padding: 8px 12px; text-align: left; }
+    .markdown-body th { background: #23232c; color: #fff; font-weight: 600; }
+    .markdown-body tr:nth-child(even) { background: rgba(255,255,255,0.02); }
+    .markdown-body code { background: #131318; padding: 2px 6px; border-radius: 4px; color: #ff80ab; font-size: 0.88em; font-family: monospace; }
+    .markdown-body pre { background: #131318; padding: 14px; border-radius: 6px; border: 1px solid var(--border); overflow-x: auto; margin-bottom: 14px; }
+    .markdown-body pre code { background: transparent; padding: 0; color: #b0bec5; }
+    .markdown-body blockquote { border-left: 4px solid var(--accent); padding-left: 14px; color: var(--muted); margin-bottom: 14px; }
+    .wikilink { background: rgba(124, 77, 255, 0.16); color: #b388ff; padding: 2px 6px; border-radius: 4px; font-weight: 500; font-family: monospace; }
+
+    .diff-box { background: #111115; border: 1px solid var(--border); border-radius: 8px; padding: 14px; font-family: monospace; font-size: 0.85rem; line-height: 1.45; overflow-x: auto; }
+    .diff-line { white-space: pre-wrap; padding: 1px 6px; }
+    .diff-add { background: rgba(0, 200, 83, 0.18); color: #00e676; }
+    .diff-del { background: rgba(255, 82, 82, 0.18); color: #ff5252; }
+    .diff-hunk { background: rgba(124, 77, 255, 0.2); color: #80d8ff; font-weight: bold; }
+    .diff-ctx { color: #888894; }
+    .banner { padding: 10px 14px; border-radius: 6px; margin-bottom: 14px; font-size: 0.85rem; font-weight: 500; }
+    .banner-new { background: rgba(0, 200, 83, 0.1); border: 1px solid var(--success); color: #00e676; }
+    .banner-update { background: rgba(64, 196, 255, 0.1); border: 1px solid var(--blue); color: #40c4ff; }
+
+    .feedback-box { margin-top: 24px; background: #1f1f26; padding: 16px; border-radius: 8px; border: 1px solid var(--border); }
+    textarea { width: 100%; height: 75px; background: #141418; border: 1px solid var(--border); border-radius: 6px; color: #fff; padding: 10px; margin-top: 8px; resize: vertical; }
   </style>
 </head>
 <body>
@@ -525,16 +656,22 @@ STUDIO_HTML = """<!DOCTYPE html>
   </div>
   <div id="main">
     <div id="toolbar">
-      <div id="active-title" style="font-weight: 600; font-size: 1.1rem; color: #fff;">Select a Proposal</div>
+      <div class="toolbar-left" id="active-title" style="font-weight: 600; font-size: 1.05rem; color: #fff;">Select a Proposal</div>
       <div class="btn-group" id="actions" style="display:none;">
         <button class="btn-approve" onclick="setDecision('approve')">✓ Approve</button>
         <button class="btn-reject" onclick="setDecision('reject')">✕ Reject</button>
+        <button class="btn-apply-one" onclick="applyThis()">⚡ Apply This Proposal</button>
       </div>
+    </div>
+    <div id="tab-bar">
+      <div class="tab active" data-tab="preview" onclick="switchTab('preview')">📖 Rendered Preview</div>
+      <div class="tab" data-tab="diff" onclick="switchTab('diff')">🔍 File Diff / Changes</div>
+      <div class="tab" data-tab="raw" onclick="switchTab('raw')">📝 Raw Markdown</div>
     </div>
     <div id="content-view">
       <div style="color: var(--muted); text-align: center; margin-top: 100px;">
         <h3>No Proposal Selected</h3>
-        <p style="margin-top: 8px;">Select a proposal from the left panel to review diffs and grant approval.</p>
+        <p style="margin-top: 8px;">Select a proposal from the left panel to review parsed content, diffs, and grant approval.</p>
       </div>
     </div>
   </div>
@@ -542,8 +679,9 @@ STUDIO_HTML = """<!DOCTYPE html>
   <script>
     let proposals = [];
     let activeProposal = null;
+    let currentTab = 'preview';
 
-    async function loadData() {
+    async function loadData(keepActive=false) {
       const res = await fetch('/api/proposals');
       proposals = await res.json();
       const statsRes = await fetch('/api/stats');
@@ -555,51 +693,216 @@ STUDIO_HTML = """<!DOCTYPE html>
       const list = document.getElementById('proposals-list');
       if (proposals.length === 0) {
         list.innerHTML = '<div style="color:var(--muted); text-align:center; padding:20px;">No pending proposals in Review/</div>';
+        if (!keepActive) {
+          document.getElementById('active-title').innerText = 'No Proposals';
+          document.getElementById('actions').style.display = 'none';
+          document.getElementById('tab-bar').style.display = 'none';
+          document.getElementById('content-view').innerHTML = '<div style="color:var(--muted); text-align:center; margin-top:100px;"><h3>All caught up!</h3><p style="margin-top:8px;">No pending proposals in Review/</p></div>';
+          activeProposal = null;
+        }
         return;
       }
 
       list.innerHTML = proposals.map((p, idx) => `
         <div class="proposal-card ${activeProposal && activeProposal.filename === p.filename ? 'active' : ''}" onclick="selectProposal(${idx})">
-          <div class="card-title">${p.target}</div>
+          <div class="card-title">${escapeHtml(p.target)}</div>
           <div class="card-meta">
-            <span>Rev ${p.revision}</span>
+            <span class="badge ${p.target_exists ? 'badge-op-update' : 'badge-op-new'}">${p.target_exists ? '🔄 Update' : '✨ New'}</span>
             <span class="badge badge-${p.decision}">${p.decision}</span>
+          </div>
+          <div class="card-actions" onclick="event.stopPropagation()">
+            <button class="card-btn" style="background:var(--success); color:#000;" title="Approve" onclick="setCardDecision('${escapeHtml(p.filename)}', 'approve')">✓ Approve</button>
+            <button class="card-btn" style="background:var(--danger); color:#fff;" title="Reject" onclick="setCardDecision('${escapeHtml(p.filename)}', 'reject')">✕ Reject</button>
+            <button class="card-btn" style="background:var(--blue); color:#000;" title="Apply this proposal now" onclick="applySingleProposal('${escapeHtml(p.filename)}')">⚡ Apply</button>
           </div>
         </div>
       `).join('');
+
+      if (keepActive && activeProposal) {
+        const found = proposals.find(p => p.filename === activeProposal.filename);
+        if (found) {
+          activeProposal = found;
+          renderProposal();
+        }
+      } else if (!activeProposal && proposals.length > 0) {
+        selectProposal(0);
+      }
     }
 
     function selectProposal(idx) {
       activeProposal = proposals[idx];
-      document.getElementById('active-title').innerText = activeProposal.target;
+      renderProposal();
+    }
+
+    function renderProposal() {
+      if (!activeProposal) return;
+      document.getElementById('active-title').innerHTML = `
+        <span>${escapeHtml(activeProposal.target)}</span>
+        <span class="badge ${activeProposal.target_exists ? 'badge-op-update' : 'badge-op-new'}" style="margin-left:8px;">${activeProposal.target_exists ? 'Update' : 'New File'}</span>
+        <span class="badge badge-${activeProposal.decision}" style="margin-left:4px;">${activeProposal.decision}</span>
+      `;
       document.getElementById('actions').style.display = 'flex';
+      document.getElementById('tab-bar').style.display = 'flex';
 
       const view = document.getElementById('content-view');
+      let mainContentHtml = '';
+
+      if (currentTab === 'preview') {
+        const rendered = renderMarkdown(activeProposal.proposed_content || activeProposal.body);
+        mainContentHtml = `<div class="markdown-body">${rendered}</div>`;
+      } else if (currentTab === 'diff') {
+        if (activeProposal.target_exists) {
+          mainContentHtml = `
+            <div class="banner banner-update">🔄 Comparing existing file <code>${escapeHtml(activeProposal.target)}</code> with proposal</div>
+            <div class="diff-box">${renderDiff(activeProposal.diff_text)}</div>
+          `;
+        } else {
+          mainContentHtml = `
+            <div class="banner banner-new">✨ New File — will be created at <code>wiki/${escapeHtml(activeProposal.target)}</code></div>
+            <div class="diff-box">${renderDiff(activeProposal.proposed_content.split('\\n').map(l => '+' + l).join('\\n'))}</div>
+          `;
+        }
+      } else if (currentTab === 'raw') {
+        mainContentHtml = `<pre style="background:#131318; padding:16px; border-radius:8px; border:1px solid var(--border); overflow-x:auto; color:#b0bec5; font-size:0.88rem; line-height:1.5;">${escapeHtml(activeProposal.proposed_content || activeProposal.body)}</pre>`;
+      }
+
       view.innerHTML = `
-        <h2>Proposed Change: ${activeProposal.target}</h2>
-        <p style="color:var(--muted); margin-bottom: 16px;">Source: <code>${activeProposal.sources.join(', ')}</code></p>
-        <pre>${escapeHtml(activeProposal.proposed_content || activeProposal.body)}</pre>
+        <div style="margin-bottom:14px; font-size:0.85rem; color:var(--muted);">
+          Source notes: <code>${escapeHtml(activeProposal.sources.join(', '))}</code>
+        </div>
+        ${mainContentHtml}
         <div class="feedback-box">
-          <h4>Human Feedback / Instructions:</h4>
-          <textarea id="feedback-input" placeholder="Type instructions or revisions for the agent...">${activeProposal.feedback || ''}</textarea>
+          <h4 style="color:#fff; font-size:0.9rem;">Human Feedback / Instructions:</h4>
+          <textarea id="feedback-input" placeholder="Type instructions or revisions for the agent...">${escapeHtml(activeProposal.feedback || '')}</textarea>
           <button style="margin-top:8px; background:var(--border); color:#fff;" onclick="saveFeedback()">Save Feedback</button>
         </div>
       `;
-      loadData();
+
+      const cards = document.querySelectorAll('.proposal-card');
+      cards.forEach((c, i) => {
+        if (proposals[i] && proposals[i].filename === activeProposal.filename) {
+          c.classList.add('active');
+        } else {
+          c.classList.remove('active');
+        }
+      });
+    }
+
+    function switchTab(tab) {
+      currentTab = tab;
+      document.querySelectorAll('.tab').forEach(t => {
+        t.classList.toggle('active', t.getAttribute('data-tab') === tab);
+      });
+      renderProposal();
+    }
+
+    function renderMarkdown(md) {
+      if (!md) return '';
+      let frontmatterHtml = '';
+      let bodyMd = md;
+
+      if (md.startsWith('---')) {
+        const parts = md.split('---');
+        if (parts.length >= 3) {
+          const fmLines = parts[1].trim().split('\\n');
+          const meta = {};
+          fmLines.forEach(l => {
+            const colon = l.indexOf(':');
+            if (colon !== -1) {
+              const k = l.substring(0, colon).trim();
+              const v = l.substring(colon + 1).trim();
+              if (k && !k.startsWith('#')) meta[k] = v;
+            }
+          });
+          bodyMd = parts.slice(2).join('---').trim();
+          
+          frontmatterHtml = `
+            <div style="background:#202028; border:1px solid var(--border); border-radius:6px; padding:12px 16px; margin-bottom:18px; font-size:0.83rem;">
+              <div style="display:flex; flex-wrap:wrap; gap:12px; color:var(--muted);">
+                ${Object.entries(meta).map(([k, v]) => `<div><strong style="color:#fff;">${escapeHtml(k)}:</strong> <span style="color:#b388ff;">${escapeHtml(v)}</span></div>`).join('')}
+              </div>
+            </div>
+          `;
+        }
+      }
+
+      let text = bodyMd.replace(/\\[\\[([^\\]|]+)(?:\\|([^\\]]+))?\\]\\]/g, (match, target, alias) => {
+        return `<span class="wikilink">[[${alias || target}]]</span>`;
+      });
+      let parsed = '';
+      if (window.marked && window.marked.parse) {
+        try {
+          parsed = marked.parse(text);
+        } catch(e) {
+          parsed = '<pre>' + escapeHtml(text) + '</pre>';
+        }
+      } else {
+        parsed = '<pre>' + escapeHtml(text) + '</pre>';
+      }
+      return frontmatterHtml + parsed;
+    }
+
+    function renderDiff(diffText) {
+      if (!diffText) return '<div style="color:var(--muted); padding:10px;">No differences detected.</div>';
+      return diffText.split('\\n').map(line => {
+        let cls = 'diff-ctx';
+        if (line.startsWith('+') && !line.startsWith('+++')) cls = 'diff-add';
+        else if (line.startsWith('-') && !line.startsWith('---')) cls = 'diff-del';
+        else if (line.startsWith('@@')) cls = 'diff-hunk';
+        return `<div class="diff-line ${cls}">${escapeHtml(line)}</div>`;
+      }).join('');
     }
 
     function escapeHtml(text) {
-      return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      if (!text) return '';
+      return String(text).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+
+    async function setCardDecision(filename, decision) {
+      await fetch('/api/proposals/decision', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ filename: filename, decision: decision })
+      });
+      loadData(true);
     }
 
     async function setDecision(decision) {
       if (!activeProposal) return;
-      await fetch('/api/proposals/decision', {
+      await setCardDecision(activeProposal.filename, decision);
+    }
+
+    async function applySingleProposal(filename) {
+      if (!confirm(`Apply proposal ${filename} into compiled wiki now?`)) return;
+      const res = await fetch('/api/proposals/apply-single', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ filename: activeProposal.filename, decision: decision })
+        body: JSON.stringify({ filename: filename })
       });
-      loadData();
+      const data = await res.json();
+      if (data.success) {
+        alert(`Successfully applied: ${filename}`);
+        loadData(false);
+      } else {
+        alert(`Apply failed: ${data.message}`);
+      }
+    }
+
+    async function applyThis() {
+      if (!activeProposal) return;
+      await applySingleProposal(activeProposal.filename);
+    }
+
+    async function saveFeedback() {
+      if (!activeProposal) return;
+      const fb = document.getElementById('feedback-input').value;
+      await fetch('/api/proposals/feedback', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ filename: activeProposal.filename, feedback: fb })
+      });
+      alert('Feedback saved to proposal note!');
+      loadData(true);
     }
 
     async function applyAll() {
@@ -607,11 +910,11 @@ STUDIO_HTML = """<!DOCTYPE html>
       const res = await fetch('/api/apply', { method: 'POST' });
       const data = await res.json();
       alert(data.message);
-      location.reload();
+      loadData(false);
     }
 
     loadData();
-    setInterval(loadData, 5000);
+    setInterval(() => loadData(true), 10000);
   </script>
 </body>
 </html>
@@ -628,6 +931,19 @@ class StudioHandler(BaseHTTPRequestHandler):
             self.wfile.write(STUDIO_HTML.encode("utf-8"))
             return
 
+        if url.path == "/marked.min.js":
+            marked_path = os.path.join(WIKI_ROOT, "scripts", "marked.min.js")
+            if os.path.exists(marked_path):
+                self.send_response(200)
+                self.send_header("Content-Type", "application/javascript")
+                self.end_headers()
+                with open(marked_path, "rb") as f:
+                    self.wfile.write(f.read())
+                return
+            self.send_response(404)
+            self.end_headers()
+            return
+
         if url.path == "/api/proposals":
             props = []
             if os.path.exists(REVIEW_DIR):
@@ -638,15 +954,48 @@ class StudioHandler(BaseHTTPRequestHandler):
                             txt = f.read()
                         fm, body = parse_frontmatter(txt)
                         m = re.search(r"## Proposed content\s*```(?:markdown)?\n([\s\S]*?)\n```", body)
+                        if not m:
+                            m = re.search(r"## Proposed content\s*\n([\s\S]*?)(?=\n## Evidence|\Z)", body)
                         content = m.group(1).strip() if m else body
+
+                        m_fb = re.search(r"## Human feedback\s*\n([\s\S]*?)(?=\Z)", body)
+                        fb_txt = m_fb.group(1).strip() if m_fb else ""
+                        if fb_txt == "Optionally explain or edit what should change.":
+                            fb_txt = ""
+
+                        target_rel = fm.get("target", p)
+                        target_path = os.path.join(WIKI_ROOT, str(target_rel))
+                        target_exists = os.path.exists(target_path)
+                        existing_content = ""
+                        diff_text = ""
+                        if target_exists:
+                            try:
+                                with open(target_path, "r", encoding="utf-8") as tf:
+                                    existing_content = tf.read()
+                                diff_lines = list(difflib.unified_diff(
+                                    existing_content.splitlines(keepends=True),
+                                    content.splitlines(keepends=True),
+                                    fromfile=f"current/{target_rel}",
+                                    tofile=f"proposed/{target_rel}",
+                                    n=3
+                                ))
+                                diff_text = "".join(diff_lines)
+                            except Exception as e:
+                                diff_text = f"Error generating diff: {e}"
+
                         props.append({
                             "filename": p,
-                            "target": fm.get("target", p),
+                            "target": target_rel,
+                            "target_exists": target_exists,
+                            "existing_content": existing_content,
+                            "diff_text": diff_text,
                             "revision": fm.get("revision", 1),
                             "decision": fm.get("decision", "pending"),
                             "status": fm.get("status", "needs-review"),
+                            "operation": fm.get("operation", "create" if not target_exists else "update"),
                             "sources": fm.get("sources", []),
                             "proposed_content": content,
+                            "feedback": fb_txt,
                             "body": body,
                         })
             self.send_response(200)
@@ -693,6 +1042,43 @@ class StudioHandler(BaseHTTPRequestHandler):
             self.wfile.write(json.dumps({"success": True}).encode("utf-8"))
             return
 
+        if url.path == "/api/proposals/feedback":
+            fname = req_data.get("filename")
+            feedback = req_data.get("feedback", "")
+            if fname:
+                fpath = os.path.join(REVIEW_DIR, str(fname))
+                if os.path.exists(fpath):
+                    with open(fpath, "r", encoding="utf-8") as f:
+                        txt = f.read()
+                    if "## Human feedback" in txt:
+                        parts = txt.split("## Human feedback", 1)
+                        txt = parts[0] + "## Human feedback\n" + str(feedback) + "\n"
+                    else:
+                        txt += f"\n## Human feedback\n{feedback}\n"
+                    with open(fpath, "w", encoding="utf-8") as f:
+                        f.write(txt)
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.end_headers()
+            self.wfile.write(json.dumps({"success": True}).encode("utf-8"))
+            return
+
+        if url.path == "/api/proposals/apply-single":
+            fname = req_data.get("filename")
+            if fname:
+                fpath = os.path.join(REVIEW_DIR, str(fname))
+                ok, msg = apply_single_proposal(fpath)
+                self.send_response(200 if ok else 400)
+                self.send_header("Content-Type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps({"success": ok, "message": msg}).encode("utf-8"))
+                return
+            self.send_response(400)
+            self.send_header("Content-Type", "application/json")
+            self.end_headers()
+            self.wfile.write(json.dumps({"success": False, "message": "Missing proposal filename"}).encode("utf-8"))
+            return
+
         if url.path == "/api/apply":
             ret = cmd_apply(argparse.Namespace(file=None))
             self.send_response(200)
@@ -705,19 +1091,187 @@ class StudioHandler(BaseHTTPRequestHandler):
         self.end_headers()
 
 
+def is_studio_running(port=20888):
+    """Check if Decision Studio is already running and responsive."""
+    try:
+        import urllib.request
+        with urllib.request.urlopen(f"http://127.0.0.1:{port}/api/stats", timeout=0.8) as resp:
+            return resp.status == 200
+    except Exception:
+        return False
+
+
 def cmd_studio(args):
     port = args.port or 20888
-    server = HTTPServer(("127.0.0.1", port), StudioHandler)
     url = f"http://127.0.0.1:{port}"
+
+    if getattr(args, "status", False):
+        running = is_studio_running(port)
+        print(f"Decision Studio is {'RUNNING' if running else 'STOPPED'} on {url}")
+        return 0 if running else 1
+
+    if getattr(args, "ensure_running", False):
+        if is_studio_running(port):
+            print(f"[+] Decision Studio is already running at: {url}")
+            if args.open:
+                try:
+                    webbrowser.open(url)
+                except Exception:
+                    pass
+            return 0
+        else:
+            print(f"[*] Spawning Decision Studio in background on port {port}...")
+            log_path = os.path.join(WIKI_ROOT, "scripts", "studio.log")
+            os.makedirs(os.path.dirname(log_path), exist_ok=True)
+            with open(log_path, "a") as log_f:
+                subprocess.Popen(
+                    [sys.executable, SCRIPT_REAL_PATH, "studio", "--port", str(port)],
+                    stdout=log_f,
+                    stderr=log_f,
+                    start_new_session=True,
+                )
+            import time
+            for _ in range(10):
+                time.sleep(0.3)
+                if is_studio_running(port):
+                    print(f"[+] Decision Studio started successfully at: {url}")
+                    if args.open:
+                        try:
+                            webbrowser.open(url)
+                        except Exception:
+                            pass
+                    return 0
+            print(f"[-] Failed to confirm Decision Studio startup within 3s. Check {log_path}")
+            return 1
+
+    if getattr(args, "daemon", False):
+        log_path = os.path.join(WIKI_ROOT, "scripts", "studio.log")
+        os.makedirs(os.path.dirname(log_path), exist_ok=True)
+        with open(log_path, "a") as log_f:
+            subprocess.Popen(
+                [sys.executable, SCRIPT_REAL_PATH, "studio", "--port", str(port)],
+                stdout=log_f,
+                stderr=log_f,
+                start_new_session=True,
+            )
+        print(f"[+] Decision Studio daemon spawned on port {port} (logs: {log_path})")
+        if args.open:
+            try:
+                webbrowser.open(url)
+            except Exception:
+                pass
+        return 0
+
+    server = HTTPServer(("127.0.0.1", port), StudioHandler)
     print(f"\n[+] Decision Studio running at: {url}")
     print("    Press Ctrl+C to stop.\n")
     if args.open:
-        webbrowser.open(url)
+        try:
+            webbrowser.open(url)
+        except Exception:
+            pass
     try:
         server.serve_forever()
     except KeyboardInterrupt:
         print("\n[*] Stopping Decision Studio.")
         server.server_close()
+    return 0
+
+
+# ==============================================================================
+# 9. PROCESS & ARCHITECTURE RECOMMENDATIONS
+# ==============================================================================
+def cmd_recommend(args):
+    print("=== Agentic Librarian Process & Architecture Recommendations ===")
+    recs = []
+
+    # 1. Check Pending Decisions
+    props = []
+    if os.path.exists(REVIEW_DIR):
+        props = [p for p in os.listdir(REVIEW_DIR) if p.endswith(".md")]
+    if props:
+        recs.append({
+            "type": "decision_gate",
+            "priority": "HIGH",
+            "title": f"{len(props)} Staged Review Proposals Waiting for Decision",
+            "details": f"There are {len(props)} proposals in wiki/Review/. Decision Studio is active at http://127.0.0.1:20888.",
+            "action": "Review in Decision Studio and run 'librarian apply' to compile."
+        })
+
+    # 2. Analyze Unprocessed Notes Clustering
+    unproc_dir = os.path.join(VAULT_ROOT, "unprocessed-obsidians")
+    if os.path.exists(unproc_dir):
+        files = [f for f in os.listdir(unproc_dir) if f.endswith(".md")]
+        clusters = {
+            "Auth & Session": ["jwt.md", "oauth.md", "idor.md"],
+            "Web Injection": ["sql-injection.md", "xss.md", "xxe.md", "ssrf.md", "ssti.md", "parameter-pollution.md"],
+            "Protocols & Desync": ["req-smuggle.md", "graphql.md"],
+            "Binary & Low-Level": ["insecure-deserialization.md", "shellcode.md", "fuzzing.md"],
+            "Recon & OSINT": ["osint.md", "osint-method.md"],
+            "Defenses & Evasion": ["edr.md", "mitigations.md", "initial-access.md"]
+        }
+        found_clusters = {}
+        for cname, cfiles in clusters.items():
+            matching = [f for f in files if f in cfiles]
+            if matching:
+                found_clusters[cname] = matching
+
+        if found_clusters:
+            details = ", ".join([f"{k} ({len(v)} notes: {', '.join(v[:3])})" for k, v in found_clusters.items()])
+            recs.append({
+                "type": "batch_enrichment",
+                "priority": "MEDIUM",
+                "title": f"Batch Ingestion Opportunity: {len(files)} Unprocessed Notes",
+                "details": f"Recommended ingestion by theme: {details}",
+                "action": "Ingest related clusters together so the LLM creates rich, cross-linked concepts in single batches."
+            })
+
+    # 3. Cross-linking & Comparison Opportunities
+    compiled_concepts = []
+    if os.path.exists(CONCEPTS_DIR):
+        compiled_concepts = [f[:-3] for f in os.listdir(CONCEPTS_DIR) if f.endswith(".md")]
+
+    if "blind-ssrf-gopher-redis-rce" in compiled_concepts and "fastcgi-ssrf-exploitation" in compiled_concepts:
+        if not os.path.exists(os.path.join(COMPARISONS_DIR, "redis-vs-fastcgi-ssrf-pivoting.md")):
+            recs.append({
+                "type": "comparison_synthesis",
+                "priority": "LOW",
+                "title": "Comparison Candidate: Redis vs FastCGI SSRF Pivoting",
+                "details": "Both internal Gopher SSRF primitives are compiled. A comparison note evaluating preconditions, stealth, and OS access limits would deepen the knowledge base.",
+                "action": "Generate comparison under wiki/comparisons/redis-vs-fastcgi-ssrf-pivoting.md"
+            })
+
+    # 4. Schema & Taxonomy Check
+    schema_tags = load_schema_taxonomy()
+    used_tags = set()
+    for cat_dir in [CONCEPTS_DIR, ENTITIES_DIR]:
+        if os.path.exists(cat_dir):
+            for f in os.listdir(cat_dir):
+                if f.endswith(".md"):
+                    with open(os.path.join(cat_dir, f), "r", encoding="utf-8") as fp:
+                        txt = fp.read()
+                    fm, _ = parse_frontmatter(txt)
+                    for t in fm.get("tags", []):
+                        used_tags.add(t)
+
+    unlisted_tags = [t for t in used_tags if t not in schema_tags]
+    if unlisted_tags:
+        recs.append({
+            "type": "schema_governance",
+            "priority": "LOW",
+            "title": f"Taxonomy Extension: {len(unlisted_tags)} Tags Not in SCHEMA.md",
+            "details": f"Tags used but unlisted in taxonomy: {', '.join(unlisted_tags)}",
+            "action": "Add these tags to ## Tag Taxonomy in wiki/SCHEMA.md to preserve schema integrity."
+        })
+
+    # Output recommendations
+    for i, r in enumerate(recs, 1):
+        print(f"\n[{i}] [{r['priority']}] {r['title']}")
+        print(f"    Details: {r['details']}")
+        print(f"    Action : {r['action']}")
+
+    if not recs:
+        print("[+] Vault is in optimal state. No pending improvements identified.")
     return 0
 
 
@@ -753,10 +1307,16 @@ def main():
     # lint
     p_lint = subparsers.add_parser("lint", help="Health-check wiki graph and links")
 
+    # recommend
+    p_rec = subparsers.add_parser("recommend", aliases=["recommendations"], help="Analyze vault and recommend improvements")
+
     # studio
     p_studio = subparsers.add_parser("studio", help="Launch visual Decision Studio web UI")
     p_studio.add_argument("--port", type=int, default=20888, help="Port to serve on (default: 20888)")
     p_studio.add_argument("--open", action="store_true", help="Open browser automatically")
+    p_studio.add_argument("--ensure-running", action="store_true", help="Ensure studio is running in background without blocking")
+    p_studio.add_argument("--daemon", action="store_true", help="Run as background daemon process")
+    p_studio.add_argument("--status", action="store_true", help="Check if studio is running")
 
     args = parser.parse_args()
     if not args.subcommand:
@@ -771,6 +1331,8 @@ def main():
         "deduplicate": cmd_deduplicate,
         "index": cmd_index,
         "lint": cmd_lint,
+        "recommend": cmd_recommend,
+        "recommendations": cmd_recommend,
         "studio": cmd_studio,
     }
 

@@ -14,6 +14,7 @@ Never mutate compiled pages (`concepts/`, `entities/`, `comparisons/`, `queries/
 1. Store source material under `raw/<category>/`.
 2. Extract concepts, entities, and diffs.
 3. Write proposals into `Review/` with frontmatter `status: needs-review`, `decision: pending`.
-4. Halt and report proposed changes for human review.
-5. Apply only when the user explicitly requests: `"Please proceed with the approved revision."`
-6. **Post-Application Deduplication:** Immediately after applying approved changes to compiled pages, remove the temporary proposal files from `Review/` and purge duplicate raw copies from `raw/`, ensuring `sources:` frontmatter cites the canonical note directly (e.g. `BUG-Notes/` or `unprocessed-obsidians/`).
+4. Halt and report proposed changes for human review. At this exact moment, run `librarian studio --ensure-running --open` and provide `http://127.0.0.1:20888`.
+5. Run `librarian recommend` and deliver proactive process or architectural improvement recommendations.
+6. Apply only when the user explicitly requests: `"Please proceed with the approved revision."` or clicks `⚡ Apply Approved` in Decision Studio.
+7. **Post-Application Deduplication:** Immediately after applying approved changes to compiled pages, remove the temporary proposal files from `Review/` and purge duplicate raw copies from `raw/`, ensuring `sources:` frontmatter cites the canonical note directly (e.g. `BUG-Notes/` or `unprocessed-obsidians/`).
