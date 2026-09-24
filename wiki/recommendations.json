@@ -29,10 +29,11 @@
     "priority": "LOW",
     "details": "There are 25 raw primary notes waiting in 'unprocessed-obsidians/'. Ingesting them into the Silver layer in batches will expand the knowledge graph.",
     "action": "Stage next cluster (ai.md, bug-identification.md, course.md, development.md) into wiki/Review/.",
-    "status": "pending",
+    "status": "implemented",
     "implementation": {
       "type": "lint_and_reindex"
-    }
+    },
+    "implemented_at": "2026-09-25T02:04:29.268868"
   },
   {
     "id": "rec_chain_wordpress-performance-monitor_ai-security-testing",
@@ -43,13 +44,14 @@
     "priority": "HIGH",
     "details": "Entity 'WordPress Performance Monitor Plugin' shares security classification with [[ai-security-testing|AI & LLM Application Security Testing & Jailbreak Vectors]], but lacks an explicit cross-link in its exploitation section.",
     "action": "Cross-link [[ai-security-testing]] in 'entities/wordpress-performance-monitor.md'.",
-    "status": "pending",
+    "status": "implemented",
     "implementation": {
       "type": "patch_note",
       "target": "entities/wordpress-performance-monitor.md",
       "section": "## Exploitation Chains & Pivot Vectors",
       "content": "- **Pivot to [[ai-security-testing|AI & LLM Application Security Testing & Jailbreak Vectors]]:** Weaponize vulnerability surface in WordPress Performance Monitor Plugin to trigger [[ai-security-testing]]."
-    }
+    },
+    "implemented_at": "2026-09-25T02:04:55.430048"
   },
   {
     "id": "rec_chain_jwt-tool_ai-security-testing",

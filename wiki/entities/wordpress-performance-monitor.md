@@ -52,3 +52,7 @@ By chaining the blind SSRF via `gopher://`, internal services can be exploited f
 1. Enforce strict scheme validation to permit only `http` and `https`.
 2. Block internal IP addresses and loopback ranges (`127.0.0.1`, `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`).
 3. Require authentication for diagnostic endpoints.
+
+
+## Exploitation Chains & Pivot Vectors
+- **Pivot to [[ai-security-testing|AI & LLM Application Security Testing & Jailbreak Vectors]]:** Weaponize vulnerability surface in WordPress Performance Monitor Plugin to trigger [[ai-security-testing]].

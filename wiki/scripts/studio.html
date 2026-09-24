@@ -278,7 +278,10 @@
             </div>
           </div>
 
-          <h3 style="font-size:0.95rem; color:#fff; margin-bottom:12px; text-transform:uppercase; letter-spacing:0.5px;">Content Recommendations from Thoth</h3>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+            <h3 style="font-size:0.95rem; color:#fff; text-transform:uppercase; letter-spacing:0.5px; margin:0;">Dynamic Content Recommendations from Thoth</h3>
+            <button class="btn btn-secondary" onclick="loadRecommendations(true)" style="padding:4px 10px; font-size:0.75rem;">↻ Scan Vault & Refresh</button>
+          </div>
           <div id="recs-list">Loading recommendations...</div>
         </div>
       </div>
@@ -946,39 +949,68 @@
     // =========================================================================
     // 5. THOTH'S RECOMMENDATIONS
     // =========================================================================
-    async function loadRecommendations() {
+    async function loadRecommendations(refresh = false) {
+      const list = document.getElementById('recs-list');
+      if (refresh) list.innerHTML = '<div style="color:var(--muted); font-size:0.85rem; padding:12px;">Scanning vault and analyzing live content...</div>';
+      
       const [sRes, rRes] = await Promise.all([
         fetch('/api/stats'),
-        fetch('/api/recommendations')
+        fetch(refresh ? '/api/recommendations?refresh=true' : '/api/recommendations')
       ]);
       const stats = await sRes.json();
-      const recs = await rRes.json();
+      const allRecs = await rRes.json();
 
       document.getElementById('m-pages').innerText = stats.total_pages || 0;
       document.getElementById('m-links').innerText = stats.total_links || 0;
       document.getElementById('m-density').innerText = stats.total_pages > 0 ? (stats.total_links / stats.total_pages).toFixed(1) : 0;
       document.getElementById('m-proposals').innerText = stats.proposals_count || 0;
 
-      const list = document.getElementById('recs-list');
-      if (recs.length === 0) {
-        list.innerHTML = '<div style="color:var(--muted); padding:16px;">All knowledge paths optimized!</div>';
-        return;
+      const activeRecs = allRecs.filter(r => r.status === 'pending');
+      const implementedRecs = allRecs.filter(r => r.status === 'implemented');
+
+      if (activeRecs.length === 0) {
+        list.innerHTML = `
+          <div style="padding:24px; text-align:center; background:var(--surface); border:1px dashed var(--border); border-radius:8px;">
+            <div style="font-size:1.1rem; margin-bottom:6px; color:#fff;">✨ Vault Knowledge Paths are Fully Optimized</div>
+            <div style="font-size:0.84rem; color:var(--muted); margin-bottom:12px;">Thoth has audited the knowledge base and found zero outstanding gaps or missing comparisons.</div>
+            <button class="btn btn-secondary" onclick="loadRecommendations(true)">↻ Run Fresh Vault Scan</button>
+          </div>
+        `;
+      } else {
+        list.innerHTML = activeRecs.map(r => `
+          <div class="rec-card rec-${(r.priority || 'low').toLowerCase()}">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <strong style="color:#fff; font-size:0.95rem;">${escapeHtml(r.title)}</strong>
+              <div style="display:flex; gap:8px; align-items:center;">
+                <span style="font-size:0.72rem; color:var(--muted);">${escapeHtml(r.category || '')}</span>
+                <span class="badge badge-${(r.priority || 'low').toLowerCase()}">${r.priority}</span>
+                ${r.id ? `<button class="btn-approve" onclick="implementRecommendation('${escapeHtml(r.id)}')">✓ Approve & Implement</button>` : ''}
+              </div>
+            </div>
+            <p style="font-size:0.83rem; color:var(--text); line-height:1.45; margin-bottom:8px;">${escapeHtml(r.details)}</p>
+            <div style="font-size:0.78rem; color:var(--purple); font-weight:500;">👉 ${escapeHtml(r.action)}</div>
+          </div>
+        `).join('');
       }
 
-      list.innerHTML = recs.map(r => `
-        <div class="rec-card rec-${(r.priority || 'low').toLowerCase()}">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-            <strong style="color:#fff; font-size:0.95rem;">${escapeHtml(r.title)}</strong>
-            <div style="display:flex; gap:8px; align-items:center;">
-              <span style="font-size:0.72rem; color:var(--muted);">${escapeHtml(r.category || '')}</span>
-              <span class="badge badge-${(r.priority || 'low').toLowerCase()}">${r.priority}</span>
-              ${r.id ? `<button class="btn-approve" onclick="implementRecommendation('${escapeHtml(r.id)}')">✓ Approve & Implement</button>` : ''}
+      if (implementedRecs.length > 0) {
+        list.innerHTML += `
+          <div style="margin-top:24px; border-top:1px solid var(--border); padding-top:14px;">
+            <div style="font-size:0.82rem; color:var(--muted); text-transform:uppercase; margin-bottom:10px; font-weight:600; letter-spacing:0.5px;">
+              ✓ Recently Implemented by Thoth (${implementedRecs.length})
             </div>
+            ${implementedRecs.slice(0, 5).map(r => `
+              <div style="background:rgba(255,255,255,0.02); border:1px solid var(--border); border-radius:6px; padding:10px 14px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                  <strong style="color:var(--muted); font-size:0.88rem; text-decoration:line-through;">${escapeHtml(r.title)}</strong>
+                  <div style="font-size:0.76rem; color:var(--muted); margin-top:2px;">${escapeHtml(r.details)}</div>
+                </div>
+                <span style="font-size:0.72rem; color:var(--success); font-weight:600; padding:2px 8px; border:1px solid rgba(0,230,118,0.2); border-radius:4px;">Implemented</span>
+              </div>
+            `).join('')}
           </div>
-          <p style="font-size:0.83rem; color:var(--text); line-height:1.45; margin-bottom:8px;">${escapeHtml(r.details)}</p>
-          <div style="font-size:0.78rem; color:var(--purple); font-weight:500;">👉 ${escapeHtml(r.action)}</div>
-        </div>
-      `).join('');
+        `;
+      }
     }
 
     async function implementRecommendation(recId) {
