@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Agentic Librarian — Decision Studio & Knowledge Center</title>
+  <script src="/marked.min.js"></script>
+  <style>
+    :root {
+      --bg: #141418;
+      --card-bg: #1d1d24;
+      --card-hover: #262630;
+      --accent: #7c4dff;
+      --accent-hover: #966eff;
+      --text: #e0e0e8;
+      --muted: #8e8e9c;
+      --border: #2a2a36;
+      --success: #00c853;
+      --danger: #ff5252;
+      --warn: #ffd600;
+      --blue: #40c4ff;
+      --orange: #ff9100;
+      --purple: #b388ff;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+    body { background: var(--bg); color: var(--text); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+
+    /* Top Navigation Bar */
+    #navbar { height: 56px; background: #101014; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; z-index: 100; }
+    .nav-left { display: flex; align-items: center; gap: 24px; }
+    .logo { font-size: 1.1rem; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 10px; }
+    .nav-tabs { display: flex; gap: 4px; }
+    .nav-tab { padding: 8px 16px; border-radius: 6px; font-size: 0.85rem; font-weight: 600; color: var(--muted); cursor: pointer; transition: 0.15s; display: flex; align-items: center; gap: 8px; }
+    .nav-tab:hover { color: #fff; background: rgba(255,255,255,0.04); }
+    .nav-tab.active { color: #fff; background: var(--border); border-bottom: 2px solid var(--accent); }
+    .nav-badge { padding: 2px 7px; border-radius: 10px; font-size: 0.72rem; font-weight: bold; background: #3e381e; color: var(--warn); }
+    .nav-right { display: flex; align-items: center; gap: 12px; }
+
+    /* Main Viewport Container */
+    #view-container { flex: 1; display: flex; position: relative; overflow: hidden; }
+    .view-pane { position: absolute; inset: 0; display: none; }
+    .view-pane.active { display: flex; }
+
+    /* BUTTONS & BADGES */
+    button { padding: 7px 14px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: 0.15s; font-size: 0.82rem; }
+    .btn-approve { background: var(--success); color: #000; }
+    .btn-approve:hover { filter: brightness(1.15); }
+    .btn-reject { background: var(--danger); color: #fff; }
+    .btn-apply-one { background: var(--blue); color: #000; }
+    .btn-apply-all { background: var(--accent); color: #fff; }
+    .btn-apply-all:hover { background: var(--accent-hover); }
+    .badge { padding: 2px 8px; border-radius: 10px; font-size: 0.72rem; font-weight: bold; text-transform: uppercase; }
+    .badge-concept { background: rgba(179, 136, 255, 0.18); color: var(--purple); }
+    .badge-entity { background: rgba(64, 196, 255, 0.18); color: var(--blue); }
+    .badge-comparison { background: rgba(255, 145, 0, 0.18); color: var(--orange); }
+    .badge-source { background: rgba(0, 200, 83, 0.18); color: var(--success); }
+    .badge-proposal { background: rgba(255, 214, 0, 0.18); color: var(--warn); }
+
+    /* ========================================================================= */
+    /* 1. REVIEW PROPOSALS PANE                                                  */
+    /* ========================================================================= */
+    #review-pane { width: 100%; height: 100%; display: flex; }
+    #review-sidebar { width: 380px; border-right: 1px solid var(--border); display: flex; flex-direction: column; background: #121216; }
+    #review-header { padding: 14px 18px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+    #review-stats { padding: 8px 18px; background: rgba(124, 77, 255, 0.06); border-bottom: 1px solid var(--border); font-size: 0.8rem; color: var(--muted); display: flex; justify-content: space-between; }
+    #proposals-list { flex: 1; overflow-y: auto; padding: 12px; }
+    .proposal-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; margin-bottom: 10px; cursor: pointer; transition: all 0.15s; }
+    .proposal-card:hover { border-color: var(--accent); background: var(--card-hover); }
+    .proposal-card.active { border-color: var(--accent); background: #282834; }
+    .card-title { font-weight: 600; font-size: 0.9rem; margin-bottom: 6px; color: #fff; word-break: break-all; }
+    .card-meta { font-size: 0.76rem; color: var(--muted); display: flex; justify-content: space-between; align-items: center; }
+    .card-actions { display: flex; gap: 6px; margin-top: 8px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 8px; }
+    .card-btn { padding: 3px 8px; font-size: 0.72rem; border-radius: 4px; border: none; cursor: pointer; font-weight: 600; }
+
+    #review-main { flex: 1; display: flex; flex-direction: column; background: var(--bg); overflow: hidden; }
+    #review-toolbar { padding: 12px 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: #181820; }
+    #review-tabs { display: flex; background: #131318; border-bottom: 1px solid var(--border); padding: 0 24px; gap: 4px; }
+    .review-tab { padding: 10px 16px; font-size: 0.84rem; font-weight: 600; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; }
+    .review-tab:hover { color: #fff; }
+    .review-tab.active { color: #fff; border-bottom-color: var(--accent); }
+    #review-content { flex: 1; overflow-y: auto; padding: 24px 30px; }
+
+    /* ========================================================================= */
+    /* 2. OBSIDIAN GRAPH PREVIEW PANE                                            */
+    /* ========================================================================= */
+    #graph-pane { width: 100%; height: 100%; position: relative; background: #0e0e12; overflow: hidden; }
+    #graph-canvas { width: 100%; height: 100%; display: block; cursor: grab; }
+    #graph-canvas:active { cursor: grabbing; }
+
+    /* Graph HUD Overlay */
+    .graph-hud-top { position: absolute; top: 16px; left: 16px; display: flex; gap: 10px; z-index: 10; }
+    .hud-box { background: rgba(20, 20, 26, 0.85); backdrop-filter: blur(8px); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; color: var(--text); }
+    .graph-search-input { background: #16161c; border: 1px solid var(--border); border-radius: 6px; padding: 6px 12px; color: #fff; font-size: 0.82rem; width: 220px; outline: none; }
+    .graph-legend { position: absolute; bottom: 16px; left: 16px; z-index: 10; font-size: 0.78rem; display: flex; flex-direction: column; gap: 6px; }
+    .legend-item { display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; }
+    .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .graph-controls { position: absolute; bottom: 16px; right: 16px; display: flex; flex-direction: column; gap: 6px; z-index: 10; }
+    .ctrl-btn { width: 34px; height: 34px; border-radius: 6px; background: rgba(26,26,34,0.9); border: 1px solid var(--border); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; cursor: pointer; }
+    .ctrl-btn:hover { background: var(--accent); }
+
+    /* ========================================================================= */
+    /* 3. TABLE OF CONTENTS / CATALOG PANE                                      */
+    /* ========================================================================= */
+    #toc-pane { width: 100%; height: 100%; display: flex; overflow: hidden; background: var(--bg); }
+    #toc-main { flex: 1; display: flex; flex-direction: column; overflow: hidden; border-right: 1px solid var(--border); }
+    .toc-toolbar { padding: 16px 24px; border-bottom: 1px solid var(--border); background: #16161c; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+    .toc-search { flex: 1; max-width: 400px; position: relative; }
+    .toc-search input { width: 100%; background: #1d1d26; border: 1px solid var(--border); border-radius: 6px; padding: 8px 12px; color: #fff; font-size: 0.85rem; outline: none; }
+    .toc-filter-chips { display: flex; gap: 8px; }
+    .chip { padding: 4px 12px; border-radius: 14px; font-size: 0.78rem; font-weight: 600; cursor: pointer; background: #22222c; color: var(--muted); border: 1px solid transparent; transition: 0.15s; }
+    .chip:hover { color: #fff; }
+    .chip.active { background: rgba(124, 77, 255, 0.2); color: #b388ff; border-color: var(--accent); }
+    #toc-list { flex: 1; overflow-y: auto; padding: 24px; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 14px; align-content: flex-start; }
+    .toc-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 16px; cursor: pointer; transition: all 0.15s; display: flex; flex-direction: column; justify-content: space-between; }
+    .toc-card:hover { border-color: var(--accent); transform: translateY(-2px); background: var(--card-hover); }
+    .toc-card-title { font-size: 0.95rem; font-weight: 600; color: #fff; margin-bottom: 6px; }
+    .toc-card-excerpt { font-size: 0.8rem; color: var(--muted); line-height: 1.45; margin-bottom: 12px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+    .toc-card-footer { display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; color: #6a6a78; border-top: 1px solid rgba(255,255,255,0.04); padding-top: 10px; }
+
+    /* ========================================================================= */
+    /* 4. NOTE INSPECTOR DRAWER / READING PANE                                  */
+    /* ========================================================================= */
+    #note-drawer { width: 440px; background: #16161d; border-left: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; transition: transform 0.2s; }
+    #note-drawer-header { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: #121216; }
+    #note-drawer-body { flex: 1; overflow-y: auto; padding: 20px; }
+    .drawer-section { margin-top: 20px; border-top: 1px solid var(--border); padding-top: 14px; }
+    .drawer-section-title { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; letter-spacing: 0.5px; }
+    .backlink-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 6px; background: #20202a; border: 1px solid var(--border); font-size: 0.78rem; color: var(--purple); cursor: pointer; margin: 0 6px 6px 0; text-decoration: none; }
+    .backlink-pill:hover { border-color: var(--purple); }
+
+    /* ========================================================================= */
+    /* 5. INSIGHTS & RECOMMENDATIONS PANE                                       */
+    /* ========================================================================= */
+    #insights-pane { width: 100%; height: 100%; overflow-y: auto; padding: 30px; background: var(--bg); }
+    .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 30px; }
+    .metric-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 18px; }
+    .metric-val { font-size: 1.8rem; font-weight: 700; color: #fff; margin-bottom: 4px; }
+    .metric-label { font-size: 0.82rem; color: var(--muted); }
+    .recs-container { display: flex; flex-direction: column; gap: 14px; }
+    .rec-card { background: var(--card-bg); border-left: 4px solid var(--accent); border-radius: 0 8px 8px 0; padding: 18px; border-top: 1px solid var(--border); border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .rec-high { border-left-color: var(--danger); }
+    .rec-medium { border-left-color: var(--warn); }
+    .rec-low { border-left-color: var(--blue); }
+    .rec-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .rec-title { font-size: 1rem; font-weight: 600; color: #fff; }
+    .rec-details { font-size: 0.85rem; color: var(--text); line-height: 1.5; margin-bottom: 8px; }
+    .rec-action { font-size: 0.8rem; color: var(--purple); font-weight: 500; }
+
+    /* Markdown Styles */
+    .markdown-body { color: #e0e0e8; line-height: 1.6; font-size: 0.92rem; }
+    .markdown-body h1, .markdown-body h2 { color: #fff; margin: 16px 0 8px; border-bottom: 1px solid var(--border); padding-bottom: 6px; font-size: 1.3rem; }
+    .markdown-body h3 { color: #fff; margin: 12px 0 6px; font-size: 1.05rem; }
+    .markdown-body p { margin-bottom: 10px; }
+    .markdown-body ul, .markdown-body ol { margin-left: 20px; margin-bottom: 12px; }
+    .markdown-body code { background: #0d0d10; padding: 2px 5px; border-radius: 4px; color: #ff80ab; font-size: 0.85em; font-family: monospace; }
+    .markdown-body pre { background: #0d0d10; padding: 12px; border-radius: 6px; border: 1px solid var(--border); overflow-x: auto; margin-bottom: 12px; }
+    .markdown-body pre code { background: transparent; padding: 0; color: #b0bec5; }
+    .wikilink { background: rgba(124, 77, 255, 0.16); color: #b388ff; padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 0.85em; }
+
+    /* Diff Viewer */
+    .diff-box { background: #0d0d10; border: 1px solid var(--border); border-radius: 6px; padding: 12px; font-family: monospace; font-size: 0.82rem; line-height: 1.45; overflow-x: auto; }
+    .diff-line { white-space: pre-wrap; padding: 1px 4px; }
+    .diff-add { background: rgba(0, 200, 83, 0.16); color: #00e676; }
+    .diff-del { background: rgba(255, 82, 82, 0.16); color: #ff5252; }
+    .diff-hunk { background: rgba(124, 77, 255, 0.2); color: #80d8ff; font-weight: bold; }
+    .diff-ctx { color: #727282; }
+    .banner { padding: 10px 14px; border-radius: 6px; margin-bottom: 12px; font-size: 0.85rem; font-weight: 500; }
+    .banner-new { background: rgba(0, 200, 83, 0.1); border: 1px solid var(--success); color: #00e676; }
+    .banner-update { background: rgba(64, 196, 255, 0.1); border: 1px solid var(--blue); color: #40c4ff; }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <div id="navbar">
+    <div class="nav-left">
+      <div class="logo">
+        <span style="font-size: 1.3rem;">🧠</span>
+        <span>Decision Studio</span>
+      </div>
+      <div class="nav-tabs">
+        <div class="nav-tab active" data-view="review" onclick="switchView('review')">
+          <span>⚡ Review Proposals</span>
+          <span class="nav-badge" id="nav-count-proposals">0</span>
+        </div>
+        <div class="nav-tab" data-view="graph" onclick="switchView('graph')">
+          <span>🕸️ Obsidian Graph</span>
+        </div>
+        <div class="nav-tab" data-view="toc" onclick="switchView('toc')">
+          <span>📚 Table of Contents</span>
+          <span class="nav-badge" style="background:#20202c; color:var(--purple);" id="nav-count-toc">0</span>
+        </div>
+        <div class="nav-tab" data-view="insights" onclick="switchView('insights')">
+          <span>💡 Insights & Health</span>
+        </div>
+      </div>
+    </div>
+    <div class="nav-right">
+      <button class="btn-apply-all" onclick="applyAll()">⚡ Apply Approved</button>
+    </div>
+  </div>
+
+  <!-- Main Multi-View Container -->
+  <div id="view-container">
+
+    <!-- =================================================================== -->
+    <!-- VIEW 1: PROPOSALS REVIEW & DIFF HUB                                 -->
+    <!-- =================================================================== -->
+    <div class="view-pane active" id="pane-review">
+      <div id="review-sidebar">
+        <div id="review-header">
+          <span style="font-weight:600; font-size:0.9rem;">Pending Review Proposals</span>
+        </div>
+        <div id="review-stats">
+          <span>Pending: <b id="stat-pending">0</b></span>
+          <span>Wiki Pages: <b id="stat-pages">0</b></span>
+          <span>Health: <b id="stat-health" style="color:var(--success)">OK</b></span>
+        </div>
+        <div id="proposals-list">Loading proposals...</div>
+      </div>
+      <div id="review-main">
+        <div id="review-toolbar">
+          <div id="active-title" style="font-weight: 600; font-size: 1.05rem; color: #fff;">Select a Proposal</div>
+          <div style="display:flex; gap:8px;" id="proposal-actions" style="display:none;">
+            <button class="btn-approve" onclick="setDecision('approve')">✓ Approve</button>
+            <button class="btn-reject" onclick="setDecision('reject')">✕ Reject</button>
+            <button class="btn-apply-one" onclick="applyThis()">⚡ Apply This Proposal</button>
+          </div>
+        </div>
+        <div id="review-tabs">
+          <div class="review-tab active" data-tab="preview" onclick="switchReviewTab('preview')">📖 Rendered Preview</div>
+          <div class="review-tab" data-tab="diff" onclick="switchReviewTab('diff')">🔍 File Diff / Changes</div>
+          <div class="review-tab" data-tab="raw" onclick="switchReviewTab('raw')">📝 Raw Markdown</div>
+        </div>
+        <div id="review-content">
+          <div style="color: var(--muted); text-align: center; margin-top: 100px;">
+            <h3>No Proposal Selected</h3>
+            <p style="margin-top: 8px;">Select a proposal from the left panel to review parsed changes and approve.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- VIEW 2: OBSIDIAN GRAPH PREVIEW                                      -->
+    <!-- =================================================================== -->
+    <div class="view-pane" id="pane-graph">
+      <div id="graph-pane">
+        <canvas id="graph-canvas"></canvas>
+        <div class="graph-hud-top">
+          <div class="hud-box">
+            <input type="text" class="graph-search-input" id="graph-search" placeholder="🔍 Search graph notes..." oninput="onGraphSearch(this.value)">
+          </div>
+          <div class="hud-box" style="font-size:0.8rem; display:flex; gap:16px; align-items:center;">
+            <span>Nodes: <b id="graph-nodes-count">0</b></span>
+            <span>Links: <b id="graph-edges-count">0</b></span>
+          </div>
+        </div>
+        <div class="hud-box graph-legend">
+          <div class="legend-item" onclick="toggleGraphFilter('concept')"><span class="legend-dot" style="background:var(--purple)"></span> <span>Concepts</span></div>
+          <div class="legend-item" onclick="toggleGraphFilter('entity')"><span class="legend-dot" style="background:var(--blue)"></span> <span>Entities</span></div>
+          <div class="legend-item" onclick="toggleGraphFilter('comparison')"><span class="legend-dot" style="background:var(--orange)"></span> <span>Comparisons</span></div>
+          <div class="legend-item" onclick="toggleGraphFilter('source')"><span class="legend-dot" style="background:var(--success)"></span> <span>Sources</span></div>
+          <div class="legend-item" onclick="toggleGraphFilter('proposal')"><span class="legend-dot" style="background:var(--warn); border:1px dashed #fff;"></span> <span>Proposals (Incoming)</span></div>
+        </div>
+        <div class="graph-controls">
+          <div class="ctrl-btn" onclick="zoomGraph(1.2)" title="Zoom in">+</div>
+          <div class="ctrl-btn" onclick="zoomGraph(0.8)" title="Zoom out">−</div>
+          <div class="ctrl-btn" onclick="resetGraphView()" title="Center graph">⌖</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- VIEW 3: WIKI TABLE OF CONTENTS & KNOWLEDGE EXPLORER                 -->
+    <!-- =================================================================== -->
+    <div class="view-pane" id="pane-toc">
+      <div id="toc-pane">
+        <div id="toc-main">
+          <div class="toc-toolbar">
+            <div class="toc-search">
+              <input type="text" id="toc-search-input" placeholder="🔍 Filter knowledge catalog by title, tag, or content..." oninput="renderToc()">
+            </div>
+            <div class="toc-filter-chips">
+              <div class="chip active" data-type="all" onclick="filterTocType('all')">All</div>
+              <div class="chip" data-type="concept" onclick="filterTocType('concept')">Concepts</div>
+              <div class="chip" data-type="entity" onclick="filterTocType('entity')">Entities</div>
+              <div class="chip" data-type="comparison" onclick="filterTocType('comparison')">Comparisons</div>
+              <div class="chip" data-type="source" onclick="filterTocType('source')">Sources</div>
+              <div class="chip" data-type="proposal" onclick="filterTocType('proposal')">Proposals</div>
+            </div>
+          </div>
+          <div id="toc-list">Loading catalog...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- VIEW 4: INSIGHTS, RECOMMENDATIONS & HEALTH                          -->
+    <!-- =================================================================== -->
+    <div class="view-pane" id="pane-insights">
+      <div id="insights-pane">
+        <h2 style="font-size:1.3rem; color:#fff; margin-bottom:20px;">Wiki Architecture & Knowledge Health</h2>
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-val" id="metric-total-pages">0</div>
+            <div class="metric-label">Compiled Wiki Pages</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-val" id="metric-total-links" style="color:var(--purple);">0</div>
+            <div class="metric-label">Bidirectional Wikilinks</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-val" id="metric-density" style="color:var(--blue);">0.0</div>
+            <div class="metric-label">Graph Density (Edges/Node)</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-val" id="metric-proposals" style="color:var(--warn);">0</div>
+            <div class="metric-label">Incoming Staged Proposals</div>
+          </div>
+        </div>
+
+        <h3 style="font-size:1.1rem; color:#fff; margin-bottom:14px;">Librarian Process Recommendations</h3>
+        <div class="recs-container" id="recs-list">Loading recommendations...</div>
+      </div>
+    </div>
+
+    <!-- Shared Note Inspector Drawer (Slide-in) -->
+    <div id="note-drawer" style="display:none;">
+      <div id="note-drawer-header">
+        <div style="font-weight:600; font-size:0.95rem; color:#fff;" id="drawer-title">Note Preview</div>
+        <div style="cursor:pointer; color:var(--muted); font-size:1.2rem;" onclick="closeNoteDrawer()">✕</div>
+      </div>
+      <div id="note-drawer-body">
+        <div id="drawer-meta" style="margin-bottom:14px; font-size:0.8rem; color:var(--muted);"></div>
+        <div id="drawer-markdown" class="markdown-body"></div>
+        <div class="drawer-section" id="drawer-backlinks-section">
+          <div class="drawer-section-title">Backlinks (Mentioned In)</div>
+          <div id="drawer-backlinks"></div>
+        </div>
+        <div class="drawer-section" id="drawer-outbound-section">
+          <div class="drawer-section-title">Outbound Links</div>
+          <div id="drawer-outbound"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SCRIPT LOGIC -->
+  <script>
+    let currentView = 'review';
+    let proposals = [];
+    let activeProposal = null;
+    let currentReviewTab = 'preview';
+    let catalogItems = [];
+    let tocFilter = 'all';
+
+    // -------------------------------------------------------------------------
+    // VIEW SWITCHER
+    // -------------------------------------------------------------------------
+    function switchView(viewName) {
+      currentView = viewName;
+      document.querySelectorAll('.nav-tab').forEach(t => {
+        t.classList.toggle('active', t.getAttribute('data-view') === viewName);
+      });
+      document.querySelectorAll('.view-pane').forEach(p => {
+        p.classList.toggle('active', p.id === `pane-${viewName}`);
+      });
+      if (viewName === 'graph') {
+        resizeGraphCanvas();
+        startGraphSimulation();
+      } else if (viewName === 'toc') {
+        renderToc();
+      } else if (viewName === 'insights') {
+        loadInsights();
+      }
+    }
+
+    // -------------------------------------------------------------------------
+    // 1. PROPOSALS REVIEW CODE
+    // -------------------------------------------------------------------------
+    async function loadProposals(keepActive=false) {
+      const res = await fetch('/api/proposals');
+      proposals = await res.json();
+      document.getElementById('nav-count-proposals').innerText = proposals.length;
+      document.getElementById('stat-pending').innerText = proposals.filter(p => p.decision === 'pending').length;
+
+      const list = document.getElementById('proposals-list');
+      if (proposals.length === 0) {
+        list.innerHTML = '<div style="color:var(--muted); text-align:center; padding:20px;">No pending proposals in Review/</div>';
+        if (!keepActive) {
+          document.getElementById('active-title').innerText = 'No Proposals';
+          document.getElementById('proposal-actions').style.display = 'none';
+          document.getElementById('review-content').innerHTML = '<div style="color:var(--muted); text-align:center; margin-top:100px;"><h3>All caught up!</h3><p style="margin-top:8px;">No pending proposals in Review/</p></div>';
+          activeProposal = null;
+        }
+        return;
+      }
+
+      list.innerHTML = proposals.map((p, idx) => `
+        <div class="proposal-card ${activeProposal && activeProposal.filename === p.filename ? 'active' : ''}" onclick="selectProposal(${idx})">
+          <div class="card-title">${escapeHtml(p.target)}</div>
+          <div class="card-meta">
+            <span class="badge ${p.target_exists ? 'badge-entity' : 'badge-source'}">${p.target_exists ? '🔄 Update' : '✨ New'}</span>
+            <span class="badge badge-proposal">${p.decision}</span>
+          </div>
+          <div class="card-actions" onclick="event.stopPropagation()">
+            <button class="card-btn" style="background:var(--success); color:#000;" onclick="setCardDecision('${escapeHtml(p.filename)}', 'approve')">✓ Approve</button>
+            <button class="card-btn" style="background:var(--danger); color:#fff;" onclick="setCardDecision('${escapeHtml(p.filename)}', 'reject')">✕ Reject</button>
+            <button class="card-btn" style="background:var(--blue); color:#000;" onclick="applySingleProposal('${escapeHtml(p.filename)}')">⚡ Apply</button>
+          </div>
+        </div>
+      `).join('');
+
+      if (keepActive && activeProposal) {
+        const found = proposals.find(p => p.filename === activeProposal.filename);
+        if (found) { activeProposal = found; renderReviewProposal(); }
+      } else if (!activeProposal && proposals.length > 0) {
+        selectProposal(0);
+      }
+    }
+
+    function selectProposal(idx) {
+      activeProposal = proposals[idx];
+      renderReviewProposal();
+    }
+
+    function renderReviewProposal() {
+      if (!activeProposal) return;
+      document.getElementById('active-title').innerHTML = `
+        <span>${escapeHtml(activeProposal.target)}</span>
+        <span class="badge ${activeProposal.target_exists ? 'badge-entity' : 'badge-source'}" style="margin-left:8px;">${activeProposal.target_exists ? 'Update' : 'New File'}</span>
+        <span class="badge badge-proposal" style="margin-left:4px;">${activeProposal.decision}</span>
+      `;
+      document.getElementById('proposal-actions').style.display = 'flex';
+
+      const view = document.getElementById('review-content');
+      let mainHtml = '';
+
+      if (currentReviewTab === 'preview') {
+        mainHtml = `<div class="markdown-body">${renderMarkdown(activeProposal.proposed_content || activeProposal.body)}</div>`;
+      } else if (currentReviewTab === 'diff') {
+        if (activeProposal.target_exists) {
+          mainHtml = `
+            <div class="banner banner-update">🔄 Comparing existing file <code>${escapeHtml(activeProposal.target)}</code> with proposal</div>
+            <div class="diff-box">${renderDiff(activeProposal.diff_text)}</div>
+          `;
+        } else {
+          mainHtml = `
+            <div class="banner banner-new">✨ New File — will be created at <code>wiki/${escapeHtml(activeProposal.target)}</code></div>
+            <div class="diff-box">${renderDiff(activeProposal.proposed_content.split('\n').map(l => '+' + l).join('\n'))}</div>
+          `;
+        }
+      } else if (currentReviewTab === 'raw') {
+        mainHtml = `<pre style="background:#0e0e12; padding:16px; border-radius:8px; border:1px solid var(--border); overflow-x:auto; color:#b0bec5; font-size:0.85rem; line-height:1.5;">${escapeHtml(activeProposal.proposed_content || activeProposal.body)}</pre>`;
+      }
+
+      view.innerHTML = `
+        <div style="margin-bottom:14px; font-size:0.85rem; color:var(--muted);">
+          Source notes: <code>${escapeHtml(activeProposal.sources.join(', '))}</code>
+        </div>
+        ${mainHtml}
+        <div style="margin-top:24px; background:#181820; padding:16px; border-radius:8px; border:1px solid var(--border);">
+          <h4 style="color:#fff; font-size:0.9rem;">Human Feedback / Instructions:</h4>
+          <textarea id="feedback-input" style="width:100%; height:70px; background:#111116; border:1px solid var(--border); border-radius:6px; color:#fff; padding:10px; margin-top:8px; resize:vertical;" placeholder="Type instructions for the agent...">${escapeHtml(activeProposal.feedback || '')}</textarea>
+          <button style="margin-top:8px; background:var(--border); color:#fff;" onclick="saveFeedback()">Save Feedback</button>
+        </div>
+      `;
+
+      document.querySelectorAll('.proposal-card').forEach((c, i) => {
+        c.classList.toggle('active', proposals[i] && proposals[i].filename === activeProposal.filename);
+      });
+    }
+
+    function switchReviewTab(tab) {
+      currentReviewTab = tab;
+      document.querySelectorAll('.review-tab').forEach(t => {
+        t.classList.toggle('active', t.getAttribute('data-tab') === tab);
+      });
+      renderReviewProposal();
+    }
+
+    async function setCardDecision(filename, decision) {
+      await fetch('/api/proposals/decision', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ filename: filename, decision: decision })
+      });
+      loadProposals(true);
+    }
+
+    async function setDecision(decision) {
+      if (!activeProposal) return;
+      await setCardDecision(activeProposal.filename, decision);
+    }
+
+    async function applySingleProposal(filename) {
+      if (!confirm(`Apply proposal ${filename} into compiled wiki now?`)) return;
+      const res = await fetch('/api/proposals/apply-single', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ filename: filename })
+      });
+      const data = await res.json();
+      if (data.success) {
+        alert(`Successfully applied: ${filename}`);
+        refreshAllData();
+      } else {
+        alert(`Apply failed: ${data.message}`);
+      }
+    }
+
+    async function applyThis() {
+      if (!activeProposal) return;
+      await applySingleProposal(activeProposal.filename);
+    }
+
+    async function saveFeedback() {
+      if (!activeProposal) return;
+      const fb = document.getElementById('feedback-input').value;
+      await fetch('/api/proposals/feedback', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ filename: activeProposal.filename, feedback: fb })
+      });
+      alert('Feedback saved to proposal note!');
+      loadProposals(true);
+    }
+
+    async function applyAll() {
+      if (!confirm("Apply all approved proposals into compiled wiki pages?")) return;
+      const res = await fetch('/api/apply', { method: 'POST' });
+      const data = await res.json();
+      alert(data.message);
+      refreshAllData();
+    }
+
+    // -------------------------------------------------------------------------
+    // 2. OBSIDIAN GRAPH PREVIEW (Force-Directed HTML5 Canvas Engine)
+    // -------------------------------------------------------------------------
+    let graphData = { nodes: [], edges: [] };
+    let graphNodes = [];
+    let graphEdges = [];
+    let graphCanvas, graphCtx;
+    let zoom = 1.0;
+    let panX = 0, panY = 0;
+    let isPanning = false, startPanX = 0, startPanY = 0;
+    let draggedNode = null;
+    let hoveredNode = null;
+    let selectedNode = null;
+    let graphFilterTypes = { concept: true, entity: true, comparison: true, source: true, proposal: true };
+    let graphSearchQuery = '';
+    let animFrameId = null;
+
+    const TYPE_COLORS = {
+      concept: '#b388ff',
+      entity: '#40c4ff',
+      comparison: '#ff9100',
+      source: '#00e676',
+      proposal: '#ffd600'
+    };
+
+    async function initGraph() {
+      graphCanvas = document.getElementById('graph-canvas');
+      graphCtx = graphCanvas.getContext('2d');
+      setupGraphEvents();
+      await fetchGraphData();
+    }
+
+    async function fetchGraphData() {
+      const res = await fetch('/api/graph');
+      graphData = await res.json();
+      document.getElementById('graph-nodes-count').innerText = graphData.nodes.length;
+      document.getElementById('graph-edges-count').innerText = graphData.edges.length;
+
+      // Initialize coordinates
+      const width = graphCanvas.width || 800;
+      const height = graphCanvas.height || 600;
+
+      graphNodes = graphData.nodes.map(n => {
+        const angle = Math.random() * Math.PI * 2;
+        const radius = 50 + Math.random() * 250;
+        return {
+          ...n,
+          x: (width / 2) + Math.cos(angle) * radius,
+          y: (height / 2) + Math.sin(angle) * radius,
+          vx: 0,
+          vy: 0,
+          radius: 5 + Math.min(14, Math.sqrt(n.degree || 1) * 3)
+        };
+      });
+
+      const nodeIndexMap = {};
+      graphNodes.forEach((n, idx) => { nodeIndexMap[n.id] = n; });
+
+      graphEdges = graphData.edges.map(e => ({
+        sourceNode: nodeIndexMap[e.source],
+        targetNode: nodeIndexMap[e.target]
+      })).filter(e => e.sourceNode && e.targetNode);
+
+      resetGraphView();
+    }
+
+    function resizeGraphCanvas() {
+      if (!graphCanvas) return;
+      const rect = graphCanvas.parentElement.getBoundingClientRect();
+      graphCanvas.width = rect.width;
+      graphCanvas.height = rect.height;
+    }
+
+    function resetGraphView() {
+      if (!graphCanvas) return;
+      zoom = 1.0;
+      panX = graphCanvas.width / 2;
+      panY = graphCanvas.height / 2;
+    }
+
+    function zoomGraph(factor) {
+      zoom *= factor;
+      zoom = Math.max(0.2, Math.min(4.0, zoom));
+    }
+
+    function setupGraphEvents() {
+      graphCanvas.addEventListener('mousedown', (e) => {
+        const mouse = screenToGraph(e.clientX, e.clientY);
+        const hit = findNodeAt(mouse.x, mouse.y);
+        if (hit) {
+          draggedNode = hit;
+          selectedNode = hit;
+          openNoteInspector(hit.path, hit.label);
+        } else {
+          isPanning = true;
+          startPanX = e.clientX - panX;
+          startPanY = e.clientY - panY;
+          selectedNode = null;
+          closeNoteDrawer();
+        }
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        if (currentView !== 'graph') return;
+        if (isPanning) {
+          panX = e.clientX - startPanX;
+          panY = e.clientY - startPanY;
+        } else if (draggedNode) {
+          const mouse = screenToGraph(e.clientX, e.clientY);
+          draggedNode.x = mouse.x;
+          draggedNode.y = mouse.y;
+          draggedNode.vx = 0;
+          draggedNode.vy = 0;
+        } else {
+          const rect = graphCanvas.getBoundingClientRect();
+          const mouse = screenToGraph(e.clientX, e.clientY);
+          hoveredNode = findNodeAt(mouse.x, mouse.y);
+          graphCanvas.style.cursor = hoveredNode ? 'pointer' : 'grab';
+        }
+      });
+
+      window.addEventListener('mouseup', () => {
+        isPanning = false;
+        draggedNode = null;
+      });
+
+      graphCanvas.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        const factor = e.deltaY < 0 ? 1.1 : 0.9;
+        zoomGraph(factor);
+      }, { passive: false });
+    }
+
+    function screenToGraph(cx, cy) {
+      const rect = graphCanvas.getBoundingClientRect();
+      return {
+        x: (cx - rect.left - panX) / zoom,
+        y: (cy - rect.top - panY) / zoom
+      };
+    }
+
+    function findNodeAt(x, y) {
+      for (let i = graphNodes.length - 1; i >= 0; i--) {
+        const n = graphNodes[i];
+        if (!graphFilterTypes[n.type]) continue;
+        const dx = n.x - x;
+        const dy = n.y - y;
+        if (Math.sqrt(dx * dx + dy * dy) <= n.radius + 4) {
+          return n;
+        }
+      }
+      return null;
+    }
+
+    function toggleGraphFilter(type) {
+      graphFilterTypes[type] = !graphFilterTypes[type];
+      document.querySelectorAll('.legend-item').forEach(el => {
+        if (el.innerText.toLowerCase().includes(type)) {
+          el.style.opacity = graphFilterTypes[type] ? '1' : '0.35';
+        }
+      });
+    }
+
+    function onGraphSearch(query) {
+      graphSearchQuery = query.toLowerCase().trim();
+    }
+
+    function startGraphSimulation() {
+      if (animFrameId) cancelAnimationFrame(animFrameId);
+      function step() {
+        if (currentView === 'graph') {
+          updateGraphPhysics();
+          drawGraph();
+        }
+        animFrameId = requestAnimationFrame(step);
+      }
+      animFrameId = requestAnimationFrame(step);
+    }
+
+    function updateGraphPhysics() {
+      const activeNodes = graphNodes.filter(n => graphFilterTypes[n.type]);
+      const repulsion = 1400;
+      const springLength = 110;
+      const springStrength = 0.04;
+      const centerGravity = 0.015;
+
+      // Repulsion between nodes
+      for (let i = 0; i < activeNodes.length; i++) {
+        const na = activeNodes[i];
+        for (let j = i + 1; j < activeNodes.length; j++) {
+          const nb = activeNodes[j];
+          let dx = nb.x - na.x;
+          let dy = nb.y - na.y;
+          let dist = Math.sqrt(dx * dx + dy * dy) || 1;
+          if (dist < 400) {
+            let force = repulsion / (dist * dist);
+            let fx = (dx / dist) * force;
+            let fy = (dy / dist) * force;
+            if (na !== draggedNode) { na.vx -= fx; na.vy -= fy; }
+            if (nb !== draggedNode) { nb.vx += fx; nb.vy += fy; }
+          }
+        }
+      }
+
+      // Edge spring attraction
+      graphEdges.forEach(e => {
+        if (!graphFilterTypes[e.sourceNode.type] || !graphFilterTypes[e.targetNode.type]) return;
+        let dx = e.targetNode.x - e.sourceNode.x;
+        let dy = e.targetNode.y - e.sourceNode.y;
+        let dist = Math.sqrt(dx * dx + dy * dy) || 1;
+        let force = (dist - springLength) * springStrength;
+        let fx = (dx / dist) * force;
+        let fy = (dy / dist) * force;
+        if (e.sourceNode !== draggedNode) { e.sourceNode.vx += fx; e.sourceNode.vy += fy; }
+        if (e.targetNode !== draggedNode) { e.targetNode.vx -= fx; e.targetNode.vy -= fy; }
+      });
+
+      // Damping and center gravity
+      activeNodes.forEach(n => {
+        if (n === draggedNode) return;
+        n.vx -= n.x * centerGravity;
+        n.vy -= n.y * centerGravity;
+        n.vx *= 0.85;
+        n.vy *= 0.85;
+        n.x += n.vx;
+        n.y += n.vy;
+      });
+    }
+
+    function drawGraph() {
+      if (!graphCtx) return;
+      const w = graphCanvas.width;
+      const h = graphCanvas.height;
+      graphCtx.clearRect(0, 0, w, h);
+
+      graphCtx.save();
+      graphCtx.translate(panX, panY);
+      graphCtx.scale(zoom, zoom);
+
+      const activeNeighbors = new Set();
+      if (selectedNode) {
+        activeNeighbors.add(selectedNode.id);
+        graphEdges.forEach(e => {
+          if (e.sourceNode.id === selectedNode.id) activeNeighbors.add(e.targetNode.id);
+          if (e.targetNode.id === selectedNode.id) activeNeighbors.add(e.sourceNode.id);
+        });
+      }
+
+      // Draw Edges
+      graphEdges.forEach(e => {
+        if (!graphFilterTypes[e.sourceNode.type] || !graphFilterTypes[e.targetNode.type]) return;
+        const isHighlight = selectedNode && (e.sourceNode.id === selectedNode.id || e.targetNode.id === selectedNode.id);
+        const isDim = selectedNode && !isHighlight;
+
+        graphCtx.beginPath();
+        graphCtx.moveTo(e.sourceNode.x, e.sourceNode.y);
+        graphCtx.lineTo(e.targetNode.x, e.targetNode.y);
+        graphCtx.strokeStyle = isHighlight ? 'rgba(179, 136, 255, 0.7)' : (isDim ? 'rgba(255,255,255,0.03)' : 'rgba(255,255,255,0.12)');
+        graphCtx.lineWidth = isHighlight ? 2 : 1;
+        graphCtx.stroke();
+      });
+
+      // Draw Nodes
+      graphNodes.forEach(n => {
+        if (!graphFilterTypes[n.type]) return;
+        const color = TYPE_COLORS[n.type] || '#fff';
+        const isSelected = selectedNode && selectedNode.id === n.id;
+        const isNeighbor = activeNeighbors.has(n.id);
+        const isMatchSearch = graphSearchQuery && n.label.toLowerCase().includes(graphSearchQuery);
+        const isDim = selectedNode && !isNeighbor;
+
+        graphCtx.save();
+        graphCtx.globalAlpha = isDim ? 0.2 : 1.0;
+
+        // Proposal halo/glow
+        if (n.is_proposal) {
+          graphCtx.beginPath();
+          graphCtx.arc(n.x, n.y, n.radius + 3, 0, Math.PI * 2);
+          graphCtx.strokeStyle = 'rgba(255, 214, 0, 0.5)';
+          graphCtx.setLineDash([3, 3]);
+          graphCtx.lineWidth = 1.5;
+          graphCtx.stroke();
+          graphCtx.setLineDash([]);
+        }
+
+        // Selection / Search highlight halo
+        if (isSelected || isMatchSearch) {
+          graphCtx.beginPath();
+          graphCtx.arc(n.x, n.y, n.radius + 5, 0, Math.PI * 2);
+          graphCtx.strokeStyle = isSelected ? 'rgba(179, 136, 255, 0.9)' : 'rgba(64, 196, 255, 0.9)';
+          graphCtx.lineWidth = 2.5;
+          graphCtx.stroke();
+        }
+
+        // Node Circle
+        graphCtx.beginPath();
+        graphCtx.arc(n.x, n.y, n.radius, 0, Math.PI * 2);
+        graphCtx.fillStyle = color;
+        graphCtx.fill();
+
+        // Node Label
+        const showLabel = zoom > 0.85 || isSelected || isNeighbor || isMatchSearch || (hoveredNode && hoveredNode.id === n.id);
+        if (showLabel) {
+          graphCtx.font = `${Math.max(10, 11 / zoom)}px -apple-system, BlinkMacSystemFont, sans-serif`;
+          graphCtx.fillStyle = '#e0e0e8';
+          graphCtx.textAlign = 'center';
+          graphCtx.fillText(n.label, n.x, n.y + n.radius + 12);
+        }
+
+        graphCtx.restore();
+      });
+
+      graphCtx.restore();
+    }
+
+    // -------------------------------------------------------------------------
+    // 3. TABLE OF CONTENTS / WIKI CATALOG
+    // -------------------------------------------------------------------------
+    async function loadCatalog() {
+      const res = await fetch('/api/toc');
+      catalogItems = await res.json();
+      document.getElementById('nav-count-toc').innerText = catalogItems.length;
+      renderToc();
+    }
+
+    function filterTocType(type) {
+      tocFilter = type;
+      document.querySelectorAll('.toc-filter-chips .chip').forEach(c => {
+        c.classList.toggle('active', c.getAttribute('data-type') === type);
+      });
+      renderToc();
+    }
+
+    function renderToc() {
+      const list = document.getElementById('toc-list');
+      const query = (document.getElementById('toc-search-input') ? document.getElementById('toc-search-input').value : '').toLowerCase().trim();
+
+      const filtered = catalogItems.filter(item => {
+        if (tocFilter !== 'all' && item.type !== tocFilter) return false;
+        if (query) {
+          const matchTitle = item.title.toLowerCase().includes(query);
+          const matchTags = item.tags && item.tags.some(t => t.toLowerCase().includes(query));
+          const matchExcerpt = item.excerpt && item.excerpt.toLowerCase().includes(query);
+          if (!matchTitle && !matchTags && !matchExcerpt) return false;
+        }
+        return true;
+      });
+
+      if (filtered.length === 0) {
+        list.innerHTML = `<div style="grid-column: 1/-1; text-align:center; padding:50px; color:var(--muted);">No matching notes found.</div>`;
+        return;
+      }
+
+      list.innerHTML = filtered.map(item => `
+        <div class="toc-card" onclick="openNoteInspector('${escapeHtml(item.path)}', '${escapeHtml(item.title)}')">
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <span class="badge badge-${item.type}">${item.type}</span>
+              <span style="font-size:0.75rem; color:#6a6a78;">${item.updated || ''}</span>
+            </div>
+            <div class="toc-card-title">${escapeHtml(item.title)}</div>
+            <div class="toc-card-excerpt">${escapeHtml(item.excerpt || 'No description available.')}</div>
+          </div>
+          <div class="toc-card-footer">
+            <span>🏷️ ${(item.tags || []).slice(0, 3).join(', ') || 'no tags'}</span>
+            <span>🔗 ${item.in_count || 0} in · ${item.out_count || 0} out</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // -------------------------------------------------------------------------
+    // 4. NOTE INSPECTOR / READING PANE DRAWER
+    // -------------------------------------------------------------------------
+    async function openNoteInspector(notePath, noteTitle) {
+      if (!notePath) return;
+      const drawer = document.getElementById('note-drawer');
+      drawer.style.display = 'flex';
+      document.getElementById('drawer-title').innerText = noteTitle || 'Note Reading View';
+      document.getElementById('drawer-meta').innerText = `Path: wiki/${notePath}`;
+      document.getElementById('drawer-markdown').innerHTML = '<div style="color:var(--muted); padding:20px;">Loading note content...</div>';
+
+      const res = await fetch(`/api/note?path=${encodeURIComponent(notePath)}`);
+      const note = await res.json();
+      if (note.error) {
+        document.getElementById('drawer-markdown').innerHTML = `<div style="color:var(--danger);">${note.error}</div>`;
+        return;
+      }
+
+      document.getElementById('drawer-markdown').innerHTML = renderMarkdown(note.body || note.raw);
+
+      // Render Backlinks
+      const bSection = document.getElementById('drawer-backlinks');
+      if (note.backlinks && note.backlinks.length > 0) {
+        bSection.innerHTML = note.backlinks.map(b => `
+          <a class="backlink-pill" onclick="openNoteInspector('${escapeHtml(b.path)}', '${escapeHtml(b.title)}')">
+            <span>[[${escapeHtml(b.title)}]]</span>
+            <span style="font-size:0.7rem; color:var(--muted);">${b.type}</span>
+          </a>
+        `).join('');
+      } else {
+        bSection.innerHTML = '<span style="color:#6a6a78; font-size:0.78rem;">No inbound backlinks found.</span>';
+      }
+
+      // Render Outbound Links
+      const oSection = document.getElementById('drawer-outbound');
+      if (note.outbound && note.outbound.length > 0) {
+        oSection.innerHTML = note.outbound.map(l => `
+          <span class="backlink-pill" style="color:var(--blue);">
+            <span>[[${escapeHtml(l)}]]</span>
+          </span>
+        `).join('');
+      } else {
+        oSection.innerHTML = '<span style="color:#6a6a78; font-size:0.78rem;">No outbound links.</span>';
+      }
+    }
+
+    function closeNoteDrawer() {
+      document.getElementById('note-drawer').style.display = 'none';
+      selectedNode = null;
+    }
+
+    // -------------------------------------------------------------------------
+    // 5. INSIGHTS & RECOMMENDATIONS
+    // -------------------------------------------------------------------------
+    async function loadInsights() {
+      const statsRes = await fetch('/api/stats');
+      const stats = await statsRes.json();
+      document.getElementById('metric-total-pages').innerText = stats.total_pages || 0;
+      document.getElementById('metric-total-links').innerText = stats.total_links || 0;
+      const density = stats.total_pages > 0 ? (stats.total_links / stats.total_pages).toFixed(1) : 0;
+      document.getElementById('metric-density').innerText = density;
+      document.getElementById('metric-proposals').innerText = stats.proposals_count || 0;
+
+      const recsRes = await fetch('/api/recommendations');
+      const recs = await recsRes.json();
+      const list = document.getElementById('recs-list');
+      if (recs.length === 0) {
+        list.innerHTML = '<div style="color:var(--muted); padding:20px;">Vault is fully optimized! No pending recommendations.</div>';
+        return;
+      }
+      list.innerHTML = recs.map(r => `
+        <div class="rec-card rec-${(r.priority || 'low').toLowerCase()}">
+          <div class="rec-header">
+            <span class="rec-title">${escapeHtml(r.title)}</span>
+            <span class="badge badge-${(r.priority || 'low').toLowerCase()}">${r.priority}</span>
+          </div>
+          <div class="rec-details">${escapeHtml(r.details)}</div>
+          <div class="rec-action">👉 Recommended Action: ${escapeHtml(r.action)}</div>
+        </div>
+      `).join('');
+    }
+
+    // -------------------------------------------------------------------------
+    // HELPERS (Markdown & Diff Rendering)
+    // -------------------------------------------------------------------------
+    function renderMarkdown(md) {
+      if (!md) return '';
+      let text = md.replace(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (match, target, alias) => {
+        return `<span class="wikilink">[[${alias || target}]]</span>`;
+      });
+      if (window.marked && window.marked.parse) {
+        try { return marked.parse(text); } catch(e) {}
+      }
+      return '<pre>' + escapeHtml(text) + '</pre>';
+    }
+
+    function renderDiff(diffText) {
+      if (!diffText) return '<div style="color:var(--muted); padding:10px;">No differences detected.</div>';
+      return diffText.split('\n').map(line => {
+        let cls = 'diff-ctx';
+        if (line.startsWith('+') && !line.startsWith('+++')) cls = 'diff-add';
+        else if (line.startsWith('-') && !line.startsWith('---')) cls = 'diff-del';
+        else if (line.startsWith('@@')) cls = 'diff-hunk';
+        return `<div class="diff-line ${cls}">${escapeHtml(line)}</div>`;
+      }).join('');
+    }
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      return String(text).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+
+    async function refreshAllData() {
+      await loadProposals(true);
+      await loadCatalog();
+      await fetchGraphData();
+    }
+
+    // Initialization
+    async function initApp() {
+      await loadProposals();
+      await loadCatalog();
+      await initGraph();
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initApp);
+    } else {
+      initApp();
+    }
+
+    window.addEventListener('resize', () => {
+      if (currentView === 'graph') resizeGraphCanvas();
+    });
+  </script>
+</body>
+</html>

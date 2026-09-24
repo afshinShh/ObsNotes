@@ -542,383 +542,308 @@ def cmd_lint(args):
 
 
 # ==============================================================================
-# 8. DECISION STUDIO (Web Review UI)
+# 8. DECISION STUDIO & KNOWLEDGE EXPLORER BACKEND
 # ==============================================================================
-STUDIO_HTML = """<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Agentic Librarian — Decision Studio</title>
-  <script src="/marked.min.js"></script>
-  <style>
-    :root {
-      --bg: #1a1a20;
-      --sidebar-bg: #141418;
-      --card-bg: #22222b;
-      --card-hover: #2c2c37;
-      --accent: #7c4dff;
-      --accent-hover: #966eff;
-      --text: #e0e0e8;
-      --muted: #9e9ea8;
-      --border: #323240;
-      --success: #00c853;
-      --danger: #ff5252;
-      --warn: #ffd600;
-      --blue: #40c4ff;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
-    body { background: var(--bg); color: var(--text); display: flex; height: 100vh; overflow: hidden; }
-    #sidebar { width: 400px; border-right: 1px solid var(--border); display: flex; flex-direction: column; background: var(--sidebar-bg); }
-    #header { padding: 16px 18px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-    #header h2 { font-size: 1.05rem; color: #fff; display: flex; align-items: center; gap: 8px; }
-    #stats { padding: 10px 18px; background: rgba(124, 77, 255, 0.08); border-bottom: 1px solid var(--border); font-size: 0.8rem; color: var(--muted); display: flex; justify-content: space-between; }
-    #proposals-list { flex: 1; overflow-y: auto; padding: 12px; }
-    
-    .proposal-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; margin-bottom: 10px; cursor: pointer; transition: all 0.15s; }
-    .proposal-card:hover { border-color: var(--accent); background: var(--card-hover); }
-    .proposal-card.active { border-color: var(--accent); background: #2f2f3d; }
-    .card-title { font-weight: 600; font-size: 0.92rem; margin-bottom: 6px; color: #fff; word-break: break-all; }
-    .card-meta { font-size: 0.78rem; color: var(--muted); display: flex; justify-content: space-between; align-items: center; }
-    .card-actions { display: flex; gap: 6px; margin-top: 8px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 8px; }
-    .card-btn { padding: 3px 8px; font-size: 0.75rem; border-radius: 4px; border: none; cursor: pointer; font-weight: 600; transition: 0.1s; }
-    
-    .badge { padding: 2px 7px; border-radius: 10px; font-size: 0.72rem; font-weight: bold; text-transform: uppercase; }
-    .badge-pending { background: #3e381e; color: var(--warn); }
-    .badge-approve { background: #1b3d27; color: var(--success); }
-    .badge-reject { background: #3d1b1b; color: var(--danger); }
-    .badge-applied { background: #1a237e; color: #82b1ff; }
-    .badge-op-new { background: rgba(0, 200, 83, 0.15); color: #00e676; }
-    .badge-op-update { background: rgba(64, 196, 255, 0.15); color: #40c4ff; }
+def get_studio_html():
+    studio_html_file = os.path.join(SCRIPT_DIR, "studio.html")
+    if os.path.exists(studio_html_file):
+        with open(studio_html_file, "r", encoding="utf-8") as f:
+            return f.read()
+    return "<html><body>Decision Studio HTML template not found at " + studio_html_file + "</body></html>"
 
-    #main { flex: 1; display: flex; flex-direction: column; background: var(--bg); overflow: hidden; }
-    #toolbar { padding: 12px 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: #1f1f26; }
-    .toolbar-left { display: flex; align-items: center; gap: 8px; }
-    .btn-group { display: flex; gap: 8px; align-items: center; }
-    button { padding: 7px 14px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: 0.15s; font-size: 0.82rem; }
-    .btn-approve { background: var(--success); color: #000; }
-    .btn-approve:hover { filter: brightness(1.15); }
-    .btn-reject { background: var(--danger); color: #fff; }
-    .btn-apply-one { background: var(--blue); color: #000; }
-    .btn-apply-one:hover { filter: brightness(1.15); }
-    .btn-apply-all { background: var(--accent); color: #fff; }
-    .btn-apply-all:hover { background: var(--accent-hover); }
 
-    #tab-bar { display: none; background: #18181f; border-bottom: 1px solid var(--border); padding: 0 24px; }
-    .tab { padding: 10px 16px; font-size: 0.85rem; font-weight: 600; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; transition: 0.15s; }
-    .tab:hover { color: #fff; }
-    .tab.active { color: #fff; border-bottom-color: var(--accent); }
+def get_recommendations_list():
+    recs = []
+    # 1. Check Pending Decisions
+    props = []
+    if os.path.exists(REVIEW_DIR):
+        props = [p for p in os.listdir(REVIEW_DIR) if p.endswith(".md")]
+    if props:
+        recs.append({
+            "type": "decision_gate",
+            "priority": "HIGH",
+            "title": f"{len(props)} Staged Review Proposals Waiting for Decision",
+            "details": f"There are {len(props)} proposals in wiki/Review/. Decision Studio is active at http://127.0.0.1:20888.",
+            "action": "Review in Decision Studio and run 'librarian apply' to compile."
+        })
 
-    #content-view { flex: 1; overflow-y: auto; padding: 24px 30px; }
-    
-    .markdown-body { color: #e0e0e8; line-height: 1.6; font-size: 0.95rem; }
-    .markdown-body h1 { font-size: 1.6rem; color: #fff; margin: 18px 0 10px; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
-    .markdown-body h2 { font-size: 1.3rem; color: #fff; margin: 18px 0 10px; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
-    .markdown-body h3 { font-size: 1.1rem; color: #fff; margin: 14px 0 8px; }
-    .markdown-body p { margin-bottom: 12px; }
-    .markdown-body ul, .markdown-body ol { margin-left: 22px; margin-bottom: 14px; }
-    .markdown-body li { margin-bottom: 4px; }
-    .markdown-body table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
-    .markdown-body th, .markdown-body td { border: 1px solid var(--border); padding: 8px 12px; text-align: left; }
-    .markdown-body th { background: #23232c; color: #fff; font-weight: 600; }
-    .markdown-body tr:nth-child(even) { background: rgba(255,255,255,0.02); }
-    .markdown-body code { background: #131318; padding: 2px 6px; border-radius: 4px; color: #ff80ab; font-size: 0.88em; font-family: monospace; }
-    .markdown-body pre { background: #131318; padding: 14px; border-radius: 6px; border: 1px solid var(--border); overflow-x: auto; margin-bottom: 14px; }
-    .markdown-body pre code { background: transparent; padding: 0; color: #b0bec5; }
-    .markdown-body blockquote { border-left: 4px solid var(--accent); padding-left: 14px; color: var(--muted); margin-bottom: 14px; }
-    .wikilink { background: rgba(124, 77, 255, 0.16); color: #b388ff; padding: 2px 6px; border-radius: 4px; font-weight: 500; font-family: monospace; }
-
-    .diff-box { background: #111115; border: 1px solid var(--border); border-radius: 8px; padding: 14px; font-family: monospace; font-size: 0.85rem; line-height: 1.45; overflow-x: auto; }
-    .diff-line { white-space: pre-wrap; padding: 1px 6px; }
-    .diff-add { background: rgba(0, 200, 83, 0.18); color: #00e676; }
-    .diff-del { background: rgba(255, 82, 82, 0.18); color: #ff5252; }
-    .diff-hunk { background: rgba(124, 77, 255, 0.2); color: #80d8ff; font-weight: bold; }
-    .diff-ctx { color: #888894; }
-    .banner { padding: 10px 14px; border-radius: 6px; margin-bottom: 14px; font-size: 0.85rem; font-weight: 500; }
-    .banner-new { background: rgba(0, 200, 83, 0.1); border: 1px solid var(--success); color: #00e676; }
-    .banner-update { background: rgba(64, 196, 255, 0.1); border: 1px solid var(--blue); color: #40c4ff; }
-
-    .feedback-box { margin-top: 24px; background: #1f1f26; padding: 16px; border-radius: 8px; border: 1px solid var(--border); }
-    textarea { width: 100%; height: 75px; background: #141418; border: 1px solid var(--border); border-radius: 6px; color: #fff; padding: 10px; margin-top: 8px; resize: vertical; }
-  </style>
-</head>
-<body>
-  <div id="sidebar">
-    <div id="header">
-      <h2>🧠 Decision Studio</h2>
-      <button class="btn-apply-all" onclick="applyAll()">⚡ Apply Approved</button>
-    </div>
-    <div id="stats">
-      <span>Pending: <b id="stat-pending">0</b></span>
-      <span>Wiki Pages: <b id="stat-pages">0</b></span>
-      <span>Health: <b id="stat-health" style="color:var(--success)">OK</b></span>
-    </div>
-    <div id="proposals-list">Loading proposals...</div>
-  </div>
-  <div id="main">
-    <div id="toolbar">
-      <div class="toolbar-left" id="active-title" style="font-weight: 600; font-size: 1.05rem; color: #fff;">Select a Proposal</div>
-      <div class="btn-group" id="actions" style="display:none;">
-        <button class="btn-approve" onclick="setDecision('approve')">✓ Approve</button>
-        <button class="btn-reject" onclick="setDecision('reject')">✕ Reject</button>
-        <button class="btn-apply-one" onclick="applyThis()">⚡ Apply This Proposal</button>
-      </div>
-    </div>
-    <div id="tab-bar">
-      <div class="tab active" data-tab="preview" onclick="switchTab('preview')">📖 Rendered Preview</div>
-      <div class="tab" data-tab="diff" onclick="switchTab('diff')">🔍 File Diff / Changes</div>
-      <div class="tab" data-tab="raw" onclick="switchTab('raw')">📝 Raw Markdown</div>
-    </div>
-    <div id="content-view">
-      <div style="color: var(--muted); text-align: center; margin-top: 100px;">
-        <h3>No Proposal Selected</h3>
-        <p style="margin-top: 8px;">Select a proposal from the left panel to review parsed content, diffs, and grant approval.</p>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    let proposals = [];
-    let activeProposal = null;
-    let currentTab = 'preview';
-
-    async function loadData(keepActive=false) {
-      const res = await fetch('/api/proposals');
-      proposals = await res.json();
-      const statsRes = await fetch('/api/stats');
-      const stats = await statsRes.json();
-
-      document.getElementById('stat-pending').innerText = proposals.filter(p => p.decision === 'pending').length;
-      document.getElementById('stat-pages').innerText = stats.total_pages;
-
-      const list = document.getElementById('proposals-list');
-      if (proposals.length === 0) {
-        list.innerHTML = '<div style="color:var(--muted); text-align:center; padding:20px;">No pending proposals in Review/</div>';
-        if (!keepActive) {
-          document.getElementById('active-title').innerText = 'No Proposals';
-          document.getElementById('actions').style.display = 'none';
-          document.getElementById('tab-bar').style.display = 'none';
-          document.getElementById('content-view').innerHTML = '<div style="color:var(--muted); text-align:center; margin-top:100px;"><h3>All caught up!</h3><p style="margin-top:8px;">No pending proposals in Review/</p></div>';
-          activeProposal = null;
+    # 2. Analyze Unprocessed Notes Clustering
+    unproc_dir = os.path.join(VAULT_ROOT, "unprocessed-obsidians")
+    if os.path.exists(unproc_dir):
+        files = [f for f in os.listdir(unproc_dir) if f.endswith(".md")]
+        clusters = {
+            "Auth & Session": ["jwt.md", "oauth.md", "idor.md"],
+            "Web Injection": ["sql-injection.md", "xss.md", "xxe.md", "ssrf.md", "ssti.md", "parameter-pollution.md"],
+            "Protocols & Desync": ["req-smuggle.md", "graphql.md"],
+            "Binary & Low-Level": ["insecure-deserialization.md", "shellcode.md", "fuzzing.md"],
+            "Recon & OSINT": ["osint.md", "osint-method.md"],
+            "Defenses & Evasion": ["edr.md", "mitigations.md", "initial-access.md"]
         }
-        return;
-      }
+        found_clusters = {}
+        for cname, cfiles in clusters.items():
+            matching = [f for f in files if f in cfiles]
+            if matching:
+                found_clusters[cname] = matching
 
-      list.innerHTML = proposals.map((p, idx) => `
-        <div class="proposal-card ${activeProposal && activeProposal.filename === p.filename ? 'active' : ''}" onclick="selectProposal(${idx})">
-          <div class="card-title">${escapeHtml(p.target)}</div>
-          <div class="card-meta">
-            <span class="badge ${p.target_exists ? 'badge-op-update' : 'badge-op-new'}">${p.target_exists ? '🔄 Update' : '✨ New'}</span>
-            <span class="badge badge-${p.decision}">${p.decision}</span>
-          </div>
-          <div class="card-actions" onclick="event.stopPropagation()">
-            <button class="card-btn" style="background:var(--success); color:#000;" title="Approve" onclick="setCardDecision('${escapeHtml(p.filename)}', 'approve')">✓ Approve</button>
-            <button class="card-btn" style="background:var(--danger); color:#fff;" title="Reject" onclick="setCardDecision('${escapeHtml(p.filename)}', 'reject')">✕ Reject</button>
-            <button class="card-btn" style="background:var(--blue); color:#000;" title="Apply this proposal now" onclick="applySingleProposal('${escapeHtml(p.filename)}')">⚡ Apply</button>
-          </div>
-        </div>
-      `).join('');
+        if found_clusters:
+            details = ", ".join([f"{k} ({len(v)} notes: {', '.join(v[:3])})" for k, v in found_clusters.items()])
+            recs.append({
+                "type": "batch_enrichment",
+                "priority": "MEDIUM",
+                "title": f"Batch Ingestion Opportunity: {len(files)} Unprocessed Notes",
+                "details": f"Recommended ingestion by theme: {details}",
+                "action": "Ingest related clusters together so the LLM creates rich, cross-linked concepts in single batches."
+            })
 
-      if (keepActive && activeProposal) {
-        const found = proposals.find(p => p.filename === activeProposal.filename);
-        if (found) {
-          activeProposal = found;
-          renderProposal();
-        }
-      } else if (!activeProposal && proposals.length > 0) {
-        selectProposal(0);
-      }
+    # 3. Cross-linking & Comparison Opportunities
+    compiled_concepts = []
+    if os.path.exists(CONCEPTS_DIR):
+        compiled_concepts = [f[:-3] for f in os.listdir(CONCEPTS_DIR) if f.endswith(".md")]
+
+    if "blind-ssrf-gopher-redis-rce" in compiled_concepts and "fastcgi-ssrf-exploitation" in compiled_concepts:
+        if not os.path.exists(os.path.join(COMPARISONS_DIR, "redis-vs-fastcgi-ssrf-pivoting.md")):
+            recs.append({
+                "type": "comparison_synthesis",
+                "priority": "LOW",
+                "title": "Comparison Candidate: Redis vs FastCGI SSRF Pivoting",
+                "details": "Both internal Gopher SSRF primitives are compiled. A comparison note evaluating preconditions, stealth, and OS access limits would deepen the knowledge base.",
+                "action": "Generate comparison under wiki/comparisons/redis-vs-fastcgi-ssrf-pivoting.md"
+            })
+
+    # 4. Schema & Taxonomy Check
+    schema_tags = load_schema_taxonomy()
+    used_tags = set()
+    for cat_dir in [CONCEPTS_DIR, ENTITIES_DIR]:
+        if os.path.exists(cat_dir):
+            for f in os.listdir(cat_dir):
+                if f.endswith(".md"):
+                    with open(os.path.join(cat_dir, f), "r", encoding="utf-8") as fp:
+                        txt = fp.read()
+                    fm, _ = parse_frontmatter(txt)
+                    for t in fm.get("tags", []):
+                        used_tags.add(t)
+
+    unlisted_tags = [t for t in used_tags if t not in schema_tags]
+    if unlisted_tags:
+        recs.append({
+            "type": "schema_governance",
+            "priority": "LOW",
+            "title": f"Taxonomy Extension: {len(unlisted_tags)} Tags Not in SCHEMA.md",
+            "details": f"Tags used but unlisted in taxonomy: {', '.join(unlisted_tags)}",
+            "action": "Add these tags to ## Tag Taxonomy in wiki/SCHEMA.md to preserve schema integrity."
+        })
+    return recs
+
+
+def build_graph_data():
+    nodes = []
+    edges = []
+    node_map = {}
+    in_links = {}
+    out_links_map = {}
+
+    folder_types = [
+        (CONCEPTS_DIR, "concept"),
+        (ENTITIES_DIR, "entity"),
+        (COMPARISONS_DIR, "comparison"),
+        (SOURCES_DIR, "source"),
+    ]
+
+    for folder, ntype in folder_types:
+        if os.path.exists(folder):
+            for f in sorted(os.listdir(folder)):
+                if f.endswith(".md"):
+                    slug = f[:-3]
+                    fpath = os.path.join(folder, f)
+                    with open(fpath, "r", encoding="utf-8") as fp:
+                        txt = fp.read()
+                    
+                    title = slug
+                    tags = []
+                    excerpt = ""
+                    m_title = re.search(r"title:\s*[\"']?(.*?)[\"']?\n", txt)
+                    if m_title:
+                        title = m_title.group(1).strip()
+                    m_tags = re.search(r"tags:\n((?:\s*-\s*[^\n]+\n)+)", txt)
+                    if m_tags:
+                        tags = [t.strip().lstrip("- ") for t in m_tags.group(1).splitlines() if t.strip()]
+                    
+                    parts = txt.split("---", 2)
+                    body = parts[2].strip() if len(parts) >= 3 else txt
+                    clean_lines = [l for l in body.splitlines() if l.strip() and not l.startswith("#")]
+                    if clean_lines:
+                        excerpt = clean_lines[0][:140] + "..." if len(clean_lines[0]) > 140 else clean_lines[0]
+
+                    links = list(set(re.findall(r"\[\[([^\]|]+)(?:\|[^\]]+)?\]\]", txt)))
+                    out_links_map[slug] = links
+                    for l in links:
+                        target_slug = os.path.splitext(os.path.basename(l))[0]
+                        in_links.setdefault(target_slug, []).append(slug)
+
+                    node_map[slug] = {
+                        "id": slug,
+                        "label": title,
+                        "type": ntype,
+                        "path": os.path.relpath(fpath, WIKI_ROOT),
+                        "tags": tags,
+                        "excerpt": excerpt,
+                        "is_proposal": False,
+                        "out_links": links,
+                    }
+
+    if os.path.exists(REVIEW_DIR):
+        for f in sorted(os.listdir(REVIEW_DIR)):
+            if f.endswith(".md"):
+                fpath = os.path.join(REVIEW_DIR, f)
+                with open(fpath, "r", encoding="utf-8") as fp:
+                    txt = fp.read()
+                m_target = re.search(r"target:\s*([^\n]+)", txt)
+                target = m_target.group(1).strip() if m_target else f[:-3]
+                slug = os.path.splitext(os.path.basename(target))[0]
+                node_id = f"prop:{slug}"
+                
+                prop_type = "proposal"
+                if target.startswith("concepts/"): prop_type = "concept"
+                elif target.startswith("entities/"): prop_type = "entity"
+                elif target.startswith("comparisons/"): prop_type = "comparison"
+                elif target.startswith("sources/"): prop_type = "source"
+
+                links = list(set(re.findall(r"\[\[([^\]|]+)(?:\|[^\]]+)?\]\]", txt)))
+                out_links_map[node_id] = links
+                for l in links:
+                    target_slug = os.path.splitext(os.path.basename(l))[0]
+                    in_links.setdefault(target_slug, []).append(node_id)
+
+                node_map[node_id] = {
+                    "id": node_id,
+                    "label": "[Prop] " + slug,
+                    "type": "proposal",
+                    "path": os.path.relpath(fpath, WIKI_ROOT),
+                    "tags": ["proposal"],
+                    "excerpt": f"Review proposal for {target}",
+                    "is_proposal": True,
+                    "target": target,
+                    "out_links": links,
+                }
+
+    for nid, ndata in node_map.items():
+        base_slug = nid.replace("prop:", "")
+        inbound = in_links.get(base_slug, []) + in_links.get(nid, [])
+        ndata["inbound"] = list(set(inbound))
+        ndata["in_count"] = len(ndata["inbound"])
+        ndata["out_count"] = len(ndata["out_links"])
+        ndata["degree"] = ndata["in_count"] + ndata["out_count"]
+        nodes.append(ndata)
+
+    edge_set = set()
+    for source_id, links in out_links_map.items():
+        for l in links:
+            target_slug = os.path.splitext(os.path.basename(l))[0]
+            target_id = None
+            if target_slug in node_map:
+                target_id = target_slug
+            elif f"prop:{target_slug}" in node_map:
+                target_id = f"prop:{target_slug}"
+            
+            if target_id and source_id != target_id:
+                edge_key = (source_id, target_id)
+                if edge_key not in edge_set:
+                    edge_set.add(edge_key)
+                    edges.append({"source": source_id, "target": target_id})
+
+    return {"nodes": nodes, "edges": edges}
+
+
+def get_toc_catalog():
+    items = []
+    folder_types = [
+        (CONCEPTS_DIR, "concept"),
+        (ENTITIES_DIR, "entity"),
+        (COMPARISONS_DIR, "comparison"),
+        (SOURCES_DIR, "source"),
+    ]
+    for folder, ntype in folder_types:
+        if os.path.exists(folder):
+            for f in sorted(os.listdir(folder)):
+                if f.endswith(".md"):
+                    slug = f[:-3]
+                    fpath = os.path.join(folder, f)
+                    with open(fpath, "r", encoding="utf-8") as fp:
+                        txt = fp.read()
+                    fm, body = parse_frontmatter(txt)
+                    title = fm.get("title", slug)
+                    tags = fm.get("tags", [])
+                    clean_lines = [l for l in body.splitlines() if l.strip() and not l.startswith("#")]
+                    excerpt = clean_lines[0][:160] + "..." if clean_lines and len(clean_lines[0]) > 160 else (clean_lines[0] if clean_lines else "")
+                    links = list(set(re.findall(r"\[\[([^\]|]+)(?:\|[^\]]+)?\]\]", txt)))
+                    
+                    items.append({
+                        "slug": slug,
+                        "title": title,
+                        "type": ntype,
+                        "path": os.path.relpath(fpath, WIKI_ROOT),
+                        "tags": tags,
+                        "excerpt": excerpt,
+                        "updated": str(fm.get("updated", "")),
+                        "out_count": len(links),
+                        "is_proposal": False
+                    })
+    return items
+
+
+def get_note_detail(rel_path):
+    target_abs = os.path.abspath(os.path.join(WIKI_ROOT, rel_path))
+    if not target_abs.startswith(os.path.abspath(WIKI_ROOT)):
+        return {"error": "Path escapes wiki root"}
+    if not os.path.exists(target_abs):
+        return {"error": "Note file not found"}
+
+    with open(target_abs, "r", encoding="utf-8") as f:
+        txt = f.read()
+
+    fm, body = parse_frontmatter(txt)
+    slug = os.path.splitext(os.path.basename(rel_path))[0]
+    title = fm.get("title", slug)
+
+    out_links = list(set(re.findall(r"\[\[([^\]|]+)(?:\|[^\]]+)?\]\]", txt)))
+    backlinks = []
+    folder_types = [
+        (CONCEPTS_DIR, "concept"),
+        (ENTITIES_DIR, "entity"),
+        (COMPARISONS_DIR, "comparison"),
+        (SOURCES_DIR, "source"),
+    ]
+    for folder, ntype in folder_types:
+        if os.path.exists(folder):
+            for fname in os.listdir(folder):
+                if fname.endswith(".md"):
+                    fslug = fname[:-3]
+                    if fslug == slug:
+                        continue
+                    with open(os.path.join(folder, fname), "r", encoding="utf-8") as rf:
+                        rtxt = rf.read()
+                    if f"[[{slug}]]" in rtxt or f"[[{slug}|" in rtxt or f"[[{title}]]" in rtxt:
+                        rfm, _ = parse_frontmatter(rtxt)
+                        backlinks.append({
+                            "slug": fslug,
+                            "title": rfm.get("title", fslug),
+                            "type": ntype,
+                            "path": os.path.relpath(os.path.join(folder, fname), WIKI_ROOT)
+                        })
+
+    return {
+        "path": rel_path,
+        "slug": slug,
+        "title": title,
+        "type": fm.get("type", "note"),
+        "tags": fm.get("tags", []),
+        "sources": fm.get("sources", []),
+        "frontmatter": fm,
+        "raw": txt,
+        "body": body,
+        "backlinks": backlinks,
+        "outbound": out_links,
     }
-
-    function selectProposal(idx) {
-      activeProposal = proposals[idx];
-      renderProposal();
-    }
-
-    function renderProposal() {
-      if (!activeProposal) return;
-      document.getElementById('active-title').innerHTML = `
-        <span>${escapeHtml(activeProposal.target)}</span>
-        <span class="badge ${activeProposal.target_exists ? 'badge-op-update' : 'badge-op-new'}" style="margin-left:8px;">${activeProposal.target_exists ? 'Update' : 'New File'}</span>
-        <span class="badge badge-${activeProposal.decision}" style="margin-left:4px;">${activeProposal.decision}</span>
-      `;
-      document.getElementById('actions').style.display = 'flex';
-      document.getElementById('tab-bar').style.display = 'flex';
-
-      const view = document.getElementById('content-view');
-      let mainContentHtml = '';
-
-      if (currentTab === 'preview') {
-        const rendered = renderMarkdown(activeProposal.proposed_content || activeProposal.body);
-        mainContentHtml = `<div class="markdown-body">${rendered}</div>`;
-      } else if (currentTab === 'diff') {
-        if (activeProposal.target_exists) {
-          mainContentHtml = `
-            <div class="banner banner-update">🔄 Comparing existing file <code>${escapeHtml(activeProposal.target)}</code> with proposal</div>
-            <div class="diff-box">${renderDiff(activeProposal.diff_text)}</div>
-          `;
-        } else {
-          mainContentHtml = `
-            <div class="banner banner-new">✨ New File — will be created at <code>wiki/${escapeHtml(activeProposal.target)}</code></div>
-            <div class="diff-box">${renderDiff(activeProposal.proposed_content.split('\\n').map(l => '+' + l).join('\\n'))}</div>
-          `;
-        }
-      } else if (currentTab === 'raw') {
-        mainContentHtml = `<pre style="background:#131318; padding:16px; border-radius:8px; border:1px solid var(--border); overflow-x:auto; color:#b0bec5; font-size:0.88rem; line-height:1.5;">${escapeHtml(activeProposal.proposed_content || activeProposal.body)}</pre>`;
-      }
-
-      view.innerHTML = `
-        <div style="margin-bottom:14px; font-size:0.85rem; color:var(--muted);">
-          Source notes: <code>${escapeHtml(activeProposal.sources.join(', '))}</code>
-        </div>
-        ${mainContentHtml}
-        <div class="feedback-box">
-          <h4 style="color:#fff; font-size:0.9rem;">Human Feedback / Instructions:</h4>
-          <textarea id="feedback-input" placeholder="Type instructions or revisions for the agent...">${escapeHtml(activeProposal.feedback || '')}</textarea>
-          <button style="margin-top:8px; background:var(--border); color:#fff;" onclick="saveFeedback()">Save Feedback</button>
-        </div>
-      `;
-
-      const cards = document.querySelectorAll('.proposal-card');
-      cards.forEach((c, i) => {
-        if (proposals[i] && proposals[i].filename === activeProposal.filename) {
-          c.classList.add('active');
-        } else {
-          c.classList.remove('active');
-        }
-      });
-    }
-
-    function switchTab(tab) {
-      currentTab = tab;
-      document.querySelectorAll('.tab').forEach(t => {
-        t.classList.toggle('active', t.getAttribute('data-tab') === tab);
-      });
-      renderProposal();
-    }
-
-    function renderMarkdown(md) {
-      if (!md) return '';
-      let frontmatterHtml = '';
-      let bodyMd = md;
-
-      if (md.startsWith('---')) {
-        const parts = md.split('---');
-        if (parts.length >= 3) {
-          const fmLines = parts[1].trim().split('\\n');
-          const meta = {};
-          fmLines.forEach(l => {
-            const colon = l.indexOf(':');
-            if (colon !== -1) {
-              const k = l.substring(0, colon).trim();
-              const v = l.substring(colon + 1).trim();
-              if (k && !k.startsWith('#')) meta[k] = v;
-            }
-          });
-          bodyMd = parts.slice(2).join('---').trim();
-          
-          frontmatterHtml = `
-            <div style="background:#202028; border:1px solid var(--border); border-radius:6px; padding:12px 16px; margin-bottom:18px; font-size:0.83rem;">
-              <div style="display:flex; flex-wrap:wrap; gap:12px; color:var(--muted);">
-                ${Object.entries(meta).map(([k, v]) => `<div><strong style="color:#fff;">${escapeHtml(k)}:</strong> <span style="color:#b388ff;">${escapeHtml(v)}</span></div>`).join('')}
-              </div>
-            </div>
-          `;
-        }
-      }
-
-      let text = bodyMd.replace(/\\[\\[([^\\]|]+)(?:\\|([^\\]]+))?\\]\\]/g, (match, target, alias) => {
-        return `<span class="wikilink">[[${alias || target}]]</span>`;
-      });
-      let parsed = '';
-      if (window.marked && window.marked.parse) {
-        try {
-          parsed = marked.parse(text);
-        } catch(e) {
-          parsed = '<pre>' + escapeHtml(text) + '</pre>';
-        }
-      } else {
-        parsed = '<pre>' + escapeHtml(text) + '</pre>';
-      }
-      return frontmatterHtml + parsed;
-    }
-
-    function renderDiff(diffText) {
-      if (!diffText) return '<div style="color:var(--muted); padding:10px;">No differences detected.</div>';
-      return diffText.split('\\n').map(line => {
-        let cls = 'diff-ctx';
-        if (line.startsWith('+') && !line.startsWith('+++')) cls = 'diff-add';
-        else if (line.startsWith('-') && !line.startsWith('---')) cls = 'diff-del';
-        else if (line.startsWith('@@')) cls = 'diff-hunk';
-        return `<div class="diff-line ${cls}">${escapeHtml(line)}</div>`;
-      }).join('');
-    }
-
-    function escapeHtml(text) {
-      if (!text) return '';
-      return String(text).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    }
-
-    async function setCardDecision(filename, decision) {
-      await fetch('/api/proposals/decision', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ filename: filename, decision: decision })
-      });
-      loadData(true);
-    }
-
-    async function setDecision(decision) {
-      if (!activeProposal) return;
-      await setCardDecision(activeProposal.filename, decision);
-    }
-
-    async function applySingleProposal(filename) {
-      if (!confirm(`Apply proposal ${filename} into compiled wiki now?`)) return;
-      const res = await fetch('/api/proposals/apply-single', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ filename: filename })
-      });
-      const data = await res.json();
-      if (data.success) {
-        alert(`Successfully applied: ${filename}`);
-        loadData(false);
-      } else {
-        alert(`Apply failed: ${data.message}`);
-      }
-    }
-
-    async function applyThis() {
-      if (!activeProposal) return;
-      await applySingleProposal(activeProposal.filename);
-    }
-
-    async function saveFeedback() {
-      if (!activeProposal) return;
-      const fb = document.getElementById('feedback-input').value;
-      await fetch('/api/proposals/feedback', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ filename: activeProposal.filename, feedback: fb })
-      });
-      alert('Feedback saved to proposal note!');
-      loadData(true);
-    }
-
-    async function applyAll() {
-      if (!confirm("Apply all approved proposals into compiled wiki pages?")) return;
-      const res = await fetch('/api/apply', { method: 'POST' });
-      const data = await res.json();
-      alert(data.message);
-      loadData(false);
-    }
-
-    loadData();
-    setInterval(() => loadData(true), 10000);
-  </script>
-</body>
-</html>
-"""
 
 
 class StudioHandler(BaseHTTPRequestHandler):
@@ -928,7 +853,7 @@ class StudioHandler(BaseHTTPRequestHandler):
             self.send_response(200)
             self.send_header("Content-Type", "text/html; charset=utf-8")
             self.end_headers()
-            self.wfile.write(STUDIO_HTML.encode("utf-8"))
+            self.wfile.write(get_studio_html().encode("utf-8"))
             return
 
         if url.path == "/marked.min.js":
@@ -1004,12 +929,56 @@ class StudioHandler(BaseHTTPRequestHandler):
             self.wfile.write(json.dumps(props).encode("utf-8"))
             return
 
+        if url.path == "/api/graph":
+            data = build_graph_data()
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.end_headers()
+            self.wfile.write(json.dumps(data).encode("utf-8"))
+            return
+
+        if url.path == "/api/toc":
+            items = get_toc_catalog()
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.end_headers()
+            self.wfile.write(json.dumps(items).encode("utf-8"))
+            return
+
+        if url.path == "/api/note":
+            qs = parse_qs(url.query)
+            npath = qs.get("path", [""])[0]
+            if not npath:
+                self.send_response(400)
+                self.end_headers()
+                return
+            data = get_note_detail(npath)
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.end_headers()
+            self.wfile.write(json.dumps(data, default=str).encode("utf-8"))
+            return
+
+        if url.path == "/api/recommendations":
+            recs = get_recommendations_list()
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.end_headers()
+            self.wfile.write(json.dumps(recs, default=str).encode("utf-8"))
+            return
+
         if url.path == "/api/stats":
             pages = 0
             for d in [CONCEPTS_DIR, ENTITIES_DIR, SOURCES_DIR, COMPARISONS_DIR]:
                 if os.path.exists(d):
                     pages += len([f for f in os.listdir(d) if f.endswith(".md")])
-            data = {"total_pages": pages}
+            props_count = len([f for f in os.listdir(REVIEW_DIR) if f.endswith(".md")]) if os.path.exists(REVIEW_DIR) else 0
+            gdata = build_graph_data()
+            data = {
+                "total_pages": pages,
+                "total_links": len(gdata["edges"]),
+                "proposals_count": props_count
+            }
             self.send_response(200)
             self.send_header("Content-Type", "application/json")
             self.end_headers()
@@ -1183,88 +1152,8 @@ def cmd_studio(args):
 # ==============================================================================
 def cmd_recommend(args):
     print("=== Agentic Librarian Process & Architecture Recommendations ===")
-    recs = []
+    recs = get_recommendations_list()
 
-    # 1. Check Pending Decisions
-    props = []
-    if os.path.exists(REVIEW_DIR):
-        props = [p for p in os.listdir(REVIEW_DIR) if p.endswith(".md")]
-    if props:
-        recs.append({
-            "type": "decision_gate",
-            "priority": "HIGH",
-            "title": f"{len(props)} Staged Review Proposals Waiting for Decision",
-            "details": f"There are {len(props)} proposals in wiki/Review/. Decision Studio is active at http://127.0.0.1:20888.",
-            "action": "Review in Decision Studio and run 'librarian apply' to compile."
-        })
-
-    # 2. Analyze Unprocessed Notes Clustering
-    unproc_dir = os.path.join(VAULT_ROOT, "unprocessed-obsidians")
-    if os.path.exists(unproc_dir):
-        files = [f for f in os.listdir(unproc_dir) if f.endswith(".md")]
-        clusters = {
-            "Auth & Session": ["jwt.md", "oauth.md", "idor.md"],
-            "Web Injection": ["sql-injection.md", "xss.md", "xxe.md", "ssrf.md", "ssti.md", "parameter-pollution.md"],
-            "Protocols & Desync": ["req-smuggle.md", "graphql.md"],
-            "Binary & Low-Level": ["insecure-deserialization.md", "shellcode.md", "fuzzing.md"],
-            "Recon & OSINT": ["osint.md", "osint-method.md"],
-            "Defenses & Evasion": ["edr.md", "mitigations.md", "initial-access.md"]
-        }
-        found_clusters = {}
-        for cname, cfiles in clusters.items():
-            matching = [f for f in files if f in cfiles]
-            if matching:
-                found_clusters[cname] = matching
-
-        if found_clusters:
-            details = ", ".join([f"{k} ({len(v)} notes: {', '.join(v[:3])})" for k, v in found_clusters.items()])
-            recs.append({
-                "type": "batch_enrichment",
-                "priority": "MEDIUM",
-                "title": f"Batch Ingestion Opportunity: {len(files)} Unprocessed Notes",
-                "details": f"Recommended ingestion by theme: {details}",
-                "action": "Ingest related clusters together so the LLM creates rich, cross-linked concepts in single batches."
-            })
-
-    # 3. Cross-linking & Comparison Opportunities
-    compiled_concepts = []
-    if os.path.exists(CONCEPTS_DIR):
-        compiled_concepts = [f[:-3] for f in os.listdir(CONCEPTS_DIR) if f.endswith(".md")]
-
-    if "blind-ssrf-gopher-redis-rce" in compiled_concepts and "fastcgi-ssrf-exploitation" in compiled_concepts:
-        if not os.path.exists(os.path.join(COMPARISONS_DIR, "redis-vs-fastcgi-ssrf-pivoting.md")):
-            recs.append({
-                "type": "comparison_synthesis",
-                "priority": "LOW",
-                "title": "Comparison Candidate: Redis vs FastCGI SSRF Pivoting",
-                "details": "Both internal Gopher SSRF primitives are compiled. A comparison note evaluating preconditions, stealth, and OS access limits would deepen the knowledge base.",
-                "action": "Generate comparison under wiki/comparisons/redis-vs-fastcgi-ssrf-pivoting.md"
-            })
-
-    # 4. Schema & Taxonomy Check
-    schema_tags = load_schema_taxonomy()
-    used_tags = set()
-    for cat_dir in [CONCEPTS_DIR, ENTITIES_DIR]:
-        if os.path.exists(cat_dir):
-            for f in os.listdir(cat_dir):
-                if f.endswith(".md"):
-                    with open(os.path.join(cat_dir, f), "r", encoding="utf-8") as fp:
-                        txt = fp.read()
-                    fm, _ = parse_frontmatter(txt)
-                    for t in fm.get("tags", []):
-                        used_tags.add(t)
-
-    unlisted_tags = [t for t in used_tags if t not in schema_tags]
-    if unlisted_tags:
-        recs.append({
-            "type": "schema_governance",
-            "priority": "LOW",
-            "title": f"Taxonomy Extension: {len(unlisted_tags)} Tags Not in SCHEMA.md",
-            "details": f"Tags used but unlisted in taxonomy: {', '.join(unlisted_tags)}",
-            "action": "Add these tags to ## Tag Taxonomy in wiki/SCHEMA.md to preserve schema integrity."
-        })
-
-    # Output recommendations
     for i, r in enumerate(recs, 1):
         print(f"\n[{i}] [{r['priority']}] {r['title']}")
         print(f"    Details: {r['details']}")
