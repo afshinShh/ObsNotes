@@ -1,7 +1,7 @@
 ---
 type: llm-wiki-review
 status: needs-review
-decision: pending
+decision: approve
 revision: 1
 operation: update
 target: concepts/xml-external-entity-injection.md

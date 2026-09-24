@@ -1,7 +1,7 @@
 ---
 type: llm-wiki-review
 status: needs-review
-decision: pending
+decision: approve
 revision: 1
 operation: create
 target: comparisons/stored-vs-reflected-vs-dom-xss.md
