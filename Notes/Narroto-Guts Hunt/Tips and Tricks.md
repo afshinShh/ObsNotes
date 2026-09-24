@@ -1,4 +1,4 @@
- # XSS
+# XSS
 - 80% of time should be spent in **Debugger** 
 	- start with `HTML injection` of some sort
 	- use `Step in` option for detailed JS analysis more often

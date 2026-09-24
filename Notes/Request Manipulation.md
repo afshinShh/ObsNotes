@@ -1,3 +1,22 @@
+** Table of Contents **
+
+- [Open Redirect](#Open%20Redirect)
+	- [examples](#examples)
+		- [header based (= serverside redirect):](#header%20based%20(=%20serverside%20redirect):)
+		- [JS based(= client side redirect):](#JS%20based(=%20client%20side%20redirect):)
+		- [checker function](#checker%20function)
+		- [Vulnerable code](#Vulnerable%20code)
+- [CSPT (client side path traversal)](#CSPT%20(client%20side%20path%20traversal))
+		- [waf bypass methodology for path traversal](#waf%20bypass%20methodology%20for%20path%20traversal)
+	- [Chains](#Chains)
+	- [resources](#resources)
+	- [CSPT Across Every Major Frontend Framework](#CSPT%20Across%20Every%20Major%20Frontend%20Framework)
+		- [Path Params: Does `%2F` Decode to `/`?](#Path%20Params:%20Does%20%60%252F%60%20Decode%20to%20%60/%60?)
+		- [Query Params: Decoded Everywhere](#Query%20Params:%20Decoded%20Everywhere)
+		- [XSS Sinks: The Escalation Function](#XSS%20Sinks:%20The%20Escalation%20Function)
+		- [Safe Sources: What Won’t Betray You](#Safe%20Sources:%20What%20Won%E2%80%99t%20Betray%20You)
+		- [Server-Side / Secondary Traversal Sinks](#Server-Side%20/%20Secondary%20Traversal%20Sinks)
+
 # Open Redirect
 ## examples
 ### header based (= serverside redirect):

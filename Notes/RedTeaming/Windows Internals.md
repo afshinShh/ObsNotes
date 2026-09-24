@@ -1,4 +1,4 @@
-# Fundamentals
+# Internal Fundamentals
 ## processes
 
 *maintains and represents the execution of a program; an application can contain one or more processes*
@@ -253,3 +253,18 @@ remoteThread = CreateRemoteThread(
 	NULL
 ); 
 ```
+
+# Windows API
+
+ - the top-down structure at a high level:
+
+| **Layer**               | **Explanation**                                                                                                                                                                          |
+| ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| API                     | A top-level/general term or theory used to describe any call found in the win32 structure.                                                                                               |
+| Header files or imports | Defines libraries to be imported at run-time, defined by header files or library imports. Uses pointers to obtain the function address.                                                  |
+| Core DLLs               | A group of four DLLs that define call structures. (**KERNEL32**, **USER32**, and **ADVAPI32**). These DLLs define kernel and user services that are not contained in a single subsystem. |
+| Supplemental DLLs       | Other DLLs defined as part of the Windows . Controls separate subsystems of the Windows . ~36 other defined DLLs. (**NTDLL**, **COM**, **FVEAPI**, etc.)                                 |
+| Call Structures         | Defines the call itself and parameters of the call.                                                                                                                                      |
+| API Calls               | The call used within a program, with function addresses obtained from pointers.                                                                                                          |
+| In/Out Parameters       | The parameter values that are defined by the call structures.                                                                                                                            |
+## OS libraries
