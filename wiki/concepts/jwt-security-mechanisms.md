@@ -112,4 +112,5 @@ Mutual TLS client certificate-bound access tokens cryptographically bind the tok
 - [[jwt-vs-session-cookies]]
 - [[jwt-tool]]
 - [[oauth-grant-types-and-flows]]
+- [[jwt-in-oauth2-architecture]]
 - [[oauth-attack-vectors]]

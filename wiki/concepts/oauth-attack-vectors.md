@@ -136,3 +136,5 @@ Attacker uses Refresh Token with rotation bypass to maintain indefinite access
 - [[jwt-attack-vectors]]
 - [[jwt-security-mechanisms]]
 - [[blind-ssrf-gopher-redis-rce]]
+- [[open-redirect-attacks]]
+- [[cross-site-scripting]]

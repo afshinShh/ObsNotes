@@ -137,3 +137,4 @@ def probe_signature(sig_hex):
 - [[jwt-vs-session-cookies]]
 - [[oauth-attack-vectors]]
 - [[blind-ssrf-gopher-redis-rce]]
+- [[cross-site-scripting]]
