@@ -1,5 +1,40 @@
 [
   {
+    "id": "rec_chain_wordpress-performance-monitor_cross-site-scripting",
+    "author": "Thoth (Obsidian Librarian)",
+    "created": "2026-09-25T02:10:54.052668",
+    "title": "Exploitation Attack Chain: WordPress Performance Monitor Plugin to Cross-Site Scripting (XSS) Execution Contexts & Filter Evasion",
+    "category": "Attack Chain Discovery",
+    "priority": "HIGH",
+    "details": "Entity 'WordPress Performance Monitor Plugin' shares security classification with [[cross-site-scripting|Cross-Site Scripting (XSS) Execution Contexts & Filter Evasion]], but lacks an explicit cross-link in its exploitation section.",
+    "action": "Cross-link [[cross-site-scripting]] in 'entities/wordpress-performance-monitor.md'.",
+    "status": "pending",
+    "implementation": {
+      "type": "patch_note",
+      "target": "entities/wordpress-performance-monitor.md",
+      "section": "## Exploitation Chains & Pivot Vectors",
+      "content": "- **Pivot to [[cross-site-scripting|Cross-Site Scripting (XSS) Execution Contexts & Filter Evasion]]:** Weaponize vulnerability surface in WordPress Performance Monitor Plugin to trigger [[cross-site-scripting]]."
+    }
+  },
+  {
+    "id": "rec_chain_jwt-tool_blind-ssrf-gopher-redis-rce",
+    "author": "Thoth (Obsidian Librarian)",
+    "created": "2026-09-25T02:10:54.052191",
+    "title": "Exploitation Attack Chain: JWT Tool (ticarpi) to Blind SSRF to Redis RCE via Gopher",
+    "category": "Attack Chain Discovery",
+    "priority": "HIGH",
+    "details": "Entity 'JWT Tool (ticarpi)' shares security classification with [[blind-ssrf-gopher-redis-rce|Blind SSRF to Redis RCE via Gopher]], but lacks an explicit cross-link in its exploitation section.",
+    "action": "Cross-link [[blind-ssrf-gopher-redis-rce]] in 'entities/jwt-tool.md'.",
+    "status": "implemented",
+    "implementation": {
+      "type": "patch_note",
+      "target": "entities/jwt-tool.md",
+      "section": "## Exploitation Chains & Pivot Vectors",
+      "content": "- **Pivot to [[blind-ssrf-gopher-redis-rce|Blind SSRF to Redis RCE via Gopher]]:** Weaponize vulnerability surface in JWT Tool (ticarpi) to trigger [[blind-ssrf-gopher-redis-rce]]."
+    },
+    "implemented_at": "2026-09-25T02:11:00.233839"
+  },
+  {
     "title": "Synthesis Candidate: Open Redirect vs OAuth Attack Vectors",
     "category": "Attack Chain Discovery",
     "priority": "HIGH",
