@@ -2454,3 +2454,199 @@ TypeError: Object of type date is not JSON serializable
 [*] Rebuilding Wiki Index and updating Audit Log...
 [+] Rebuilt /home/omp/Desktop/RED/Knowledge/ObsNotes_clean/wiki/index.md (16 total pages indexed)
 [*] Creating Git checkpoint: 'feat(wiki): apply 2 approved proposals into compiled wiki'...
+[+] Checkpoint committed successfully:
+[master bb87851] feat(wiki): apply 2 approved proposals into compiled wiki
+ 28 files changed, 93 insertions(+), 18100 deletions(-)
+ rename wiki/{Review/2026-09-24-ai-security-testing-proposal.md => concepts/ai-security-testing.md} (87%)
+ delete mode 100644 wiki/raw/articles/ai.md
+ delete mode 100644 wiki/raw/articles/bug-identification.md
+ delete mode 100644 wiki/raw/articles/course.md
+ delete mode 100644 wiki/raw/articles/development.md
+ delete mode 100644 wiki/raw/articles/edr.md
+ delete mode 100644 wiki/raw/articles/fuzzing.md
+ delete mode 100644 wiki/raw/articles/graphql.md
+ delete mode 100644 wiki/raw/articles/idor.md
+ delete mode 100644 wiki/raw/articles/initial-access.md
+ delete mode 100644 wiki/raw/articles/insecure-deserialization.md
+ delete mode 100644 wiki/raw/articles/mitigations.md
+ delete mode 100644 wiki/raw/articles/open-redirect.md
+ delete mode 100644 wiki/raw/articles/osint-method.md
+ delete mode 100644 wiki/raw/articles/osint.md
+ delete mode 100644 wiki/raw/articles/parameter-pollution.md
+ delete mode 100644 wiki/raw/articles/race-condition.md
+ delete mode 100644 wiki/raw/articles/req-smuggle.md
+ delete mode 100644 wiki/raw/articles/shellcode.md
+ delete mode 100644 wiki/raw/articles/sql-injection.md
+ delete mode 100644 wiki/raw/articles/ssrf.md
+ delete mode 100644 wiki/raw/articles/ssti.md
+ delete mode 100644 wiki/raw/articles/xss.md
+ delete mode 100644 wiki/raw/articles/xxe.md
+ rename wiki/{Review/2026-09-24-sources-shellcode-proposal.md => sources/shellcode.md} (68%)
+
+[+] Successfully applied 2 proposals with full audit receipt.
+127.0.0.1 - - [25/Sep/2026 01:17:16] "POST /api/apply HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:19] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:19] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:22] "GET /api/note?path=Review%2F2026-09-24-av-vs-edr-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:24] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:24] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:24] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:24] "GET /api/note?path=Review%2F2026-09-24-av-vs-edr-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:24] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:24] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:25] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:26] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:26] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:26] "GET /api/note?path=Review%2F2026-09-24-av-vs-edr-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:26] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:26] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:26] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:26] "GET /api/note?path=Review%2F2026-09-24-av-vs-edr-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:26] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:26] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:26] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:26] "GET /api/note?path=Review%2F2026-09-24-av-vs-edr-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:26] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:26] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:26] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:26] "GET /api/note?path=Review%2F2026-09-24-av-vs-edr-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:26] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:27] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:27] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:27] "GET /api/note?path=Review%2F2026-09-24-av-vs-edr-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:27] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:27] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:27] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:27] "GET /api/note?path=Review%2F2026-09-24-av-vs-edr-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:27] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:27] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:27] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:27] "GET /api/note?path=Review%2F2026-09-24-av-vs-edr-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:27] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:27] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:27] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:27] "GET /api/note?path=Review%2F2026-09-24-av-vs-edr-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:28] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:28] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:28] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:28] "GET /api/note?path=Review%2F2026-09-24-av-vs-edr-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:28] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:28] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:28] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:28] "GET /api/note?path=Review%2F2026-09-24-av-vs-edr-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:28] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:28] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:28] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:28] "GET /api/note?path=Review%2F2026-09-24-av-vs-edr-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:29] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:29] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:29] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:29] "GET /api/note?path=Review%2F2026-09-24-av-vs-edr-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:29] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:29] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:29] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:29] "GET /api/note?path=Review%2F2026-09-24-av-vs-edr-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:29] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:29] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:29] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:29] "GET /api/note?path=Review%2F2026-09-24-av-vs-edr-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:30] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:30] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:30] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:30] "GET /api/note?path=Review%2F2026-09-24-av-vs-edr-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:30] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:30] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:30] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:30] "GET /api/note?path=Review%2F2026-09-24-av-vs-edr-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:30] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:30] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:30] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:30] "GET /api/note?path=Review%2F2026-09-24-av-vs-edr-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:30] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:30] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:31] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:31] "GET /api/note?path=Review%2F2026-09-24-av-vs-edr-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:31] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:31] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:31] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:31] "GET /api/note?path=Review%2F2026-09-24-av-vs-edr-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:31] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:31] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:31] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:31] "GET /api/note?path=Review%2F2026-09-24-av-vs-edr-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:32] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:32] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:32] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:32] "GET /api/note?path=Review%2F2026-09-24-av-vs-edr-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:32] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:32] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:32] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:33] "GET /api/note?path=Review%2F2026-09-24-av-vs-edr-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:33] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:33] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:33] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:33] "GET /api/note?path=Review%2F2026-09-24-av-vs-edr-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:33] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:33] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:33] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:33] "GET /api/note?path=Review%2F2026-09-24-av-vs-edr-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:34] "GET /api/note?path=Review%2F2026-09-24-exploit-mitigations-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:35] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:35] "GET /api/note?path=Review%2F2026-09-24-av-vs-edr-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:35] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:36] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:37] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:37] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:37] "GET /api/note?path=Review%2F2026-09-24-av-vs-edr-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:37] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:37] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:37] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:37] "GET /api/note?path=Review%2F2026-09-24-av-vs-edr-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:37] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:37] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:37] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:37] "GET /api/note?path=Review%2F2026-09-24-av-vs-edr-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:38] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:38] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:38] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:38] "GET /api/note?path=Review%2F2026-09-24-av-vs-edr-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:45] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:45] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:55] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:17:55] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:18:05] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:18:05] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:18:15] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:18:15] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:18:25] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:18:26] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:18:35] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:18:35] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:18:45] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:18:45] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:18:56] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:18:56] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:19:06] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:19:06] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:19:16] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:19:16] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:19:26] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:19:26] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:19:36] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:19:36] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:19:46] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:19:46] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:19:56] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:19:56] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:20:07] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:20:07] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:20:16] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:20:16] "GET /api/stats HTTP/1.1" 200 -
+
+[+] Decision Studio running at: http://127.0.0.1:20888
+    Press Ctrl+C to stop.
+
+127.0.0.1 - - [25/Sep/2026 01:20:39] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:20:47] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 01:20:47] "GET /api/stats HTTP/1.1" 200 -
+[+] Rebuilt /home/omp/Desktop/RED/Knowledge/ObsNotes_clean/wiki/index.md (17 total pages indexed)

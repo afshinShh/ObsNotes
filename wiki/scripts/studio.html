@@ -594,34 +594,34 @@
       setupGraphEvents();
     }
 
-    async function fetchGraph() {
-      const res = await fetch('/api/graph');
-      const data = await res.json();
-      document.getElementById('stat-nodes').innerText = data.nodes.length;
-      document.getElementById('stat-edges').innerText = data.edges.length;
+    function fetchGraph() {
+      fetch('/api/graph').then(r => r.json()).then(data => {
+        document.getElementById('stat-nodes').innerText = data.nodes.length;
+        document.getElementById('stat-edges').innerText = data.edges.length;
 
-      // Arrange in spiral with wider spacing
-      gNodes = data.nodes.map((n, i) => {
-        const phi = i * 0.55;
-        const dist = 50 + Math.sqrt(i) * 55;
-        return {
-          ...n,
-          x: Math.cos(phi) * dist,
-          y: Math.sin(phi) * dist,
-          vx: 0,
-          vy: 0,
-          radius: 5 + Math.min(10, Math.sqrt(n.degree || 1) * 2.5)
-        };
+        // Arrange in spiral with wider spacing
+        gNodes = data.nodes.map((n, i) => {
+          const phi = i * 0.65;
+          const dist = 90 + Math.sqrt(i) * 110;
+          return {
+            ...n,
+            x: Math.cos(phi) * dist,
+            y: Math.sin(phi) * dist,
+            vx: 0,
+            vy: 0,
+            radius: 6 + Math.min(10, Math.sqrt(n.degree || 1) * 2.5)
+          };
+        });
+
+        const map = {};
+        gNodes.forEach(n => { map[n.id] = n; });
+        gEdges = data.edges.map(e => ({
+          s: map[e.source],
+          t: map[e.target]
+        })).filter(e => e.s && e.t);
+
+        fitGraphView();
       });
-
-      const map = {};
-      gNodes.forEach(n => { map[n.id] = n; });
-      gEdges = data.edges.map(e => ({
-        s: map[e.source],
-        t: map[e.target]
-      })).filter(e => e.s && e.t);
-
-      fitGraphView();
     }
 
     function resizeCanvas() {
@@ -748,7 +748,7 @@
     function updateGraphPhysics() {
       const active = gNodes.filter(n => (!n.is_proposal || showProposals) && typeFilters[n.type]);
 
-      // Repulsion (wider spacing: 2500)
+      // Repulsion (wider spacing: 5000, 600px radius)
       for (let i = 0; i < active.length; i++) {
         const na = active[i];
         for (let j = i + 1; j < active.length; j++) {
@@ -756,8 +756,8 @@
           let dx = nb.x - na.x;
           let dy = nb.y - na.y;
           let d2 = dx * dx + dy * dy || 1;
-          if (d2 < 250000) { // ~500px radius
-            let f = 1800 / (d2 + 100);
+          if (d2 < 360000) { // ~600px radius
+            let f = 4500 / (d2 + 100);
             let d = Math.sqrt(d2);
             let fx = (dx / d) * f;
             let fy = (dy / d) * f;
@@ -767,7 +767,7 @@
         }
       }
 
-      // Edge Springs (ideal length: 95px)
+      // Edge Springs (wider rest distance: 175px)
       gEdges.forEach(e => {
         if (e.s.is_proposal && !showProposals) return;
         if (e.t.is_proposal && !showProposals) return;
@@ -776,7 +776,7 @@
         let dx = e.t.x - e.s.x;
         let dy = e.t.y - e.s.y;
         let d = Math.sqrt(dx * dx + dy * dy) || 1;
-        let f = (d - 95) * 0.04;
+        let f = (d - 175) * 0.035;
         let fx = (dx / d) * f;
         let fy = (dy / d) * f;
         if (e.s !== dragNode) { e.s.vx += fx; e.s.vy += fy; }
@@ -786,8 +786,8 @@
       // Gravity & Damping
       active.forEach(n => {
         if (n === dragNode) return;
-        n.vx -= n.x * 0.012;
-        n.vy -= n.y * 0.012;
+        n.vx -= n.x * 0.008;
+        n.vy -= n.y * 0.008;
         n.vx *= 0.88;
         n.vy *= 0.88;
         n.x += n.vx;
@@ -869,13 +869,37 @@
         gCtx.fillStyle = NODE_COLORS[n.type] || '#fff';
         gCtx.fill();
 
-        // SMART LABEL DISPLAY: only on hover, neighbors, search match, or high zoom
-        const showLbl = isHi || isNeigh || isMatch || (zoom > 1.3);
+        // LEGIBLE LABELS WITH DARK BACKDROP BADGES
+        const showLbl = isHi || isNeigh || isMatch || (zoom > 0.8) || (n.degree >= 3);
         if (showLbl) {
-          gCtx.font = `${Math.max(9, 11 / zoom)}px sans-serif`;
-          gCtx.fillStyle = '#e2e2ec';
+          const fontSize = Math.max(9, Math.min(13, 11 / zoom));
+          gCtx.font = `bold ${fontSize}px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif`;
+          const text = n.label;
+          const textMetrics = gCtx.measureText(text);
+          const textW = textMetrics.width;
+          const padX = 6;
+          const padY = 2;
+          const textH = fontSize;
+          const boxX = n.x - textW / 2 - padX;
+          const boxY = n.y + n.radius + 6;
+
+          // Pill background for maximum readability
+          gCtx.fillStyle = isHi ? 'rgba(124, 77, 255, 0.95)' : 'rgba(14, 14, 20, 0.9)';
+          gCtx.beginPath();
+          if (gCtx.roundRect) {
+            gCtx.roundRect(boxX, boxY, textW + padX * 2, textH + padY * 2, 4);
+          } else {
+            gCtx.rect(boxX, boxY, textW + padX * 2, textH + padY * 2);
+          }
+          gCtx.fill();
+          gCtx.strokeStyle = isHi ? '#b388ff' : 'rgba(255,255,255,0.14)';
+          gCtx.lineWidth = 1;
+          gCtx.stroke();
+
+          // Label text
+          gCtx.fillStyle = isHi ? '#ffffff' : '#e2e2ec';
           gCtx.textAlign = 'center';
-          gCtx.fillText(n.label, n.x, n.y + n.radius + 12);
+          gCtx.fillText(text, n.x, boxY + textH - 1);
         }
 
         gCtx.restore();
@@ -908,17 +932,67 @@
 
       list.innerHTML = recs.map(r => `
         <div class="rec-card rec-${(r.priority || 'low').toLowerCase()}">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
             <strong style="color:#fff; font-size:0.95rem;">${escapeHtml(r.title)}</strong>
-            <div style="display:flex; gap:6px; align-items:center;">
+            <div style="display:flex; gap:8px; align-items:center;">
               <span style="font-size:0.72rem; color:var(--muted);">${escapeHtml(r.category || '')}</span>
               <span class="badge badge-${(r.priority || 'low').toLowerCase()}">${r.priority}</span>
+              ${r.id ? `<button class="btn-approve" onclick="implementRecommendation('${escapeHtml(r.id)}')">✓ Approve & Implement</button>` : ''}
             </div>
           </div>
           <p style="font-size:0.83rem; color:var(--text); line-height:1.45; margin-bottom:8px;">${escapeHtml(r.details)}</p>
           <div style="font-size:0.78rem; color:var(--purple); font-weight:500;">👉 ${escapeHtml(r.action)}</div>
         </div>
       `).join('');
+    }
+
+    async function implementRecommendation(recId) {
+      if (!confirm("Have Thoth implement this recommendation automatically?")) return;
+      const res = await fetch('/api/recommendations/implement', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ id: recId })
+      });
+      const data = await res.json();
+      if (data.success) {
+        showThothNotice(data.message);
+        await loadCatalogData();
+        fetchGraph();
+        await loadRecommendations();
+      } else {
+        alert("Implementation error: " + data.message);
+      }
+    }
+
+    function showThothNotice(msg) {
+      let notice = document.getElementById('thoth-notice');
+      if (!notice) {
+        notice = document.createElement('div');
+        notice.id = 'thoth-notice';
+        notice.style.position = 'fixed';
+        notice.style.bottom = '20px';
+        notice.style.right = '20px';
+        notice.style.background = '#1e1b2e';
+        notice.style.border = '1px solid var(--accent)';
+        notice.style.borderRadius = '8px';
+        notice.style.padding = '14px 18px';
+        notice.style.boxShadow = '0 6px 20px rgba(0,0,0,0.5)';
+        notice.style.zIndex = '9999';
+        notice.style.maxWidth = '420px';
+        notice.style.fontSize = '0.85rem';
+        notice.style.color = '#fff';
+        document.body.appendChild(notice);
+      }
+      notice.innerHTML = `
+        <div style="font-weight:700; color:var(--purple); margin-bottom:4px; display:flex; align-items:center; gap:6px;">
+          <span>🪶</span> <span>Thoth Librarian Notice</span>
+        </div>
+        <div>${escapeHtml(msg)}</div>
+      `;
+      notice.style.display = 'block';
+      setTimeout(() => {
+        if (notice) notice.style.display = 'none';
+      }, 7000);
     }
 
     // =========================================================================
