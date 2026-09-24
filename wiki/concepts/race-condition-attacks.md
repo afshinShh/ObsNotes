@@ -872,8 +872,10 @@ def handleResponse(req, interesting):
 ```
 
 ## Primary Sources & Provenance
+- Provenance source anchor: [[race-condition]]
+
 Synthesized and normalized from canonical vault note `[[unprocessed-obsidians/race-condition]]`.
 
 ## Related Concepts & Entities
 - [[turbo-intruder]]
-- [[business-logic]]
+- [[race-condition-attacks]]

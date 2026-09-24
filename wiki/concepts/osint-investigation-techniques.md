@@ -424,6 +424,8 @@ Rigorous open-source intelligence operations require operational security (OpSec
 4. **Threat Actor Pivoting**: Attribution discipline focusing on infrastructure reuse, TLS certificate serials, and regional registrant records.
 
 ## Primary Sources & Provenance
+- Provenance source anchor: [[osint-method]]
+
 Ingested and structured from canonical vault note `[[unprocessed-obsidians/osint-method]]`.
 
 ## Related Concepts & Notes

@@ -775,6 +775,8 @@ to poison future writes and achieve DOM‑XSS. Test wherever `Object.assign` or
 | **ParamSpider 3**      | LLM‑enhanced parameter discovery  |
 
 ## Primary Sources & Provenance
+- Provenance source anchor: [[xss]]
+
 Synthesized and normalized from canonical vault note `[[unprocessed-obsidians/xss]]`.
 
 ## Related Concepts & Entities

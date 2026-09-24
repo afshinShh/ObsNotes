@@ -341,6 +341,8 @@ SSTI often leads directly to RCE, but can also be used for:
 - For Node: disable `with` in EJS, avoid `compileDebug`, and run with `vm` sandbox only when fully locked down (no `require` or `Function` reachable)
 
 ## Primary Sources & Provenance
+- Provenance source anchor: [[ssti]]
+
 Synthesized and normalized from canonical vault note `[[unprocessed-obsidians/ssti]]`.
 
 ## Related Concepts & Entities

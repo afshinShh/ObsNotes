@@ -358,6 +358,8 @@ sequenceDiagram
 - Keep libraries and dependencies updated
 
 ## Primary Sources & Provenance
+- Provenance source anchor: [[oauth]]
+
 Synthesized and normalized from canonical vault note `[[unprocessed-obsidians/oauth]]`.
 
 ## Related Concepts & Entities

@@ -599,8 +599,10 @@ IDOR vulnerabilities can often be chained with other issues or used to escalate 
 - **Cache Partitioning**: Partition CDN caches by auth headers; avoid cacheable 200/304 for private resources.
 
 ## Primary Sources & Provenance
+- Provenance source anchor: [[idor]]
+
 Synthesized and normalized from canonical vault note `[[unprocessed-obsidians/idor]]`.
 
 ## Related Concepts & Entities
-- [[business-logic]]
-- [[api]]
+- [[race-condition-attacks]]
+- [[graphql-security]]

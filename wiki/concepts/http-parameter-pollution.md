@@ -586,8 +586,10 @@ A specific case of parameter pollution that affects social sharing functionality
 - **WebSocket Frame Validation**: Parse and validate WS message structures consistently with HTTP parameter handling
 
 ## Primary Sources & Provenance
+- Provenance source anchor: [[parameter-pollution]]
+
 Synthesized and normalized from canonical vault note `[[unprocessed-obsidians/parameter-pollution]]`.
 
 ## Related Concepts & Entities
 - [[vulnerability-research-methodology]]
-- [[business-logic]]
+- [[race-condition-attacks]]

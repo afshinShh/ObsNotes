@@ -176,6 +176,8 @@ Happens when applications deserialize program objects without proper precaution.
 5.  Keep libraries updated; monitor for anomalies.
 
 ## Primary Sources & Provenance
+- Provenance source anchor: [[insecure-deserialization]]
+
 Synthesized and normalized from canonical vault note `[[unprocessed-obsidians/insecure-deserialization]]`.
 
 ## Related Concepts & Entities

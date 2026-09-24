@@ -1613,6 +1613,8 @@ sequenceDiagram
 5. **Process Manipulation**: Early Cascade Injection, Early Bird, Waiting Thread Hijacking (WTH), and PPID spoofing.
 
 ## Primary Sources & Provenance
+- Provenance source anchor: [[edr]]
+
 Synthesized and normalized from canonical vault notes `[[unprocessed-obsidians/edr]]` and `[[unprocessed-obsidians/initial-access]]`.
 
 ## Related Concepts & Entities

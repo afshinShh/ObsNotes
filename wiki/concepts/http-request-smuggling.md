@@ -779,9 +779,9 @@ Transfer-Encoding: chunked\x0d\x0a
 	- timeout-based detection strategy is blocked by WAFs too
 - There's a ==server-side race condition== which makes this technique highly unreliable on certain targets.
 #### Hacking 20 million websites by accident
-- ![[Pasted image 20260116233518.png]]
+- !![Request Smuggling Diagram](attachments/Pasted image 20260116233518.png)
 -  By ignoring the fact his attack was being blocked by a cache, Wannes had discovered a HTTP/1.1 desync internal to Cloudflare's infrastructure 
-	- ![[Pasted image 20260116233536.png]]
+	- !![Request Smuggling Diagram](attachments/Pasted image 20260116233536.png)
 	- we can infer that requests sent to Cloudflare over HTTP/2 are sometimes rewritten to HTTP/1.1 for internal use, then rewritten again to HTTP/2 for the upstream connection!
 #### "HTTP/1 is simple" and other lies
 - Lie 1: An HTTP/1.1 request can't directly target an intermediary
@@ -796,37 +796,39 @@ the reality behind the last three lies is that :
 > - the entire response may arrive before the client has even finished sending you the request.
 ## A strategy to win the desync endgame
 - Daniel Thacher presented [Practical HTTP Header Smuggling](https://www.youtube.com/watch?v=RAtpG6OYYNM) -> [HTTP Request Smuggler v3.0](https://github.com/PortSwigger/http-request-smuggler/).
-	- ![[Pasted image 20260117000512.png]]
+	- !![Request Smuggling Diagram](attachments/Pasted image 20260117000512.png)
 ### Understanding V-H and H-V discrepancies
-- [ ] ![[Pasted image 20260117001145.png]] => parser discrepancy (All that matters is that they're different)
+- [ ] !![Request Smuggling Diagram](attachments/Pasted image 20260117001145.png) => parser discrepancy (All that matters is that they're different)
 - **Visible-Hidden (V-H)**: The masked Host header is visible to the front-end, but hidden from the back-end
 - **Hidden-Visible (H-V)**: The masked Host header is hidden from the front-end, but visible to the back-end
 #### Turning a V-H discrepancy into a CL.0 desync
 - [ ] ==TE.CL== exploit by hiding the Transfer-Encoding header from the back-end
 - [ ] ==CL.0 ==exploit by hiding the Content-Length header
-![[Pasted image 20260117001705.png]]
+!![Request Smuggling Diagram](attachments/Pasted image 20260117001705.png)
 - front-end server was rejecting GET requests that contained a body? 
 	- [ ] switching the method to OPTIONS
 - [ ] same header (Host), and the same permutation (leading space before header name), but a different strategy (duplicate Host with invalid value) 
-  ![[Pasted image 20260117002011.png]]
+  !![Request Smuggling Diagram](attachments/Pasted image 20260117002011.png)
 > [!note] web VPNs often have flawed HTTP implementations and I would strongly advise against placing one behind any kind of reverse proxy
 - [ ] not treating `\n\n` as terminating the header block
-    ![[Pasted image 20260117002447.png]]
+    !![Request Smuggling Diagram](attachments/Pasted image 20260117002447.png)
 #### Exploiting H-V on IIS behind ALB (AWS Application Load Balancer)
-- The classic way to exploit a H-V discrepancy is with a ==CL.TE desync== ![[Pasted image 20260117002654.png]]
+- The classic way to exploit a H-V discrepancy is with a ==CL.TE desync== !![Request Smuggling Diagram](attachments/Pasted image 20260117002654.png)
 - this gets blocked by AWS' [Desync Guardian](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/application-load-balancers.html#desync-mitigation-mode) 
 	- Thomas Stacey [independently discovered it](https://assured.se/posts/the-single-packet-shovel-desync-powered-request-tunnelling) and bypassed it using H2.TE desync
 	- Even with the H2.TE bypass fixed, attackers can still exploit this to smuggle headers, enabling IP-spoofing and [sometimes complete authentication bypass](https://portswigger.net/research/http-desync-attacks-request-smuggling-reborn#explore).
 - AWS didnt patched it (backward compatibility)
 #### Exploiting H-V without Transfer-Encoding
 - **The 0.CL deadlock**
-	- The front-end doesn't see the Content-Length header, so it will regard the orange payload as the start of a second request![[Pasted image 20260117030425.png]]
-	- The back end does see the Content-Length header, so it will wait for the body to arrive. Meanwhile, the front-end will wait for the back-end to reply => deadlock![[Pasted image 20260117030506.png]]
+	- The front-end doesn't see the Content-Length header, so it will regard the orange payload as the start of a second request!![Request Smuggling Diagram](attachments/Pasted image 20260117030425.png)
+	- The back end does see the Content-Length header, so it will wait for the body to arrive. Meanwhile, the front-end will wait for the back-end to reply => deadlock!![Request Smuggling Diagram](attachments/Pasted image 20260117030506.png)
 - [ ] ==a way to make the back-end server respond to a request without waiting for the body to arrive== 
 	- [ ] Linux: [single-packet attack](https://portswigger.net/research/the-single-packet-attack-making-remote-race-conditions-local) on a static file on a target running nginx
 	- [ ] Windows: `CON, PRN, AUX, NUL, COM1, COM2, COM3, COM4, COM5, COM6, COM7...` as the name of the file
 
 ## Primary Sources & Provenance
+- Provenance source anchor: [[req-smuggle]]
+
 Synthesized and normalized from canonical vault note `[[unprocessed-obsidians/req-smuggle]]`.
 
 ## Related Concepts & Entities

@@ -987,6 +987,8 @@ libxml_disable_entity_loader($old);
 ```
 
 ## Primary Sources & Provenance
+- Provenance source anchor: [[xxe]]
+
 Synthesized and normalized from canonical vault note `[[unprocessed-obsidians/xxe]]`.
 
 ## Related Concepts & Entities

@@ -583,8 +583,10 @@ Strategies to prevent and fix AI/LLM vulnerabilities:
 | Model Theft            | Secure APIs and infrastructure, implement watermarking, enforce legal agreements, limit model exposure          |
 
 ## Primary Sources & Provenance
+- Provenance source anchor: [[ai]]
+
 Synthesized and normalized from canonical vault note `[[unprocessed-obsidians/ai]]`.
 
 ## Related Concepts & Entities
 - [[vulnerability-research-methodology]]
-- [[api]]
+- [[graphql-security]]

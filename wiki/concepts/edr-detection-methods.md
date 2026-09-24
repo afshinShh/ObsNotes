@@ -221,6 +221,8 @@ VirtualProtect(dest, 0x1234, PAGE_EXECUTE_READ, &result)
 - **Continuous Memory Scanners**: Periodic inspection of executable memory pages targeting unbacked code, RWX permissions, and known C2 beacon signatures.
 
 ## Primary Sources & Provenance
+- Provenance source anchor: [[edr]]
+
 Synthesized and normalized from canonical vault note `[[unprocessed-obsidians/edr]]`.
 
 ## Related Concepts & Entities

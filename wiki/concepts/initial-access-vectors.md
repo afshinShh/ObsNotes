@@ -1525,6 +1525,8 @@ flowchart TD
 - **Command & Control Infrastructure**: Operational deployment of modern C2 frameworks including [[mythic-c2]], Sliver, Merlin, and Poseidon.
 
 ## Primary Sources & Provenance
+- Provenance source anchor: [[initial-access]]
+
 Synthesized and normalized from canonical vault note `[[unprocessed-obsidians/initial-access]]`.
 
 ## Related Concepts & Entities

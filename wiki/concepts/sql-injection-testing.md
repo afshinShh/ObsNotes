@@ -852,6 +852,8 @@ fields @timestamp, @message
   ```
 
 ## Primary Sources & Provenance
+- Provenance source anchor: [[sql-injection]]
+
 Synthesized and normalized from canonical vault note `[[unprocessed-obsidians/sql-injection]]`.
 
 ## Related Concepts & Entities

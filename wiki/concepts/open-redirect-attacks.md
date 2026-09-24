@@ -477,6 +477,8 @@ flowchart TD
   - For mobile deep links, validate package/bundle IDs and enforce App Links/Universal Links verification.
 
 ## Primary Sources & Provenance
+- Provenance source anchor: [[open-redirect]]
+
 Synthesized and normalized from canonical vault note `[[unprocessed-obsidians/open-redirect]]`.
 
 ## Related Concepts & Entities

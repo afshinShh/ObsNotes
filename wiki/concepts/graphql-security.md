@@ -200,8 +200,10 @@ Mutations changing state (user roles, passwords, settings), queries accessing se
 - Federation RBAC: centralize auth policy in schema directives evaluated at the gateway and in subgraphs; avoid trusting upstream filtering blindly.
 
 ## Primary Sources & Provenance
+- Provenance source anchor: [[graphql]]
+
 Synthesized and normalized from canonical vault note `[[unprocessed-obsidians/graphql]]`.
 
 ## Related Concepts & Entities
-- [[api]]
+- [[graphql-security]]
 - [[insecure-direct-object-reference]]

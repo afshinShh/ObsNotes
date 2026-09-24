@@ -655,6 +655,8 @@ ctypes.windll.kernel32.WaitForSingleObject(ht, -1)
 - **Shellcode Generation Engines**: In-memory compilation via [[donut-loader]] and sRDI.
 
 ## Primary Sources & Provenance
+- Provenance source anchor: [[shellcode]]
+
 Synthesized and normalized from canonical vault note `[[unprocessed-obsidians/shellcode]]`.
 
 ## Related Concepts & Entities

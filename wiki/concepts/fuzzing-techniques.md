@@ -2143,6 +2143,10 @@ clang -g -O1 -fsanitize=undefined -o target_ubsan target.c
 - **Snapshot Fuzzing**: VM/hypervisor state restoration using Nyx, Snapchange, and wtf.
 
 ## Primary Sources & Provenance
+- Provenance source anchor: [[fuzzing]]
+
+- Provenance source anchor: [[course]]
+
 Synthesized and normalized from canonical vault notes `[[unprocessed-obsidians/fuzzing]]` and `[[unprocessed-obsidians/course]]`.
 
 ## Related Concepts & Entities

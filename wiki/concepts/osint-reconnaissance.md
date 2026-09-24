@@ -469,6 +469,8 @@ Open-Source Intelligence (OSINT) encompasses the systematic identification, coll
 - **Infrastructure Footprinting**: Subdomain and IP enumeration leading to [[vulnerability-research-methodology]] and [[server-side-request-forgery]] targets.
 
 ## Primary Sources & Provenance
+- Provenance source anchor: [[osint]]
+
 Ingested directly from canonical vault note `[[unprocessed-obsidians/osint]]`.
 
 ## Related Concepts & Notes

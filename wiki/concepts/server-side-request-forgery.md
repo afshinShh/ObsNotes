@@ -821,6 +821,8 @@ http://rancher.cattle-system.svc.cluster.local
 - Apache CXF Aegis databinding SSRF (CVE-2024-28752)
 
 ## Primary Sources & Provenance
+- Provenance source anchor: [[ssrf]]
+
 Synthesized and normalized from canonical vault note `[[unprocessed-obsidians/ssrf]]`.
 
 ## Related Concepts & Entities

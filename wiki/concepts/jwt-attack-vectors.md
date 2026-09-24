@@ -389,6 +389,8 @@ python3 jwt_tool.py <token> -C -d wordlist.txt
 - Prefer `SameSite=Lax/Strict` HttpOnly cookies for web to reduce token exfil; avoid localStorage for access tokens.
 
 ## Primary Sources & Provenance
+- Provenance source anchor: [[jwt]]
+
 Synthesized and normalized from canonical vault note `[[unprocessed-obsidians/jwt]]`.
 
 ## Related Concepts & Entities
