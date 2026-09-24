@@ -29,3 +29,7 @@
 ## [2026-09-24] apply-single | Applied proposal: comparisons/authorization-code-vs-implicit-flow.md
 - Target: comparisons/authorization-code-vs-implicit-flow.md
 - Proposal: 2026-09-24-authorization-code-vs-implicit-flow-proposal.md
+
+## [2026-09-24] apply-single | Applied proposal: sources/jwt.md
+- Target: sources/jwt.md
+- Proposal: 2026-09-24-sources-jwt-proposal.md

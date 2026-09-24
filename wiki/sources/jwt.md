@@ -1,22 +1,4 @@
 ---
-type: llm-wiki-review
-status: needs-review
-decision: pending
-revision: 1
-operation: create
-target: sources/jwt.md
-sources:
-  - raw/articles/jwt.md
----
-
-# Proposed Wiki change
-
-## What will change
-Establishes the provenance anchor for JSON Web Tokens (JWT) security notes ingested from `unprocessed-obsidians/jwt.md`. Links the primary source to compiled entity, concept, and comparison pages.
-
-## Proposed content
-
----
 title: Source Note - JSON Web Tokens (JWT) Security
 created: 2026-09-24
 updated: 2026-09-24
@@ -59,9 +41,3 @@ The source note synthesizes JSON Web Token (RFC 7519) security architectures, at
 - [[jwt-attack-vectors]]
 - [[jwt-vs-session-cookies]]
 - [[jwt-tool]]
-
-## Evidence and uncertainty
-Directly transcribed and normalized from `unprocessed-obsidians/jwt.md`. The note represents established offensive security knowledge and standard RFC specifications (RFC 7519, RFC 9449). No unresolved contradictions exist.
-
-## Human feedback
-Optionally explain or edit what should change.
