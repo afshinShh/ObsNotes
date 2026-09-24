@@ -1,32 +1,50 @@
 ---
-title: Source Note - Cross-Site Scripting (XSS)
-created: 2026-09-24
-updated: 2026-09-24
+title: "Source Note - Cross-Site Scripting (XSS)"
+created: 2026-09-25
+updated: 2026-09-25
 type: source
 tags:
   - xss
   - bug-bounty
+  - payload
 sources:
   - unprocessed-obsidians/xss.md
 extracted_concepts:
   - "[[cross-site-scripting]]"
+extracted_entities:
+  []
+extracted_comparisons:
+  - "[[stored-vs-reflected-vs-dom-xss]]"
+confidence: high
+contested: false
+contradictions: []
 ---
 
-# Source Note: Cross-Site Scripting (XSS)
+# Source Note - Cross-Site Scripting (XSS)
 
 > **Provenance Anchor**: Ingested from canonical vault file `[[unprocessed-obsidians/xss]]`.
-> **Compiled Wiki Pages**:
-> - Concept: [[cross-site-scripting]]
+> **Total Raw Lines**: 754 lines
+> **Referenced External Links**: 1 links documented in compiled layers.
 
 ---
 
-## Original Material Overview
-The source note covers Cross-Site Scripting classification, hunting methodology, and context-dependent filter evasion:
-- **Types of XSS**: Reflected XSS, Stored XSS, DOM-based XSS, and Blind XSS.
-- **Hunting Methodology**: Source-to-sink analysis, parameter reflection discovery, context determination (HTML body, attribute, script context, URL context).
-- **Filter Evasion Taxonomy**: Tag filtering bypasses, string filter evasion, WAF evasion techniques, parentheses alternatives, alert alternatives, event handler alternatives.
-- **Impact and Chaining**: Session hijacking, credential harvesting, CSRF tokens extraction, DOM manipulation, client-side actions impersonation.
-
-## Related Pages
+## Compiled Wiki Layers
+### Concepts
 - [[cross-site-scripting]]
-- [[server-side-template-injection]]
+
+### Entities
+- None
+
+### Comparisons
+- [[stored-vs-reflected-vs-dom-xss]]
+
+---
+
+## Source Content Topic Breakdown
+- **Shortcut**
+- **Mechanisms**
+- **Hunt**
+- **Bypass Techniques**
+- **Vulnerabilities**
+- **Methodologies**
+- **Remediation Recommendations**

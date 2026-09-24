@@ -1,31 +1,51 @@
 ---
-title: Source Note - Vulnerability Research & Bug Identification
-created: 2026-09-24
-updated: 2026-09-24
+title: "Source Note - Vulnerability Research & Bug Identification"
+created: 2026-09-25
+updated: 2026-09-25
 type: source
 tags:
   - red-team
   - bug-bounty
+  - triage
 sources:
   - unprocessed-obsidians/bug-identification.md
 extracted_concepts:
   - "[[vulnerability-research-methodology]]"
+extracted_entities:
+  - "[[ghidriff]]"
+extracted_comparisons:
+  []
+confidence: high
+contested: false
+contradictions: []
 ---
 
-# Source Note: Vulnerability Research & Bug Identification
+# Source Note - Vulnerability Research & Bug Identification
 
 > **Provenance Anchor**: Ingested from canonical vault file `[[unprocessed-obsidians/bug-identification]]`.
-> **Compiled Wiki Pages**:
-> - Concept: [[vulnerability-research-methodology]]
+> **Total Raw Lines**: 1226 lines
+> **Referenced External Links**: 40 links documented in compiled layers.
 
 ---
 
-## Original Material Overview
-The source note outlines an end-to-end vulnerability research pipeline spanning software audit disciplines and modern attack surfaces:
-- **Research Methodology Phases**: Reconnaissance, Static Code Analysis (manual audit, patch diffing, codeQL queries), Dynamic Analysis (debugging, Dynamic Binary Instrumentation DBI, taint tracking, symbolic execution), Fuzzing, and Proof-of-Concept Exploitation.
-- **Attack Surface Classification**: Windows user mode, OS kernels, device drivers, eBPF & XDP subsystems, container & micro-VM hypervisors, cloud-native & IAM authorization surfaces.
-- **AI-Assisted Research**: LLM crash triage, ML pattern recognition across commits, automated variant analysis.
-
-## Related Pages
+## Compiled Wiki Layers
+### Concepts
 - [[vulnerability-research-methodology]]
-- [[fuzzing-techniques]]
+
+### Entities
+- [[ghidriff]]
+
+### Comparisons
+- None
+
+---
+
+## Source Content Topic Breakdown
+- **Overview**
+- **Vulnerability Research Methodology**
+- **Attack Surface Identification**
+- **Static Analysis Methods**
+- **Dynamic Analysis Methods**
+- **Fuzzing**
+- **AI/ML-Assisted Vulnerability Discovery**
+- **Quick Reference: Tool Selection Guide**

@@ -1,33 +1,51 @@
 ---
-title: Source Note - SQL Injection
-created: 2026-09-24
-updated: 2026-09-24
+title: "Source Note - SQL Injection"
+created: 2026-09-25
+updated: 2026-09-25
 type: source
 tags:
   - sqli
   - bug-bounty
+  - payload
 sources:
   - unprocessed-obsidians/sql-injection.md
 extracted_concepts:
   - "[[sql-injection-testing]]"
+extracted_entities:
+  - "[[sqlmap]]"
+extracted_comparisons:
+  - "[[in-band-vs-blind-sqli]]"
+confidence: high
+contested: false
+contradictions: []
 ---
 
-# Source Note: SQL Injection
+# Source Note - SQL Injection
 
 > **Provenance Anchor**: Ingested from canonical vault file `[[unprocessed-obsidians/sql-injection]]`.
-> **Compiled Wiki Pages**:
-> - Concept: [[sql-injection-testing]]
+> **Total Raw Lines**: 831 lines
+> **Referenced External Links**: 0 links documented in compiled layers.
 
 ---
 
-## Original Material Overview
-The source note synthesizes SQL Injection identification, exploitation methodologies, and database target specificities:
-- **Mechanisms**: Types of SQLi (In-band / Union-based, Error-based, Blind / Inferential boolean & time-based, Out-of-band OOB).
-- **Database Targets**: MySQL, PostgreSQL, Microsoft SQL Server (MSSQL), Oracle, SQLite, and NoSQL injection.
-- **Hunting Workflow**: Recon, endpoint discovery, parameter fuzzing, error analysis, response differential testing.
-- **Bypass Techniques**: WAF bypass (comment injection, whitespace manipulation, case variation, encoding, inline comments), character restrictions.
-- **Exploitation & Escalation**: Data exfiltration, privilege escalation, database-specific RCE vectors (MSSQL `xp_cmdshell`, PostgreSQL `COPY ... PROGRAM`, MySQL `INTO OUTFILE`).
-
-## Related Pages
+## Compiled Wiki Layers
+### Concepts
 - [[sql-injection-testing]]
-- [[graphql-security]]
+
+### Entities
+- [[sqlmap]]
+
+### Comparisons
+- [[in-band-vs-blind-sqli]]
+
+---
+
+## Source Content Topic Breakdown
+- **Shortcut**
+- **Mechanisms**
+- **Hunt**
+- **Bypass Techniques**
+- **Vulnerabilities**
+- **Chaining and Escalation**
+- **Methodologies**
+- **Remediation Recommendations**

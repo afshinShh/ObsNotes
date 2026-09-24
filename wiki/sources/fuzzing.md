@@ -1,32 +1,54 @@
 ---
-title: Source Note - Fuzzing Methodologies & Architectures
-created: 2026-09-24
-updated: 2026-09-24
+title: "Source Note - Fuzzing Methodologies & Architectures"
+created: 2026-09-25
+updated: 2026-09-25
 type: source
 tags:
   - tool
   - bug-bounty
+  - fuzzing
 sources:
   - unprocessed-obsidians/fuzzing.md
 extracted_concepts:
   - "[[fuzzing-techniques]]"
+extracted_entities:
+  - "[[afl-plus-plus]]"
+  - "[[honggfuzz]]"
+  - "[[boofuzz]]"
+extracted_comparisons:
+  - "[[blackbox-vs-greybox-vs-whitebox-fuzzing]]"
+confidence: high
+contested: false
+contradictions: []
 ---
 
-# Source Note: Fuzzing Methodologies & Architectures
+# Source Note - Fuzzing Methodologies & Architectures
 
 > **Provenance Anchor**: Ingested from canonical vault file `[[unprocessed-obsidians/fuzzing]]`.
-> **Compiled Wiki Pages**:
-> - Concept: [[fuzzing-techniques]]
+> **Total Raw Lines**: 1716 lines
+> **Referenced External Links**: 38 links documented in compiled layers.
 
 ---
 
-## Original Material Overview
-The source note provides an extensive technical taxonomy of automated fuzzing engines, architectures, and instrumentation techniques:
-- **Fuzzing Taxonomies**: BlackBox, GreyBox (coverage-guided), WhiteBox (symbolic/concolic), Snapshot fuzzing (Nyx, Snapchange, wtf), Ensemble fuzzing.
-- **Engine Components**: Power schedulers, mutation engines, directed fuzzing (AFLGo, UAFuzz), feedback loops (edge coverage, sanitizers ASAN/UBSAN), and crash triage oracles.
-- **Tool Catalog**: General (AFL++, Honggfuzz, Boofuzz, WinAFL), Kernel (Syzkaller, kAFL, wtf), Grammar-based (Tlspuffin, AFLSmart), Frameworks (LibAFL).
-- **Snapshot Fuzzing Recipes**: User-mode AFL++ Nyx recipes, persistent mode harnesses, and LLM-assisted hybrid fuzzing (ChatAFL).
-
-## Related Pages
+## Compiled Wiki Layers
+### Concepts
 - [[fuzzing-techniques]]
-- [[vulnerability-research-methodology]]
+
+### Entities
+- [[afl-plus-plus]]
+- [[honggfuzz]]
+- [[boofuzz]]
+
+### Comparisons
+- [[blackbox-vs-greybox-vs-whitebox-fuzzing]]
+
+---
+
+## Source Content Topic Breakdown
+- **Types**
+- **Components**
+- **Seed Corpus**
+- **Workflow**
+- **Obstacles**
+- **Techniques**
+- **Diagrams**

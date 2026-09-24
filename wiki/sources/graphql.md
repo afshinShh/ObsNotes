@@ -1,32 +1,51 @@
 ---
-title: Source Note - GraphQL Security Testing
-created: 2026-09-24
-updated: 2026-09-24
+title: "Source Note - GraphQL Security Testing"
+created: 2026-09-25
+updated: 2026-09-25
 type: source
 tags:
   - graphql
   - api
+  - bug-bounty
 sources:
   - unprocessed-obsidians/graphql.md
 extracted_concepts:
   - "[[graphql-security]]"
+extracted_entities:
+  []
+extracted_comparisons:
+  []
+confidence: high
+contested: false
+contradictions: []
 ---
 
-# Source Note: GraphQL Security Testing
+# Source Note - GraphQL Security Testing
 
 > **Provenance Anchor**: Ingested from canonical vault file `[[unprocessed-obsidians/graphql]]`.
-> **Compiled Wiki Pages**:
-> - Concept: [[graphql-security]]
+> **Total Raw Lines**: 179 lines
+> **Referenced External Links**: 0 links documented in compiled layers.
 
 ---
 
-## Original Material Overview
-The source note covers GraphQL architecture, endpoint discovery, reconnaissance, and exploitation attack vectors:
-- **Introspection & Reconnaissance**: Enabling introspection queries (`__schema`), schema scraping tools (InQL, GraphQL Voyager, Clairvoyance), field suggestions leakage when introspection is disabled.
-- **Authorization & Access Control**: IDOR in GraphQL arguments, missing resolver authorization, over-fetching and sensitive field disclosure, Relay global ID decoding.
-- **Denial of Service (DoS)**: Nested recursive query abuse, directive flooding (`@include`/`@skip` parser exhaustion CVE-2024-47614), query batching abuse, circular relationship exploitation.
-- **Injection Vectors**: SQLi, NoSQLi, and OS command injection embedded inside GraphQL field arguments; subscription WebSocket vulnerabilities; Apollo / Hasura configuration leakage.
-
-## Related Pages
+## Compiled Wiki Layers
+### Concepts
 - [[graphql-security]]
-- [[insecure-direct-object-reference]]
+
+### Entities
+- None
+
+### Comparisons
+- None
+
+---
+
+## Source Content Topic Breakdown
+- **Shortcut**
+- **Mechanisms**
+- **Hunt**
+- **Bypass Techniques**
+- **Vulnerabilities**
+- **Methodologies**
+- **Chaining and Escalation**
+- **Remediation Recommendations**

@@ -1,7 +1,7 @@
 ---
-title: Source Note - Open Redirect Vulnerabilities
-created: 2026-09-24
-updated: 2026-09-24
+title: "Source Note - Open Redirect Vulnerabilities"
+created: 2026-09-25
+updated: 2026-09-25
 type: source
 tags:
   - open-redirect
@@ -10,22 +10,40 @@ sources:
   - unprocessed-obsidians/open-redirect.md
 extracted_concepts:
   - "[[open-redirect-attacks]]"
+extracted_entities:
+  []
+extracted_comparisons:
+  - "[[open-redirect-in-oauth-flows]]"
+confidence: high
+contested: false
+contradictions: []
 ---
 
-# Source Note: Open Redirect Vulnerabilities
+# Source Note - Open Redirect Vulnerabilities
 
 > **Provenance Anchor**: Ingested from canonical vault file `[[unprocessed-obsidians/open-redirect]]`.
-> **Compiled Wiki Pages**:
-> - Concept: [[open-redirect-attacks]]
+> **Total Raw Lines**: 457 lines
+> **Referenced External Links**: 0 links documented in compiled layers.
 
 ---
 
-## Original Material Overview
-The source note covers Open Redirect vulnerabilities, detection heuristics, and allowlist bypass patterns:
-- **Mechanisms**: Unvalidated client-supplied URLs in HTTP 3xx redirection handlers, post-login return URLs, Referer-based redirections.
-- **Bypass Techniques**: Domain spoofing, slash tricks (`//`, `///`), backslash tricks (`/\`), protocol confusion (`javascript:`, `data:`), subdomain flaws, parameter pollution, character encoding (hex, URL, unicode).
-- **Chaining & Impact**: Chaining with OAuth flows for authorization code theft (cross-linked to `[[oauth-attack-vectors]]`), phishing link legitimation, SSRF escalation, and CSRF token bypass.
-
-## Related Pages
+## Compiled Wiki Layers
+### Concepts
 - [[open-redirect-attacks]]
-- [[cross-site-scripting]]
+
+### Entities
+- None
+
+### Comparisons
+- [[open-redirect-in-oauth-flows]]
+
+---
+
+## Source Content Topic Breakdown
+- **Shortcut**
+- **Mechanisms**
+- **Hunt**
+- **Bypass Techniques**
+- **Vulnerabilities**
+- **Methodologies**
+- **Remediation Recommendations**

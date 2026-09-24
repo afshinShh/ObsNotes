@@ -1,32 +1,49 @@
 ---
-title: Source Note - HTTP Parameter Pollution (HPP)
-created: 2026-09-24
-updated: 2026-09-24
+title: "Source Note - HTTP Parameter Pollution (HPP)"
+created: 2026-09-25
+updated: 2026-09-25
 type: source
 tags:
   - api
   - bug-bounty
+  - business-logic
 sources:
   - unprocessed-obsidians/parameter-pollution.md
 extracted_concepts:
   - "[[http-parameter-pollution]]"
+extracted_entities:
+  []
+extracted_comparisons:
+  []
+confidence: high
+contested: false
+contradictions: []
 ---
 
-# Source Note: HTTP Parameter Pollution (HPP)
+# Source Note - HTTP Parameter Pollution (HPP)
 
 > **Provenance Anchor**: Ingested from canonical vault file `[[unprocessed-obsidians/parameter-pollution]]`.
-> **Compiled Wiki Pages**:
-> - Concept: [[http-parameter-pollution]]
+> **Total Raw Lines**: 565 lines
+> **Referenced External Links**: 0 links documented in compiled layers.
 
 ---
 
-## Original Material Overview
-The source note covers HTTP Parameter Pollution (HPP) mechanics across diverse application and web server technologies:
-- **Server Parameter Precedence**: Matrix of technology behaviors when encountering duplicate parameters (First occurrence, Last occurrence, Array concatenation, Comma-delimited merging).
-- **Attack Classifications**: Client-side HPP (injecting query strings into generated links) vs Server-side HPP (manipulating backend internal API requests).
-- **Impact Scenarios**: Bypassing WAF rules by splitting SQLi/XSS keywords across parameters, overriding backend default query parameters, privilege escalation in payment and checkout workflows.
-- **Real-World Case Studies & CVEs**: Account takeover and authorization bypasses in social platforms, bank transfers, and OAuth redirection flows.
-
-## Related Pages
+## Compiled Wiki Layers
+### Concepts
 - [[http-parameter-pollution]]
-- [[sql-injection-testing]]
+
+### Entities
+- None
+
+### Comparisons
+- None
+
+---
+
+## Source Content Topic Breakdown
+- **Mechanisms**
+- **Hunt**
+- **Vulnerabilities**
+- **Methodologies**
+- **Real-World Cases and CVEs**
+- **Remediation Recommendations**

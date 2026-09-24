@@ -1,32 +1,53 @@
 ---
-title: Source Note - OSINT Tools & Data Sources
-created: 2026-09-24
-updated: 2026-09-24
+title: "Source Note - OSINT Tools & Data Sources"
+created: 2026-09-25
+updated: 2026-09-25
 type: source
 tags:
   - osint
   - mapping
+  - tool
 sources:
   - unprocessed-obsidians/osint.md
 extracted_concepts:
   - "[[osint-reconnaissance]]"
+extracted_entities:
+  []
+extracted_comparisons:
+  []
+confidence: high
+contested: false
+contradictions: []
 ---
 
-# Source Note: OSINT Tools & Data Sources
+# Source Note - OSINT Tools & Data Sources
 
 > **Provenance Anchor**: Ingested from canonical vault file `[[unprocessed-obsidians/osint]]`.
-> **Compiled Wiki Pages**:
-> - Concept: [[osint-reconnaissance]]
+> **Total Raw Lines**: 454 lines
+> **Referenced External Links**: 320 links documented in compiled layers.
 
 ---
 
-## Original Material Overview
-The source note catalogs open-source intelligence tools and reconnaissance data sources across identity, enterprise, and financial spheres:
-- **Search Engines & Specialized Indexes**: Metasearch engines, topic cluster engines (Carrot2), privacy-focused indexes (Kagi, Brave Search), PDF content scrapers.
-- **Username, Identity & Email Enumeration**: Cross-platform username discovery (What's My Name, Maigret, Sherlock), email existence verification (Holehe, EmailRep, Hunter.io, Epieos).
-- **People Search & Face Recognition**: Facial recognition search engines (FaceCheck, FaceSeek, Search4Faces), social scrapers (snscrape).
-- **Cryptocurrency & Breach Databases**: Multi-chain explorers, leak archives (DDoSecrets), corporate public records.
-
-## Related Pages
+## Compiled Wiki Layers
+### Concepts
 - [[osint-reconnaissance]]
-- [[osint-investigation-techniques]]
+
+### Entities
+- None
+
+### Comparisons
+- None
+
+---
+
+## Source Content Topic Breakdown
+- **General OSINT**
+- **Cryptocurrency OSINT**
+- **Media Intelligence**
+- **GeoSpatial Intelligence**
+- **Maritime OSINT**
+- **AI‑Assisted OSINT Platforms**
+- **Archiving & Snapshots**
+- **Automation & Workflows**
+- **Additional Tools**
+- **Automation & Headless Browsing**

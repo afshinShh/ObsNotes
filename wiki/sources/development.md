@@ -1,31 +1,51 @@
 ---
-title: Source Note - Exploit Development
-created: 2026-09-24
-updated: 2026-09-24
+title: "Source Note - Exploit Development"
+created: 2026-09-25
+updated: 2026-09-25
 type: source
 tags:
   - rce
   - red-team
+  - payload
 sources:
   - unprocessed-obsidians/development.md
 extracted_concepts:
   - "[[exploit-development]]"
+extracted_entities:
+  - "[[ropper]]"
+extracted_comparisons:
+  - "[[stack-vs-heap-exploitation]]"
+confidence: high
+contested: false
+contradictions: []
 ---
 
-# Source Note: Exploit Development
+# Source Note - Exploit Development
 
 > **Provenance Anchor**: Ingested from canonical vault file `[[unprocessed-obsidians/development]]`.
-> **Compiled Wiki Pages**:
-> - Concept: [[exploit-development]]
+> **Total Raw Lines**: 669 lines
+> **Referenced External Links**: 20 links documented in compiled layers.
 
 ---
 
-## Original Material Overview
-The source note covers binary exploitation engineering, vulnerability root cause classification, and weaponization:
-- **Exploit Development Lifecycle**: Bug identification, vulnerability analysis (root cause, trigger identification, impact assessment), weaponization (mitigation bypass, payload development, reliability), and deployment.
-- **Memory Corruption Bug Taxonomy**: Stack buffer overflows (SEH overwrite case studies, e.g. CVE-2025-0910 TinyFTP), Use-After-Free (UAF), Heap overflows, concurrency race issues, integer overflows/underflows, incomplete pointer validation, format string flaws, and type confusion.
-- **Mitigation Bypasses**: ROP (Return-Oriented Programming) chains to disable DEP/NX, ASLR information leaks, SEHOP considerations.
-
-## Related Pages
+## Compiled Wiki Layers
+### Concepts
 - [[exploit-development]]
-- [[exploit-mitigations]]
+
+### Entities
+- [[ropper]]
+
+### Comparisons
+- [[stack-vs-heap-exploitation]]
+
+---
+
+## Source Content Topic Breakdown
+- **Exploit Development Process**
+- **Bug Types**
+- **Vulnerability Analysis**
+- **Weaponization**
+- **Mitigation Bypasses**
+- **Testing & Refinement**
+- **Reproducibility & CI**
+- **Special Topics**

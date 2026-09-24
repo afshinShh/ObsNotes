@@ -1,31 +1,53 @@
 ---
-title: Source Note - OSINT Investigation Methodologies
-created: 2026-09-24
-updated: 2026-09-24
+title: "Source Note - OSINT Investigation Methodologies"
+created: 2026-09-25
+updated: 2026-09-25
 type: source
 tags:
   - osint
   - mapping
+  - evasion
 sources:
   - unprocessed-obsidians/osint-method.md
 extracted_concepts:
   - "[[osint-investigation-techniques]]"
+extracted_entities:
+  []
+extracted_comparisons:
+  []
+confidence: high
+contested: false
+contradictions: []
 ---
 
-# Source Note: OSINT Investigation Methodologies
+# Source Note - OSINT Investigation Methodologies
 
 > **Provenance Anchor**: Ingested from canonical vault file `[[unprocessed-obsidians/osint-method]]`.
-> **Compiled Wiki Pages**:
-> - Concept: [[osint-investigation-techniques]]
+> **Total Raw Lines**: 404 lines
+> **Referenced External Links**: 78 links documented in compiled layers.
 
 ---
 
-## Original Material Overview
-The source note outlines operational security, investigative workflows, and technical analysis techniques for intelligence gathering:
-- **Operational Security (OpSec)**: Sock puppet persona generation, browser container isolation (Firefox Multi-Account Containers), burner VoIP/SMS numbers, operational chain-of-custody.
-- **Cryptocurrency & Blockchain Investigations**: Transaction clustering, Layer-2 rollup analysis (zkSync, Arbitrum, Optimism calldata reconstruction, StarkNet), privacy protocol hurdles (Railgun, Aztec), cross-chain bridge mixer tracing.
-- **Image Forensics & Geolocation**: EXIF metadata extraction, sun/shadow chronolocation, mountain ridgeline matching (PeakVisor), flight tracking, wildfire identification.
-
-## Related Pages
+## Compiled Wiki Layers
+### Concepts
 - [[osint-investigation-techniques]]
-- [[osint-reconnaissance]]
+
+### Entities
+- None
+
+### Comparisons
+- None
+
+---
+
+## Source Content Topic Breakdown
+- **OpSec**
+- **Cryptocurrency Investigation**
+- **Image Analysis**
+- **Video Analysis**
+- **Chronolocation and Time Analysis**
+- **Threat Actor Investigation**
+- **People & Social Media Investigation**
+- **Infrastructure OSINT**
+- **Automation & Case Management**
+- **Synthetic Media Verification**

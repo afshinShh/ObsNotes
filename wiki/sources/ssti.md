@@ -1,32 +1,51 @@
 ---
-title: Source Note - Server-Side Template Injection (SSTI)
-created: 2026-09-24
-updated: 2026-09-24
+title: "Source Note - Server-Side Template Injection (SSTI)"
+created: 2026-09-25
+updated: 2026-09-25
 type: source
 tags:
   - ssti
   - bug-bounty
+  - rce
 sources:
   - unprocessed-obsidians/ssti.md
 extracted_concepts:
   - "[[server-side-template-injection]]"
+extracted_entities:
+  - "[[tplmap]]"
+extracted_comparisons:
+  []
+confidence: high
+contested: false
+contradictions: []
 ---
 
-# Source Note: Server-Side Template Injection (SSTI)
+# Source Note - Server-Side Template Injection (SSTI)
 
 > **Provenance Anchor**: Ingested from canonical vault file `[[unprocessed-obsidians/ssti]]`.
-> **Compiled Wiki Pages**:
-> - Concept: [[server-side-template-injection]]
+> **Total Raw Lines**: 319 lines
+> **Referenced External Links**: 16 links documented in compiled layers.
 
 ---
 
-## Original Material Overview
-The source note covers Server-Side Template Injection mechanics, template engine fingerprinting, and Remote Code Execution (RCE) chains:
-- **Vulnerable vs Secure Implementations**: Jinja2 / Flask pattern analysis (concatenating user input into template string vs passing variables to `render_template`).
-- **Detection & Identification Polyglots**: Math expression probes (`${7*7}`, `{{7*7}}`, `<%= 7*7 %>`, `#{7*7}`) separating server-side template evaluation from client-side reflection.
-- **Engine Fingerprinting Decision Tree**: Jinja2 vs Twig, Smarty, Freemarker, Velocity, ERB, Pebble.
-- **Filter Bypass Techniques**: Character blacklists (escaping quotes, underscores), keyword filtering bypasses, Python MRO (`__mro__`, `__subclasses__`) traversal, and .NET reflection string-less exploitation.
-
-## Related Pages
+## Compiled Wiki Layers
+### Concepts
 - [[server-side-template-injection]]
-- [[cross-site-scripting]]
+
+### Entities
+- [[tplmap]]
+
+### Comparisons
+- None
+
+---
+
+## Source Content Topic Breakdown
+- **Shortcut**
+- **Mechanisms**
+- **Hunt**
+- **Bypass Techniques**
+- **Vulnerabilities**
+- **Methodologies**
+- **Chaining and Escalation**
+- **Remediation Recommendations**

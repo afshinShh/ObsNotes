@@ -1,7 +1,7 @@
 ---
-title: Source Note - OAuth Security Testing
-created: 2026-09-24
-updated: 2026-09-24
+title: "Source Note - OAuth Security Testing"
+created: 2026-09-25
+updated: 2026-09-25
 type: source
 tags:
   - oauth
@@ -13,27 +13,43 @@ sources:
 extracted_concepts:
   - "[[oauth-grant-types-and-flows]]"
   - "[[oauth-attack-vectors]]"
+extracted_entities:
+  []
 extracted_comparisons:
   - "[[authorization-code-vs-implicit-flow]]"
+  - "[[open-redirect-in-oauth-flows]]"
+confidence: high
+contested: false
+contradictions: []
 ---
 
-# Source Note: OAuth Security Testing
+# Source Note - OAuth Security Testing
 
 > **Provenance Anchor**: Ingested from canonical vault file `[[unprocessed-obsidians/oauth]]`.
-> **Compiled Wiki Pages**:
-> - Concept: [[oauth-grant-types-and-flows]]
-> - Concept: [[oauth-attack-vectors]]
-> - Comparison: [[authorization-code-vs-implicit-flow]]
+> **Total Raw Lines**: 336 lines
+> **Referenced External Links**: 0 links documented in compiled layers.
 
 ---
 
-## Original Material Overview
-The source note covers OAuth 2.0 and OpenID Connect (OIDC) security testing, authorization workflows, vulnerability patterns, and modern hardening standards:
-- **Core Flows & Architecture**: Roles (Resource Owner, Client, Authorization Server, Resource Server); Authorization Code Flow with PKCE; Client Credentials; legacy/deprecated Implicit and ROPC flows.
-- **Standards & Extensions**: OAuth 2.1 specifications (deprecation of Implicit/ROPC, mandatory PKCE, exact redirect matching, refresh token sender constraint); FAPI 1.0/2.0; PAR (RFC 9126); JAR (RFC 9101); JARM; DPoP (RFC 9449); mTLS.
-- **Vulnerability Surface**: `redirect_uri` manipulation (open redirects, path traversal, regex/subdomain bypasses); CSRF & missing `state` parameter leading to forced account linking; authorization code injection / substitution; implicit flow user impersonation; token theft via XSS; scope escalation; IdP confusion in multi-tenant environments; SSRF via `redirect_uri`.
-
-## Related Pages
+## Compiled Wiki Layers
+### Concepts
 - [[oauth-grant-types-and-flows]]
 - [[oauth-attack-vectors]]
+
+### Entities
+- None
+
+### Comparisons
 - [[authorization-code-vs-implicit-flow]]
+- [[open-redirect-in-oauth-flows]]
+
+---
+
+## Source Content Topic Breakdown
+- **Shortcut**
+- **Mechanisms**
+- **Hunt**
+- **Vulnerabilities**
+- **Methodologies**
+- **Chaining and Escalation**
+- **Remediation Recommendations**

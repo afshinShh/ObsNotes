@@ -1,32 +1,52 @@
 ---
-title: Source Note - Shellcode Architecture & Development
-created: 2026-09-24
-updated: 2026-09-24
+title: "Source Note - Shellcode Architecture & Development"
+created: 2026-09-25
+updated: 2026-09-25
 type: source
 tags:
   - payload
   - red-team
+  - evasion
 sources:
   - unprocessed-obsidians/shellcode.md
 extracted_concepts:
   - "[[shellcode-development]]"
+extracted_entities:
+  - "[[donut-loader]]"
+extracted_comparisons:
+  []
+confidence: high
+contested: false
+contradictions: []
 ---
 
-# Source Note: Shellcode Architecture & Development
+# Source Note - Shellcode Architecture & Development
 
 > **Provenance Anchor**: Ingested from canonical vault file `[[unprocessed-obsidians/shellcode]]`.
-> **Compiled Wiki Pages**:
-> - Concept: [[shellcode-development]]
+> **Total Raw Lines**: 628 lines
+> **Referenced External Links**: 18 links documented in compiled layers.
 
 ---
 
-## Original Material Overview
-The source note covers machine code payload engineering, Position-Independent Code (PIC), Windows execution flows, and shellcode loaders:
-- **Core Concepts**: Allocate-Write-Execute pattern, avoiding flagged `PAGE_EXECUTE_READWRITE` allocations, relative addressing, RIP-relative addressing in x64.
-- **Position-Independent Code (PIC)**: Address resolution techniques (Call/Pop delta, FPU state `fnstenv`, SEH method, Global Offset Table).
-- **Windows API Resolution**: Traversing the Process Environment Block (PEB), finding `InMemoryOrderModuleList`, walking PE Export Address Tables (EAT), API hashing (ROR13 / Murmur).
-- **Shellcode Loaders & Execution**: Early bird APC injection, process hollowing, thread pool execution, DLL to shellcode conversion (Donut), cross-platform modern primitives (Linux eBPF tokens, Windows on ARM64).
-
-## Related Pages
+## Compiled Wiki Layers
+### Concepts
 - [[shellcode-development]]
-- [[initial-access-vectors]]
+
+### Entities
+- [[donut-loader]]
+
+### Comparisons
+- None
+
+---
+
+## Source Content Topic Breakdown
+- **Introduction to Shellcode**
+- **Basic Shellcode Concepts**
+- **Shellcode Development Process**
+- **Shellcode Loaders**
+- **Cross‑Platform Considerations**
+- **Shellcode Storage & Hiding Techniques**
+- **Evasion Techniques**
+- **Advanced Implementations**
+- **Practical Examples**

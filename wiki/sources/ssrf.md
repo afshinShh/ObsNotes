@@ -1,32 +1,55 @@
 ---
-title: Source Note - Server-Side Request Forgery (SSRF)
-created: 2026-09-24
-updated: 2026-09-24
+title: "Source Note - Server-Side Request Forgery (SSRF)"
+created: 2026-09-25
+updated: 2026-09-25
 type: source
 tags:
   - ssrf
   - bug-bounty
+  - cloud-iam
 sources:
   - unprocessed-obsidians/ssrf.md
 extracted_concepts:
   - "[[server-side-request-forgery]]"
+extracted_entities:
+  []
+extracted_comparisons:
+  - "[[imdsv1-vs-imdsv2-ssrf]]"
+  - "[[redis-vs-fastcgi-ssrf-pivoting]]"
+confidence: high
+contested: false
+contradictions: []
 ---
 
-# Source Note: Server-Side Request Forgery (SSRF)
+# Source Note - Server-Side Request Forgery (SSRF)
 
 > **Provenance Anchor**: Ingested from canonical vault file `[[unprocessed-obsidians/ssrf]]`.
-> **Compiled Wiki Pages**:
-> - Concept: [[server-side-request-forgery]]
+> **Total Raw Lines**: 800 lines
+> **Referenced External Links**: 0 links documented in compiled layers.
 
 ---
 
-## Original Material Overview
-The source note covers Server-Side Request Forgery (SSRF) detection, bypasses, and exploitation tactics:
-- **SSRF Types**: In-band SSRF (reflected response), Blind SSRF (out-of-band callback listeners), Semi-blind (timing and error differentials).
-- **Filter Evasion Taxonomy**: Denylist bypasses (alternative IP representations: decimal, octal, hex, IPv6, 0.0.0.0, 127.1), DNS rebinding attacks, open redirect chaining, parser confusion (URL schemes, userinfo `@` trick).
-- **Cloud Metadata Targets**: AWS IMDSv1 vs IMDSv2, GCP metadata, Azure instance metadata, Kubernetes pod identity APIs.
-- **Specialized Primitives**: PDF rendering engines SSRF, protocol smuggling via `gopher://` (cross-linked to `[[blind-ssrf-gopher-redis-rce]]` and `[[fastcgi-ssrf-exploitation]]`).
-
-## Related Pages
+## Compiled Wiki Layers
+### Concepts
 - [[server-side-request-forgery]]
-- [[xml-external-entity-injection]]
+
+### Entities
+- None
+
+### Comparisons
+- [[imdsv1-vs-imdsv2-ssrf]]
+- [[redis-vs-fastcgi-ssrf-pivoting]]
+
+---
+
+## Source Content Topic Breakdown
+- **Shortcut**
+- **Mechanisms**
+- **Hunt**
+- **Bypass Techniques**
+- **Vulnerabilities**
+- **Methodologies**
+- **Escalate**
+- **Remediation Recommendations**
+- **Real-World Examples**
+- **Framework-Specific SSRF**

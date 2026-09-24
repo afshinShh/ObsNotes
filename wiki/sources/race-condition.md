@@ -1,32 +1,53 @@
 ---
-title: Source Note - Race Conditions
-created: 2026-09-24
-updated: 2026-09-24
+title: "Source Note - Race Conditions"
+created: 2026-09-25
+updated: 2026-09-25
 type: source
 tags:
   - race-condition
   - bug-bounty
+  - business-logic
 sources:
   - unprocessed-obsidians/race-condition.md
 extracted_concepts:
   - "[[race-condition-attacks]]"
+extracted_entities:
+  - "[[turbo-intruder]]"
+extracted_comparisons:
+  []
+confidence: high
+contested: false
+contradictions: []
 ---
 
-# Source Note: Race Conditions
+# Source Note - Race Conditions
 
 > **Provenance Anchor**: Ingested from canonical vault file `[[unprocessed-obsidians/race-condition]]`.
-> **Compiled Wiki Pages**:
-> - Concept: [[race-condition-attacks]]
+> **Total Raw Lines**: 851 lines
+> **Referenced External Links**: 0 links documented in compiled layers.
 
 ---
 
-## Original Material Overview
-The source note covers race conditions and concurrency flaws in web applications:
-- **Mechanisms**: Time-of-Check to Time-of-Use (TOCTOU), Read-Modify-Write desynchronization, thread safety issues, resource allocation races.
-- **Vulnerable Business Logic**: Account balance manipulation, coupon/voucher reuse, multi-redemption gifts, file upload validation race windows, single-use token exhaustion.
-- **Testing & Exploitation Methodology**: Turbo Intruder concurrency scripting, HTTP/2 single-packet attack (synchronizing multiple requests in one TCP packet via stream multiplexing), database transaction isolation testing (Read Committed vs Serializable).
-- **Environment Contexts**: Microservices distributed state, WebSocket race conditions, cloud and serverless concurrency limits.
-
-## Related Pages
+## Compiled Wiki Layers
+### Concepts
 - [[race-condition-attacks]]
-- [[insecure-direct-object-reference]]
+
+### Entities
+- [[turbo-intruder]]
+
+### Comparisons
+- None
+
+---
+
+## Source Content Topic Breakdown
+- **Shortcut**
+- **Mechanisms**
+- **Hunt**
+- **Vulnerabilities**
+- **Impact Assessment**
+- **Methodologies**
+- **Advanced Race Condition Scenarios**
+- **Remediation Recommendations**
+- **Real World Cases and CVEs**
+- **Burp Suite Testing Methods**
