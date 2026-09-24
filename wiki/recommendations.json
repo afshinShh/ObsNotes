@@ -62,13 +62,14 @@
     "priority": "HIGH",
     "details": "Entity 'JWT Tool (ticarpi)' shares security classification with [[ai-security-testing|AI & LLM Application Security Testing & Jailbreak Vectors]], but lacks an explicit cross-link in its exploitation section.",
     "action": "Cross-link [[ai-security-testing]] in 'entities/jwt-tool.md'.",
-    "status": "pending",
+    "status": "implemented",
     "implementation": {
       "type": "patch_note",
       "target": "entities/jwt-tool.md",
       "section": "## Exploitation Chains & Pivot Vectors",
       "content": "- **Pivot to [[ai-security-testing|AI & LLM Application Security Testing & Jailbreak Vectors]]:** Weaponize vulnerability surface in JWT Tool (ticarpi) to trigger [[ai-security-testing]]."
-    }
+    },
+    "implemented_at": "2026-09-25T02:10:33.312539"
   },
   {
     "id": "rec_comp_edr-detection-methods_exploit-mitigations",

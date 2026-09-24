@@ -66,3 +66,7 @@ python3 jwt_tool.py "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." -C -d /usr/share/w
 - [[jwt]]
 - [[jwt-security-mechanisms]]
 - [[jwt-attack-vectors]]
+
+
+## Exploitation Chains & Pivot Vectors
+- **Pivot to [[ai-security-testing|AI & LLM Application Security Testing & Jailbreak Vectors]]:** Weaponize vulnerability surface in JWT Tool (ticarpi) to trigger [[ai-security-testing]].
