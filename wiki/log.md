@@ -45,3 +45,26 @@
 ## [2026-09-24] apply-single | Applied proposal: sources/oauth.md
 - Target: sources/oauth.md
 - Proposal: 2026-09-24-sources-oauth-proposal.md
+
+## [2026-09-24] ingest | JWT & OAuth 2.0/OIDC authentication notes
+- Sources (canonical vault notes): unprocessed-obsidians/jwt.md, unprocessed-obsidians/oauth.md
+- Raw capture body-hash receipts (sha256, verified pre/post ingest):
+  - jwt.md: b5c7a479d88658e70c82ae20c9118c9d4a216f097546bc5e474e57d52309a743
+  - oauth.md: 709da89069dd5e58f03f53e97a0776f7670bce0d323787a7f317a19074be7dc9
+- Approved proposals applied (9/9, revision 1, via Decision Studio):
+  - sources/jwt.md (created), sources/oauth.md (created)
+  - concepts/jwt-security-mechanisms.md, concepts/jwt-attack-vectors.md (created)
+  - concepts/oauth-grant-types-and-flows.md, concepts/oauth-attack-vectors.md (created)
+  - comparisons/jwt-vs-session-cookies.md, comparisons/authorization-code-vs-implicit-flow.md (created)
+  - entities/jwt-tool.md (created)
+- Approval receipts: 8/9 review records carried `decision: approve` at apply time.
+  - AUDIT NOTE: sources/jwt.md was applied while its record still read `decision: pending`
+    (studio apply preceded the frontmatter flip). Approval basis: user proceed command
+    ("Please proceed with the approved revision") + Decision Studio apply. Applied content
+    proven byte-identical to reviewed revision 1 via git-blob comparison (EXACT-EXTRACT).
+- Post-apply deduplication: Review/ purged (9 applied proposals), wiki/raw/article copies purged;
+  frontmatter `sources:` bound directly to canonical notes.
+- Post-apply verification: 13 pages, 0 broken wikilinks, 0 orphans, schema/tags valid, index rebuilt.
+
+## [2026-09-24] lint | Post-apply graph verification
+- 13 pages scanned. Broken links: 0. Orphans: 0. Verdict: PERFECT (All green).
