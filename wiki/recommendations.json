@@ -8,13 +8,14 @@
     "priority": "HIGH",
     "details": "Entity 'WordPress Performance Monitor Plugin' shares security classification with [[cross-site-scripting|Cross-Site Scripting (XSS) Execution Contexts & Filter Evasion]], but lacks an explicit cross-link in its exploitation section.",
     "action": "Cross-link [[cross-site-scripting]] in 'entities/wordpress-performance-monitor.md'.",
-    "status": "pending",
+    "status": "implemented",
     "implementation": {
       "type": "patch_note",
       "target": "entities/wordpress-performance-monitor.md",
       "section": "## Exploitation Chains & Pivot Vectors",
       "content": "- **Pivot to [[cross-site-scripting|Cross-Site Scripting (XSS) Execution Contexts & Filter Evasion]]:** Weaponize vulnerability surface in WordPress Performance Monitor Plugin to trigger [[cross-site-scripting]]."
-    }
+    },
+    "implemented_at": "2026-09-25T02:11:10.860334"
   },
   {
     "id": "rec_chain_jwt-tool_blind-ssrf-gopher-redis-rce",
