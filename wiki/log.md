@@ -72,3 +72,17 @@
 ## [2026-09-25] apply | Applied 2 approved proposals
 - Applied compiled page: sources/shellcode.md
 - Applied compiled page: concepts/ai-security-testing.md
+
+## [2026-09-25] ingest | Full Vault Backlog Compilation & Graph Synthesis
+- Ingestion of remaining 23 unprocessed notes from `unprocessed-obsidians/`:
+  - 52 review proposals approved and applied into compiled gold layer.
+  - Raw duplicates purged from `wiki/raw/articles/`; provenance bound to canonical notes.
+  - Syntheses and comparisons added: `redis-vs-fastcgi-ssrf-pivoting`, `jwt-in-oauth2`, `open-redirect-vs-oauth-attacks`.
+  - Cross-linked orphan `redis-vs-fastcgi-ssrf-pivoting` bidirectionally with `blind-ssrf-gopher-redis-rce` and `fastcgi-ssrf-exploitation`.
+- Index updated: 64 total pages cataloged.
+
+## [2026-09-25] lint | Post-Apply Full Graph Verification
+- Total Scanned Pages: 64
+- Broken Links: 0
+- Orphan Pages: 0
+- Health Verdict: PERFECT (All green)

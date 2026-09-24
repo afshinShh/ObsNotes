@@ -5,10 +5,9 @@ updated: 2026-09-25
 type: comparison
 tags:
   - ssrf
-  - redis
-  - fastcgi
-  - pivoting
   - rce
+  - payload
+  - bug-bounty
 sources:
   - concepts/blind-ssrf-gopher-redis-rce.md
   - concepts/fastcgi-ssrf-exploitation.md
