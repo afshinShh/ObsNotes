@@ -3609,3 +3609,28 @@ TypeError: Object of type date is not JSON serializable
 127.0.0.1 - - [25/Sep/2026 02:23:02] "GET /api/recommendations?refresh=true HTTP/1.1" 200 -
 127.0.0.1 - - [25/Sep/2026 02:23:05] "GET /api/stats HTTP/1.1" 200 -
 127.0.0.1 - - [25/Sep/2026 02:23:05] "GET /api/recommendations HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 02:50:36] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 02:51:41] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 02:57:03] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 02:57:03] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 02:57:03] "GET /marked.min.js HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 02:57:03] "GET /marked.min.js HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 02:57:04] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 02:57:04] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 02:57:04] "GET /api/note?path=concepts%2Fai-security-testing.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 02:57:04] "GET /api/graph HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 02:57:08] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 03:01:36] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 03:01:36] "GET /marked.min.js HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 03:01:36] "GET /marked.min.js HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 03:01:37] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 03:01:37] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 03:01:37] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [25/Sep/2026 03:01:37] "GET /api/note?path=concepts%2Fai-security-testing.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 03:01:37] "GET /api/graph HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 03:01:40] "GET /api/note?path=Review%2F2026-09-25-source-initial-access-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 03:01:42] "GET /api/note?path=Review%2F2026-09-25-source-graphql-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 03:02:03] "GET /api/note?path=graphql-security HTTP/1.1" 200 -
+127.0.0.1 - - [25/Sep/2026 03:02:12] "GET /api/note?path=Review%2F2026-09-25-source-ssrf-proposal.md HTTP/1.1" 200 -
+=== Applying Approved Proposals ===
+[*] Creating Git checkpoint: 'checkpoint: pre-apply proposals snapshot'...
