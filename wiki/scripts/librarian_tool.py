@@ -1309,13 +1309,20 @@ class StudioHandler(BaseHTTPRequestHandler):
             self.wfile.write(get_studio_html().encode("utf-8"))
             return
 
-        if url.path == "/marked.min.js":
-            marked_path = os.path.join(WIKI_ROOT, "scripts", "marked.min.js")
-            if os.path.exists(marked_path):
+        static_files = {
+            "/marked.min.js": ("scripts/marked.min.js", "application/javascript"),
+            "/mermaid.min.js": ("scripts/mermaid.min.js", "application/javascript"),
+            "/highlight.min.js": ("scripts/highlight.min.js", "application/javascript"),
+            "/highlight.min.css": ("scripts/highlight.min.css", "text/css"),
+        }
+        if url.path in static_files:
+            rel_f, mime = static_files[url.path]
+            fpath = os.path.join(WIKI_ROOT, rel_f)
+            if os.path.exists(fpath):
                 self.send_response(200)
-                self.send_header("Content-Type", "application/javascript")
+                self.send_header("Content-Type", mime)
                 self.end_headers()
-                with open(marked_path, "rb") as f:
+                with open(fpath, "rb") as f:
                     self.wfile.write(f.read())
                 return
             self.send_response(404)
