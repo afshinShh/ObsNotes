@@ -1,0 +1,54 @@
+---
+title: "Source Note - AI & LLM Security Testing"
+created: 2026-09-25
+updated: 2026-09-25
+type: source
+tags:
+  - api
+  - bug-bounty
+sources:
+  - unprocessed-obsidians/ai.md
+extracted_concepts:
+  - "[[ai-security-testing]]"
+extracted_entities:
+  []
+extracted_comparisons:
+  []
+confidence: high
+contested: false
+contradictions: []
+parent: "[[ai-security]]"
+cluster: ai-security
+---
+# Source Note - AI & LLM Security Testing
+
+> **Provenance Anchor**: Ingested from canonical vault file `[[unprocessed-obsidians/ai]]`.
+> **Total Raw Lines**: 562 lines
+> **Referenced External Links**: 1 links documented in compiled layers.
+
+---
+
+## Compiled Wiki Layers
+### Concepts
+- [[ai-security-testing]]
+
+### Entities
+- None
+
+### Comparisons
+- None
+
+---
+
+## Source Content Topic Breakdown
+- **Shortcut**
+- **Mechanisms**
+- **Hunt**
+- **Bypass Techniques**
+- **Vulnerabilities**
+- **Methodologies**
+- **Chaining and Escalation**
+- **Remediation Recommendations**
+
+## Related Pages
+- [[ai-security]]

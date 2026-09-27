@@ -3828,3 +3828,13 @@ TypeError: Object of type date is not JSON serializable
 127.0.0.1 - - [25/Sep/2026 03:11:39] "GET /api/note?path=comparisons%2Fimdsv1-vs-imdsv2-ssrf.md HTTP/1.1" 200 -
 127.0.0.1 - - [25/Sep/2026 03:11:40] "GET /api/note?path=comparisons%2Fdirect-vs-indirect-syscalls.md HTTP/1.1" 200 -
 127.0.0.1 - - [25/Sep/2026 03:11:40] "GET /api/note?path=comparisons%2Fcl-te-vs-te-cl.md HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 18:25:35] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 18:25:41] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 18:25:41] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 18:25:41] "GET /api/graph HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 18:25:51] "GET /api/note?path=binary-exploitation/binary-exploitation.md HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 18:25:51] "GET /api/note?path=exploit-development HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 18:26:31] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 18:26:32] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 18:26:37] "GET /api/note?path=binary-exploitation/binary-exploitation.md HTTP/1.1" 200 -
+127.0.0.1 - - [27/Sep/2026 18:26:37] "GET /api/note?path=exploit-development HTTP/1.1" 200 -

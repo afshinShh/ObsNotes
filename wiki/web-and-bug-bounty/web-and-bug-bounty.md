@@ -1,0 +1,123 @@
+---
+title: "Web Application Security & Bug Bounty"
+created: 2026-09-25
+updated: 2026-09-25
+type: hub
+tags:
+  - web-security
+  - bug-bounty
+  - api
+  - payload
+cluster: web-and-bug-bounty
+sources:
+  - sources/sql-injection.md
+  - sources/xss.md
+  - sources/ssti.md
+  - sources/xxe.md
+  - sources/parameter-pollution.md
+  - sources/req-smuggle.md
+  - sources/graphql.md
+  - sources/idor.md
+  - sources/race-condition.md
+  - sources/open-redirect.md
+  - sources/insecure-deserialization.md
+  - sources/ssrf.md
+  - sources/jwt.md
+  - sources/oauth.md
+  - sources/performance monitor.md
+---
+
+# Web Application Security & Bug Bounty
+
+> **Domain Hub & Map of Content**
+> Comprehensive catalog of web application vulnerabilities, protocol desynchronization, authentication and authorization mechanisms, business logic flaws, and server-side exploitation.
+
+## Architecture & Hierarchy
+
+- **Parent Directory**: `wiki/web-and-bug-bounty/`
+- **Root Index**: [[index|Wiki Master Index]]
+- **Domain Cluster**: `web-and-bug-bounty`
+
+---
+
+## Core Concepts & Vulnerability Classes
+
+### 1. Web Injection Primitives
+- [[sql-injection-testing]] — Union-based, Error-based, Blind Boolean, and Time-based SQLi across MySQL, PostgreSQL, MSSQL, Oracle, and NoSQL injection.
+- [[cross-site-scripting]] — DOM-based sinks, context-aware HTML/attribute/script breakouts, and tag/parentheses WAF bypasses.
+- [[server-side-template-injection]] — Jinja2, Twig, FreeMarker, Pebble template evaluation probes, and Python MRO object sandbox escapes.
+- [[xml-external-entity-injection]] — In-band file retrieval, CDATA wrapping, blind out-of-band (OOB) DTD parameter entity exfiltration, and Billion Laughs DoS.
+- [[http-parameter-pollution]] — Precedence matrix across web servers (Apache, IIS, Node.js), parameter overriding, and WAF token splitting bypasses.
+
+### 2. Protocol Desynchronization & Request Smuggling
+- [[http-request-smuggling]] — Front-end and back-end header boundary desync (CL.TE, TE.CL, TE.TE), HTTP/2 downgrading flaws (H2.CL, H2.TE), and request queue hijacking.
+
+### 3. Business Logic, APIs & Concurrency
+- [[graphql-security]] — Introspection query reconstruction, directive flooding DoS, batching attack loops, and field-level authorization flaws.
+- [[insecure-direct-object-reference]] — Horizontal and vertical privilege escalation, identifier tampering, and dual-account validation matrices.
+- [[race-condition-attacks]] — Time-of-Check to Time-of-Use (TOCTOU), Limit-Overrun concurrency, and HTTP/2 single-packet synchronization.
+- [[open-redirect-attacks]] — URL parameter parsing confusion, regex/allowlist bypasses, and OAuth authorization code theft chains.
+
+### 4. Authentication, Tokens & Identity
+- [[jwt-security-mechanisms]] — RFC 7519 architecture, JOSE header specifications, signing matrices (RS256 vs HS256), token binding, and claim lifecycles.
+- [[jwt-attack-vectors]] — `none` algorithm injection, asymmetric-to-symmetric key confusion, embedded JWK/JKU header tampering, and HMAC brute forcing.
+- [[oauth-grant-types-and-flows]] — RFC 6749 grant types, Authorization Code Flow with PKCE (RFC 7636), Implicit Flow deprecation, and Token Exchange.
+- [[oauth-attack-vectors]] — `redirect_uri` validation manipulation, State CSRF, authorization code leakage, and account takeover (ATO) chains.
+
+### 5. Server-Side Exploitation & Deserialization
+- [[server-side-request-forgery]] — Cloud metadata extraction (IMDSv1 vs IMDSv2), alternative IP encoding formats, DNS rebinding, and protocol smuggling via Gopher.
+- [[blind-ssrf-gopher-redis-rce]] — Weaponizing SSRF via Gopher to issue Redis commands, write PHP webshells, or execute Lua scripts.
+- [[fastcgi-ssrf-exploitation]] — Pivoting SSRF into local FastCGI/PHP-FPM instances (port 9000) using binary record packet generation for RCE.
+- [[deserialization-attacks]] — Java, PHP, Python, and Node.js serialization formats, magic methods, and remote code execution gadget chains.
+
+---
+
+## Comparative Trade-off Analyses
+- [[cl-te-vs-te-cl]] — Architectural and exploitation differences between CL.TE and TE.CL request smuggling desynchronization.
+- [[classic-vs-blind-xxe]] — Direct in-band entity reflection vs out-of-band DTD callback exfiltration.
+- [[in-band-vs-blind-sqli]] — Direct result set extraction vs binary search boolean/time-based inference trade-offs.
+- [[stored-vs-reflected-vs-dom-xss]] — Persistence mechanisms, server-side reflection vs client-side DOM sink evaluation.
+- [[redis-vs-fastcgi-ssrf-pivoting]] — Comparison of internal service exploitation vectors via Gopher SSRF (memory store vs application processor).
+- [[imdsv1-vs-imdsv2-ssrf]] — AWS instance metadata security boundaries: stateless GET requests vs session-token PUT headers.
+- [[jwt-vs-session-cookies]] — Architectural trade-offs between stateless cryptographic tokens and stateful server-managed sessions.
+- [[authorization-code-vs-implicit-flow]] — OAuth grant flow security: secure server exchange with PKCE vs insecure browser-exposed tokens.
+- [[jwt-in-oauth2-architecture]] — Architecture and trust boundaries when JWTs are deployed as OAuth 2.0 access and identity tokens.
+- [[open-redirect-in-oauth-flows]] — Exploiting open redirects to hijack authorization codes and complete seamless account takeovers.
+
+---
+
+## Entities & Tooling Catalog
+- [[jwt-tool]] — CLI utility for testing, attacking, and modifying JSON Web Tokens.
+- [[wordpress-performance-monitor]] — Vulnerable WordPress plugin exhibiting blind SSRF via IP parameter injection.
+- [[sqlmap]] — Automatic SQL injection and database takeover engine.
+- [[tplmap]] — Automatic Server-Side Template Injection exploitation and sandbox escape tool.
+- [[smuggler]] — HTTP Request Smuggling scanner and payload tester.
+- [[turbo-intruder]] — High-speed HTTP request engine for testing race conditions and single-packet sync.
+- [[ysoserial]] — Proof-of-concept tool for generating Java deserialization exploit payloads.
+
+---
+
+## Primary Sources & Ingestion Provenance
+- [[sql-injection]] — Primary source note on SQL injection vectors.
+- [[xss]] — Primary source note on cross-site scripting vectors.
+- [[ssti]] — Primary source note on template injection.
+- [[xxe]] — Primary source note on XML external entities.
+- [[parameter-pollution]] — Primary source note on HTTP parameter pollution.
+- [[req-smuggle]] — Primary source note on request smuggling.
+- [[graphql]] — Primary source note on GraphQL security.
+- [[idor]] — Primary source note on IDOR and access control.
+- [[race-condition]] — Primary source note on concurrency and race conditions.
+- [[open-redirect]] — Primary source note on open redirection vulnerabilities.
+- [[insecure-deserialization]] — Primary source note on object deserialization.
+- [[ssrf]] — Primary source note on server-side request forgery.
+- [[jwt]] — Primary source note on JSON Web Token mechanics and attacks.
+- [[oauth]] — Primary source note on OAuth 2.0 and OpenID Connect flows.
+- [[performance monitor]] — Primary source note on WordPress Performance Monitor vulnerability.
+
+---
+
+## Cross-Domain Attack Chains & Related Domains
+- [[recon-and-osint]] — External reconnaissance feeding discovered attack surface into web hunting workflows ([[osint-reconnaissance]]).
+- [[ai-security]] — Web application endpoints integrating LLM APIs and agentic workflows ([[ai-security-testing]]).
+- [[defense-and-evasion]] — Evasion of Web Application Firewalls (WAFs) and endpoint monitoring during server-side command execution.
+- [[binary-exploitation]] — Escalating web RCE into kernel exploitation or local privilege escalation.

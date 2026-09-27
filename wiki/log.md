@@ -162,3 +162,42 @@
 - Applied compiled page: sources/ssti.md
 - Applied compiled page: sources/xss.md
 - Applied compiled page: sources/xxe.md
+
+## [2026-09-25] refactor | Domain Partitioning & Parent-Child Clustering Architecture
+- Partitioned the entire compiled LLM Wiki (86 notes) into 6 distinct domain directory hierarchies:
+  1. `wiki/binary-exploitation/` (16 pages: 3 concepts, 2 comparisons, 6 entities, 4 sources + parent hub)
+  2. `wiki/web-and-bug-bounty/` (51 pages: 18 concepts, 10 comparisons, 7 entities, 15 sources + parent hub)
+  3. `wiki/defense-and-evasion/` (14 pages: 4 concepts, 3 comparisons, 3 entities, 3 sources + parent hub)
+  4. `wiki/recon-and-osint/` (5 pages: 2 concepts, 2 sources + parent hub)
+  5. `wiki/ai-security/` (3 pages: 1 concept, 1 source + parent hub)
+  6. `wiki/vulnerability-research/` (3 pages: 1 concept, 1 source + parent hub)
+- Created 6 comprehensive Parent Topic Hubs / Maps of Content (MOC):
+  - `wiki/binary-exploitation/binary-exploitation.md` (`type: hub`)
+  - `wiki/web-and-bug-bounty/web-and-bug-bounty.md` (`type: hub`)
+  - `wiki/defense-and-evasion/defense-and-evasion.md` (`type: hub`)
+  - `wiki/recon-and-osint/recon-and-osint.md` (`type: hub`)
+  - `wiki/ai-security/ai-security.md` (`type: hub`)
+  - `wiki/vulnerability-research/vulnerability-research.md` (`type: hub`)
+- Standardized Parent-Child schema:
+  - Injected `parent: "[[<domain-hub>]]"` and `cluster: <domain-slug>` into all child note frontmatter.
+  - Injected reciprocal `- [[<domain-hub>]]` backlink in `## Related Pages` for all child notes.
+  - Linked all child concepts, comparisons, entities, and sources from their respective Parent Topic Hubs.
+- Upgraded `wiki/scripts/librarian_tool.py`:
+  - Recursive note discovery engine `get_all_wiki_notes()` supporting domain directory hierarchies.
+  - Preflight checks validating domain clusters and core files.
+  - Domain-clustered master catalog generator (`librarian index`).
+  - Full graph linting resolving cross-domain wikilinks (`librarian lint`).
+  - Multi-cluster graph serialization for Decision Studio API (`/api/graph`, `/api/toc`, `/api/note`, `/api/stats`).
+- Upgraded `wiki/scripts/studio.html`:
+  - Cluster-centered force simulation: local focal gravity anchors each domain cluster in 2D space.
+  - Strong inter-cluster repulsion (1200px cutoff) physically guarantees complete cluster separation between Binary Exploitation, Web Hacking, Defense & Evasion, and other domains.
+  - Ambient glowing halos and uppercase floating header banners for each domain cluster.
+  - Domain Cluster Selector Bar (`cluster-pill`) with smooth camera pan and zoom focus.
+  - Color mode toggle: Domain Cluster Palette vs Layer Type Palette.
+  - Table of Contents dual-mode view: Domain Clusters (with expandable Parent Hubs) vs Layer Types.
+- Verification & Graph Health Receipts:
+  - Total Scanned Pages: 92
+  - Total Verified Links: 484
+  - Broken Links: 0
+  - Orphan Pages: 0
+  - Health Verdict: PERFECT (All green)

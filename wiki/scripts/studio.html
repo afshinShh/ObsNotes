@@ -129,9 +129,71 @@
     .graph-ctrls { position: absolute; bottom: 12px; right: 12px; display: flex; flex-direction: column; gap: 5px; z-index: 10; }
     .ctrl-b { width: 30px; height: 30px; border-radius: 5px; background: rgba(24,24,32,0.9); border: 1px solid var(--border); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; cursor: pointer; }
     .ctrl-b:hover { background: var(--accent); }
-    .graph-legend-box { position: absolute; bottom: 12px; left: 12px; background: rgba(18, 18, 24, 0.85); backdrop-filter: blur(6px); border: 1px solid var(--border); border-radius: 6px; padding: 6px 10px; z-index: 10; font-size: 0.72rem; display: flex; flex-direction: column; gap: 3px; max-width: 140px; }
+    .graph-legend-box { position: absolute; bottom: 12px; left: 12px; background: rgba(18, 18, 24, 0.85); backdrop-filter: blur(6px); border: 1px solid var(--border); border-radius: 6px; padding: 6px 10px; z-index: 10; font-size: 0.72rem; display: flex; flex-direction: column; gap: 3px; max-width: 150px; }
     .legend-item { display: flex; align-items: center; gap: 6px; cursor: pointer; }
     .legend-color { width: 8px; height: 8px; border-radius: 50%; }
+
+    /* Domain Cluster Filter Bar */
+    .graph-cluster-bar {
+      position: absolute;
+      top: 52px;
+      left: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      z-index: 10;
+      max-width: 85%;
+    }
+    .cluster-pill {
+      background: rgba(18, 18, 24, 0.88);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 4px 10px;
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: #cfcfe0;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .cluster-pill:hover {
+      border-color: var(--c, var(--accent));
+      color: #fff;
+      transform: translateY(-1px);
+    }
+    .cluster-pill.active {
+      background: rgba(28, 28, 42, 0.95);
+      border-color: var(--c, var(--accent));
+      color: #fff;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5), 0 0 4px var(--c, var(--accent));
+    }
+    .toc-mode-btn {
+      flex: 1;
+      background: #14141e;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--muted);
+      padding: 3px 6px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .toc-mode-btn:hover { color: #fff; background: rgba(255,255,255,0.05); }
+    .toc-mode-btn.active { color: #fff; background: var(--border); border-color: var(--accent); }
+    .badge-hub {
+      background: rgba(255, 214, 0, 0.2);
+      color: #ffd600;
+      border: 1px solid rgba(255, 214, 0, 0.4);
+      font-size: 0.65rem;
+      padding: 1px 4px;
+      border-radius: 4px;
+      margin-left: 4px;
+      font-weight: 700;
+    }
 
     /* 3. Thoth Recommendations View */
     #insights-container { width: 100%; height: 100%; overflow-y: auto; padding: 24px; background: var(--bg); }
@@ -181,6 +243,10 @@
     <div id="toc-sidebar">
       <div class="toc-header-box">
         <input type="text" class="toc-search" id="toc-search-input" placeholder="🔍 Search Table of Contents..." oninput="onFilterToc(this.value)">
+        <div style="display:flex; gap:6px; margin-top:8px;">
+          <button class="toc-mode-btn active" id="btn-toc-domains" onclick="setTocMode('domains')">Domain Clusters</button>
+          <button class="toc-mode-btn" id="btn-toc-types" onclick="setTocMode('types')">Layer Types</button>
+        </div>
       </div>
       <div id="toc-tree">Loading Table of Contents...</div>
     </div>
@@ -226,13 +292,28 @@
                 <span>Include Proposals</span>
               </label>
             </div>
+            <div class="hud-card" style="cursor:pointer;" onclick="toggleColorMode()" title="Toggle Color Palette">
+              <span id="colormode-label">🎨 Mode: Domain Colors</span>
+            </div>
+          </div>
+          <!-- DOMAIN CLUSTERS BAR -->
+          <div class="graph-cluster-bar" id="cluster-filter-bar">
+            <button class="cluster-pill active" data-cluster="all" onclick="setClusterFilter('all')">🌐 All Domains (6 Clusters)</button>
+            <button class="cluster-pill" data-cluster="binary-exploitation" onclick="setClusterFilter('binary-exploitation')" style="--c:#ff1744;">⚙️ Binary Exploitation</button>
+            <button class="cluster-pill" data-cluster="web-and-bug-bounty" onclick="setClusterFilter('web-and-bug-bounty')" style="--c:#00e5ff;">🌐 Web Hacking & BB</button>
+            <button class="cluster-pill" data-cluster="defense-and-evasion" onclick="setClusterFilter('defense-and-evasion')" style="--c:#b388ff;">🛡️ Defense & Evasion</button>
+            <button class="cluster-pill" data-cluster="recon-and-osint" onclick="setClusterFilter('recon-and-osint')" style="--c:#00e676;">📡 Recon & OSINT</button>
+            <button class="cluster-pill" data-cluster="ai-security" onclick="setClusterFilter('ai-security')" style="--c:#ff4081;">🤖 AI Security</button>
+            <button class="cluster-pill" data-cluster="vulnerability-research" onclick="setClusterFilter('vulnerability-research')" style="--c:#ffd600;">🔬 Vuln Research</button>
           </div>
           <div class="graph-legend-box">
+            <div style="font-weight:700; color:var(--muted); font-size:0.68rem; text-transform:uppercase; margin-bottom:2px;">Node Legend</div>
+            <div class="legend-item" onclick="toggleType('hub')"><span class="legend-color" style="background:#ffd600; box-shadow:0 0 5px #ffd600;"></span> <span>🌟 Topic Hubs</span></div>
             <div class="legend-item" onclick="toggleType('concept')"><span class="legend-color" style="background:var(--purple);"></span> <span>Concepts</span></div>
             <div class="legend-item" onclick="toggleType('entity')"><span class="legend-color" style="background:var(--blue);"></span> <span>Entities</span></div>
             <div class="legend-item" onclick="toggleType('comparison')"><span class="legend-color" style="background:var(--orange);"></span> <span>Comparisons</span></div>
             <div class="legend-item" onclick="toggleType('source')"><span class="legend-color" style="background:var(--success);"></span> <span>Sources</span></div>
-            <div class="legend-item" onclick="toggleType('proposal')"><span class="legend-color" style="background:var(--warn);"></span> <span>Proposals (In Review)</span></div>
+            <div class="legend-item" onclick="toggleType('proposal')"><span class="legend-color" style="background:var(--warn);"></span> <span>Proposals</span></div>
           </div>
           <div class="graph-ctrls">
             <div class="ctrl-b" onclick="zoomGraph(1.2)" title="Zoom in">+</div>
@@ -341,29 +422,115 @@
       }
     }
 
+    let tocMode = 'domains';
+
+    function setTocMode(mode) {
+      tocMode = mode;
+      document.getElementById('btn-toc-domains').classList.toggle('active', mode === 'domains');
+      document.getElementById('btn-toc-types').classList.toggle('active', mode === 'types');
+      renderToc();
+    }
+
     function renderToc() {
       const tree = document.getElementById('toc-tree');
       const q = tocFilterTerm.toLowerCase();
 
+      if (tocMode === 'domains') {
+        const domainClusters = [
+          { id: 'binary-exploitation', title: 'Binary Exploitation & Memory Corruption', icon: '⚙️', color: '#ff1744', items: [], hub: null },
+          { id: 'web-and-bug-bounty', title: 'Web Application Security & Bug Bounty', icon: '🌐', color: '#00e5ff', items: [], hub: null },
+          { id: 'defense-and-evasion', title: 'Endpoint Defense & Evasion', icon: '🛡️', color: '#b388ff', items: [], hub: null },
+          { id: 'recon-and-osint', title: 'Reconnaissance & OSINT', icon: '📡', color: '#00e676', items: [], hub: null },
+          { id: 'ai-security', title: 'AI & LLM Application Security', icon: '🤖', color: '#ff4081', items: [], hub: null },
+          { id: 'vulnerability-research', title: 'Vulnerability Research & Discovery', icon: '🔬', color: '#ffd600', items: [], hub: null },
+          { id: 'proposals', title: `Staged Review Proposals (${proposalsList.length})`, icon: '📝', color: '#ffd600', items: [], hub: null }
+        ];
+
+        catalog.forEach(item => {
+          if (item.is_proposal || item.type === 'proposal') return;
+          if (q && !item.title.toLowerCase().includes(q) && !(item.tags || []).some(t => t.toLowerCase().includes(q))) return;
+          const clusterId = item.cluster || 'web-and-bug-bounty';
+          const grp = domainClusters.find(c => c.id === clusterId) || domainClusters[1];
+          if (item.is_hub || item.type === 'hub') {
+            grp.hub = item;
+          } else {
+            grp.items.push(item);
+          }
+        });
+
+        proposalsList.forEach(p => {
+          const title = p.target || p.filename;
+          if (q && !title.toLowerCase().includes(q)) return;
+          domainClusters[6].items.push({
+            title: title,
+            path: `Review/${p.filename}`,
+            type: 'proposal',
+            is_proposal: true,
+            decision: p.decision || 'pending',
+            filename: p.filename
+          });
+        });
+
+        let html = '';
+        domainClusters.forEach((grp, cIdx) => {
+          const totalCount = (grp.hub ? 1 : 0) + grp.items.length;
+          if (totalCount === 0) return;
+
+          html += `
+            <div class="toc-chapter">
+              <div class="toc-chapter-title" style="border-left: 3px solid ${grp.color};">
+                <span>${grp.icon} ${grp.title}</span>
+                <span style="font-size:0.68rem; background:rgba(255,255,255,0.06); padding:1px 5px; border-radius:8px;">${totalCount}</span>
+              </div>
+              <div class="toc-rows">
+                ${grp.hub ? `
+                  <div class="toc-row ${activeNote && activeNote.path === grp.hub.path ? 'active' : ''}" style="background:rgba(255,214,0,0.06);" onclick="openNote('${escapeHtml(grp.hub.path)}')">
+                    <div class="toc-row-left">
+                      <span class="toc-num" style="color:#ffd600;">🌟</span>
+                      <span class="toc-row-title" style="font-weight:700; color:#fff;">${escapeHtml(grp.hub.title)}</span>
+                    </div>
+                    <span class="badge badge-hub">HUB</span>
+                  </div>
+                ` : ''}
+                ${grp.items.map((it, rIdx) => `
+                  <div class="toc-row ${activeNote && activeNote.path === it.path ? 'active' : ''}" onclick="openNote('${escapeHtml(it.path)}')">
+                    <div class="toc-row-left">
+                      <span class="toc-num">${cIdx+1}.${rIdx+1}</span>
+                      <span class="toc-row-title">${escapeHtml(it.title)}</span>
+                    </div>
+                    <span class="badge badge-${it.type || 'concept'}">${it.type}</span>
+                    ${it.is_proposal ? `<span class="badge badge-proposal">${it.decision}</span>` : ''}
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          `;
+        });
+        tree.innerHTML = html || '<div style="color:var(--muted); text-align:center; padding:16px;">No matching notes found.</div>';
+        return;
+      }
+
+      // Classic Types Mode
       const chapters = [
         { id: 'concepts', title: '1. Concepts (Vulnerability Primitives)', type: 'concept', items: [] },
         { id: 'entities', title: '2. Entities (Tools & Targets)', type: 'entity', items: [] },
         { id: 'comparisons', title: '3. Comparisons (Technical Matrices)', type: 'comparison', items: [] },
         { id: 'sources', title: '4. Sources (Provenance Notes)', type: 'source', items: [] },
-        { id: 'proposals', title: `5. Staged Review Proposals (${proposalsList.length})`, type: 'proposal', items: [] }
+        { id: 'hubs', title: '5. Parent Topic Hubs', type: 'hub', items: [] },
+        { id: 'proposals', title: `6. Staged Review Proposals (${proposalsList.length})`, type: 'proposal', items: [] }
       ];
 
       catalog.forEach(item => {
         if (item.is_proposal || item.type === 'proposal') return;
         if (q && !item.title.toLowerCase().includes(q) && !(item.tags || []).some(t => t.toLowerCase().includes(q))) return;
-        const chap = chapters.find(c => c.type === item.type);
-        if (chap) chap.items.push(item);
+        const chap = chapters.find(c => c.type === (item.is_hub ? 'hub' : item.type)) || chapters[0];
+        chap.items.push(item);
       });
 
       proposalsList.forEach((p, idx) => {
         const title = p.target || p.filename;
         if (q && !title.toLowerCase().includes(q)) return;
-        chapters[4].items.push({
+        chapters[5].items.push({
           title: title,
           path: `Review/${p.filename}`,
           type: 'proposal',
@@ -396,7 +563,6 @@
           </div>
         `;
       });
-
       tree.innerHTML = html || '<div style="color:var(--muted); text-align:center; padding:16px;">No matching notes found.</div>';
     }
 
@@ -582,8 +748,74 @@
     let typeFilters = { concept: true, entity: true, comparison: true, source: true, proposal: true };
     let graphQuery = '';
     let simStarted = false;
+    let activeClusterFilter = 'all';
+    let colorMode = 'cluster'; // 'cluster' (Domain Clusters) or 'type' (Layer Types)
+
+    const CLUSTER_CONFIG = {
+      'binary-exploitation': {
+        title: 'Binary Exploitation & Memory Corruption',
+        short: 'Binary Exploitation',
+        icon: '⚙️',
+        color: '#ff1744',
+        accent: '#d50000',
+        targetX: 720,
+        targetY: -420,
+        radius: 280
+      },
+      'web-and-bug-bounty': {
+        title: 'Web Application Security & Bug Bounty',
+        short: 'Web Hacking & Bug Bounty',
+        icon: '🌐',
+        color: '#00e5ff',
+        accent: '#00b0ff',
+        targetX: -480,
+        targetY: -50,
+        radius: 440
+      },
+      'defense-and-evasion': {
+        title: 'Endpoint Defense & Evasion',
+        short: 'Defense & Evasion',
+        icon: '🛡️',
+        color: '#b388ff',
+        accent: '#7c4dff',
+        targetX: 720,
+        targetY: 450,
+        radius: 280
+      },
+      'recon-and-osint': {
+        title: 'Reconnaissance & OSINT',
+        short: 'Recon & OSINT',
+        icon: '📡',
+        color: '#00e676',
+        accent: '#00c853',
+        targetX: -820,
+        targetY: 580,
+        radius: 200
+      },
+      'ai-security': {
+        title: 'AI & LLM Application Security',
+        short: 'AI Security',
+        icon: '🤖',
+        color: '#ff4081',
+        accent: '#f50057',
+        targetX: -200,
+        targetY: 720,
+        radius: 170
+      },
+      'vulnerability-research': {
+        title: 'Vulnerability Research & Discovery',
+        short: 'Vulnerability Research',
+        icon: '🔬',
+        color: '#ffd600',
+        accent: '#ffab00',
+        targetX: 340,
+        targetY: 740,
+        radius: 170
+      }
+    };
 
     const NODE_COLORS = {
+      hub: '#ffd600',
       concept: '#b388ff',
       entity: '#40c4ff',
       comparison: '#ff9100',
@@ -597,22 +829,46 @@
       setupGraphEvents();
     }
 
+    function toggleColorMode() {
+      colorMode = (colorMode === 'cluster') ? 'type' : 'cluster';
+      const lbl = document.getElementById('colormode-label');
+      if (lbl) {
+        lbl.innerText = (colorMode === 'cluster') ? '🎨 Mode: Domain Colors' : '🎨 Mode: Layer Colors';
+      }
+    }
+
+    function setClusterFilter(clusterId) {
+      activeClusterFilter = clusterId;
+      document.querySelectorAll('.cluster-pill').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-cluster') === clusterId);
+      });
+      if (clusterId !== 'all' && CLUSTER_CONFIG[clusterId]) {
+        const c = CLUSTER_CONFIG[clusterId];
+        panX = (gCanvas.width / 2) - (c.targetX * 0.95);
+        panY = (gCanvas.height / 2) - (c.targetY * 0.95);
+        zoom = 0.95;
+      } else {
+        fitGraphView();
+      }
+    }
+
     function fetchGraph() {
       fetch('/api/graph').then(r => r.json()).then(data => {
         document.getElementById('stat-nodes').innerText = data.nodes.length;
         document.getElementById('stat-edges').innerText = data.edges.length;
 
-        // Arrange in spiral with much wider spacing
+        // Position nodes clustered around their domain's focal center
         gNodes = data.nodes.map((n, i) => {
-          const phi = i * 0.7;
-          const dist = 140 + Math.sqrt(i) * 160;
+          const cfg = CLUSTER_CONFIG[n.cluster] || CLUSTER_CONFIG['web-and-bug-bounty'];
+          const phi = (i * 0.95);
+          const dist = (n.is_hub ? 0 : 45 + (i % 8) * 32 + Math.sqrt(i) * 14);
           return {
             ...n,
-            x: Math.cos(phi) * dist,
-            y: Math.sin(phi) * dist,
+            x: cfg.targetX + Math.cos(phi) * dist,
+            y: cfg.targetY + Math.sin(phi) * dist,
             vx: 0,
             vy: 0,
-            radius: 6 + Math.min(10, Math.sqrt(n.degree || 1) * 2.5)
+            radius: n.is_hub ? 13 : (5 + Math.min(8, Math.sqrt(n.degree || 1) * 2))
           };
         });
 
@@ -636,7 +892,7 @@
 
     function fitGraphView() {
       if (!gCanvas) return;
-      zoom = 0.9;
+      zoom = 0.85;
       panX = gCanvas.width / 2;
       panY = gCanvas.height / 2;
     }
@@ -651,6 +907,7 @@
     }
 
     function toggleType(tp) {
+      if (typeFilters[tp] === undefined) typeFilters[tp] = true;
       typeFilters[tp] = !typeFilters[tp];
       document.querySelectorAll('.legend-item').forEach(el => {
         if (el.innerText.toLowerCase().includes(tp)) {
@@ -698,7 +955,6 @@
 
       window.addEventListener('mouseup', () => {
         if (dragNode && Math.abs(dragNode.vx) < 0.1 && Math.abs(dragNode.vy) < 0.1) {
-          // Open node in reader
           if (dragNode.path) {
             openNote(dragNode.path);
           }
@@ -726,7 +982,7 @@
       for (let i = gNodes.length - 1; i >= 0; i--) {
         const n = gNodes[i];
         if (n.is_proposal && !showProposals) continue;
-        if (!typeFilters[n.type]) continue;
+        if (typeFilters[n.type] === false) continue;
         const dx = n.x - x;
         const dy = n.y - y;
         if (dx * dx + dy * dy <= (n.radius + 6) * (n.radius + 6)) return n;
@@ -749,9 +1005,9 @@
     }
 
     function updateGraphPhysics() {
-      const active = gNodes.filter(n => (!n.is_proposal || showProposals) && typeFilters[n.type]);
+      const active = gNodes.filter(n => (!n.is_proposal || showProposals) && typeFilters[n.type] !== false);
 
-      // Repulsion (expansive force: 15000, 900px radius)
+      // Repulsion with strong Inter-Cluster Separation
       for (let i = 0; i < active.length; i++) {
         const na = active[i];
         for (let j = i + 1; j < active.length; j++) {
@@ -759,8 +1015,11 @@
           let dx = nb.x - na.x;
           let dy = nb.y - na.y;
           let d2 = dx * dx + dy * dy || 1;
-          if (d2 < 810000) { // ~900px radius
-            let f = 15000 / (d2 + 100);
+          const diffCluster = (na.cluster !== nb.cluster);
+          const maxRadius = diffCluster ? 1440000 : 640000; // 1200px vs 800px
+          if (d2 < maxRadius) {
+            let baseForce = diffCluster ? 34000 : 13000;
+            let f = baseForce / (d2 + 100);
             let d = Math.sqrt(d2);
             let fx = (dx / d) * f;
             let fy = (dy / d) * f;
@@ -770,34 +1029,38 @@
         }
       }
 
-      // Edge Springs (expansive rest distance: 320px)
+      // Edge Springs
       gEdges.forEach(e => {
         if (e.s.is_proposal && !showProposals) return;
         if (e.t.is_proposal && !showProposals) return;
-        if (!typeFilters[e.s.type] || !typeFilters[e.t.type]) return;
+        if (typeFilters[e.s.type] === false || typeFilters[e.t.type] === false) return;
 
         let dx = e.t.x - e.s.x;
         let dy = e.t.y - e.s.y;
         let d = Math.sqrt(dx * dx + dy * dy) || 1;
-        let f = (d - 320) * 0.035;
+        const sameCluster = (e.s.cluster === e.t.cluster);
+        const restDist = sameCluster ? 190 : 380;
+        let f = (d - restDist) * (sameCluster ? 0.04 : 0.015);
         let fx = (dx / d) * f;
         let fy = (dy / d) * f;
         if (e.s !== dragNode) { e.s.vx += fx; e.s.vy += fy; }
         if (e.t !== dragNode) { e.t.vx -= fx; e.t.vy -= fy; }
       });
 
-      // Gravity & Damping
+      // Cluster Focal Gravity & Damping
       active.forEach(n => {
         if (n === dragNode) return;
-        n.vx -= n.x * 0.003;
-        n.vy -= n.y * 0.003;
+        const cfg = CLUSTER_CONFIG[n.cluster] || CLUSTER_CONFIG['web-and-bug-bounty'];
+        const pullFactor = n.is_hub ? 0.018 : 0.005;
+        n.vx += (cfg.targetX - n.x) * pullFactor;
+        n.vy += (cfg.targetY - n.y) * pullFactor;
         n.vx *= 0.86;
         n.vy *= 0.86;
         n.x += n.vx;
         n.y += n.vy;
       });
 
-      // DEDICATED BOUNDING-BOX COLLISION PASS (Zero Overlapping Labels)
+      // DEDICATED BOUNDING-BOX COLLISION PASS
       const boxW = 160;
       const boxH = 46;
       for (let i = 0; i < active.length; i++) {
@@ -833,6 +1096,42 @@
       gCtx.translate(panX, panY);
       gCtx.scale(zoom, zoom);
 
+      // Draw Ambient Glowing Cluster Halos & Header Banners
+      Object.keys(CLUSTER_CONFIG).forEach(cId => {
+        const c = CLUSTER_CONFIG[cId];
+        const isFocus = (activeClusterFilter === 'all' || activeClusterFilter === cId);
+        gCtx.save();
+        gCtx.globalAlpha = isFocus ? 1.0 : 0.2;
+
+        // Radial ambient halo
+        const grad = gCtx.createRadialGradient(c.targetX, c.targetY, 30, c.targetX, c.targetY, c.radius + 60);
+        grad.addColorStop(0, c.color + '22');
+        grad.addColorStop(0.6, c.color + '09');
+        grad.addColorStop(1, 'transparent');
+        gCtx.fillStyle = grad;
+        gCtx.beginPath();
+        gCtx.arc(c.targetX, c.targetY, c.radius + 60, 0, Math.PI * 2);
+        gCtx.fill();
+
+        // Cluster Title Header Banner
+        gCtx.font = "bold 13px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, monospace";
+        const lbl = `${c.icon} ${c.short.toUpperCase()}`;
+        const m = gCtx.measureText(lbl);
+        const bx = c.targetX - m.width / 2 - 12;
+        const by = c.targetY - c.radius - 28;
+        gCtx.fillStyle = 'rgba(16, 16, 24, 0.88)';
+        gCtx.strokeStyle = c.color + '77';
+        gCtx.lineWidth = 1;
+        if (gCtx.roundRect) gCtx.roundRect(bx, by, m.width + 24, 26, 6);
+        else gCtx.rect(bx, by, m.width + 24, 26);
+        gCtx.fill();
+        gCtx.stroke();
+        gCtx.fillStyle = c.color;
+        gCtx.textAlign = 'center';
+        gCtx.fillText(lbl, c.targetX, by + 17);
+        gCtx.restore();
+      });
+
       const targetId = selectedId || (hoverNode ? hoverNode.id : null);
       const neighbors = new Set();
       if (targetId) {
@@ -847,15 +1146,24 @@
       gEdges.forEach(e => {
         if (e.s.is_proposal && !showProposals) return;
         if (e.t.is_proposal && !showProposals) return;
-        if (!typeFilters[e.s.type] || !typeFilters[e.t.type]) return;
+        if (typeFilters[e.s.type] === false || typeFilters[e.t.type] === false) return;
 
         const isHi = targetId && (e.s.id === targetId || e.t.id === targetId);
         const isDim = targetId && !isHi;
+        const isClusterMatch = (activeClusterFilter === 'all' || e.s.cluster === activeClusterFilter || e.t.cluster === activeClusterFilter);
 
         gCtx.beginPath();
         gCtx.moveTo(e.s.x, e.s.y);
         gCtx.lineTo(e.t.x, e.t.y);
-        gCtx.strokeStyle = isHi ? 'rgba(179, 136, 255, 0.85)' : (isDim ? 'rgba(255,255,255,0.02)' : 'rgba(255,255,255,0.1)');
+        if (!isClusterMatch) {
+          gCtx.strokeStyle = 'rgba(255,255,255,0.015)';
+        } else if (isHi) {
+          gCtx.strokeStyle = 'rgba(179, 136, 255, 0.85)';
+        } else if (isDim) {
+          gCtx.strokeStyle = 'rgba(255,255,255,0.02)';
+        } else {
+          gCtx.strokeStyle = 'rgba(255,255,255,0.1)';
+        }
         gCtx.lineWidth = isHi ? 2.2 : 1;
         gCtx.stroke();
       });
@@ -863,15 +1171,15 @@
       // Nodes
       gNodes.forEach(n => {
         if (n.is_proposal && !showProposals) return;
-        if (!typeFilters[n.type]) return;
+        if (typeFilters[n.type] === false) return;
 
         const isHi = targetId && targetId === n.id;
         const isNeigh = neighbors.has(n.id);
-        const isDim = targetId && !isNeigh;
+        const isDim = (targetId && !isNeigh) || (activeClusterFilter !== 'all' && n.cluster !== activeClusterFilter);
         const isMatch = graphQuery && n.label.toLowerCase().includes(graphQuery);
 
         gCtx.save();
-        gCtx.globalAlpha = isDim ? 0.18 : 1.0;
+        gCtx.globalAlpha = isDim ? 0.16 : 1.0;
 
         // Proposal dashed outline
         if (n.is_proposal) {
@@ -882,6 +1190,15 @@
           gCtx.lineWidth = 1.4;
           gCtx.stroke();
           gCtx.setLineDash([]);
+        }
+
+        // Hub glowing double ring
+        if (n.is_hub) {
+          gCtx.beginPath();
+          gCtx.arc(n.x, n.y, n.radius + 5, 0, Math.PI * 2);
+          gCtx.strokeStyle = '#ffd600';
+          gCtx.lineWidth = 2.0;
+          gCtx.stroke();
         }
 
         // Highlight ring
@@ -896,19 +1213,23 @@
         // Circle body
         gCtx.beginPath();
         gCtx.arc(n.x, n.y, n.radius, 0, Math.PI * 2);
-        gCtx.fillStyle = NODE_COLORS[n.type] || '#fff';
+        if (colorMode === 'cluster') {
+          const c = CLUSTER_CONFIG[n.cluster] || CLUSTER_CONFIG['web-and-bug-bounty'];
+          gCtx.fillStyle = n.is_hub ? '#ffd600' : c.color;
+        } else {
+          gCtx.fillStyle = NODE_COLORS[n.type] || '#fff';
+        }
         gCtx.fill();
 
         // SMART LEVEL-OF-DETAIL LABELS WITH TRUNCATION & HOVER EXPANSION
-        const isPrimary = isHi || isNeigh || isMatch;
+        const isPrimary = isHi || isNeigh || isMatch || n.is_hub;
         const showLbl = isPrimary || (zoom > 1.1) || (n.degree >= 5);
 
         if (showLbl) {
           const fontSize = Math.max(9, Math.min(13, 11 / zoom));
           gCtx.font = `bold ${fontSize}px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif`;
 
-          // If primary/hovered, show full title. Otherwise, truncate to 20 chars to prevent collision!
-          let text = n.label;
+          let text = (n.is_hub ? '🌟 ' : '') + n.label;
           if (!isPrimary && text.length > 20) {
             text = text.substring(0, 18) + '…';
           }
@@ -921,8 +1242,7 @@
           const boxX = n.x - textW / 2 - padX;
           const boxY = n.y + n.radius + 6;
 
-          // Pill background for maximum contrast and zero collisions
-          gCtx.fillStyle = isHi ? 'rgba(124, 77, 255, 0.95)' : (isNeigh ? 'rgba(40, 40, 56, 0.92)' : 'rgba(14, 14, 20, 0.88)');
+          gCtx.fillStyle = isHi ? 'rgba(124, 77, 255, 0.95)' : (n.is_hub ? 'rgba(40, 36, 12, 0.92)' : (isNeigh ? 'rgba(40, 40, 56, 0.92)' : 'rgba(14, 14, 20, 0.88)'));
           gCtx.beginPath();
           if (gCtx.roundRect) {
             gCtx.roundRect(boxX, boxY, textW + padX * 2, textH + padY * 2, 4);
@@ -930,12 +1250,12 @@
             gCtx.rect(boxX, boxY, textW + padX * 2, textH + padY * 2);
           }
           gCtx.fill();
-          gCtx.strokeStyle = isHi ? '#b388ff' : (isNeigh ? 'rgba(179, 136, 255, 0.4)' : 'rgba(255,255,255,0.12)');
+          gCtx.strokeStyle = isHi ? '#b388ff' : (n.is_hub ? '#ffd600' : (isNeigh ? 'rgba(179, 136, 255, 0.4)' : 'rgba(255,255,255,0.12)'));
           gCtx.lineWidth = 1;
           gCtx.stroke();
 
           // Label text
-          gCtx.fillStyle = isHi ? '#ffffff' : (isNeigh ? '#b388ff' : '#e2e2ec');
+          gCtx.fillStyle = isHi ? '#ffffff' : (n.is_hub ? '#ffd600' : (isNeigh ? '#b388ff' : '#e2e2ec'));
           gCtx.textAlign = 'center';
           gCtx.fillText(text, n.x, boxY + textH - 1);
         }

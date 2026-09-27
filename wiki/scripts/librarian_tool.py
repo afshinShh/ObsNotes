@@ -95,6 +95,137 @@ SCHEMA_FILE = os.path.join(WIKI_ROOT, "SCHEMA.md")
 INDEX_FILE = os.path.join(WIKI_ROOT, "index.md")
 LOG_FILE = os.path.join(WIKI_ROOT, "log.md")
 
+DOMAIN_META = {
+    "binary-exploitation": {
+        "title": "Binary Exploitation & Memory Corruption",
+        "icon": "⚙️",
+        "color": "#ff1744",
+        "accent": "#d50000",
+        "targetX": 680,
+        "targetY": -380,
+        "dir": os.path.join(WIKI_ROOT, "binary-exploitation")
+    },
+    "web-and-bug-bounty": {
+        "title": "Web Application Security & Bug Bounty",
+        "icon": "🌐",
+        "color": "#00e5ff",
+        "accent": "#00b0ff",
+        "targetX": -450,
+        "targetY": -40,
+        "dir": os.path.join(WIKI_ROOT, "web-and-bug-bounty")
+    },
+    "defense-and-evasion": {
+        "title": "Endpoint Defense & Evasion",
+        "icon": "🛡️",
+        "color": "#b388ff",
+        "accent": "#7c4dff",
+        "targetX": 680,
+        "targetY": 420,
+        "dir": os.path.join(WIKI_ROOT, "defense-and-evasion")
+    },
+    "recon-and-osint": {
+        "title": "Reconnaissance & OSINT",
+        "icon": "📡",
+        "color": "#00e676",
+        "accent": "#00c853",
+        "targetX": -780,
+        "targetY": 540,
+        "dir": os.path.join(WIKI_ROOT, "recon-and-osint")
+    },
+    "ai-security": {
+        "title": "AI & LLM Application Security",
+        "icon": "🤖",
+        "color": "#ff4081",
+        "accent": "#f50057",
+        "targetX": -200,
+        "targetY": 660,
+        "dir": os.path.join(WIKI_ROOT, "ai-security")
+    },
+    "vulnerability-research": {
+        "title": "Vulnerability Research & Discovery",
+        "icon": "🔬",
+        "color": "#ffd600",
+        "accent": "#ffab00",
+        "targetX": 280,
+        "targetY": 680,
+        "dir": os.path.join(WIKI_ROOT, "vulnerability-research")
+    }
+}
+
+SKIP_DIRS = {"Review", "raw", "scripts", "attachments", "schema", ".git", ".obsidian"}
+SKIP_FILES = {"index.md", "log.md", "SCHEMA.md", "HERMES.md", "LLM Wiki Home.md", "Welcome to Karpathy LLM Wiki.md"}
+
+
+def get_all_wiki_notes():
+    """Recursively discovers all compiled markdown notes in WIKI_ROOT."""
+    notes = {}
+    for root, dirs, files in os.walk(WIKI_ROOT):
+        rel_root = os.path.relpath(root, WIKI_ROOT)
+        top_part = rel_root.split(os.sep)[0]
+        if top_part in SKIP_DIRS:
+            continue
+
+        for f in sorted(files):
+            if not f.endswith(".md") or f in SKIP_FILES:
+                continue
+            abs_path = os.path.join(root, f)
+            rel_path = os.path.relpath(abs_path, WIKI_ROOT)
+            slug = f[:-3]
+
+            with open(abs_path, "r", encoding="utf-8") as fp:
+                txt = fp.read()
+            fm, body = parse_frontmatter(txt)
+
+            cluster = fm.get("cluster")
+            if not cluster:
+                parts = rel_path.split(os.sep)
+                if parts[0] in DOMAIN_META:
+                    cluster = parts[0]
+                else:
+                    cluster = "web-and-bug-bounty"
+
+            cluster_meta = DOMAIN_META.get(cluster, DOMAIN_META["web-and-bug-bounty"])
+            ntype = fm.get("type")
+            if not ntype:
+                if "/concepts/" in rel_path:
+                    ntype = "concept"
+                elif "/entities/" in rel_path:
+                    ntype = "entity"
+                elif "/comparisons/" in rel_path:
+                    ntype = "comparison"
+                elif "/sources/" in rel_path:
+                    ntype = "source"
+                elif slug in DOMAIN_META:
+                    ntype = "hub"
+                else:
+                    ntype = "concept"
+
+            is_hub = (ntype == "hub" or slug in DOMAIN_META)
+            title = fm.get("title", slug)
+            tags = fm.get("tags", [])
+            parent = fm.get("parent", "")
+            if parent:
+                parent = parent.replace("[[", "").replace("]]", "").strip()
+
+            links = list(set(re.findall(r"\[\[([^\]|]+)(?:\|[^\]]+)?\]\]", txt)))
+
+            notes[slug] = {
+                "slug": slug,
+                "title": title,
+                "type": ntype,
+                "cluster": cluster,
+                "cluster_label": cluster_meta["title"],
+                "parent": parent,
+                "is_hub": is_hub,
+                "tags": tags,
+                "path": rel_path,
+                "abs_path": abs_path,
+                "links": links,
+                "fm": fm,
+                "body": body,
+            }
+    return notes
+
 
 def run_git(args, cwd=VAULT_ROOT):
     """Run a git command and return (exit_code, stdout, stderr)."""
@@ -153,11 +284,11 @@ def cmd_preflight(args):
     print(f"[*] Wiki Root  : {WIKI_ROOT}")
 
     # Check paths
-    dirs = [REVIEW_DIR, RAW_DIR, SOURCES_DIR, CONCEPTS_DIR, ENTITIES_DIR, COMPARISONS_DIR, QUERIES_DIR]
+    dirs = [REVIEW_DIR, RAW_DIR, QUERIES_DIR] + [meta["dir"] for meta in DOMAIN_META.values()]
     for d in dirs:
         exists = os.path.exists(d)
         rel = os.path.relpath(d, VAULT_ROOT)
-        print(f"  [+] Directory {rel:30} : {'EXISTS' if exists else 'MISSING (Will create)'}")
+        print(f"  [+] Directory {rel:35} : {'EXISTS' if exists else 'MISSING (Will create)'}")
         if not exists:
             os.makedirs(d, exist_ok=True)
 
@@ -429,66 +560,65 @@ def cmd_deduplicate(args):
 # 6. REBUILD INDEX
 # ==============================================================================
 def cmd_index(args):
-    categories = {
-        "Entities": ENTITIES_DIR,
-        "Concepts": CONCEPTS_DIR,
-        "Sources": SOURCES_DIR,
-        "Comparisons": COMPARISONS_DIR,
-        "Queries": QUERIES_DIR,
-    }
-
-    catalog = {k: [] for k in categories}
-    total_pages = 0
-
-    for cat, dirpath in categories.items():
-        if not os.path.exists(dirpath):
-            continue
-        for fname in sorted(os.listdir(dirpath)):
-            if fname.endswith(".md"):
-                slug = fname[:-3]
-                fpath = os.path.join(dirpath, fname)
-                with open(fpath, "r", encoding="utf-8") as f:
-                    txt = f.read()
-                fm, body = parse_frontmatter(txt)
-                title = fm.get("title", slug)
-                # Extract first sentence or summary
-                summary = ""
-                m = re.search(r"## Overview\s*\n+([^\n#]+)", body)
-                if m:
-                    summary = m.group(1).strip()
-                else:
-                    first_p = [p.strip() for p in body.split("\n\n") if p.strip() and not p.startswith("#")]
-                    if first_p:
-                        summary = first_p[0].split(". ")[0].strip()
-
-                catalog[cat].append((slug, title, summary))
-                total_pages += 1
-
+    notes = get_all_wiki_notes()
     today = datetime.date.today().isoformat()
     lines = [
         "# Wiki Index",
         "",
         "> Content catalog for the Offensive Security & Bug Bounty LLM Wiki.",
-        f"> Last updated: {today} | Total pages: {total_pages}",
+        f"> Last updated: {today} | Total pages: {len(notes)}",
+        "",
+        "## Domain Clusters Overview",
+        "The knowledge vault is structured into 6 domain clusters with parent-child hierarchy:",
+        "- ⚙️ **[[binary-exploitation]]** (16 pages) — Memory corruption, PIC shellcode, fuzzing engines, ROP weaponization.",
+        "- 🌐 **[[web-and-bug-bounty]]** (51 pages) — Web injection, request smuggling, GraphQL, logic flaws, OAuth/JWT, SSRF.",
+        "- 🛡️ **[[defense-and-evasion]]** (14 pages) — EDR internals, unhooking, syscalls, sleep obfuscation, kernel mitigations.",
+        "- 📡 **[[recon-and-osint]]** (5 pages) — Cross-platform intelligence, persona OpSec, blockchain tracing, geolocation.",
+        "- 🤖 **[[ai-security]]** (3 pages) — LLM red teaming, prompt injection, agent tool hijacking, jailbreak syntax.",
+        "- 🔬 **[[vulnerability-research]]** (3 pages) — Code auditing, patch diffing, dynamic binary instrumentation, taint tracking.",
         "",
     ]
 
-    for cat in ["Entities", "Concepts", "Sources", "Comparisons", "Queries"]:
-        lines.append(f"## {cat}")
-        if catalog[cat]:
-            for slug, title, summary in catalog[cat]:
-                entry = f"- [[{slug}]]"
-                if summary:
-                    entry += f" — {summary}"
-                lines.append(entry)
-        else:
-            lines.append("<!-- Alphabetical within section -->")
-        lines.append("")
+    domain_order = [
+        "web-and-bug-bounty",
+        "binary-exploitation",
+        "defense-and-evasion",
+        "recon-and-osint",
+        "ai-security",
+        "vulnerability-research"
+    ]
+
+    for dom in domain_order:
+        meta = DOMAIN_META[dom]
+        dom_notes = [n for n in notes.values() if n["cluster"] == dom and not n["is_hub"]]
+        hub_note = notes.get(dom)
+
+        lines.append(f"## {meta['icon']} {meta['title']}")
+        if hub_note:
+            lines.append(f"**Parent Topic Hub**: [[{dom}]]")
+            lines.append("")
+
+        for type_key, type_label in [("concept", "Concepts"), ("comparison", "Comparisons"), ("entity", "Entities & Tools"), ("source", "Sources")]:
+            items = [n for n in dom_notes if n["type"] == type_key]
+            if items:
+                lines.append(f"### {type_label}")
+                for it in sorted(items, key=lambda x: x["slug"]):
+                    excerpt = ""
+                    clean_lines = [l for l in it["body"].splitlines() if l.strip() and not l.startswith("#")]
+                    if clean_lines:
+                        first_line = clean_lines[0].strip()
+                        first_sentence = first_line.split(". ")[0].strip()
+                        excerpt = first_sentence[:120]
+                    entry = f"- [[{it['slug']}]]"
+                    if excerpt:
+                        entry += f" — {excerpt}"
+                    lines.append(entry)
+                lines.append("")
 
     with open(INDEX_FILE, "w", encoding="utf-8") as f:
         f.write("\n".join(lines).strip() + "\n")
 
-    print(f"[+] Rebuilt {INDEX_FILE} ({total_pages} total pages indexed)")
+    print(f"[+] Rebuilt {INDEX_FILE} ({len(notes)} total pages indexed)")
     return 0
 
 
@@ -497,20 +627,9 @@ def cmd_index(args):
 # ==============================================================================
 def cmd_lint(args):
     print("=== Graph Lint & Health Check ===")
-    all_pages = {}
-    all_links = {}
-
-    for cat_dir in [CONCEPTS_DIR, ENTITIES_DIR, COMPARISONS_DIR, QUERIES_DIR, SOURCES_DIR]:
-        if not os.path.exists(cat_dir):
-            continue
-        for fname in os.listdir(cat_dir):
-            if fname.endswith(".md"):
-                slug = fname[:-3]
-                fpath = os.path.join(cat_dir, fname)
-                with open(fpath, "r", encoding="utf-8") as f:
-                    txt = f.read()
-                all_pages[slug] = fpath
-                all_links[slug] = re.findall(r"\[\[(.*?)\]\]", txt)
+    notes = get_all_wiki_notes()
+    all_pages = {n["slug"]: n["abs_path"] for n in notes.values()}
+    all_links = {n["slug"]: n["links"] for n in notes.values()}
 
     broken_links = []
     inbound_links = {slug: [] for slug in all_pages}
@@ -518,9 +637,10 @@ def cmd_lint(args):
     for source_slug, links in all_links.items():
         for target in links:
             target_clean = target.split("|")[0].strip()
-            # Allow links to vault roots
-            if target_clean in all_pages or os.path.exists(os.path.join(VAULT_ROOT, target_clean + ".md")):
-                inbound_links[target_clean] = inbound_links.get(target_clean, []) + [source_slug]
+            # Allow links to vault roots or index
+            if target_clean in all_pages or os.path.exists(os.path.join(VAULT_ROOT, target_clean + ".md")) or target_clean == "index":
+                if target_clean in all_pages:
+                    inbound_links[target_clean] = inbound_links.get(target_clean, []) + [source_slug]
             else:
                 broken_links.append((source_slug, target_clean))
 
@@ -633,31 +753,23 @@ def scan_and_generate_dynamic_recommendations(force_refresh=False):
 
     # 2. Inspect Concepts dynamically
     concepts = {}
-    if os.path.exists(CONCEPTS_DIR):
-        for f in sorted(os.listdir(CONCEPTS_DIR)):
-            if f.endswith(".md"):
-                slug = f[:-3]
-                with open(os.path.join(CONCEPTS_DIR, f), "r", encoding="utf-8") as fp:
-                    txt = fp.read()
-                fm, _ = parse_frontmatter(txt)
-                title = fm.get("title", slug.replace("-", " ").title())
-                raw_tags = fm.get("tags", [])
-                tags = set([raw_tags] if isinstance(raw_tags, str) else raw_tags)
-                links = set(re.findall(r"\[\[([^\]|]+)(?:\|[^\]]+)?\]\]", txt))
-                concepts[slug] = {
-                    "title": title,
-                    "tags": tags,
-                    "links": links,
-                    "file": f,
-                    "slug": slug
-                }
-
-    # Inspect existing comparisons
+    notes = get_all_wiki_notes()
     existing_comps = set()
-    if os.path.exists(COMPARISONS_DIR):
-        for f in os.listdir(COMPARISONS_DIR):
-            if f.endswith(".md"):
-                existing_comps.add(f[:-3])
+    for slug, n in notes.items():
+        if n["type"] == "concept":
+            raw_tags = n["tags"]
+            tags = set([raw_tags] if isinstance(raw_tags, str) else raw_tags)
+            concepts[slug] = {
+                "title": n["title"],
+                "tags": tags,
+                "links": set(n["links"]),
+                "file": os.path.basename(n["path"]),
+                "slug": slug,
+                "path": n["path"],
+                "cluster": n["cluster"]
+            }
+        elif n["type"] == "comparison":
+            existing_comps.add(slug)
 
     # Dynamic Synthesis Candidates: Find concepts with overlapping tags that lack a comparison note
     candidates = []
@@ -727,38 +839,35 @@ Technical trade-off evaluation comparing [[{s1}|{c1['title']}]] and [[{s2}|{c2['
         })
 
     # 3. Dynamic Attack Chains: Entities mentioning or sharing tags with Concepts
-    if os.path.exists(ENTITIES_DIR):
-        for ef in sorted(os.listdir(ENTITIES_DIR)):
-            if ef.endswith(".md"):
-                e_slug = ef[:-3]
-                with open(os.path.join(ENTITIES_DIR, ef), "r", encoding="utf-8") as fp:
-                    e_txt = fp.read()
-                e_fm, _ = parse_frontmatter(e_txt)
-                e_title = e_fm.get("title", e_slug.replace("-", " ").title())
-                raw_e_tags = e_fm.get("tags", [])
-                e_tags = set([raw_e_tags] if isinstance(raw_e_tags, str) else raw_e_tags)
-                
-                for c_slug, c_info in concepts.items():
-                    if c_info["tags"] & e_tags:
-                        if f"[[{c_slug}]]" not in e_txt and f"[[{c_slug}|" not in e_txt:
-                            new_recs.append({
-                                "id": f"rec_chain_{e_slug}_{c_slug}",
-                                "author": "Thoth (Obsidian Librarian)",
-                                "created": datetime.datetime.now().isoformat(),
-                                "title": f"Exploitation Attack Chain: {e_title} to {c_info['title']}",
-                                "category": "Attack Chain Discovery",
-                                "priority": "HIGH",
-                                "details": f"Entity '{e_title}' shares security classification with [[{c_slug}|{c_info['title']}]], but lacks an explicit cross-link in its exploitation section.",
-                                "action": f"Cross-link [[{c_slug}]] in 'entities/{ef}'.",
-                                "status": "pending",
-                                "implementation": {
-                                    "type": "patch_note",
-                                    "target": f"entities/{ef}",
-                                    "section": "## Exploitation Chains & Pivot Vectors",
-                                    "content": f"- **Pivot to [[{c_slug}|{c_info['title']}]]:** Weaponize vulnerability surface in {e_title} to trigger [[{c_slug}]]."
-                                }
-                            })
-                            break
+    for e_slug, n in notes.items():
+        if n["type"] == "entity":
+            ef = os.path.basename(n["path"])
+            e_title = n["title"]
+            e_raw_tags = n["tags"]
+            e_tags = set([e_raw_tags] if isinstance(e_raw_tags, str) else e_raw_tags)
+            e_txt = n["body"]
+            
+            for c_slug, c_info in concepts.items():
+                if c_info["tags"] & e_tags:
+                    if f"[[{c_slug}]]" not in e_txt and f"[[{c_slug}|" not in e_txt:
+                        new_recs.append({
+                            "id": f"rec_chain_{e_slug}_{c_slug}",
+                            "author": "Thoth (Obsidian Librarian)",
+                            "created": datetime.datetime.now().isoformat(),
+                            "title": f"Exploitation Attack Chain: {e_title} to {c_info['title']}",
+                            "category": "Attack Chain Discovery",
+                            "priority": "HIGH",
+                            "details": f"Entity '{e_title}' shares security classification with [[{c_slug}|{c_info['title']}]], but lacks an explicit cross-link in its exploitation section.",
+                            "action": f"Cross-link [[{c_slug}]] in '{n['path']}'.",
+                            "status": "pending",
+                            "implementation": {
+                                "type": "patch_note",
+                                "target": n["path"],
+                                "section": "## Exploitation Chains & Pivot Vectors",
+                                "content": f"- **Pivot to [[{c_slug}|{c_info['title']}]]:** Weaponize vulnerability surface in {e_title} to trigger [[{c_slug}]]."
+                            }
+                        })
+                        break
 
     # 4. Dynamic Ingestion Batches
     if os.path.exists(UNPROC_DIR):
@@ -904,60 +1013,34 @@ def implement_recommendation(rec_id):
 
 
 def build_graph_data():
+    notes = get_all_wiki_notes()
     nodes = []
     edges = []
     node_map = {}
     in_links = {}
     out_links_map = {}
 
-    folder_types = [
-        (CONCEPTS_DIR, "concept"),
-        (ENTITIES_DIR, "entity"),
-        (COMPARISONS_DIR, "comparison"),
-        (SOURCES_DIR, "source"),
-    ]
-
-    for folder, ntype in folder_types:
-        if os.path.exists(folder):
-            for f in sorted(os.listdir(folder)):
-                if f.endswith(".md"):
-                    slug = f[:-3]
-                    fpath = os.path.join(folder, f)
-                    with open(fpath, "r", encoding="utf-8") as fp:
-                        txt = fp.read()
-                    
-                    title = slug
-                    tags = []
-                    excerpt = ""
-                    m_title = re.search(r"title:\s*[\"']?(.*?)[\"']?\n", txt)
-                    if m_title:
-                        title = m_title.group(1).strip()
-                    m_tags = re.search(r"tags:\n((?:\s*-\s*[^\n]+\n)+)", txt)
-                    if m_tags:
-                        tags = [t.strip().lstrip("- ") for t in m_tags.group(1).splitlines() if t.strip()]
-                    
-                    parts = txt.split("---", 2)
-                    body = parts[2].strip() if len(parts) >= 3 else txt
-                    clean_lines = [l for l in body.splitlines() if l.strip() and not l.startswith("#")]
-                    if clean_lines:
-                        excerpt = clean_lines[0][:140] + "..." if len(clean_lines[0]) > 140 else clean_lines[0]
-
-                    links = list(set(re.findall(r"\[\[([^\]|]+)(?:\|[^\]]+)?\]\]", txt)))
-                    out_links_map[slug] = links
-                    for l in links:
-                        target_slug = os.path.splitext(os.path.basename(l))[0]
-                        in_links.setdefault(target_slug, []).append(slug)
-
-                    node_map[slug] = {
-                        "id": slug,
-                        "label": title,
-                        "type": ntype,
-                        "path": os.path.relpath(fpath, WIKI_ROOT),
-                        "tags": tags,
-                        "excerpt": excerpt,
-                        "is_proposal": False,
-                        "out_links": links,
-                    }
+    for slug, n in notes.items():
+        clean_lines = [l for l in n["body"].splitlines() if l.strip() and not l.startswith("#")]
+        excerpt = clean_lines[0][:140] + "..." if clean_lines and len(clean_lines[0]) > 140 else (clean_lines[0] if clean_lines else "")
+        node_map[slug] = {
+            "id": slug,
+            "label": n["title"],
+            "type": n["type"],
+            "cluster": n["cluster"],
+            "cluster_label": n["cluster_label"],
+            "parent": n["parent"],
+            "is_hub": n["is_hub"],
+            "path": n["path"],
+            "tags": n["tags"],
+            "excerpt": excerpt,
+            "is_proposal": False,
+            "out_links": n["links"]
+        }
+        out_links_map[slug] = n["links"]
+        for l in n["links"]:
+            target_slug = os.path.splitext(os.path.basename(l))[0]
+            in_links.setdefault(target_slug, []).append(slug)
 
     if os.path.exists(REVIEW_DIR):
         for f in sorted(os.listdir(REVIEW_DIR)):
@@ -971,10 +1054,10 @@ def build_graph_data():
                 node_id = f"prop:{slug}"
                 
                 prop_type = "proposal"
-                if target.startswith("concepts/"): prop_type = "concept"
-                elif target.startswith("entities/"): prop_type = "entity"
-                elif target.startswith("comparisons/"): prop_type = "comparison"
-                elif target.startswith("sources/"): prop_type = "source"
+                if "/concepts/" in target or target.startswith("concepts/"): prop_type = "concept"
+                elif "/entities/" in target or target.startswith("entities/"): prop_type = "entity"
+                elif "/comparisons/" in target or target.startswith("comparisons/"): prop_type = "comparison"
+                elif "/sources/" in target or target.startswith("sources/"): prop_type = "source"
 
                 links = list(set(re.findall(r"\[\[([^\]|]+)(?:\|[^\]]+)?\]\]", txt)))
                 out_links_map[node_id] = links
@@ -982,10 +1065,20 @@ def build_graph_data():
                     target_slug = os.path.splitext(os.path.basename(l))[0]
                     in_links.setdefault(target_slug, []).append(node_id)
 
+                p_cluster = "web-and-bug-bounty"
+                for dom in DOMAIN_META:
+                    if target.startswith(f"{dom}/"):
+                        p_cluster = dom
+                        break
+
                 node_map[node_id] = {
                     "id": node_id,
                     "label": "[Prop] " + slug,
                     "type": "proposal",
+                    "cluster": p_cluster,
+                    "cluster_label": DOMAIN_META[p_cluster]["title"],
+                    "parent": p_cluster,
+                    "is_hub": False,
                     "path": os.path.relpath(fpath, WIKI_ROOT),
                     "tags": ["proposal"],
                     "excerpt": f"Review proposal for {target}",
@@ -1012,50 +1105,48 @@ def build_graph_data():
                 target_id = target_slug
             elif f"prop:{target_slug}" in node_map:
                 target_id = f"prop:{target_slug}"
-            
+
             if target_id and source_id != target_id:
                 edge_key = (source_id, target_id)
                 if edge_key not in edge_set:
                     edge_set.add(edge_key)
                     edges.append({"source": source_id, "target": target_id})
 
-    return {"nodes": nodes, "edges": edges}
+    clusters_export = {}
+    for c_id, c_data in DOMAIN_META.items():
+        clusters_export[c_id] = {
+            "title": c_data["title"],
+            "icon": c_data["icon"],
+            "color": c_data["color"],
+            "accent": c_data["accent"],
+            "targetX": c_data["targetX"],
+            "targetY": c_data["targetY"],
+        }
+
+    return {"nodes": nodes, "edges": edges, "clusters": clusters_export}
 
 
 def get_toc_catalog():
+    notes = get_all_wiki_notes()
     items = []
-    folder_types = [
-        (CONCEPTS_DIR, "concept"),
-        (COMPARISONS_DIR, "comparison"),
-        (ENTITIES_DIR, "entity"),
-        (SOURCES_DIR, "source"),
-    ]
-    for folder, ntype in folder_types:
-        if os.path.exists(folder):
-            for f in sorted(os.listdir(folder)):
-                if f.endswith(".md"):
-                    slug = f[:-3]
-                    fpath = os.path.join(folder, f)
-                    with open(fpath, "r", encoding="utf-8") as fp:
-                        txt = fp.read()
-                    fm, body = parse_frontmatter(txt)
-                    title = fm.get("title", slug)
-                    tags = fm.get("tags", [])
-                    clean_lines = [l for l in body.splitlines() if l.strip() and not l.startswith("#")]
-                    excerpt = clean_lines[0][:160] + "..." if clean_lines and len(clean_lines[0]) > 160 else (clean_lines[0] if clean_lines else "")
-                    links = list(set(re.findall(r"\[\[([^\]|]+)(?:\|[^\]]+)?\]\]", txt)))
-                    
-                    items.append({
-                        "slug": slug,
-                        "title": title,
-                        "type": ntype,
-                        "path": os.path.relpath(fpath, WIKI_ROOT),
-                        "tags": tags,
-                        "excerpt": excerpt,
-                        "updated": str(fm.get("updated", "")),
-                        "out_count": len(links),
-                        "is_proposal": False
-                    })
+    for slug, n in sorted(notes.items(), key=lambda x: (x[1]["cluster"], not x[1]["is_hub"], x[1]["type"], x[0])):
+        clean_lines = [l for l in n["body"].splitlines() if l.strip() and not l.startswith("#")]
+        excerpt = clean_lines[0][:160] + "..." if clean_lines and len(clean_lines[0]) > 160 else (clean_lines[0] if clean_lines else "")
+        items.append({
+            "slug": slug,
+            "title": n["title"],
+            "type": n["type"],
+            "cluster": n["cluster"],
+            "cluster_label": n["cluster_label"],
+            "parent": n["parent"],
+            "is_hub": n["is_hub"],
+            "path": n["path"],
+            "tags": n["tags"],
+            "excerpt": excerpt,
+            "updated": str(n["fm"].get("updated", "")),
+            "out_count": len(n["links"]),
+            "is_proposal": False
+        })
 
     # Include Staged Review Proposals
     if os.path.exists(REVIEW_DIR):
@@ -1068,7 +1159,7 @@ def get_toc_catalog():
                 m_target = re.search(r"target:\s*([^\n]+)", txt)
                 target = m_target.group(1).strip() if m_target else f[:-3]
                 slug = os.path.splitext(os.path.basename(target))[0]
-                
+
                 m = re.search(r"## Proposed content\s*```(?:markdown)?\n([\s\S]*?)\n```", body)
                 if not m:
                     m = re.search(r"## Proposed content\s*\n([\s\S]*?)(?=\n## Evidence|\Z)", body)
@@ -1076,10 +1167,20 @@ def get_toc_catalog():
                 prop_fm, _ = parse_frontmatter(prop_content)
                 title = prop_fm.get("title", f"[Proposal] {slug}")
 
+                p_cluster = "web-and-bug-bounty"
+                for dom in DOMAIN_META:
+                    if target.startswith(f"{dom}/"):
+                        p_cluster = dom
+                        break
+
                 items.append({
                     "slug": slug,
                     "title": title,
                     "type": "proposal",
+                    "cluster": p_cluster,
+                    "cluster_label": DOMAIN_META[p_cluster]["title"],
+                    "parent": p_cluster,
+                    "is_hub": False,
                     "path": os.path.relpath(fpath, WIKI_ROOT),
                     "tags": fm.get("tags", ["proposal"]),
                     "excerpt": f"Pending Proposal for wiki/{target} (Decision: {fm.get('decision', 'pending')})",
@@ -1098,15 +1199,14 @@ def get_note_detail(rel_path):
     if not os.path.exists(target_abs) and not rel_path.endswith(".md"):
         target_abs = os.path.abspath(os.path.join(WIKI_ROOT, rel_path + ".md"))
     
-    # If still not found, search in standard subfolders
+    # If still not found, search recursively across entire wiki
     if not os.path.exists(target_abs):
-        for sub in ["concepts", "comparisons", "entities", "sources", "Review"]:
-            candidate = os.path.join(WIKI_ROOT, sub, os.path.basename(rel_path))
-            if os.path.exists(candidate):
-                target_abs = candidate
-                break
-            if os.path.exists(candidate + ".md"):
-                target_abs = candidate + ".md"
+        leaf = os.path.basename(rel_path)
+        if not leaf.endswith(".md"):
+            leaf += ".md"
+        for root, dirs, files in os.walk(WIKI_ROOT):
+            if leaf in files:
+                target_abs = os.path.join(root, leaf)
                 break
 
     if not target_abs.startswith(os.path.abspath(WIKI_ROOT)):
@@ -1151,35 +1251,39 @@ def get_note_detail(rel_path):
     content_to_scan = proposed_content if is_proposal else txt
     out_links = list(set(re.findall(r"\[\[([^\]|]+)(?:\|[^\]]+)?\]\]", content_to_scan)))
     backlinks = []
-    folder_types = [
-        (CONCEPTS_DIR, "concept"),
-        (COMPARISONS_DIR, "comparison"),
-        (ENTITIES_DIR, "entity"),
-        (SOURCES_DIR, "source"),
-    ]
-    for folder, ntype in folder_types:
-        if os.path.exists(folder):
-            for fname in os.listdir(folder):
-                if fname.endswith(".md"):
-                    fslug = fname[:-3]
-                    if fslug == slug:
-                        continue
-                    with open(os.path.join(folder, fname), "r", encoding="utf-8") as rf:
-                        rtxt = rf.read()
-                    if f"[[{slug}]]" in rtxt or f"[[{slug}|" in rtxt or f"[[{title}]]" in rtxt:
-                        rfm, _ = parse_frontmatter(rtxt)
-                        backlinks.append({
-                            "slug": fslug,
-                            "title": rfm.get("title", fslug),
-                            "type": ntype,
-                            "path": os.path.relpath(os.path.join(folder, fname), WIKI_ROOT)
-                        })
+    notes = get_all_wiki_notes()
+    for fslug, fn in notes.items():
+        if fslug == slug:
+            continue
+        if slug in fn["links"] or title in fn["links"]:
+            backlinks.append({
+                "slug": fslug,
+                "title": fn["title"],
+                "type": fn["type"],
+                "path": fn["path"]
+            })
+
+    # Determine cluster
+    cluster = fm.get("cluster")
+    if not cluster:
+        parts = rel_clean_path.split(os.sep)
+        cluster = parts[0] if parts[0] in DOMAIN_META else "web-and-bug-bounty"
+    cluster_label = DOMAIN_META.get(cluster, {}).get("title", cluster)
+    parent_slug = fm.get("parent", "")
+    if parent_slug:
+        parent_slug = parent_slug.replace("[[", "").replace("]]", "").strip()
+
+    is_hub = (fm.get("type") == "hub" or slug in DOMAIN_META)
 
     return {
         "path": rel_clean_path,
         "slug": slug,
         "title": title,
         "type": fm.get("type", "proposal" if is_proposal else "note"),
+        "cluster": cluster,
+        "cluster_label": cluster_label,
+        "parent": parent_slug,
+        "is_hub": is_hub,
         "tags": fm.get("tags", []),
         "sources": fm.get("sources", []),
         "frontmatter": fm,
@@ -1319,14 +1423,11 @@ class StudioHandler(BaseHTTPRequestHandler):
             return
 
         if url.path == "/api/stats":
-            pages = 0
-            for d in [CONCEPTS_DIR, ENTITIES_DIR, SOURCES_DIR, COMPARISONS_DIR]:
-                if os.path.exists(d):
-                    pages += len([f for f in os.listdir(d) if f.endswith(".md")])
+            notes = get_all_wiki_notes()
             props_count = len([f for f in os.listdir(REVIEW_DIR) if f.endswith(".md")]) if os.path.exists(REVIEW_DIR) else 0
             gdata = build_graph_data()
             data = {
-                "total_pages": pages,
+                "total_pages": len(notes),
                 "total_links": len(gdata["edges"]),
                 "proposals_count": props_count
             }

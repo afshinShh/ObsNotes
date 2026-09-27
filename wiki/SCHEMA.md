@@ -19,9 +19,11 @@ Offensive Security, Bug Bounty, Red Teaming, Web Application Security, Exploitat
 title: Page Title
 created: YYYY-MM-DD
 updated: YYYY-MM-DD
-type: entity | concept | comparison | query | summary
+type: hub | entity | concept | comparison | query | summary
 tags: [from taxonomy below]
-sources: [raw/<category>/<source-name>.md]
+parent: "[[parent-domain-slug]]"         # Parent Topic Hub wikilink
+cluster: domain-cluster-slug            # Domain cluster (e.g., binary-exploitation, web-and-bug-bounty)
+sources: [sources/<source-name>.md]
 confidence: high | medium | low        # claim strength / corroboration
 contested: false                       # set true when unresolved contradictions exist
 contradictions: []                     # list of conflicting wiki page slugs
@@ -44,8 +46,36 @@ All tags must be chosen from the following categories:
 - **Auth & Identity:** oauth, oidc, saml, jwt, session, mfa, sso, brute-force, ato
 - **Recon & Discovery:** osint, subdomains, vhost, port-scan, asm, mapping, secret-leak
 - **Architecture & Logic:** business-logic, api, graphql, grpc, microservices, cloud-iam, k8s, serverless
+- **Binary Exploitation:** binary-exploitation, exploit-dev, shellcode, fuzzing, rop
+- **Defense & Evasion:** edr, evasion, mitigations, initial-access
+- **AI & Emerging:** ai, prompt-injection, jailbreak
+- **Vulnerability Research:** vulnerability-research, patch-diffing, code-audit
 - **Target Stacks:** wordpress, springboot, laravel, nextjs, django, aspnet, nodejs, entra-id
-- **Operations:** bug-bounty, red-team, evasion, payload, triage, report, tool
+- **Operations:** bug-bounty, red-team, payload, triage, report, tool, web-security
+
+## Domain-Clustered Architecture & Parent-Child Hierarchy
+The wiki organizes compiled offensive security knowledge into 6 primary domain clusters:
+1. `binary-exploitation/` — Memory corruption, shellcode development, fuzzing engines, ROP weaponization.
+2. `web-and-bug-bounty/` — Web application security, injection, smuggling, GraphQL, logic flaws, OAuth/JWT, SSRF.
+3. `defense-and-evasion/` — EDR internals, unhooking, direct/indirect syscalls, sleep obfuscation, mitigations.
+4. `recon-and-osint/` — OSINT methodology, reconnaissance frameworks, attack surface mapping.
+5. `ai-security/` — AI/LLM security testing, prompt injection, model jailbreaks.
+6. `vulnerability-research/` — Vulnerability discovery workflows, patch diffing, code audit methodology.
+
+### Directory Structure per Domain:
+```
+wiki/<domain-cluster>/
+├── <domain-cluster>.md       # Parent Topic Hub / Map of Content (type: hub)
+├── concepts/                  # Deep-dive technical concept notes
+├── comparisons/               # Comparative trade-off analyses
+├── entities/                  # Tools, platforms, and frameworks
+└── sources/                   # Primary source provenance anchors
+```
+
+### Parent-Child Linking Conventions:
+- **Parent Hub Note (`type: hub`)**: Centrally catalogs and bidirectionally links all child concepts, comparisons, entities, and sources within its domain.
+- **Child Notes**: Must declare `parent: "[[<domain-cluster>]]"` and `cluster: <domain-cluster>` in frontmatter, and maintain an explicit backlink to their parent hub under `## Related Pages`.
+- **Bidirectional Links**: Every compiled page must have at least 2 bidirectional wikilinks (`[[slug]]`). No orphan pages are permitted.
 
 ## Page Thresholds
 - **Create a page:** When an entity or technique appears in 2+ sources OR is central to one source.
