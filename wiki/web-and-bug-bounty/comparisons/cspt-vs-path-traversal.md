@@ -1,23 +1,4 @@
 ---
-type: llm-wiki-review
-status: needs-review
-decision: pending
-revision: 1
-operation: create
-target: web-and-bug-bounty/comparisons/cspt-vs-path-traversal.md
-sources:
-  - Notes/Narroto-Guts Hunt/Live Hunts.md
-  - Notes/Narroto-Guts Hunt/Tips and Tricks.md
----
-
-# Proposed Wiki change
-
-## What will change
-Compile comparative trade-off matrix for CSPT vs Server-Side Path Traversal.
-
-## Proposed content
-```markdown
----
 title: "Client-Side Path Traversal (CSPT) vs Server-Side Path Traversal"
 created: 2026-09-29
 updated: 2026-09-29
@@ -38,7 +19,14 @@ contradictions: []
 ---
 # Client-Side Path Traversal (CSPT) vs Server-Side Path Traversal
 
+
+
 <!-- TOC_START -->
+## Table of Contents
+- [Comparative Analysis](#comparative-analysis)
+- [Technical Comparison Matrix](#technical-comparison-matrix)
+- [Interlinked Concepts](#interlinked-concepts)
+- [Related Pages](#related-pages)
 <!-- TOC_END -->
 
 ## Comparative Analysis
@@ -66,10 +54,3 @@ While classic Path Traversal manipulates filesystem path resolution on the web s
 - [[web-and-bug-bounty]]
 - [[client-side-path-traversal]]
 - [[open-redirect-attacks]]
-```
-
-## Evidence and uncertainty
-Documented from canonical notes in Notes/Narroto-Guts Hunt/ (Live Hunts, Structures, Tips and Tricks).
-
-## Human feedback
-Optionally explain or edit what should change.

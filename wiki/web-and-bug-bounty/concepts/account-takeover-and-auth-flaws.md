@@ -1,23 +1,4 @@
 ---
-type: llm-wiki-review
-status: needs-review
-decision: pending
-revision: 1
-operation: create
-target: web-and-bug-bounty/concepts/account-takeover-and-auth-flaws.md
-sources:
-  - Notes/Narroto-Guts Hunt/Live Hunts.md
-  - Notes/Narroto-Guts Hunt/Tips and Tricks.md
----
-
-# Proposed Wiki change
-
-## What will change
-Compile comprehensive checklist note for Account Takeover and modern authentication flaws.
-
-## Proposed content
-```markdown
----
 title: "Account Takeover (ATO) & Authentication Flow Flaws (Comprehensive Checklist)"
 created: 2026-09-29
 updated: 2026-09-29
@@ -39,7 +20,17 @@ contradictions: []
 ---
 # Account Takeover (ATO) & Authentication Flow Flaws (Comprehensive Checklist)
 
+
+
 <!-- TOC_START -->
+## Table of Contents
+- [Overview](#overview)
+- [Registration & Onboarding Checklist](#registration-onboarding-checklist)
+- [Multi-Factor Authentication (2FA) Checklist](#multi-factor-authentication-2fa-checklist)
+- [OAuth & Third-Party Integration Checklist](#oauth-third-party-integration-checklist)
+- [App-to-App & Cross-Environment Transfer Checklist (Non-OAuth)](#app-to-app-cross-environment-transfer-checklist-non-oauth)
+- [Magic Links & QR Code Logins](#magic-links-qr-code-logins)
+- [Related Pages](#related-pages)
 <!-- TOC_END -->
 
 ## Overview
@@ -112,10 +103,3 @@ When authentication state is transferred between mobile/desktop applications and
 - [[app-to-web-auth-transfer]]
 - [[client-side-path-traversal]]
 - [[bug-bounty-live-hunts-case-studies]]
-```
-
-## Evidence and uncertainty
-Documented from canonical notes in Notes/Narroto-Guts Hunt/ (Live Hunts, Structures, Tips and Tricks).
-
-## Human feedback
-Optionally explain or edit what should change.

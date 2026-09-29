@@ -2,7 +2,7 @@
 type: llm-wiki-review
 status: needs-review
 decision: pending
-revision: 1
+revision: 2
 operation: create
 target: web-and-bug-bounty/sources/narroto-guts-hunt-structures.md
 sources:
@@ -12,7 +12,7 @@ sources:
 # Proposed Wiki change
 
 ## What will change
-Compile provenance source anchor for Hunting Structures & Threat Modeling note.
+Comprehensively enrich Structures source anchor to document all extracted reconnaissance, threat modeling, and reporting tradecraft.
 
 ## Proposed content
 ```markdown
@@ -56,11 +56,11 @@ cluster: web-and-bug-bounty
 ---
 
 ## Source Content Topic Breakdown
-- **Hunting Mindset**: Target offers the vulnerability; least change principle; hook-based fuzzing; exploring like a normal user.
-- **Wide Reconnaissance**: TLD search (`tldx`), certificate transparency (`crt.sh`, Censys), reverse WHOIS, DNS resolution (`dnsx`).
-- **Narrow Reconnaissance**: Search engine dorking (Google, Bing, DuckDuckGo), Wayback CDX API snapshot digests, and DOM sink exploration.
-- **Threat Modeling Matrix**: Functional UI behavior mapping to vulnerability primitives (reflection -> XSS, URL input -> SSRF, file upload -> RCE).
-- **Professional Reporting**: Direct attack scenarios, eliminating speculative prose ("attacker can"), reproducible Burp packets, and short PoC videos (<= 2 minutes).
+- **Hunting Mindset**: Target offers the vulnerability; least change principle; hook-based fuzzing; exploring like a normal user; paid features as golden areas.
+- **Wide Reconnaissance**: Domain discovery via legal footers and favicons; TLD search oneliner (`curl ...`) and `tldx`; certificate transparency (`crt.sh`, Censys, Shodan); reverse WHOIS (`website.informer.com`, `viewdns.info`); DNS resolution (`dnsx`); avoiding third-party SaaS traps.
+- **Narrow Reconnaissance**: Search engine dorking (Google AND Bing with `&filter=0`); Wayback CDX Server API digest collapsing (`fl=timestamp,original&collapse=digest`); `robofinder` for robots.txt; Katana DOM limitations; passive vs active crawling; `ext:html` for DOM XSS; `ext:aspx,php,asp,jsp` for backend endpoints.
+- **Architectural Threat Modeling**: Five diagnostic questions (threat model, application purpose, data passing mechanisms, user and authentication handling); functional mapping matrix (reflection -> XSS/SSTI, URL input -> SSRF/CSPT, uploader -> RCE, database -> SQLi); BackSlash Powered Scanner; Unicode and HTML attribute decoding rules.
+- **Professional Reporting Discipline**: Direct attack scenarios without speculative prose; clear Burp Suite request packets; video PoCs under 2 minutes (30s ideal); scope boundary discipline before escalating.
 
 ## Related Pages
 - [[web-and-bug-bounty]]

@@ -49,6 +49,7 @@ sources:
   - [[sql-injection-testing-defense-and-remediation]] — Parameterized queries, ORM security controls, stored procedure hardening, and privilege separation.
   - [[sql-injection-testing-methodologies]] — Database-specific fingerprinting (MySQL, PostgreSQL, MSSQL, Oracle), syntax references, and privilege escalation.
 - [[cross-site-scripting]] — DOM-based sinks, context-aware HTML/attribute/script breakouts, and tag/parentheses WAF bypasses.
+  - [[xss-and-waf-evasion-tradecraft]] — Comprehensive checklist: DOM state pausing, whitespace fuzzing, tag normalization, string concatenation, and parentheses-less execution.
 - [[server-side-template-injection]] — Jinja2, Twig, FreeMarker, Pebble template evaluation probes, and Python MRO object sandbox escapes.
 - [[xml-external-entity-injection]] — In-band file retrieval, CDATA wrapping, blind out-of-band (OOB) DTD parameter entity exfiltration, and Billion Laughs DoS.
 - [[http-parameter-pollution]] — Precedence matrix across web servers (Apache, IIS, Node.js), parameter overriding, and WAF token splitting bypasses.
@@ -70,17 +71,23 @@ sources:
 - [[jwt-attack-vectors]] — `none` algorithm injection, asymmetric-to-symmetric key confusion, embedded JWK/JKU header tampering, and HMAC brute forcing.
 - [[oauth-grant-types-and-flows]] — RFC 6749 grant types, Authorization Code Flow with PKCE (RFC 7636), Implicit Flow deprecation, and Token Exchange.
 - [[oauth-attack-vectors]] — `redirect_uri` validation manipulation, State CSRF, authorization code leakage, and account takeover (ATO) chains.
+- [[account-takeover-and-auth-flaws]] — Comprehensive ATO checklist: email normalization padding, 2FA state skipping, OAuth state misuse, and app-to-app transfer polling.
 
 ### 5. Server-Side Exploitation & Deserialization
 - [[server-side-request-forgery]] — Cloud metadata extraction (IMDSv1 vs IMDSv2), alternative IP encoding formats, DNS rebinding, and protocol smuggling via Gopher.
 - [[blind-ssrf-gopher-redis-rce]] — Weaponizing SSRF via Gopher to issue Redis commands, write PHP webshells, or execute Lua scripts.
 - [[fastcgi-ssrf-exploitation]] — Pivoting SSRF into local FastCGI/PHP-FPM instances (port 9000) using binary record packet generation for RCE.
 - [[deserialization-attacks]] — Java, PHP, Python, and Node.js serialization formats, magic methods, and remote code execution gadget chains.
+- [[file-upload-attack-matrix]] — Document root vs route-based uploaders, magic byte polyglots, S3 dynamic Content-Type reflection, and CSP evaluation.
+
+### 6. Live Assessments & Case Studies
+- [[bug-bounty-live-hunts-case-studies]] — Granular bug bounty case studies from live targets (CapCut, Superbet, Amazon Hiring, Experian, Windsurf, Romwe, TikTok, BytePlus).
 
 ---
 
 ## Comparative Trade-off Analyses
 - [[blind-ssrf-gopher-redis-rce-vs-fastcgi-ssrf-exploitation]]
+- [[cspt-vs-path-traversal]] — Client-Side Path Traversal (browser DOM routing, token leakage) vs Server-Side Path Traversal (/etc/passwd, LFI).
 - [[cl-te-vs-te-cl]] — Architectural and exploitation differences between CL.TE and TE.CL request smuggling desynchronization.
 - [[classic-vs-blind-xxe]] — Direct in-band entity reflection vs out-of-band DTD callback exfiltration.
 - [[in-band-vs-blind-sqli]] — Direct result set extraction vs binary search boolean/time-based inference trade-offs.
@@ -106,6 +113,9 @@ sources:
 ---
 
 ## Primary Sources & Ingestion Provenance
+- [[narroto-guts-hunt-live-hunts]] — Case studies across CapCut, Superbet, Amazon, Experian, Windsurf, Romwe, TikTok, BytePlus.
+- [[narroto-guts-hunt-structures]] — Core hunting mindset, wide vs narrow recon, architectural threat modeling, and reporting discipline.
+- [[narroto-guts-hunt-tips-and-tricks]] — Advanced XSS WAF evasion, client-side debugging, postMessage analysis, Android mobile pentesting, and file upload matrix.
 - [[sql-injection]] — Primary source note on SQL injection vectors.
 - [[xss]] — Primary source note on cross-site scripting vectors.
 - [[ssti]] — Primary source note on template injection.

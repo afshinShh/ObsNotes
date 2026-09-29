@@ -1,22 +1,4 @@
 ---
-type: llm-wiki-review
-status: needs-review
-decision: pending
-revision: 1
-operation: create
-target: web-and-bug-bounty/concepts/file-upload-attack-matrix.md
-sources:
-  - Notes/Narroto-Guts Hunt/Tips and Tricks.md
----
-
-# Proposed Wiki change
-
-## What will change
-Compile complete attack matrix and verification checklist for file upload and S3 storage endpoints.
-
-## Proposed content
-```markdown
----
 title: "File Upload Attack Surface & Object Storage Exploitation Matrix"
 created: 2026-09-29
 updated: 2026-09-29
@@ -36,7 +18,17 @@ contradictions: []
 ---
 # File Upload Attack Surface & Object Storage Exploitation Matrix
 
+
+
 <!-- TOC_START -->
+## Table of Contents
+- [Overview](#overview)
+- [Architecture & Storage Models](#architecture-storage-models)
+- [Functional Audit Checklist](#functional-audit-checklist)
+  - [1. Form Action & Parameters](#1-form-action-parameters)
+  - [2. Validation & Verification Bypasses](#2-validation-verification-bypasses)
+  - [3. S3 & Object Storage Content-Type Overrides](#3-s3-object-storage-content-type-overrides)
+- [Related Pages](#related-pages)
 <!-- TOC_END -->
 
 ## Overview
@@ -93,10 +85,3 @@ When files are hosted on Amazon S3 or cloud buckets:
 - [[xss-and-waf-evasion-tradecraft]]
 - [[bug-bounty-live-hunts-case-studies]]
 - [[server-side-request-forgery]]
-```
-
-## Evidence and uncertainty
-Documented from canonical notes in Notes/Narroto-Guts Hunt/ (Live Hunts, Structures, Tips and Tricks).
-
-## Human feedback
-Optionally explain or edit what should change.

@@ -5685,3 +5685,113 @@ IsADirectoryError: [Errno 21] Is a directory: '/home/omp/Desktop/RED/Knowledge/O
 127.0.0.1 - - [29/Sep/2026 23:38:11] "GET /api/note?path=Review%2F2026-09-29-mobile-pentest-traffic-capture-and-deep-links-proposal.md HTTP/1.1" 200 -
 === Applying Approved Proposals ===
 [*] Creating Git checkpoint: 'checkpoint: pre-apply proposals snapshot'...
+[+] Checkpoint committed successfully:
+[master f064832] checkpoint: pre-apply proposals snapshot
+ 13 files changed, 1089 insertions(+), 37 deletions(-)
+ create mode 100644 wiki/Review/2026-09-29-account-takeover-and-auth-flaws-proposal.md
+ create mode 100644 wiki/Review/2026-09-29-bug-bounty-live-hunts-case-studies-proposal.md
+ create mode 100644 wiki/Review/2026-09-29-file-upload-attack-matrix-proposal.md
+ create mode 100644 wiki/Review/2026-09-29-mobile-pentest-traffic-capture-and-deep-links-proposal.md
+ create mode 100644 wiki/Review/2026-09-29-xss-and-waf-evasion-tradecraft-proposal.md
+[*] Skipping 2026-09-29-source-narroto-guts-hunt-live-hunts-proposal.md (decision: pending)
+[*] Skipping 2026-09-29-source-narroto-guts-hunt-structures-proposal.md (decision: pending)
+[*] Skipping 2026-09-29-source-narroto-guts-hunt-tips-and-tricks-proposal.md (decision: pending)
+[*] Skipping 2026-09-29-xss-and-waf-evasion-tradecraft-proposal.md (decision: pending)
+[*] Skipping 2026-09-29-account-takeover-and-auth-flaws-proposal.md (decision: pending)
+[*] Skipping 2026-09-29-mobile-pentest-traffic-capture-and-deep-links-proposal.md (decision: pending)
+[*] Skipping 2026-09-29-file-upload-attack-matrix-proposal.md (decision: pending)
+[*] Skipping 2026-09-29-bug-bounty-live-hunts-case-studies-proposal.md (decision: pending)
+[*] Skipping 2026-09-29-client-side-path-traversal-proposal.md (decision: pending)
+[*] Skipping 2026-09-29-dom-debugging-and-sink-analysis-proposal.md (decision: pending)
+[*] Skipping 2026-09-29-bug-bounty-recon-and-threat-modeling-proposal.md (decision: pending)
+[*] Skipping 2026-09-29-cspt-vs-path-traversal-proposal.md (decision: pending)
+[*] Skipping 2026-09-29-recollapse-proposal.md (decision: pending)
+[*] No approved proposals found to apply.
+127.0.0.1 - - [29/Sep/2026 23:38:20] "POST /api/apply HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:38:21] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:38:21] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:38:22] "GET /api/note?path=Review%2F2026-09-29-mobile-pentest-traffic-capture-and-deep-links-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:38:23] "GET /api/note?path=Review%2F2026-09-29-file-upload-attack-matrix-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:38:28] "GET /api/note?path=Review%2F2026-09-29-bug-bounty-live-hunts-case-studies-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:38:30] "GET /api/note?path=Review%2F2026-09-29-account-takeover-and-auth-flaws-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:38:32] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:38:32] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:38:32] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:38:32] "GET /api/note?path=Review%2F2026-09-29-account-takeover-and-auth-flaws-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:38:35] "GET /api/note?path=Review%2F2026-09-29-bug-bounty-live-hunts-case-studies-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:38:36] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:38:36] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:38:36] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:38:36] "GET /api/note?path=Review%2F2026-09-29-bug-bounty-live-hunts-case-studies-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:38:37] "GET /api/note?path=Review%2F2026-09-29-client-side-path-traversal-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:38:38] "GET /api/note?path=Review%2F2026-09-29-bug-bounty-recon-and-threat-modeling-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:38:43] "GET /api/note?path=Review%2F2026-09-29-account-takeover-and-auth-flaws-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:38:54] "GET /api/note?path=Review%2F2026-09-29-bug-bounty-live-hunts-case-studies-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:38:58] "GET /api/note?path=Review%2F2026-09-29-bug-bounty-recon-and-threat-modeling-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:39:15] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:39:15] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:39:15] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:39:15] "GET /api/note?path=Review%2F2026-09-29-bug-bounty-recon-and-threat-modeling-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:39:17] "GET /api/note?path=Review%2F2026-09-29-client-side-path-traversal-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:39:23] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:39:23] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:39:23] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:39:24] "GET /api/note?path=Review%2F2026-09-29-client-side-path-traversal-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:39:25] "GET /api/note?path=Review%2F2026-09-29-cspt-vs-path-traversal-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:39:29] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:39:29] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:39:29] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:39:29] "GET /api/note?path=Review%2F2026-09-29-cspt-vs-path-traversal-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:39:30] "GET /api/note?path=Review%2F2026-09-29-dom-debugging-and-sink-analysis-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:39:34] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:39:34] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:39:34] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:39:35] "GET /api/note?path=Review%2F2026-09-29-dom-debugging-and-sink-analysis-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:39:36] "GET /api/note?path=Review%2F2026-09-29-file-upload-attack-matrix-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:39:45] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:39:45] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:39:45] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:39:45] "GET /api/note?path=Review%2F2026-09-29-file-upload-attack-matrix-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:39:46] "GET /api/note?path=Review%2F2026-09-29-mobile-pentest-traffic-capture-and-deep-links-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:39:52] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:39:52] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:39:52] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:39:52] "GET /api/note?path=Review%2F2026-09-29-mobile-pentest-traffic-capture-and-deep-links-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:39:53] "GET /api/note?path=Review%2F2026-09-29-recollapse-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:40:18] "GET /api/note?path=Review%2F2026-09-29-source-narroto-guts-hunt-live-hunts-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:40:32] "GET /api/note?path=Review%2F2026-09-29-source-narroto-guts-hunt-structures-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:40:56] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:40:56] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:40:56] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:40:56] "GET /api/note?path=Review%2F2026-09-29-source-narroto-guts-hunt-structures-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:40:58] "GET /api/note?path=Review%2F2026-09-29-source-narroto-guts-hunt-tips-and-tricks-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:41:04] "GET /api/note?path=Review%2F2026-09-29-xss-and-waf-evasion-tradecraft-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:41:32] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:41:32] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:41:32] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:41:32] "GET /api/note?path=Review%2F2026-09-29-xss-and-waf-evasion-tradecraft-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:56:57] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:56:57] "GET /highlight.min.css HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:56:57] "GET /marked.min.js HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:56:57] "GET /highlight.min.js HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:56:57] "GET /mermaid.min.js HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:56:57] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:56:57] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:56:57] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [29/Sep/2026 23:56:57] "GET /api/note?path=ai-security%2Fai-security.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:56:57] "GET /api/graph HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:56:58] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:56:59] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:57:00] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:57:00] "GET /highlight.min.css HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:57:00] "GET /marked.min.js HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:57:00] "GET /highlight.min.js HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:57:00] "GET /mermaid.min.js HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:57:00] "GET /marked.min.js HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:57:00] "GET /highlight.min.js HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:57:00] "GET /mermaid.min.js HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:57:01] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:57:01] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:57:01] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [29/Sep/2026 23:57:01] "GET /api/note?path=ai-security%2Fai-security.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:57:01] "GET /api/graph HTTP/1.1" 200 -

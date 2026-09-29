@@ -1,7 +1,7 @@
 # Wiki Index
 
 > Content catalog for the Offensive Security & Bug Bounty LLM Wiki.
-> Last updated: 2026-09-29 | Total pages: 103
+> Last updated: 2026-09-29 | Total pages: 108
 
 ## Domain Clusters Overview
 The knowledge vault is structured into 6 domain clusters with parent-child hierarchy:
@@ -16,11 +16,14 @@ The knowledge vault is structured into 6 domain clusters with parent-child hiera
 **Parent Topic Hub**: [[web-and-bug-bounty]]
 
 ### Concepts
+- [[account-takeover-and-auth-flaws]] — <!-- TOC_START -->
 - [[app-to-web-auth-transfer]] — Application-to-Web (A2W) and Web-to-Application (W2A) authentication transfer refers to the architectural handoff mec...
 - [[blind-ssrf-gopher-redis-rce]] — Server-Side Request Forgery (SSRF) vulnerabilities supporting the `gopher://` URL scheme allow attackers to send arbi...
+- [[bug-bounty-live-hunts-case-studies]] — <!-- TOC_START -->
 - [[cross-site-scripting]] — Cross-Site Scripting (XSS) allows attackers to execute arbitrary JavaScript in the context of an end user's browser
 - [[deserialization-attacks]] — Insecure Deserialization occurs when untrusted serialized byte streams are instantiated by applications
 - [[fastcgi-ssrf-exploitation]] — When PHP-FPM listens on an accessible network socket (e.g
+- [[file-upload-attack-matrix]] — <!-- TOC_START -->
 - [[graphql-security]] — GraphQL introduces distinct attack surfaces including schema introspection, field suggestion leakage, recursive query...
 - [[http-parameter-pollution]] — HTTP Parameter Pollution (HPP) manipulates application logic by supplying repeated parameters across HTTP requests
 - [[http-request-smuggling]] — <!-- TOC_START -->
@@ -42,12 +45,14 @@ The knowledge vault is structured into 6 domain clusters with parent-child hiera
 - [[sql-injection-testing-exploitation-and-attack-vectors]] — <!-- TOC_START -->
 - [[sql-injection-testing-methodologies]] — <!-- TOC_START -->
 - [[xml-external-entity-injection]] — XML External Entity (XXE) vulnerabilities arise when improperly configured XML parsers process user-controlled DTD de...
+- [[xss-and-waf-evasion-tradecraft]] — <!-- TOC_START -->
 
 ### Comparisons
 - [[authorization-code-vs-implicit-flow]] — OAuth 2.0 ([RFC 6749](https://datatracker.ietf.org/doc/html/rfc6749)) originally defined the Implicit Flow for single...
 - [[blind-ssrf-gopher-redis-rce-vs-fastcgi-ssrf-exploitation]] — Technical trade-off evaluation comparing Blind SSRF to Redis RCE via Gopher and FastCGI Protocol Injection via SSRF w...
 - [[cl-te-vs-te-cl]] — HTTP request smuggling stems from parsing ambiguities between front-end reverse proxies and backend application servers
 - [[classic-vs-blind-xxe]] — Comparison of XML External Entity injection paradigms: Direct response entity reflection versus Blind Out-of-Band par...
+- [[cspt-vs-path-traversal]] — <!-- TOC_START -->
 - [[imdsv1-vs-imdsv2-ssrf]] — Architectural and exploitation comparison of AWS Instance Metadata Service version 1 (request-response) versus versio...
 - [[in-band-vs-blind-sqli]] — Technical trade-off analysis comparing direct In-Band (Union-based, Error-based) SQLi with Inferential/Blind (Boolean...
 - [[jwt-in-oauth2-architecture]] — In modern identity systems, JSON Web Tokens (jwt-security-mechanisms) provide the self-contained token format powerin...

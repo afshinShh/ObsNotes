@@ -1,22 +1,4 @@
 ---
-type: llm-wiki-review
-status: needs-review
-decision: pending
-revision: 1
-operation: create
-target: web-and-bug-bounty/concepts/xss-and-waf-evasion-tradecraft.md
-sources:
-  - Notes/Narroto-Guts Hunt/Tips and Tricks.md
----
-
-# Proposed Wiki change
-
-## What will change
-Compile deep checklist note for XSS, DOM state analysis, and WAF filter evasion tradecraft.
-
-## Proposed content
-```markdown
----
 title: "XSS & Client-Side WAF Evasion Tradecraft (Comprehensive Checklist)"
 created: 2026-09-29
 updated: 2026-09-29
@@ -36,7 +18,18 @@ contradictions: []
 ---
 # XSS & Client-Side WAF Evasion Tradecraft (Comprehensive Checklist)
 
+
+
 <!-- TOC_START -->
+## Table of Contents
+- [Overview](#overview)
+- [Diagnostic & Debugging Checklist](#diagnostic-debugging-checklist)
+- [Post-XSS Weaponization Checklist](#post-xss-weaponization-checklist)
+- [WAF & Filter Bypass Checklist](#waf-filter-bypass-checklist)
+  - [1. HTML Tag & Whitespace Fuzzing](#1-html-tag-whitespace-fuzzing)
+  - [2. JavaScript Execution & String Concatenation](#2-javascript-execution-string-concatenation)
+  - [3. Parentheses-Less & Delimiter-Less Payloads](#3-parentheses-less-delimiter-less-payloads)
+- [Related Pages](#related-pages)
 <!-- TOC_END -->
 
 ## Overview
@@ -142,10 +135,3 @@ When parentheses `()` or brackets `[]` are blocked by sanitizers:
 - [[stored-vs-reflected-vs-dom-xss]]
 - [[dom-debugging-and-sink-analysis]]
 - [[recollapse]]
-```
-
-## Evidence and uncertainty
-Documented from canonical notes in Notes/Narroto-Guts Hunt/ (Live Hunts, Structures, Tips and Tricks).
-
-## Human feedback
-Optionally explain or edit what should change.

@@ -1,22 +1,4 @@
 ---
-type: llm-wiki-review
-status: needs-review
-decision: pending
-revision: 1
-operation: create
-target: web-and-bug-bounty/concepts/bug-bounty-live-hunts-case-studies.md
-sources:
-  - Notes/Narroto-Guts Hunt/Live Hunts.md
----
-
-# Proposed Wiki change
-
-## What will change
-Compile comprehensive concept note documenting granular bug bounty case studies from Live Hunts.md.
-
-## Proposed content
-```markdown
----
 title: "Bug Bounty Live Hunts: Real-World Case Studies & Attack Chains"
 created: 2026-09-29
 updated: 2026-09-29
@@ -37,7 +19,28 @@ contradictions: []
 ---
 # Bug Bounty Live Hunts: Real-World Case Studies & Attack Chains
 
+
+
 <!-- TOC_START -->
+## Table of Contents
+- [Overview](#overview)
+- [1. CapCut: A2W Auth Transfer, Host Header Poisoning & 1-Click ATO](#1-capcut-a2w-auth-transfer-host-header-poisoning-1-click-ato)
+  - [Vulnerability Chains:](#vulnerability-chains)
+- [2. Superbet.ro: Internal Route Discovery & NoSQL-to-SQLi Pivot](#2-superbetro-internal-route-discovery-nosql-to-sqli-pivot)
+  - [Discovery Tradecraft:](#discovery-tradecraft)
+- [3. Hiring.Amazon.com: React SPA Route Recovery & Source Map Fuzzing](#3-hiringamazoncom-react-spa-route-recovery-source-map-fuzzing)
+  - [Methodological Insights:](#methodological-insights)
+- [4. Experian: SessionStorage Redirect XSS & Scheme Confusion](#4-experian-sessionstorage-redirect-xss-scheme-confusion)
+  - [Attack Sequence:](#attack-sequence)
+- [5. Windsurf: Magic Links, Loopback Bypasses & Extension CSPT](#5-windsurf-magic-links-loopback-bypasses-extension-cspt)
+  - [Attack Sequence:](#attack-sequence)
+- [6. Romwe: Nested Filter Bypass XSS & Window Opener ATO](#6-romwe-nested-filter-bypass-xss-window-opener-ato)
+  - [Attack Sequence:](#attack-sequence)
+- [7. TikTok: Stored XSS in File Uploader ($7,500 Bounty)](#7-tiktok-stored-xss-in-file-uploader-7500-bounty)
+  - [Attack Mechanics:](#attack-mechanics)
+- [8. BytePlus: 2FA State Hijacking via Event Tampering](#8-byteplus-2fa-state-hijacking-via-event-tampering)
+  - [Attack Mechanics:](#attack-mechanics)
+- [Related Pages](#related-pages)
 <!-- TOC_END -->
 
 ## Overview
@@ -143,10 +146,3 @@ A curated collection of granular bug bounty case studies and vulnerability chain
 - [[dom-debugging-and-sink-analysis]]
 - [[file-upload-attack-matrix]]
 - [[xss-and-waf-evasion-tradecraft]]
-```
-
-## Evidence and uncertainty
-Documented from canonical notes in Notes/Narroto-Guts Hunt/ (Live Hunts, Structures, Tips and Tricks).
-
-## Human feedback
-Optionally explain or edit what should change.
