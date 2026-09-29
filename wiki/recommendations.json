@@ -1,5 +1,40 @@
 [
   {
+    "id": "rec_chain_turbo-intruder_http-request-smuggling-defense-and-remediation",
+    "author": "Thoth (Obsidian Librarian)",
+    "created": "2026-09-29T22:37:38.780955",
+    "title": "Exploitation Attack Chain: Turbo Intruder to HTTP Request Smuggling Defense, Hardening & Protocol Remediation",
+    "category": "Attack Chain Discovery",
+    "priority": "HIGH",
+    "details": "Entity 'Turbo Intruder' weaponizes the specific primitive 'request-smuggling' covered in [[http-request-smuggling-defense-and-remediation|HTTP Request Smuggling Defense, Hardening & Protocol Remediation]], but currently lacks a direct pivot link.",
+    "action": "Cross-link [[http-request-smuggling-defense-and-remediation]] in 'web-and-bug-bounty/entities/turbo-intruder.md'.",
+    "status": "implemented",
+    "implementation": {
+      "type": "patch_note",
+      "target": "web-and-bug-bounty/entities/turbo-intruder.md",
+      "section": "## Exploitation Chains & Pivot Vectors",
+      "content": "- **Pivot to [[http-request-smuggling-defense-and-remediation|HTTP Request Smuggling Defense, Hardening & Protocol Remediation]]:** Weaponize vulnerability surface in Turbo Intruder to trigger [[http-request-smuggling-defense-and-remediation]]."
+    },
+    "implemented_at": "2026-09-29T22:37:42.762915"
+  },
+  {
+    "id": "rec_chain_sqlmap_sql-injection-testing-detection-methodology",
+    "author": "Thoth (Obsidian Librarian)",
+    "created": "2026-09-29T22:37:38.780927",
+    "title": "Exploitation Attack Chain: Sqlmap to SQL Injection Testing & Database Exploitation Frameworks: Detection Methodology & Probing",
+    "category": "Attack Chain Discovery",
+    "priority": "HIGH",
+    "details": "Entity 'Sqlmap' weaponizes the specific primitive 'sqli' covered in [[sql-injection-testing-detection-methodology|SQL Injection Testing & Database Exploitation Frameworks: Detection Methodology & Probing]], but currently lacks a direct pivot link.",
+    "action": "Cross-link [[sql-injection-testing-detection-methodology]] in 'web-and-bug-bounty/entities/sqlmap.md'.",
+    "status": "pending",
+    "implementation": {
+      "type": "patch_note",
+      "target": "web-and-bug-bounty/entities/sqlmap.md",
+      "section": "## Exploitation Chains & Pivot Vectors",
+      "content": "- **Pivot to [[sql-injection-testing-detection-methodology|SQL Injection Testing & Database Exploitation Frameworks: Detection Methodology & Probing]]:** Weaponize vulnerability surface in Sqlmap to trigger [[sql-injection-testing-detection-methodology]]."
+    }
+  },
+  {
     "id": "rec_chain_turbo-intruder_http-request-smuggling-advanced-desync",
     "author": "Thoth (Obsidian Librarian)",
     "created": "2026-09-29T22:37:12.758634",
@@ -26,13 +61,14 @@
     "priority": "HIGH",
     "details": "Entity 'Sqlmap' weaponizes the specific primitive 'sqli' covered in [[sql-injection-testing-defense-and-remediation|SQL Injection Testing & Database Exploitation Frameworks: Defense, Hardening & Remediation]], but currently lacks a direct pivot link.",
     "action": "Cross-link [[sql-injection-testing-defense-and-remediation]] in 'web-and-bug-bounty/entities/sqlmap.md'.",
-    "status": "pending",
+    "status": "dismissed",
     "implementation": {
       "type": "patch_note",
       "target": "web-and-bug-bounty/entities/sqlmap.md",
       "section": "## Exploitation Chains & Pivot Vectors",
       "content": "- **Pivot to [[sql-injection-testing-defense-and-remediation|SQL Injection Testing & Database Exploitation Frameworks: Defense, Hardening & Remediation]]:** Weaponize vulnerability surface in Sqlmap to trigger [[sql-injection-testing-defense-and-remediation]]."
-    }
+    },
+    "dismissed_at": "2026-09-29T22:37:32.296500"
   },
   {
     "id": "rec_chain_smuggler_http-request-smuggling-advanced-desync",

@@ -61,4 +61,5 @@ Ingested and structured from canonical notes:
 
 
 ## Exploitation Chains & Pivot Vectors
+- **Pivot to [[http-request-smuggling-defense-and-remediation|HTTP Request Smuggling Defense, Hardening & Protocol Remediation]]:** Weaponize vulnerability surface in Turbo Intruder to trigger [[http-request-smuggling-defense-and-remediation]].
 - **Pivot to [[http-request-smuggling-advanced-desync|Advanced HTTP Request Smuggling: H2/H3 Desync, Tunneling & Client-Side Attacks]]:** Weaponize vulnerability surface in Turbo Intruder to trigger [[http-request-smuggling-advanced-desync]].
