@@ -4241,3 +4241,116 @@ TypeError: Object of type date is not JSON serializable
 127.0.0.1 - - [29/Sep/2026 18:09:01] "GET /api/note?path=web-and-bug-bounty%2Fconcepts%2Fblind-ssrf-gopher-redis-rce.md HTTP/1.1" 200 -
 127.0.0.1 - - [29/Sep/2026 18:09:15] "GET /api/note?path=web-and-bug-bounty%2Fentities%2Fturbo-intruder.md HTTP/1.1" 200 -
 127.0.0.1 - - [29/Sep/2026 18:10:11] "GET /api/note?path=web-and-bug-bounty%2Fconcepts%2Fblind-ssrf-gopher-redis-rce.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:55:38] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:55:38] "GET /api/recommendations HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:55:44] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:55:44] "GET /api/recommendations HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:55:49] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:55:49] "GET /api/recommendations?refresh=true HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:55:57] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:55:57] "GET /api/recommendations HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:56:12] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:56:12] "GET /api/recommendations HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:56:12] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:56:12] "GET /api/recommendations HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:56:16] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:56:16] "GET /api/recommendations HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:56:20] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:56:20] "GET /highlight.min.css HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:56:20] "GET /marked.min.js HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:56:20] "GET /highlight.min.js HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:56:20] "GET /mermaid.min.js HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:56:20] "GET /marked.min.js HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:56:20] "GET /highlight.min.js HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:56:20] "GET /mermaid.min.js HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:56:20] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:56:20] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:56:20] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [29/Sep/2026 21:56:20] "GET /api/note?path=ai-security%2Fai-security.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:56:21] "GET /api/graph HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:56:22] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:56:22] "GET /api/recommendations HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:56:43] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:56:43] "GET /api/recommendations HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:56:45] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:56:45] "GET /api/recommendations HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:56:48] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:56:48] "GET /api/recommendations HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:56:50] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:56:50] "GET /api/recommendations?refresh=true HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:57:05] "GET /api/note?path=web-and-bug-bounty%2Fsources%2Fparameter-pollution.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:57:08] "GET /api/note?path=web-and-bug-bounty%2Fentities%2Ftplmap.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:57:10] "GET /api/note?path=web-and-bug-bounty%2Fconcepts%2Frace-condition-attacks.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:57:21] "GET /api/note?path=binary-exploitation%2Fsources%2Fdevelopment.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:57:22] "GET /api/note?path=binary-exploitation%2Fentities%2Fropper.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:57:23] "GET /api/note?path=binary-exploitation%2Fentities%2Fafl-plus-plus.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:57:28] "GET /api/note?path=binary-exploitation%2Fentities%2Fhonggfuzz.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:57:29] "GET /api/note?path=web-and-bug-bounty%2Fconcepts%2Fopen-redirect-attacks.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:57:38] "GET /api/note?path=web-and-bug-bounty%2Fsources%2Frace-condition.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:57:39] "GET /api/note?path=web-and-bug-bounty%2Fsources%2Fgraphql.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:57:39] "GET /api/note?path=web-and-bug-bounty%2Fentities%2Fturbo-intruder.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:57:41] "GET /api/note?path=web-and-bug-bounty%2Fconcepts%2Foauth-grant-types-and-flows.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:57:52] "GET /api/note?path=oauth HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:57:54] "GET /api/note?path=recon-and-osint%2Fconcepts%2Fosint-reconnaissance.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:58:09] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 21:58:09] "GET /api/recommendations HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 22:16:40] "GET /api/note?path=ai-security%2Fsources%2Fai.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 22:16:42] "GET /api/note?path=recon-and-osint%2Fconcepts%2Fosint-investigation-techniques.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 22:16:43] "GET /api/note?path=ai-security%2Fsources%2Fai.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 22:16:44] "GET /api/note?path=ai-security%2Fconcepts%2Fai-security-testing.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 22:17:12] "GET /api/note?path=ai HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 22:31:23] "GET /api/stats HTTP/1.1" 200 -
+
+[+] Decision Studio running at: http://127.0.0.1:20888
+    Press Ctrl+C to stop.
+
+127.0.0.1 - - [29/Sep/2026 22:31:24] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 22:31:43] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 22:31:43] "GET /highlight.min.css HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 22:31:43] "GET /marked.min.js HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 22:31:43] "GET /highlight.min.js HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 22:31:43] "GET /mermaid.min.js HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 22:31:43] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 22:31:43] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 22:31:43] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [29/Sep/2026 22:31:43] "GET /api/note?path=ai-security%2Fai-security.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 22:31:43] "GET /api/graph HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 22:31:44] "GET /api/note?path=web-and-bug-bounty%2Fconcepts%2Fsql-injection-testing.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 22:31:55] "GET /api/note?path=web-and-bug-bounty%2Fconcepts%2Fhttp-request-smuggling.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 22:32:11] "GET /api/note?path=web-and-bug-bounty%2Fconcepts%2Fsql-injection-testing.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 22:32:12] "POST /api/note/split HTTP/1.1" 200 -
+[+] Rebuilt /home/omp/Desktop/RED/Knowledge/ObsNotes_clean/wiki/index.md (102 total pages indexed)
+=== Graph Lint & Health Check ===
+[*] Total Scanned Pages: 102
+[*] Broken Links       : 0
+[*] Orphan Pages       : 0
+
+[!] Oversized Notes (>250 lines — Decomposition Candidates: 25):
+    - binary-exploitation/concepts/fuzzing-techniques.md                : 2140 lines (run: librarian split binary-exploitation/concepts/fuzzing-techniques.md)
+    - defense-and-evasion/concepts/edr-evasion-techniques.md            : 1612 lines (run: librarian split defense-and-evasion/concepts/edr-evasion-techniques.md)
+    - defense-and-evasion/concepts/initial-access-vectors.md            : 1520 lines (run: librarian split defense-and-evasion/concepts/initial-access-vectors.md)
+    - defense-and-evasion/concepts/exploit-mitigations.md               : 1346 lines (run: librarian split defense-and-evasion/concepts/exploit-mitigations.md)
+    - vulnerability-research/concepts/vulnerability-research-methodology.md : 1248 lines (run: librarian split vulnerability-research/concepts/vulnerability-research-methodology.md)
+    - web-and-bug-bounty/concepts/xml-external-entity-injection.md      :  980 lines (run: librarian split web-and-bug-bounty/concepts/xml-external-entity-injection.md)
+    - web-and-bug-bounty/concepts/race-condition-attacks.md             :  865 lines (run: librarian split web-and-bug-bounty/concepts/race-condition-attacks.md)
+    - web-and-bug-bounty/concepts/server-side-request-forgery.md        :  815 lines (run: librarian split web-and-bug-bounty/concepts/server-side-request-forgery.md)
+    - web-and-bug-bounty/concepts/cross-site-scripting.md               :  769 lines (run: librarian split web-and-bug-bounty/concepts/cross-site-scripting.md)
+    - binary-exploitation/concepts/exploit-development.md               :  692 lines (run: librarian split binary-exploitation/concepts/exploit-development.md)
+    - binary-exploitation/concepts/shellcode-development.md             :  650 lines (run: librarian split binary-exploitation/concepts/shellcode-development.md)
+    - web-and-bug-bounty/concepts/insecure-direct-object-reference.md   :  592 lines (run: librarian split web-and-bug-bounty/concepts/insecure-direct-object-reference.md)
+    - web-and-bug-bounty/concepts/http-parameter-pollution.md           :  579 lines (run: librarian split web-and-bug-bounty/concepts/http-parameter-pollution.md)
+    - ai-security/concepts/ai-security-testing.md                       :  576 lines (run: librarian split ai-security/concepts/ai-security-testing.md)
+    - web-and-bug-bounty/concepts/open-redirect-attacks.md              :  471 lines (run: librarian split web-and-bug-bounty/concepts/open-redirect-attacks.md)
+    - recon-and-osint/concepts/osint-reconnaissance.md                  :  461 lines (run: librarian split recon-and-osint/concepts/osint-reconnaissance.md)
+    - web-and-bug-bounty/concepts/jwt-security-mechanisms.md            :  420 lines (run: librarian split web-and-bug-bounty/concepts/jwt-security-mechanisms.md)
+    - recon-and-osint/concepts/osint-investigation-techniques.md        :  417 lines (run: librarian split recon-and-osint/concepts/osint-investigation-techniques.md)
+    - web-and-bug-bounty/concepts/jwt-attack-vectors.md                 :  384 lines (run: librarian split web-and-bug-bounty/concepts/jwt-attack-vectors.md)
+    - web-and-bug-bounty/concepts/oauth-attack-vectors.md               :  352 lines (run: librarian split web-and-bug-bounty/concepts/oauth-attack-vectors.md)
+    - web-and-bug-bounty/concepts/oauth-grant-types-and-flows.md        :  352 lines (run: librarian split web-and-bug-bounty/concepts/oauth-grant-types-and-flows.md)
+    - web-and-bug-bounty/concepts/http-request-smuggling-advanced-desync.md :  343 lines (run: librarian split web-and-bug-bounty/concepts/http-request-smuggling-advanced-desync.md)
+    - web-and-bug-bounty/concepts/server-side-template-injection.md     :  333 lines (run: librarian split web-and-bug-bounty/concepts/server-side-template-injection.md)
+    - web-and-bug-bounty/concepts/http-request-smuggling-detection-methodology.md :  312 lines (run: librarian split web-and-bug-bounty/concepts/http-request-smuggling-detection-methodology.md)
+    - web-and-bug-bounty/concepts/sql-injection-testing-exploitation-and-attack-vectors.md :  274 lines (run: librarian split web-and-bug-bounty/concepts/sql-injection-testing-exploitation-and-attack-vectors.md)
+
+[+] Health Verdict: PERFECT (All green)
+[*] Creating Git checkpoint: 'feat(wiki): decompose 'sql-injection-testing' into 4 child notes'...

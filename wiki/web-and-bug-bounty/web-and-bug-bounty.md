@@ -50,7 +50,10 @@ sources:
 - [[http-parameter-pollution]] — Precedence matrix across web servers (Apache, IIS, Node.js), parameter overriding, and WAF token splitting bypasses.
 
 ### 2. Protocol Desynchronization & Request Smuggling
-- [[http-request-smuggling]] — Front-end and back-end header boundary desync (CL.TE, TE.CL, TE.TE), HTTP/2 downgrading flaws (H2.CL, H2.TE), and request queue hijacking.
+- [[http-request-smuggling]] — Core HTTP message parsing discrepancies, Content-Length vs Transfer-Encoding desync.
+  - [[http-request-smuggling-detection-methodology]] — Architecture reconnaissance, time-delay probes, GPOST confirmation, differential testing.
+  - [[http-request-smuggling-advanced-desync]] — HTTP/2 downgrading (H2.CL, H2.TE), HTTP/3 QUIC streams, Client-Side Desync, WebSocket tunnel hijacking.
+  - [[http-request-smuggling-defense-and-remediation]] — Real-world CVEs, reverse proxy normalization, defense testing, and why partial mitigations fail. — Front-end and back-end header boundary desync (CL.TE, TE.CL, TE.TE), HTTP/2 downgrading flaws (H2.CL, H2.TE), and request queue hijacking.
 
 ### 3. Business Logic, APIs & Concurrency
 - [[graphql-security]] — Introspection query reconstruction, directive flooding DoS, batching attack loops, and field-level authorization flaws.

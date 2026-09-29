@@ -667,6 +667,19 @@ def cmd_lint(args):
         for o in orphans:
             print(f"    [-] [[{o}]] has 0 inbound links")
 
+    # Page size audit: Flag notes over 250 lines as split candidates
+    oversized = []
+    for s, n in notes.items():
+        if not n["is_hub"] and s not in ["index", "SCHEMA", "log"]:
+            l_count = len(n["body"].splitlines())
+            if l_count > 250:
+                oversized.append((l_count, s, n["path"]))
+
+    if oversized:
+        print(f"\n[!] Oversized Notes (>250 lines — Decomposition Candidates: {len(oversized)}):")
+        for count, slug, p in sorted(oversized, key=lambda x: x[0], reverse=True):
+            print(f"    - {p:65} : {count:4d} lines (run: librarian split {p})")
+
     healthy = (len(broken_links) == 0 and len(orphans) == 0)
     print(f"\n[+] Health Verdict: {'PERFECT (All green)' if healthy else 'ISSUES FOUND'}")
     return 0 if healthy else 1
@@ -1322,7 +1335,9 @@ def get_note_detail(rel_path):
         "decision": fm.get("decision", "pending"),
         "diff_text": diff_text,
         "filename": os.path.basename(target_abs),
-        "has_toc": ("<!-- TOC_START -->" in txt)
+        "has_toc": ("<!-- TOC_START -->" in txt),
+        "line_count": len(txt.splitlines()),
+        "is_oversized": (len(txt.splitlines()) > 250)
     }
 
 
@@ -1497,6 +1512,237 @@ def cmd_toc(args):
     res = handle_note_toc(args.path, action=action)
     if res.get("success"):
         print(f"[+] {res.get('message')}")
+        return 0
+    else:
+        print(f"[-] {res.get('message')}")
+        return 1
+
+
+
+def handle_split_note(note_rel_path, dry_run=False):
+    """
+    Decomposes an oversized note (>250 lines) into focused child concept deep-dives
+    while preserving bidirectional links, parent-child hierarchies, and dynamic TOCs.
+    """
+    if not note_rel_path:
+        return {"success": False, "message": "Missing note path"}
+
+    target_abs = os.path.join(WIKI_ROOT, note_rel_path)
+    if not os.path.exists(target_abs):
+        if not target_abs.endswith(".md") and os.path.exists(target_abs + ".md"):
+            target_abs += ".md"
+        else:
+            leaf = os.path.basename(note_rel_path)
+            if not leaf.endswith(".md"):
+                leaf += ".md"
+            for root, dirs, files in os.walk(WIKI_ROOT):
+                if leaf in files:
+                    target_abs = os.path.join(root, leaf)
+                    break
+
+    if not os.path.exists(target_abs) or not target_abs.endswith(".md"):
+        return {"success": False, "message": f"Note '{note_rel_path}' not found."}
+
+    with open(target_abs, "r", encoding="utf-8") as f:
+        txt = f.read()
+
+    lines = txt.splitlines()
+    if len(lines) <= 250:
+        return {
+            "success": False,
+            "message": f"Note is only {len(lines)} lines (under 250-line threshold). No split required."
+        }
+
+    # Parse frontmatter and body
+    fm, body = parse_frontmatter(txt)
+    parent_slug = os.path.splitext(os.path.basename(target_abs))[0]
+    parent_title = fm.get("title", parent_slug.replace("-", " ").title())
+    cluster = fm.get("cluster")
+    if not cluster:
+        rel_dir = os.path.relpath(os.path.dirname(target_abs), WIKI_ROOT)
+        cluster = rel_dir.split(os.sep)[0] if rel_dir and rel_dir != "." else "web-and-bug-bounty"
+
+    tags = fm.get("tags", [])
+    sources = fm.get("sources", [])
+    note_dir = os.path.dirname(target_abs)
+
+    # Parse H2 sections
+    body_lines = body.splitlines()
+    sections = []
+    curr_title = "Preamble"
+    curr_lines = []
+
+    for l in body_lines:
+        if l.startswith("## ") and not l.lower().startswith("## table of contents"):
+            if curr_lines:
+                sections.append((curr_title, curr_lines))
+            curr_title = l[3:].strip()
+            curr_lines = [l]
+        else:
+            curr_lines.append(l)
+    if curr_lines:
+        sections.append((curr_title, curr_lines))
+
+    # Identify semantic groupings
+    intro_keywords = ["overview", "comprehensive", "shortcut", "mechanism", "core", "architecture", "preamble", "background", "definition"]
+    det_keywords = ["hunt", "detect", "recon", "identif", "prob", "fuzz", "test"]
+    adv_keywords = ["vulnerabilit", "exploit", "attack", "variant", "bypass", "modern", "chain", "scenario", "desync", "escalat"]
+    def_keywords = ["remediat", "defense", "mitigat", "harden", "patch", "fix", "endgame", "strategy"]
+
+    parent_secs = []
+    det_secs = []
+    adv_secs = []
+    def_secs = []
+    other_secs = []
+
+    for title, slines in sections:
+        t_low = title.lower()
+        if any(k in t_low for k in intro_keywords):
+            parent_secs.append((title, slines))
+        elif any(k in t_low for k in def_keywords):
+            def_secs.append((title, slines))
+        elif any(k in t_low for k in det_keywords):
+            det_secs.append((title, slines))
+        elif any(k in t_low for k in adv_keywords):
+            adv_secs.append((title, slines))
+        else:
+            other_secs.append((title, slines))
+
+    groups = []
+    if det_secs:
+        groups.append(("detection-methodology", "Detection Methodology & Probing", det_secs))
+    if adv_secs:
+        groups.append(("exploitation-and-attack-vectors", "Exploitation Tradecraft & Attack Vectors", adv_secs))
+    if def_secs:
+        groups.append(("defense-and-remediation", "Defense, Hardening & Remediation", def_secs))
+    for idx, (otitle, olines) in enumerate(other_secs):
+        if len(olines) > 60:
+            oslug = re.sub(r"[^\w\s-]", "", otitle).strip().lower().replace(" ", "-")[:35]
+            groups.append((oslug, otitle, [(otitle, olines)]))
+        else:
+            parent_secs.append((otitle, olines))
+
+    if not groups:
+        return {"success": False, "message": "Could not identify distinct semantic sections to decompose."}
+
+    created_children = []
+    child_links_for_parent = []
+    seen_slugs = set()
+
+    today = datetime.date.today().isoformat()
+
+    for g_slug_suffix, g_label, g_secs in groups:
+        base_slug = f"{parent_slug}-{g_slug_suffix}"
+        child_slug = base_slug
+        c_count = 2
+        while child_slug in seen_slugs:
+            child_slug = f"{base_slug}-{c_count}"
+            c_count += 1
+        seen_slugs.add(child_slug)
+
+        child_title = f"{parent_title}: {g_label}"
+        child_body_text = "\n\n".join("\n".join(sl) for _, sl in g_secs)
+
+        tags_yaml = "\n".join(f"  - {t}" for t in tags)
+        sources_yaml = "\n".join(f"  - {s}" for s in sources)
+
+        child_content = f"""---
+title: "{child_title}"
+created: {today}
+updated: {today}
+type: concept
+parent: "[[{parent_slug}]]"
+cluster: {cluster}
+tags:
+{tags_yaml}
+sources:
+{sources_yaml}
+confidence: high
+contested: false
+contradictions: []
+---
+# {child_title}
+
+{child_body_text}
+
+## Related Pages
+- [[{parent_slug}]]
+- [[{cluster}]]
+"""
+        child_final, _ = generate_markdown_toc(child_content)
+        child_path = os.path.join(note_dir, f"{child_slug}.md")
+        child_rel = os.path.relpath(child_path, WIKI_ROOT)
+
+        created_children.append({
+            "slug": child_slug,
+            "title": child_title,
+            "path": child_rel,
+            "lines": len(child_final.splitlines()),
+            "content": child_final
+        })
+        child_links_for_parent.append(f"- **[[{child_slug}|{child_title}]]** — Comprehensive tradecraft focusing on {g_label.lower()}.")
+
+    # Assemble rewritten parent note
+    parent_intro_text = "\n\n".join("\n".join(sl) for _, sl in parent_secs).strip()
+    fm_yaml = "---\n" + yaml.dump(fm, sort_keys=False).strip() + "\n---\n\n"
+
+    deep_dives_block = f"""## Sub-Topics & Technical Deep Dives
+To preserve scannable modularity and prevent knowledge bloat, technical tradecraft for this topic has been decomposed into dedicated deep-dive notes:
+
+""" + "\n".join(child_links_for_parent) + "\n\n"
+
+    related_block = f"""## Related Pages
+- [[{cluster}]]
+""" + "\n".join(f"- [[{c['slug']}]]" for c in created_children) + "\n"
+
+    parent_new_raw = fm_yaml + f"# {parent_title}\n\n" + parent_intro_text + "\n\n" + deep_dives_block + related_block
+    parent_final, _ = generate_markdown_toc(parent_new_raw)
+
+    if dry_run:
+        return {
+            "success": True,
+            "dry_run": True,
+            "parent_slug": parent_slug,
+            "original_lines": len(lines),
+            "projected_parent_lines": len(parent_final.splitlines()),
+            "children": [{"slug": c["slug"], "title": c["title"], "lines": c["lines"]} for c in created_children],
+            "message": f"Dry run: Can split '{parent_slug}' ({len(lines)} lines) into {len(created_children)} child notes and reduce parent to ~{len(parent_final.splitlines())} lines."
+        }
+
+    # Write files
+    for c in created_children:
+        c_abs = os.path.join(WIKI_ROOT, c["path"])
+        with open(c_abs, "w", encoding="utf-8") as fp:
+            fp.write(c["content"])
+
+    with open(target_abs, "w", encoding="utf-8") as fp:
+        fp.write(parent_final)
+
+    cmd_index(None)
+    cmd_lint(None)
+    cmd_checkpoint(argparse.Namespace(message=f"feat(wiki): decompose '{parent_slug}' into {len(created_children)} child notes"))
+
+    return {
+        "success": True,
+        "dry_run": False,
+        "parent_slug": parent_slug,
+        "original_lines": len(lines),
+        "new_parent_lines": len(parent_final.splitlines()),
+        "children": [{"slug": c["slug"], "title": c["title"], "lines": c["lines"], "path": c["path"]} for c in created_children],
+        "message": f"Successfully decomposed '{parent_slug}' from {len(lines)} lines into {len(created_children)} child notes (parent reduced to {len(parent_final.splitlines())} lines)."
+    }
+
+
+def cmd_split(args):
+    """CLI handler for 'librarian split'."""
+    if not args.path:
+        print("[-] Please specify a note path to split.")
+        return 1
+    res = handle_split_note(args.path, dry_run=args.dry_run)
+    if res.get("success"):
+        print(f"[+] {res.get('message')}")
+        for c in res.get("children", []):
+            print(f"    -> Child: {c['slug']} ({c['lines']} lines)")
         return 0
     else:
         print(f"[-] {res.get('message')}")
@@ -1755,6 +2001,16 @@ class StudioHandler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(json.dumps(res).encode("utf-8"))
             return
+
+        if url.path == "/api/note/split":
+            note_rel_path = req_data.get("path")
+            dry_run = bool(req_data.get("dry_run", False))
+            res = handle_split_note(note_rel_path, dry_run=dry_run)
+            self.send_response(200 if res.get("success") else 400)
+            self.send_header("Content-Type", "application/json")
+            self.end_headers()
+            self.wfile.write(json.dumps(res).encode("utf-8"))
+            return
             return
 
         if url.path == "/api/recommendations/propose":
@@ -1961,6 +2217,11 @@ def main():
     p_toc.add_argument("--all", action="store_true", help="Generate or update TOC for all compiled wiki notes")
     p_toc.add_argument("--remove", action="store_true", help="Remove dynamic TOC from the specified note")
 
+    # split
+    p_split = subparsers.add_parser("split", help="Decompose an oversized note (>250 lines) into focused child notes")
+    p_split.add_argument("path", help="Relative path or slug of the note to split")
+    p_split.add_argument("--dry-run", action="store_true", help="Preview decomposition plan without writing files")
+
     # studio
     p_studio = subparsers.add_parser("studio", help="Launch visual Decision Studio web UI")
     p_studio.add_argument("--port", type=int, default=20888, help="Port to serve on (default: 20888)")
@@ -1988,6 +2249,7 @@ def main():
         "propose-rec": cmd_propose_rec,
         "studio": cmd_studio,
         "toc": cmd_toc,
+        "split": cmd_split,
     }
 
     return cmd_map[args.subcommand](args)

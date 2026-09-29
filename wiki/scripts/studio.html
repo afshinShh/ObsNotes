@@ -1001,7 +1001,12 @@
              <button class="btn-toc-bar btn-toc-danger" onclick="triggerRemoveToc()" title="Remove Table of Contents from this note">🗑️ Remove TOC</button>`
           : `<button class="btn-toc-bar" onclick="triggerGenerateToc()" title="Generate dynamic Table of Contents for this note">📑 Generate Table of Contents</button>`;
 
+        const splitBtn = activeNote.is_oversized
+          ? `<button class="btn-toc-bar" style="background:rgba(255, 145, 0, 0.16); border-color:rgba(255, 145, 0, 0.35); color:#ffb74d;" onclick="triggerSplitNote()" title="Decompose this oversized note (>250 lines) into modular child deep-dives">✂️ Split Note (${activeNote.line_count} lines)</button>`
+          : '';
+
         actions.innerHTML = `
+          ${splitBtn}
           ${tocBtn}
           <span style="font-size:0.75rem; color:var(--muted); margin-left:6px;">Updated: ${activeNote.frontmatter ? (activeNote.frontmatter.updated || '') : ''}</span>
         `;
@@ -2220,6 +2225,47 @@
     // =========================================================================
     // DYNAMIC TABLE OF CONTENTS CLIENT HANDLERS
     // =========================================================================
+    
+    async function triggerSplitNote() {
+      if (!activeNote || !activeNote.path) return;
+      showToast('⏳ Calculating decomposition plan...');
+      try {
+        const resPlan = await fetch('/api/note/split', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ path: activeNote.path, dry_run: true })
+        });
+        const plan = await resPlan.json();
+        if (!plan.success) {
+          showToast(`✕ ${plan.message}`, true);
+          return;
+        }
+
+        const childSummary = plan.children.map(c => `  • ${c.title} (~${c.lines} lines)`).join('\n');
+        const confirmMsg = `Decompose "${plan.parent_title}" (${plan.original_lines} lines)?\n\nThis will create ${plan.children.length} modular deep-dive notes:\n${childSummary}\n\nThe parent note will be streamlined into a Topic Hub (~${plan.projected_parent_lines} lines) linking to all child notes.\n\nProceed with automatic decomposition?`;
+
+        if (!confirm(confirmMsg)) return;
+
+        showToast('⏳ Decomposing note into child deep-dives...');
+        const resSplit = await fetch('/api/note/split', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ path: activeNote.path, dry_run: false })
+        });
+        const splitData = await resSplit.json();
+        if (splitData.success) {
+          showToast(`✓ ${splitData.message}`);
+          await loadCatalogData();
+          await fetchGraph();
+          await openNote(activeNote.path);
+        } else {
+          showToast(`✕ ${splitData.message}`, true);
+        }
+      } catch(e) {
+        showToast('✕ Error communicating with split service', true);
+      }
+    }
+
     async function triggerGenerateToc() {
       if (!activeNote || !activeNote.path) return;
       showToast('⏳ Generating dynamic Table of Contents...');

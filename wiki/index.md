@@ -1,7 +1,7 @@
 # Wiki Index
 
 > Content catalog for the Offensive Security & Bug Bounty LLM Wiki.
-> Last updated: 2026-09-29 | Total pages: 95
+> Last updated: 2026-09-29 | Total pages: 102
 
 ## Domain Clusters Overview
 The knowledge vault is structured into 6 domain clusters with parent-child hierarchy:
@@ -22,17 +22,24 @@ The knowledge vault is structured into 6 domain clusters with parent-child hiera
 - [[fastcgi-ssrf-exploitation]] — When PHP-FPM listens on an accessible network socket (e.g
 - [[graphql-security]] — GraphQL introduces distinct attack surfaces including schema introspection, field suggestion leakage, recursive query...
 - [[http-parameter-pollution]] — HTTP Parameter Pollution (HPP) manipulates application logic by supplying repeated parameters across HTTP requests
-- [[http-request-smuggling]] — HTTP Request Smuggling exploits discrepancies between frontend proxies and backend servers in parsing ambiguous messa...
+- [[http-request-smuggling]] — <!-- TOC_START -->
+- [[http-request-smuggling-advanced-desync]] — ```mermaid
+- [[http-request-smuggling-defense-and-remediation]] — 1
+- [[http-request-smuggling-detection-methodology]] — <!-- TOC_START -->
 - [[insecure-direct-object-reference]] — Insecure Direct Object References (IDOR / BOLA) occur when applications accept client-supplied object identifiers wit...
 - [[jwt-attack-vectors]] — JWT attack vectors target implementation flaws, algorithm verification confusion, header injection vulnerabilities, a...
-- [[jwt-security-mechanisms]] — JSON Web Tokens (JWT) defined in RFC 7519 provide compact, URL-safe means of representing claims between two parties
+- [[jwt-security-mechanisms]] — <!-- TOC_START -->
 - [[oauth-attack-vectors]] — OAuth 2.0 and OIDC implementations frequently suffer from redirection uri validation flaws, state parameter omission,...
 - [[oauth-grant-types-and-flows]] — OAuth 2.0 (RFC 6749) and OpenID Connect (OIDC) govern delegated authorization and identity assertion across web, mobi...
 - [[open-redirect-attacks]] — Open Redirects allow attackers to manipulate application redirection logic to forward users to arbitrary external dom...
 - [[race-condition-attacks]] — Race conditions occur when concurrent threads or processes access shared resources without adequate synchronization
 - [[server-side-request-forgery]] — Server-Side Request Forgery (SSRF) enables attackers to force backend servers into initiating arbitrary network requests
 - [[server-side-template-injection]] — Server-Side Template Injection (SSTI) occurs when untrusted input is embedded directly into server-side template engines
-- [[sql-injection-testing]] — SQL Injection (SQLi) occurs when untrusted user input is directly concatenated into database query structures
+- [[sql-injection-testing]] — <!-- TOC_START -->
+- [[sql-injection-testing-defense-and-remediation]] — <!-- TOC_START -->
+- [[sql-injection-testing-detection-methodology]] — <!-- TOC_START -->
+- [[sql-injection-testing-exploitation-and-attack-vectors]] — <!-- TOC_START -->
+- [[sql-injection-testing-methodologies]] — <!-- TOC_START -->
 - [[xml-external-entity-injection]] — XML External Entity (XXE) vulnerabilities arise when improperly configured XML parsers process user-controlled DTD de...
 
 ### Comparisons
