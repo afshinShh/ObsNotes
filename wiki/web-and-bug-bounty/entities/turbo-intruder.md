@@ -58,3 +58,7 @@ Ingested and structured from canonical notes:
 
 ## Related Pages
 - [[web-and-bug-bounty]]
+
+
+## Exploitation Chains & Pivot Vectors
+- **Pivot to [[http-request-smuggling-advanced-desync|Advanced HTTP Request Smuggling: H2/H3 Desync, Tunneling & Client-Side Attacks]]:** Weaponize vulnerability surface in Turbo Intruder to trigger [[http-request-smuggling-advanced-desync]].

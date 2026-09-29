@@ -1,5 +1,393 @@
 [
   {
+    "id": "rec_chain_turbo-intruder_http-request-smuggling-advanced-desync",
+    "author": "Thoth (Obsidian Librarian)",
+    "created": "2026-09-29T22:37:12.758634",
+    "title": "Exploitation Attack Chain: Turbo Intruder to Advanced HTTP Request Smuggling: H2/H3 Desync, Tunneling & Client-Side Attacks",
+    "category": "Attack Chain Discovery",
+    "priority": "HIGH",
+    "details": "Entity 'Turbo Intruder' weaponizes the specific primitive 'request-smuggling' covered in [[http-request-smuggling-advanced-desync|Advanced HTTP Request Smuggling: H2/H3 Desync, Tunneling & Client-Side Attacks]], but currently lacks a direct pivot link.",
+    "action": "Cross-link [[http-request-smuggling-advanced-desync]] in 'web-and-bug-bounty/entities/turbo-intruder.md'.",
+    "status": "implemented",
+    "implementation": {
+      "type": "patch_note",
+      "target": "web-and-bug-bounty/entities/turbo-intruder.md",
+      "section": "## Exploitation Chains & Pivot Vectors",
+      "content": "- **Pivot to [[http-request-smuggling-advanced-desync|Advanced HTTP Request Smuggling: H2/H3 Desync, Tunneling & Client-Side Attacks]]:** Weaponize vulnerability surface in Turbo Intruder to trigger [[http-request-smuggling-advanced-desync]]."
+    },
+    "implemented_at": "2026-09-29T22:37:18.357292"
+  },
+  {
+    "id": "rec_chain_sqlmap_sql-injection-testing-defense-and-remediation",
+    "author": "Thoth (Obsidian Librarian)",
+    "created": "2026-09-29T22:37:12.758609",
+    "title": "Exploitation Attack Chain: Sqlmap to SQL Injection Testing & Database Exploitation Frameworks: Defense, Hardening & Remediation",
+    "category": "Attack Chain Discovery",
+    "priority": "HIGH",
+    "details": "Entity 'Sqlmap' weaponizes the specific primitive 'sqli' covered in [[sql-injection-testing-defense-and-remediation|SQL Injection Testing & Database Exploitation Frameworks: Defense, Hardening & Remediation]], but currently lacks a direct pivot link.",
+    "action": "Cross-link [[sql-injection-testing-defense-and-remediation]] in 'web-and-bug-bounty/entities/sqlmap.md'.",
+    "status": "pending",
+    "implementation": {
+      "type": "patch_note",
+      "target": "web-and-bug-bounty/entities/sqlmap.md",
+      "section": "## Exploitation Chains & Pivot Vectors",
+      "content": "- **Pivot to [[sql-injection-testing-defense-and-remediation|SQL Injection Testing & Database Exploitation Frameworks: Defense, Hardening & Remediation]]:** Weaponize vulnerability surface in Sqlmap to trigger [[sql-injection-testing-defense-and-remediation]]."
+    }
+  },
+  {
+    "id": "rec_chain_smuggler_http-request-smuggling-advanced-desync",
+    "author": "Thoth (Obsidian Librarian)",
+    "created": "2026-09-29T22:37:12.758593",
+    "title": "Exploitation Attack Chain: Smuggler (HTTP Request Smuggling Scanner) to Advanced HTTP Request Smuggling: H2/H3 Desync, Tunneling & Client-Side Attacks",
+    "category": "Attack Chain Discovery",
+    "priority": "HIGH",
+    "details": "Entity 'Smuggler (HTTP Request Smuggling Scanner)' weaponizes the specific primitive 'request-smuggling' covered in [[http-request-smuggling-advanced-desync|Advanced HTTP Request Smuggling: H2/H3 Desync, Tunneling & Client-Side Attacks]], but currently lacks a direct pivot link.",
+    "action": "Cross-link [[http-request-smuggling-advanced-desync]] in 'web-and-bug-bounty/entities/smuggler.md'.",
+    "status": "pending",
+    "implementation": {
+      "type": "patch_note",
+      "target": "web-and-bug-bounty/entities/smuggler.md",
+      "section": "## Exploitation Chains & Pivot Vectors",
+      "content": "- **Pivot to [[http-request-smuggling-advanced-desync|Advanced HTTP Request Smuggling: H2/H3 Desync, Tunneling & Client-Side Attacks]]:** Weaponize vulnerability surface in Smuggler (HTTP Request Smuggling Scanner) to trigger [[http-request-smuggling-advanced-desync]]."
+    }
+  },
+  {
+    "id": "rec_comp_sql-injection-testing-exploitation-and-attack-vectors_sql-injection-testing-methodologies",
+    "author": "Thoth (Obsidian Librarian)",
+    "created": "2026-09-29T22:37:12.758494",
+    "title": "Synthesis Candidate: SQL Injection Testing & Database Exploitation Frameworks: Exploitation Tradecraft & Attack Vectors vs SQL Injection Testing & Database Exploitation Frameworks: Methodologies",
+    "category": "Knowledge Synthesis (Web Application Security & Bug Bounty)",
+    "priority": "MEDIUM",
+    "details": "Concepts 'SQL Injection Testing & Database Exploitation Frameworks: Exploitation Tradecraft & Attack Vectors' and 'SQL Injection Testing & Database Exploitation Frameworks: Methodologies' both belong to Web Application Security & Bug Bounty and share specific primitive 'sqli'. A side-by-side comparison matrix deepens architectural clarity.",
+    "action": "Compile comparison note 'comparisons/sql-injection-testing-exploitation-and-attack-vectors-vs-sql-injection-testing-methodologies.md' and link both concepts.",
+    "status": "pending",
+    "implementation": {
+      "type": "create_note",
+      "target": "web-and-bug-bounty/comparisons/sql-injection-testing-exploitation-and-attack-vectors-vs-sql-injection-testing-methodologies.md",
+      "content": "---\ntitle: SQL Injection Testing & Database Exploitation Frameworks: Exploitation Tradecraft & Attack Vectors vs SQL Injection Testing & Database Exploitation Frameworks: Methodologies\ncreated: 2026-09-29\nupdated: 2026-09-29\ntype: comparison\nparent: \"[[web-and-bug-bounty]]\"\ncluster: web-and-bug-bounty\ntags:\n  - bug-bounty\n  - payload\n  - sqli\nsources:\n  - web-and-bug-bounty/concepts/sql-injection-testing-exploitation-and-attack-vectors.md\n  - web-and-bug-bounty/concepts/sql-injection-testing-methodologies.md\n---\n\n# SQL Injection Testing & Database Exploitation Frameworks: Exploitation Tradecraft & Attack Vectors vs SQL Injection Testing & Database Exploitation Frameworks: Methodologies\n\n## Comparative Analysis\nTechnical trade-off evaluation comparing [[sql-injection-testing-exploitation-and-attack-vectors|SQL Injection Testing & Database Exploitation Frameworks: Exploitation Tradecraft & Attack Vectors]] and [[sql-injection-testing-methodologies|SQL Injection Testing & Database Exploitation Frameworks: Methodologies]] within the domain of **sqli**.\n\n## Vector Comparison Matrix\n\n| Dimension | [[sql-injection-testing-exploitation-and-attack-vectors|SQL Injection Testing & Database Exploitation Frameworks: Exploitation Tradecraft & Attack Vectors]] | [[sql-injection-testing-methodologies|SQL Injection Testing & Database Exploitation Frameworks: Methodologies]] |\n| :--- | :--- | :--- |\n| **Mechanisms** | Primary vulnerability primitive | Alternative execution vector |\n| **Classification** | `sqli` | `sqli` |\n| **Operational Impact** | Critical exploitation surface | Critical exploitation surface |\n\n## Interlinked Concepts\n- [[sql-injection-testing-exploitation-and-attack-vectors]]\n- [[sql-injection-testing-methodologies]]\n",
+      "backlinks": [
+        "web-and-bug-bounty/concepts/sql-injection-testing-exploitation-and-attack-vectors.md",
+        "web-and-bug-bounty/concepts/sql-injection-testing-methodologies.md",
+        "web-and-bug-bounty/web-and-bug-bounty.md"
+      ]
+    }
+  },
+  {
+    "id": "rec_comp_sql-injection-testing-detection-methodology_sql-injection-testing-methodologies",
+    "author": "Thoth (Obsidian Librarian)",
+    "created": "2026-09-29T22:37:12.758487",
+    "title": "Synthesis Candidate: SQL Injection Testing & Database Exploitation Frameworks: Detection Methodology & Probing vs SQL Injection Testing & Database Exploitation Frameworks: Methodologies",
+    "category": "Knowledge Synthesis (Web Application Security & Bug Bounty)",
+    "priority": "MEDIUM",
+    "details": "Concepts 'SQL Injection Testing & Database Exploitation Frameworks: Detection Methodology & Probing' and 'SQL Injection Testing & Database Exploitation Frameworks: Methodologies' both belong to Web Application Security & Bug Bounty and share specific primitive 'sqli'. A side-by-side comparison matrix deepens architectural clarity.",
+    "action": "Compile comparison note 'comparisons/sql-injection-testing-detection-methodology-vs-sql-injection-testing-methodologies.md' and link both concepts.",
+    "status": "pending",
+    "implementation": {
+      "type": "create_note",
+      "target": "web-and-bug-bounty/comparisons/sql-injection-testing-detection-methodology-vs-sql-injection-testing-methodologies.md",
+      "content": "---\ntitle: SQL Injection Testing & Database Exploitation Frameworks: Detection Methodology & Probing vs SQL Injection Testing & Database Exploitation Frameworks: Methodologies\ncreated: 2026-09-29\nupdated: 2026-09-29\ntype: comparison\nparent: \"[[web-and-bug-bounty]]\"\ncluster: web-and-bug-bounty\ntags:\n  - bug-bounty\n  - payload\n  - sqli\nsources:\n  - web-and-bug-bounty/concepts/sql-injection-testing-detection-methodology.md\n  - web-and-bug-bounty/concepts/sql-injection-testing-methodologies.md\n---\n\n# SQL Injection Testing & Database Exploitation Frameworks: Detection Methodology & Probing vs SQL Injection Testing & Database Exploitation Frameworks: Methodologies\n\n## Comparative Analysis\nTechnical trade-off evaluation comparing [[sql-injection-testing-detection-methodology|SQL Injection Testing & Database Exploitation Frameworks: Detection Methodology & Probing]] and [[sql-injection-testing-methodologies|SQL Injection Testing & Database Exploitation Frameworks: Methodologies]] within the domain of **sqli**.\n\n## Vector Comparison Matrix\n\n| Dimension | [[sql-injection-testing-detection-methodology|SQL Injection Testing & Database Exploitation Frameworks: Detection Methodology & Probing]] | [[sql-injection-testing-methodologies|SQL Injection Testing & Database Exploitation Frameworks: Methodologies]] |\n| :--- | :--- | :--- |\n| **Mechanisms** | Primary vulnerability primitive | Alternative execution vector |\n| **Classification** | `sqli` | `sqli` |\n| **Operational Impact** | Critical exploitation surface | Critical exploitation surface |\n\n## Interlinked Concepts\n- [[sql-injection-testing-detection-methodology]]\n- [[sql-injection-testing-methodologies]]\n",
+      "backlinks": [
+        "web-and-bug-bounty/concepts/sql-injection-testing-detection-methodology.md",
+        "web-and-bug-bounty/concepts/sql-injection-testing-methodologies.md",
+        "web-and-bug-bounty/web-and-bug-bounty.md"
+      ]
+    }
+  },
+  {
+    "id": "rec_comp_sql-injection-testing-detection-methodology_sql-injection-testing-exploitation-and-attack-vectors",
+    "author": "Thoth (Obsidian Librarian)",
+    "created": "2026-09-29T22:37:12.758479",
+    "title": "Synthesis Candidate: SQL Injection Testing & Database Exploitation Frameworks: Detection Methodology & Probing vs SQL Injection Testing & Database Exploitation Frameworks: Exploitation Tradecraft & Attack Vectors",
+    "category": "Knowledge Synthesis (Web Application Security & Bug Bounty)",
+    "priority": "MEDIUM",
+    "details": "Concepts 'SQL Injection Testing & Database Exploitation Frameworks: Detection Methodology & Probing' and 'SQL Injection Testing & Database Exploitation Frameworks: Exploitation Tradecraft & Attack Vectors' both belong to Web Application Security & Bug Bounty and share specific primitive 'sqli'. A side-by-side comparison matrix deepens architectural clarity.",
+    "action": "Compile comparison note 'comparisons/sql-injection-testing-detection-methodology-vs-sql-injection-testing-exploitation-and-attack-vectors.md' and link both concepts.",
+    "status": "pending",
+    "implementation": {
+      "type": "create_note",
+      "target": "web-and-bug-bounty/comparisons/sql-injection-testing-detection-methodology-vs-sql-injection-testing-exploitation-and-attack-vectors.md",
+      "content": "---\ntitle: SQL Injection Testing & Database Exploitation Frameworks: Detection Methodology & Probing vs SQL Injection Testing & Database Exploitation Frameworks: Exploitation Tradecraft & Attack Vectors\ncreated: 2026-09-29\nupdated: 2026-09-29\ntype: comparison\nparent: \"[[web-and-bug-bounty]]\"\ncluster: web-and-bug-bounty\ntags:\n  - bug-bounty\n  - payload\n  - sqli\nsources:\n  - web-and-bug-bounty/concepts/sql-injection-testing-detection-methodology.md\n  - web-and-bug-bounty/concepts/sql-injection-testing-exploitation-and-attack-vectors.md\n---\n\n# SQL Injection Testing & Database Exploitation Frameworks: Detection Methodology & Probing vs SQL Injection Testing & Database Exploitation Frameworks: Exploitation Tradecraft & Attack Vectors\n\n## Comparative Analysis\nTechnical trade-off evaluation comparing [[sql-injection-testing-detection-methodology|SQL Injection Testing & Database Exploitation Frameworks: Detection Methodology & Probing]] and [[sql-injection-testing-exploitation-and-attack-vectors|SQL Injection Testing & Database Exploitation Frameworks: Exploitation Tradecraft & Attack Vectors]] within the domain of **sqli**.\n\n## Vector Comparison Matrix\n\n| Dimension | [[sql-injection-testing-detection-methodology|SQL Injection Testing & Database Exploitation Frameworks: Detection Methodology & Probing]] | [[sql-injection-testing-exploitation-and-attack-vectors|SQL Injection Testing & Database Exploitation Frameworks: Exploitation Tradecraft & Attack Vectors]] |\n| :--- | :--- | :--- |\n| **Mechanisms** | Primary vulnerability primitive | Alternative execution vector |\n| **Classification** | `sqli` | `sqli` |\n| **Operational Impact** | Critical exploitation surface | Critical exploitation surface |\n\n## Interlinked Concepts\n- [[sql-injection-testing-detection-methodology]]\n- [[sql-injection-testing-exploitation-and-attack-vectors]]\n",
+      "backlinks": [
+        "web-and-bug-bounty/concepts/sql-injection-testing-detection-methodology.md",
+        "web-and-bug-bounty/concepts/sql-injection-testing-exploitation-and-attack-vectors.md",
+        "web-and-bug-bounty/web-and-bug-bounty.md"
+      ]
+    }
+  },
+  {
+    "id": "rec_comp_sql-injection-testing-defense-and-remediation_sql-injection-testing-methodologies",
+    "author": "Thoth (Obsidian Librarian)",
+    "created": "2026-09-29T22:37:12.758472",
+    "title": "Synthesis Candidate: SQL Injection Testing & Database Exploitation Frameworks: Defense, Hardening & Remediation vs SQL Injection Testing & Database Exploitation Frameworks: Methodologies",
+    "category": "Knowledge Synthesis (Web Application Security & Bug Bounty)",
+    "priority": "MEDIUM",
+    "details": "Concepts 'SQL Injection Testing & Database Exploitation Frameworks: Defense, Hardening & Remediation' and 'SQL Injection Testing & Database Exploitation Frameworks: Methodologies' both belong to Web Application Security & Bug Bounty and share specific primitive 'sqli'. A side-by-side comparison matrix deepens architectural clarity.",
+    "action": "Compile comparison note 'comparisons/sql-injection-testing-defense-and-remediation-vs-sql-injection-testing-methodologies.md' and link both concepts.",
+    "status": "pending",
+    "implementation": {
+      "type": "create_note",
+      "target": "web-and-bug-bounty/comparisons/sql-injection-testing-defense-and-remediation-vs-sql-injection-testing-methodologies.md",
+      "content": "---\ntitle: SQL Injection Testing & Database Exploitation Frameworks: Defense, Hardening & Remediation vs SQL Injection Testing & Database Exploitation Frameworks: Methodologies\ncreated: 2026-09-29\nupdated: 2026-09-29\ntype: comparison\nparent: \"[[web-and-bug-bounty]]\"\ncluster: web-and-bug-bounty\ntags:\n  - bug-bounty\n  - payload\n  - sqli\nsources:\n  - web-and-bug-bounty/concepts/sql-injection-testing-defense-and-remediation.md\n  - web-and-bug-bounty/concepts/sql-injection-testing-methodologies.md\n---\n\n# SQL Injection Testing & Database Exploitation Frameworks: Defense, Hardening & Remediation vs SQL Injection Testing & Database Exploitation Frameworks: Methodologies\n\n## Comparative Analysis\nTechnical trade-off evaluation comparing [[sql-injection-testing-defense-and-remediation|SQL Injection Testing & Database Exploitation Frameworks: Defense, Hardening & Remediation]] and [[sql-injection-testing-methodologies|SQL Injection Testing & Database Exploitation Frameworks: Methodologies]] within the domain of **sqli**.\n\n## Vector Comparison Matrix\n\n| Dimension | [[sql-injection-testing-defense-and-remediation|SQL Injection Testing & Database Exploitation Frameworks: Defense, Hardening & Remediation]] | [[sql-injection-testing-methodologies|SQL Injection Testing & Database Exploitation Frameworks: Methodologies]] |\n| :--- | :--- | :--- |\n| **Mechanisms** | Primary vulnerability primitive | Alternative execution vector |\n| **Classification** | `sqli` | `sqli` |\n| **Operational Impact** | Critical exploitation surface | Critical exploitation surface |\n\n## Interlinked Concepts\n- [[sql-injection-testing-defense-and-remediation]]\n- [[sql-injection-testing-methodologies]]\n",
+      "backlinks": [
+        "web-and-bug-bounty/concepts/sql-injection-testing-defense-and-remediation.md",
+        "web-and-bug-bounty/concepts/sql-injection-testing-methodologies.md",
+        "web-and-bug-bounty/web-and-bug-bounty.md"
+      ]
+    }
+  },
+  {
+    "id": "rec_comp_sql-injection-testing-defense-and-remediation_sql-injection-testing-exploitation-and-attack-vectors",
+    "author": "Thoth (Obsidian Librarian)",
+    "created": "2026-09-29T22:37:12.758465",
+    "title": "Synthesis Candidate: SQL Injection Testing & Database Exploitation Frameworks: Defense, Hardening & Remediation vs SQL Injection Testing & Database Exploitation Frameworks: Exploitation Tradecraft & Attack Vectors",
+    "category": "Knowledge Synthesis (Web Application Security & Bug Bounty)",
+    "priority": "MEDIUM",
+    "details": "Concepts 'SQL Injection Testing & Database Exploitation Frameworks: Defense, Hardening & Remediation' and 'SQL Injection Testing & Database Exploitation Frameworks: Exploitation Tradecraft & Attack Vectors' both belong to Web Application Security & Bug Bounty and share specific primitive 'sqli'. A side-by-side comparison matrix deepens architectural clarity.",
+    "action": "Compile comparison note 'comparisons/sql-injection-testing-defense-and-remediation-vs-sql-injection-testing-exploitation-and-attack-vectors.md' and link both concepts.",
+    "status": "pending",
+    "implementation": {
+      "type": "create_note",
+      "target": "web-and-bug-bounty/comparisons/sql-injection-testing-defense-and-remediation-vs-sql-injection-testing-exploitation-and-attack-vectors.md",
+      "content": "---\ntitle: SQL Injection Testing & Database Exploitation Frameworks: Defense, Hardening & Remediation vs SQL Injection Testing & Database Exploitation Frameworks: Exploitation Tradecraft & Attack Vectors\ncreated: 2026-09-29\nupdated: 2026-09-29\ntype: comparison\nparent: \"[[web-and-bug-bounty]]\"\ncluster: web-and-bug-bounty\ntags:\n  - bug-bounty\n  - payload\n  - sqli\nsources:\n  - web-and-bug-bounty/concepts/sql-injection-testing-defense-and-remediation.md\n  - web-and-bug-bounty/concepts/sql-injection-testing-exploitation-and-attack-vectors.md\n---\n\n# SQL Injection Testing & Database Exploitation Frameworks: Defense, Hardening & Remediation vs SQL Injection Testing & Database Exploitation Frameworks: Exploitation Tradecraft & Attack Vectors\n\n## Comparative Analysis\nTechnical trade-off evaluation comparing [[sql-injection-testing-defense-and-remediation|SQL Injection Testing & Database Exploitation Frameworks: Defense, Hardening & Remediation]] and [[sql-injection-testing-exploitation-and-attack-vectors|SQL Injection Testing & Database Exploitation Frameworks: Exploitation Tradecraft & Attack Vectors]] within the domain of **sqli**.\n\n## Vector Comparison Matrix\n\n| Dimension | [[sql-injection-testing-defense-and-remediation|SQL Injection Testing & Database Exploitation Frameworks: Defense, Hardening & Remediation]] | [[sql-injection-testing-exploitation-and-attack-vectors|SQL Injection Testing & Database Exploitation Frameworks: Exploitation Tradecraft & Attack Vectors]] |\n| :--- | :--- | :--- |\n| **Mechanisms** | Primary vulnerability primitive | Alternative execution vector |\n| **Classification** | `sqli` | `sqli` |\n| **Operational Impact** | Critical exploitation surface | Critical exploitation surface |\n\n## Interlinked Concepts\n- [[sql-injection-testing-defense-and-remediation]]\n- [[sql-injection-testing-exploitation-and-attack-vectors]]\n",
+      "backlinks": [
+        "web-and-bug-bounty/concepts/sql-injection-testing-defense-and-remediation.md",
+        "web-and-bug-bounty/concepts/sql-injection-testing-exploitation-and-attack-vectors.md",
+        "web-and-bug-bounty/web-and-bug-bounty.md"
+      ]
+    }
+  },
+  {
+    "id": "rec_comp_sql-injection-testing-defense-and-remediation_sql-injection-testing-detection-methodology",
+    "author": "Thoth (Obsidian Librarian)",
+    "created": "2026-09-29T22:37:12.758457",
+    "title": "Synthesis Candidate: SQL Injection Testing & Database Exploitation Frameworks: Defense, Hardening & Remediation vs SQL Injection Testing & Database Exploitation Frameworks: Detection Methodology & Probing",
+    "category": "Knowledge Synthesis (Web Application Security & Bug Bounty)",
+    "priority": "MEDIUM",
+    "details": "Concepts 'SQL Injection Testing & Database Exploitation Frameworks: Defense, Hardening & Remediation' and 'SQL Injection Testing & Database Exploitation Frameworks: Detection Methodology & Probing' both belong to Web Application Security & Bug Bounty and share specific primitive 'sqli'. A side-by-side comparison matrix deepens architectural clarity.",
+    "action": "Compile comparison note 'comparisons/sql-injection-testing-defense-and-remediation-vs-sql-injection-testing-detection-methodology.md' and link both concepts.",
+    "status": "pending",
+    "implementation": {
+      "type": "create_note",
+      "target": "web-and-bug-bounty/comparisons/sql-injection-testing-defense-and-remediation-vs-sql-injection-testing-detection-methodology.md",
+      "content": "---\ntitle: SQL Injection Testing & Database Exploitation Frameworks: Defense, Hardening & Remediation vs SQL Injection Testing & Database Exploitation Frameworks: Detection Methodology & Probing\ncreated: 2026-09-29\nupdated: 2026-09-29\ntype: comparison\nparent: \"[[web-and-bug-bounty]]\"\ncluster: web-and-bug-bounty\ntags:\n  - bug-bounty\n  - payload\n  - sqli\nsources:\n  - web-and-bug-bounty/concepts/sql-injection-testing-defense-and-remediation.md\n  - web-and-bug-bounty/concepts/sql-injection-testing-detection-methodology.md\n---\n\n# SQL Injection Testing & Database Exploitation Frameworks: Defense, Hardening & Remediation vs SQL Injection Testing & Database Exploitation Frameworks: Detection Methodology & Probing\n\n## Comparative Analysis\nTechnical trade-off evaluation comparing [[sql-injection-testing-defense-and-remediation|SQL Injection Testing & Database Exploitation Frameworks: Defense, Hardening & Remediation]] and [[sql-injection-testing-detection-methodology|SQL Injection Testing & Database Exploitation Frameworks: Detection Methodology & Probing]] within the domain of **sqli**.\n\n## Vector Comparison Matrix\n\n| Dimension | [[sql-injection-testing-defense-and-remediation|SQL Injection Testing & Database Exploitation Frameworks: Defense, Hardening & Remediation]] | [[sql-injection-testing-detection-methodology|SQL Injection Testing & Database Exploitation Frameworks: Detection Methodology & Probing]] |\n| :--- | :--- | :--- |\n| **Mechanisms** | Primary vulnerability primitive | Alternative execution vector |\n| **Classification** | `sqli` | `sqli` |\n| **Operational Impact** | Critical exploitation surface | Critical exploitation surface |\n\n## Interlinked Concepts\n- [[sql-injection-testing-defense-and-remediation]]\n- [[sql-injection-testing-detection-methodology]]\n",
+      "backlinks": [
+        "web-and-bug-bounty/concepts/sql-injection-testing-defense-and-remediation.md",
+        "web-and-bug-bounty/concepts/sql-injection-testing-detection-methodology.md",
+        "web-and-bug-bounty/web-and-bug-bounty.md"
+      ]
+    }
+  },
+  {
+    "id": "rec_comp_sql-injection-testing_sql-injection-testing-methodologies",
+    "author": "Thoth (Obsidian Librarian)",
+    "created": "2026-09-29T22:37:12.758449",
+    "title": "Synthesis Candidate: SQL Injection Testing & Database Exploitation Frameworks vs SQL Injection Testing & Database Exploitation Frameworks: Methodologies",
+    "category": "Knowledge Synthesis (Web Application Security & Bug Bounty)",
+    "priority": "MEDIUM",
+    "details": "Concepts 'SQL Injection Testing & Database Exploitation Frameworks' and 'SQL Injection Testing & Database Exploitation Frameworks: Methodologies' both belong to Web Application Security & Bug Bounty and share specific primitive 'sqli'. A side-by-side comparison matrix deepens architectural clarity.",
+    "action": "Compile comparison note 'comparisons/sql-injection-testing-vs-sql-injection-testing-methodologies.md' and link both concepts.",
+    "status": "pending",
+    "implementation": {
+      "type": "create_note",
+      "target": "web-and-bug-bounty/comparisons/sql-injection-testing-vs-sql-injection-testing-methodologies.md",
+      "content": "---\ntitle: SQL Injection Testing & Database Exploitation Frameworks vs SQL Injection Testing & Database Exploitation Frameworks: Methodologies\ncreated: 2026-09-29\nupdated: 2026-09-29\ntype: comparison\nparent: \"[[web-and-bug-bounty]]\"\ncluster: web-and-bug-bounty\ntags:\n  - bug-bounty\n  - payload\n  - sqli\nsources:\n  - web-and-bug-bounty/concepts/sql-injection-testing.md\n  - web-and-bug-bounty/concepts/sql-injection-testing-methodologies.md\n---\n\n# SQL Injection Testing & Database Exploitation Frameworks vs SQL Injection Testing & Database Exploitation Frameworks: Methodologies\n\n## Comparative Analysis\nTechnical trade-off evaluation comparing [[sql-injection-testing|SQL Injection Testing & Database Exploitation Frameworks]] and [[sql-injection-testing-methodologies|SQL Injection Testing & Database Exploitation Frameworks: Methodologies]] within the domain of **sqli**.\n\n## Vector Comparison Matrix\n\n| Dimension | [[sql-injection-testing|SQL Injection Testing & Database Exploitation Frameworks]] | [[sql-injection-testing-methodologies|SQL Injection Testing & Database Exploitation Frameworks: Methodologies]] |\n| :--- | :--- | :--- |\n| **Mechanisms** | Primary vulnerability primitive | Alternative execution vector |\n| **Classification** | `sqli` | `sqli` |\n| **Operational Impact** | Critical exploitation surface | Critical exploitation surface |\n\n## Interlinked Concepts\n- [[sql-injection-testing]]\n- [[sql-injection-testing-methodologies]]\n",
+      "backlinks": [
+        "web-and-bug-bounty/concepts/sql-injection-testing.md",
+        "web-and-bug-bounty/concepts/sql-injection-testing-methodologies.md",
+        "web-and-bug-bounty/web-and-bug-bounty.md"
+      ]
+    }
+  },
+  {
+    "id": "rec_comp_sql-injection-testing_sql-injection-testing-exploitation-and-attack-vectors",
+    "author": "Thoth (Obsidian Librarian)",
+    "created": "2026-09-29T22:37:12.758442",
+    "title": "Synthesis Candidate: SQL Injection Testing & Database Exploitation Frameworks vs SQL Injection Testing & Database Exploitation Frameworks: Exploitation Tradecraft & Attack Vectors",
+    "category": "Knowledge Synthesis (Web Application Security & Bug Bounty)",
+    "priority": "MEDIUM",
+    "details": "Concepts 'SQL Injection Testing & Database Exploitation Frameworks' and 'SQL Injection Testing & Database Exploitation Frameworks: Exploitation Tradecraft & Attack Vectors' both belong to Web Application Security & Bug Bounty and share specific primitive 'sqli'. A side-by-side comparison matrix deepens architectural clarity.",
+    "action": "Compile comparison note 'comparisons/sql-injection-testing-vs-sql-injection-testing-exploitation-and-attack-vectors.md' and link both concepts.",
+    "status": "pending",
+    "implementation": {
+      "type": "create_note",
+      "target": "web-and-bug-bounty/comparisons/sql-injection-testing-vs-sql-injection-testing-exploitation-and-attack-vectors.md",
+      "content": "---\ntitle: SQL Injection Testing & Database Exploitation Frameworks vs SQL Injection Testing & Database Exploitation Frameworks: Exploitation Tradecraft & Attack Vectors\ncreated: 2026-09-29\nupdated: 2026-09-29\ntype: comparison\nparent: \"[[web-and-bug-bounty]]\"\ncluster: web-and-bug-bounty\ntags:\n  - bug-bounty\n  - payload\n  - sqli\nsources:\n  - web-and-bug-bounty/concepts/sql-injection-testing.md\n  - web-and-bug-bounty/concepts/sql-injection-testing-exploitation-and-attack-vectors.md\n---\n\n# SQL Injection Testing & Database Exploitation Frameworks vs SQL Injection Testing & Database Exploitation Frameworks: Exploitation Tradecraft & Attack Vectors\n\n## Comparative Analysis\nTechnical trade-off evaluation comparing [[sql-injection-testing|SQL Injection Testing & Database Exploitation Frameworks]] and [[sql-injection-testing-exploitation-and-attack-vectors|SQL Injection Testing & Database Exploitation Frameworks: Exploitation Tradecraft & Attack Vectors]] within the domain of **sqli**.\n\n## Vector Comparison Matrix\n\n| Dimension | [[sql-injection-testing|SQL Injection Testing & Database Exploitation Frameworks]] | [[sql-injection-testing-exploitation-and-attack-vectors|SQL Injection Testing & Database Exploitation Frameworks: Exploitation Tradecraft & Attack Vectors]] |\n| :--- | :--- | :--- |\n| **Mechanisms** | Primary vulnerability primitive | Alternative execution vector |\n| **Classification** | `sqli` | `sqli` |\n| **Operational Impact** | Critical exploitation surface | Critical exploitation surface |\n\n## Interlinked Concepts\n- [[sql-injection-testing]]\n- [[sql-injection-testing-exploitation-and-attack-vectors]]\n",
+      "backlinks": [
+        "web-and-bug-bounty/concepts/sql-injection-testing.md",
+        "web-and-bug-bounty/concepts/sql-injection-testing-exploitation-and-attack-vectors.md",
+        "web-and-bug-bounty/web-and-bug-bounty.md"
+      ]
+    }
+  },
+  {
+    "id": "rec_comp_sql-injection-testing_sql-injection-testing-detection-methodology",
+    "author": "Thoth (Obsidian Librarian)",
+    "created": "2026-09-29T22:37:12.758435",
+    "title": "Synthesis Candidate: SQL Injection Testing & Database Exploitation Frameworks vs SQL Injection Testing & Database Exploitation Frameworks: Detection Methodology & Probing",
+    "category": "Knowledge Synthesis (Web Application Security & Bug Bounty)",
+    "priority": "MEDIUM",
+    "details": "Concepts 'SQL Injection Testing & Database Exploitation Frameworks' and 'SQL Injection Testing & Database Exploitation Frameworks: Detection Methodology & Probing' both belong to Web Application Security & Bug Bounty and share specific primitive 'sqli'. A side-by-side comparison matrix deepens architectural clarity.",
+    "action": "Compile comparison note 'comparisons/sql-injection-testing-vs-sql-injection-testing-detection-methodology.md' and link both concepts.",
+    "status": "pending",
+    "implementation": {
+      "type": "create_note",
+      "target": "web-and-bug-bounty/comparisons/sql-injection-testing-vs-sql-injection-testing-detection-methodology.md",
+      "content": "---\ntitle: SQL Injection Testing & Database Exploitation Frameworks vs SQL Injection Testing & Database Exploitation Frameworks: Detection Methodology & Probing\ncreated: 2026-09-29\nupdated: 2026-09-29\ntype: comparison\nparent: \"[[web-and-bug-bounty]]\"\ncluster: web-and-bug-bounty\ntags:\n  - bug-bounty\n  - payload\n  - sqli\nsources:\n  - web-and-bug-bounty/concepts/sql-injection-testing.md\n  - web-and-bug-bounty/concepts/sql-injection-testing-detection-methodology.md\n---\n\n# SQL Injection Testing & Database Exploitation Frameworks vs SQL Injection Testing & Database Exploitation Frameworks: Detection Methodology & Probing\n\n## Comparative Analysis\nTechnical trade-off evaluation comparing [[sql-injection-testing|SQL Injection Testing & Database Exploitation Frameworks]] and [[sql-injection-testing-detection-methodology|SQL Injection Testing & Database Exploitation Frameworks: Detection Methodology & Probing]] within the domain of **sqli**.\n\n## Vector Comparison Matrix\n\n| Dimension | [[sql-injection-testing|SQL Injection Testing & Database Exploitation Frameworks]] | [[sql-injection-testing-detection-methodology|SQL Injection Testing & Database Exploitation Frameworks: Detection Methodology & Probing]] |\n| :--- | :--- | :--- |\n| **Mechanisms** | Primary vulnerability primitive | Alternative execution vector |\n| **Classification** | `sqli` | `sqli` |\n| **Operational Impact** | Critical exploitation surface | Critical exploitation surface |\n\n## Interlinked Concepts\n- [[sql-injection-testing]]\n- [[sql-injection-testing-detection-methodology]]\n",
+      "backlinks": [
+        "web-and-bug-bounty/concepts/sql-injection-testing.md",
+        "web-and-bug-bounty/concepts/sql-injection-testing-detection-methodology.md",
+        "web-and-bug-bounty/web-and-bug-bounty.md"
+      ]
+    }
+  },
+  {
+    "id": "rec_comp_sql-injection-testing_sql-injection-testing-defense-and-remediation",
+    "author": "Thoth (Obsidian Librarian)",
+    "created": "2026-09-29T22:37:12.758426",
+    "title": "Synthesis Candidate: SQL Injection Testing & Database Exploitation Frameworks vs SQL Injection Testing & Database Exploitation Frameworks: Defense, Hardening & Remediation",
+    "category": "Knowledge Synthesis (Web Application Security & Bug Bounty)",
+    "priority": "MEDIUM",
+    "details": "Concepts 'SQL Injection Testing & Database Exploitation Frameworks' and 'SQL Injection Testing & Database Exploitation Frameworks: Defense, Hardening & Remediation' both belong to Web Application Security & Bug Bounty and share specific primitive 'sqli'. A side-by-side comparison matrix deepens architectural clarity.",
+    "action": "Compile comparison note 'comparisons/sql-injection-testing-vs-sql-injection-testing-defense-and-remediation.md' and link both concepts.",
+    "status": "pending",
+    "implementation": {
+      "type": "create_note",
+      "target": "web-and-bug-bounty/comparisons/sql-injection-testing-vs-sql-injection-testing-defense-and-remediation.md",
+      "content": "---\ntitle: SQL Injection Testing & Database Exploitation Frameworks vs SQL Injection Testing & Database Exploitation Frameworks: Defense, Hardening & Remediation\ncreated: 2026-09-29\nupdated: 2026-09-29\ntype: comparison\nparent: \"[[web-and-bug-bounty]]\"\ncluster: web-and-bug-bounty\ntags:\n  - bug-bounty\n  - payload\n  - sqli\nsources:\n  - web-and-bug-bounty/concepts/sql-injection-testing.md\n  - web-and-bug-bounty/concepts/sql-injection-testing-defense-and-remediation.md\n---\n\n# SQL Injection Testing & Database Exploitation Frameworks vs SQL Injection Testing & Database Exploitation Frameworks: Defense, Hardening & Remediation\n\n## Comparative Analysis\nTechnical trade-off evaluation comparing [[sql-injection-testing|SQL Injection Testing & Database Exploitation Frameworks]] and [[sql-injection-testing-defense-and-remediation|SQL Injection Testing & Database Exploitation Frameworks: Defense, Hardening & Remediation]] within the domain of **sqli**.\n\n## Vector Comparison Matrix\n\n| Dimension | [[sql-injection-testing|SQL Injection Testing & Database Exploitation Frameworks]] | [[sql-injection-testing-defense-and-remediation|SQL Injection Testing & Database Exploitation Frameworks: Defense, Hardening & Remediation]] |\n| :--- | :--- | :--- |\n| **Mechanisms** | Primary vulnerability primitive | Alternative execution vector |\n| **Classification** | `sqli` | `sqli` |\n| **Operational Impact** | Critical exploitation surface | Critical exploitation surface |\n\n## Interlinked Concepts\n- [[sql-injection-testing]]\n- [[sql-injection-testing-defense-and-remediation]]\n",
+      "backlinks": [
+        "web-and-bug-bounty/concepts/sql-injection-testing.md",
+        "web-and-bug-bounty/concepts/sql-injection-testing-defense-and-remediation.md",
+        "web-and-bug-bounty/web-and-bug-bounty.md"
+      ]
+    }
+  },
+  {
+    "id": "rec_comp_http-request-smuggling-defense-and-remediation_http-request-smuggling-detection-methodology",
+    "author": "Thoth (Obsidian Librarian)",
+    "created": "2026-09-29T22:37:12.758322",
+    "title": "Synthesis Candidate: HTTP Request Smuggling Defense, Hardening & Protocol Remediation vs HTTP Request Smuggling Detection Methodology & Differential Probing",
+    "category": "Knowledge Synthesis (Web Application Security & Bug Bounty)",
+    "priority": "MEDIUM",
+    "details": "Concepts 'HTTP Request Smuggling Defense, Hardening & Protocol Remediation' and 'HTTP Request Smuggling Detection Methodology & Differential Probing' both belong to Web Application Security & Bug Bounty and share specific primitive 'request-smuggling'. A side-by-side comparison matrix deepens architectural clarity.",
+    "action": "Compile comparison note 'comparisons/http-request-smuggling-defense-and-remediation-vs-http-request-smuggling-detection-methodology.md' and link both concepts.",
+    "status": "pending",
+    "implementation": {
+      "type": "create_note",
+      "target": "web-and-bug-bounty/comparisons/http-request-smuggling-defense-and-remediation-vs-http-request-smuggling-detection-methodology.md",
+      "content": "---\ntitle: HTTP Request Smuggling Defense, Hardening & Protocol Remediation vs HTTP Request Smuggling Detection Methodology & Differential Probing\ncreated: 2026-09-29\nupdated: 2026-09-29\ntype: comparison\nparent: \"[[web-and-bug-bounty]]\"\ncluster: web-and-bug-bounty\ntags:\n  - bug-bounty\n  - payload\n  - request-smuggling\n  - triage\n  - web-security\nsources:\n  - web-and-bug-bounty/concepts/http-request-smuggling-defense-and-remediation.md\n  - web-and-bug-bounty/concepts/http-request-smuggling-detection-methodology.md\n---\n\n# HTTP Request Smuggling Defense, Hardening & Protocol Remediation vs HTTP Request Smuggling Detection Methodology & Differential Probing\n\n## Comparative Analysis\nTechnical trade-off evaluation comparing [[http-request-smuggling-defense-and-remediation|HTTP Request Smuggling Defense, Hardening & Protocol Remediation]] and [[http-request-smuggling-detection-methodology|HTTP Request Smuggling Detection Methodology & Differential Probing]] within the domain of **request-smuggling**.\n\n## Vector Comparison Matrix\n\n| Dimension | [[http-request-smuggling-defense-and-remediation|HTTP Request Smuggling Defense, Hardening & Protocol Remediation]] | [[http-request-smuggling-detection-methodology|HTTP Request Smuggling Detection Methodology & Differential Probing]] |\n| :--- | :--- | :--- |\n| **Mechanisms** | Primary vulnerability primitive | Alternative execution vector |\n| **Classification** | `request-smuggling` | `request-smuggling` |\n| **Operational Impact** | Critical exploitation surface | Critical exploitation surface |\n\n## Interlinked Concepts\n- [[http-request-smuggling-defense-and-remediation]]\n- [[http-request-smuggling-detection-methodology]]\n",
+      "backlinks": [
+        "web-and-bug-bounty/concepts/http-request-smuggling-defense-and-remediation.md",
+        "web-and-bug-bounty/concepts/http-request-smuggling-detection-methodology.md",
+        "web-and-bug-bounty/web-and-bug-bounty.md"
+      ]
+    }
+  },
+  {
+    "id": "rec_comp_http-request-smuggling-advanced-desync_http-request-smuggling-detection-methodology",
+    "author": "Thoth (Obsidian Librarian)",
+    "created": "2026-09-29T22:37:12.758306",
+    "title": "Synthesis Candidate: Advanced HTTP Request Smuggling: H2/H3 Desync, Tunneling & Client-Side Attacks vs HTTP Request Smuggling Detection Methodology & Differential Probing",
+    "category": "Knowledge Synthesis (Web Application Security & Bug Bounty)",
+    "priority": "MEDIUM",
+    "details": "Concepts 'Advanced HTTP Request Smuggling: H2/H3 Desync, Tunneling & Client-Side Attacks' and 'HTTP Request Smuggling Detection Methodology & Differential Probing' both belong to Web Application Security & Bug Bounty and share specific primitive 'request-smuggling'. A side-by-side comparison matrix deepens architectural clarity.",
+    "action": "Compile comparison note 'comparisons/http-request-smuggling-advanced-desync-vs-http-request-smuggling-detection-methodology.md' and link both concepts.",
+    "status": "pending",
+    "implementation": {
+      "type": "create_note",
+      "target": "web-and-bug-bounty/comparisons/http-request-smuggling-advanced-desync-vs-http-request-smuggling-detection-methodology.md",
+      "content": "---\ntitle: Advanced HTTP Request Smuggling: H2/H3 Desync, Tunneling & Client-Side Attacks vs HTTP Request Smuggling Detection Methodology & Differential Probing\ncreated: 2026-09-29\nupdated: 2026-09-29\ntype: comparison\nparent: \"[[web-and-bug-bounty]]\"\ncluster: web-and-bug-bounty\ntags:\n  - api\n  - bug-bounty\n  - payload\n  - request-smuggling\n  - triage\nsources:\n  - web-and-bug-bounty/concepts/http-request-smuggling-advanced-desync.md\n  - web-and-bug-bounty/concepts/http-request-smuggling-detection-methodology.md\n---\n\n# Advanced HTTP Request Smuggling: H2/H3 Desync, Tunneling & Client-Side Attacks vs HTTP Request Smuggling Detection Methodology & Differential Probing\n\n## Comparative Analysis\nTechnical trade-off evaluation comparing [[http-request-smuggling-advanced-desync|Advanced HTTP Request Smuggling: H2/H3 Desync, Tunneling & Client-Side Attacks]] and [[http-request-smuggling-detection-methodology|HTTP Request Smuggling Detection Methodology & Differential Probing]] within the domain of **request-smuggling**.\n\n## Vector Comparison Matrix\n\n| Dimension | [[http-request-smuggling-advanced-desync|Advanced HTTP Request Smuggling: H2/H3 Desync, Tunneling & Client-Side Attacks]] | [[http-request-smuggling-detection-methodology|HTTP Request Smuggling Detection Methodology & Differential Probing]] |\n| :--- | :--- | :--- |\n| **Mechanisms** | Primary vulnerability primitive | Alternative execution vector |\n| **Classification** | `request-smuggling` | `request-smuggling` |\n| **Operational Impact** | Critical exploitation surface | Critical exploitation surface |\n\n## Interlinked Concepts\n- [[http-request-smuggling-advanced-desync]]\n- [[http-request-smuggling-detection-methodology]]\n",
+      "backlinks": [
+        "web-and-bug-bounty/concepts/http-request-smuggling-advanced-desync.md",
+        "web-and-bug-bounty/concepts/http-request-smuggling-detection-methodology.md",
+        "web-and-bug-bounty/web-and-bug-bounty.md"
+      ]
+    }
+  },
+  {
+    "id": "rec_comp_http-request-smuggling-advanced-desync_http-request-smuggling-defense-and-remediation",
+    "author": "Thoth (Obsidian Librarian)",
+    "created": "2026-09-29T22:37:12.758298",
+    "title": "Synthesis Candidate: Advanced HTTP Request Smuggling: H2/H3 Desync, Tunneling & Client-Side Attacks vs HTTP Request Smuggling Defense, Hardening & Protocol Remediation",
+    "category": "Knowledge Synthesis (Web Application Security & Bug Bounty)",
+    "priority": "MEDIUM",
+    "details": "Concepts 'Advanced HTTP Request Smuggling: H2/H3 Desync, Tunneling & Client-Side Attacks' and 'HTTP Request Smuggling Defense, Hardening & Protocol Remediation' both belong to Web Application Security & Bug Bounty and share specific primitive 'request-smuggling'. A side-by-side comparison matrix deepens architectural clarity.",
+    "action": "Compile comparison note 'comparisons/http-request-smuggling-advanced-desync-vs-http-request-smuggling-defense-and-remediation.md' and link both concepts.",
+    "status": "pending",
+    "implementation": {
+      "type": "create_note",
+      "target": "web-and-bug-bounty/comparisons/http-request-smuggling-advanced-desync-vs-http-request-smuggling-defense-and-remediation.md",
+      "content": "---\ntitle: Advanced HTTP Request Smuggling: H2/H3 Desync, Tunneling & Client-Side Attacks vs HTTP Request Smuggling Defense, Hardening & Protocol Remediation\ncreated: 2026-09-29\nupdated: 2026-09-29\ntype: comparison\nparent: \"[[web-and-bug-bounty]]\"\ncluster: web-and-bug-bounty\ntags:\n  - api\n  - bug-bounty\n  - payload\n  - request-smuggling\n  - web-security\nsources:\n  - web-and-bug-bounty/concepts/http-request-smuggling-advanced-desync.md\n  - web-and-bug-bounty/concepts/http-request-smuggling-defense-and-remediation.md\n---\n\n# Advanced HTTP Request Smuggling: H2/H3 Desync, Tunneling & Client-Side Attacks vs HTTP Request Smuggling Defense, Hardening & Protocol Remediation\n\n## Comparative Analysis\nTechnical trade-off evaluation comparing [[http-request-smuggling-advanced-desync|Advanced HTTP Request Smuggling: H2/H3 Desync, Tunneling & Client-Side Attacks]] and [[http-request-smuggling-defense-and-remediation|HTTP Request Smuggling Defense, Hardening & Protocol Remediation]] within the domain of **request-smuggling**.\n\n## Vector Comparison Matrix\n\n| Dimension | [[http-request-smuggling-advanced-desync|Advanced HTTP Request Smuggling: H2/H3 Desync, Tunneling & Client-Side Attacks]] | [[http-request-smuggling-defense-and-remediation|HTTP Request Smuggling Defense, Hardening & Protocol Remediation]] |\n| :--- | :--- | :--- |\n| **Mechanisms** | Primary vulnerability primitive | Alternative execution vector |\n| **Classification** | `request-smuggling` | `request-smuggling` |\n| **Operational Impact** | Critical exploitation surface | Critical exploitation surface |\n\n## Interlinked Concepts\n- [[http-request-smuggling-advanced-desync]]\n- [[http-request-smuggling-defense-and-remediation]]\n",
+      "backlinks": [
+        "web-and-bug-bounty/concepts/http-request-smuggling-advanced-desync.md",
+        "web-and-bug-bounty/concepts/http-request-smuggling-defense-and-remediation.md",
+        "web-and-bug-bounty/web-and-bug-bounty.md"
+      ]
+    }
+  },
+  {
+    "id": "rec_comp_http-request-smuggling_http-request-smuggling-detection-methodology",
+    "author": "Thoth (Obsidian Librarian)",
+    "created": "2026-09-29T22:37:12.758280",
+    "title": "Synthesis Candidate: HTTP Request Smuggling & Connection Desynchronization vs HTTP Request Smuggling Detection Methodology & Differential Probing",
+    "category": "Knowledge Synthesis (Web Application Security & Bug Bounty)",
+    "priority": "MEDIUM",
+    "details": "Concepts 'HTTP Request Smuggling & Connection Desynchronization' and 'HTTP Request Smuggling Detection Methodology & Differential Probing' both belong to Web Application Security & Bug Bounty and share specific primitive 'request-smuggling'. A side-by-side comparison matrix deepens architectural clarity.",
+    "action": "Compile comparison note 'comparisons/http-request-smuggling-vs-http-request-smuggling-detection-methodology.md' and link both concepts.",
+    "status": "pending",
+    "implementation": {
+      "type": "create_note",
+      "target": "web-and-bug-bounty/comparisons/http-request-smuggling-vs-http-request-smuggling-detection-methodology.md",
+      "content": "---\ntitle: HTTP Request Smuggling & Connection Desynchronization vs HTTP Request Smuggling Detection Methodology & Differential Probing\ncreated: 2026-09-29\nupdated: 2026-09-29\ntype: comparison\nparent: \"[[web-and-bug-bounty]]\"\ncluster: web-and-bug-bounty\ntags:\n  - api\n  - bug-bounty\n  - payload\n  - request-smuggling\n  - triage\nsources:\n  - web-and-bug-bounty/concepts/http-request-smuggling.md\n  - web-and-bug-bounty/concepts/http-request-smuggling-detection-methodology.md\n---\n\n# HTTP Request Smuggling & Connection Desynchronization vs HTTP Request Smuggling Detection Methodology & Differential Probing\n\n## Comparative Analysis\nTechnical trade-off evaluation comparing [[http-request-smuggling|HTTP Request Smuggling & Connection Desynchronization]] and [[http-request-smuggling-detection-methodology|HTTP Request Smuggling Detection Methodology & Differential Probing]] within the domain of **request-smuggling**.\n\n## Vector Comparison Matrix\n\n| Dimension | [[http-request-smuggling|HTTP Request Smuggling & Connection Desynchronization]] | [[http-request-smuggling-detection-methodology|HTTP Request Smuggling Detection Methodology & Differential Probing]] |\n| :--- | :--- | :--- |\n| **Mechanisms** | Primary vulnerability primitive | Alternative execution vector |\n| **Classification** | `request-smuggling` | `request-smuggling` |\n| **Operational Impact** | Critical exploitation surface | Critical exploitation surface |\n\n## Interlinked Concepts\n- [[http-request-smuggling]]\n- [[http-request-smuggling-detection-methodology]]\n",
+      "backlinks": [
+        "web-and-bug-bounty/concepts/http-request-smuggling.md",
+        "web-and-bug-bounty/concepts/http-request-smuggling-detection-methodology.md",
+        "web-and-bug-bounty/web-and-bug-bounty.md"
+      ]
+    }
+  },
+  {
+    "id": "rec_comp_http-request-smuggling_http-request-smuggling-defense-and-remediation",
+    "author": "Thoth (Obsidian Librarian)",
+    "created": "2026-09-29T22:37:12.758270",
+    "title": "Synthesis Candidate: HTTP Request Smuggling & Connection Desynchronization vs HTTP Request Smuggling Defense, Hardening & Protocol Remediation",
+    "category": "Knowledge Synthesis (Web Application Security & Bug Bounty)",
+    "priority": "MEDIUM",
+    "details": "Concepts 'HTTP Request Smuggling & Connection Desynchronization' and 'HTTP Request Smuggling Defense, Hardening & Protocol Remediation' both belong to Web Application Security & Bug Bounty and share specific primitive 'request-smuggling'. A side-by-side comparison matrix deepens architectural clarity.",
+    "action": "Compile comparison note 'comparisons/http-request-smuggling-vs-http-request-smuggling-defense-and-remediation.md' and link both concepts.",
+    "status": "pending",
+    "implementation": {
+      "type": "create_note",
+      "target": "web-and-bug-bounty/comparisons/http-request-smuggling-vs-http-request-smuggling-defense-and-remediation.md",
+      "content": "---\ntitle: HTTP Request Smuggling & Connection Desynchronization vs HTTP Request Smuggling Defense, Hardening & Protocol Remediation\ncreated: 2026-09-29\nupdated: 2026-09-29\ntype: comparison\nparent: \"[[web-and-bug-bounty]]\"\ncluster: web-and-bug-bounty\ntags:\n  - api\n  - bug-bounty\n  - payload\n  - request-smuggling\n  - web-security\nsources:\n  - web-and-bug-bounty/concepts/http-request-smuggling.md\n  - web-and-bug-bounty/concepts/http-request-smuggling-defense-and-remediation.md\n---\n\n# HTTP Request Smuggling & Connection Desynchronization vs HTTP Request Smuggling Defense, Hardening & Protocol Remediation\n\n## Comparative Analysis\nTechnical trade-off evaluation comparing [[http-request-smuggling|HTTP Request Smuggling & Connection Desynchronization]] and [[http-request-smuggling-defense-and-remediation|HTTP Request Smuggling Defense, Hardening & Protocol Remediation]] within the domain of **request-smuggling**.\n\n## Vector Comparison Matrix\n\n| Dimension | [[http-request-smuggling|HTTP Request Smuggling & Connection Desynchronization]] | [[http-request-smuggling-defense-and-remediation|HTTP Request Smuggling Defense, Hardening & Protocol Remediation]] |\n| :--- | :--- | :--- |\n| **Mechanisms** | Primary vulnerability primitive | Alternative execution vector |\n| **Classification** | `request-smuggling` | `request-smuggling` |\n| **Operational Impact** | Critical exploitation surface | Critical exploitation surface |\n\n## Interlinked Concepts\n- [[http-request-smuggling]]\n- [[http-request-smuggling-defense-and-remediation]]\n",
+      "backlinks": [
+        "web-and-bug-bounty/concepts/http-request-smuggling.md",
+        "web-and-bug-bounty/concepts/http-request-smuggling-defense-and-remediation.md",
+        "web-and-bug-bounty/web-and-bug-bounty.md"
+      ]
+    }
+  },
+  {
+    "id": "rec_comp_http-request-smuggling_http-request-smuggling-advanced-desync",
+    "author": "Thoth (Obsidian Librarian)",
+    "created": "2026-09-29T22:37:12.758261",
+    "title": "Synthesis Candidate: HTTP Request Smuggling & Connection Desynchronization vs Advanced HTTP Request Smuggling: H2/H3 Desync, Tunneling & Client-Side Attacks",
+    "category": "Knowledge Synthesis (Web Application Security & Bug Bounty)",
+    "priority": "MEDIUM",
+    "details": "Concepts 'HTTP Request Smuggling & Connection Desynchronization' and 'Advanced HTTP Request Smuggling: H2/H3 Desync, Tunneling & Client-Side Attacks' both belong to Web Application Security & Bug Bounty and share specific primitive 'request-smuggling'. A side-by-side comparison matrix deepens architectural clarity.",
+    "action": "Compile comparison note 'comparisons/http-request-smuggling-vs-http-request-smuggling-advanced-desync.md' and link both concepts.",
+    "status": "pending",
+    "implementation": {
+      "type": "create_note",
+      "target": "web-and-bug-bounty/comparisons/http-request-smuggling-vs-http-request-smuggling-advanced-desync.md",
+      "content": "---\ntitle: HTTP Request Smuggling & Connection Desynchronization vs Advanced HTTP Request Smuggling: H2/H3 Desync, Tunneling & Client-Side Attacks\ncreated: 2026-09-29\nupdated: 2026-09-29\ntype: comparison\nparent: \"[[web-and-bug-bounty]]\"\ncluster: web-and-bug-bounty\ntags:\n  - api\n  - bug-bounty\n  - payload\n  - request-smuggling\nsources:\n  - web-and-bug-bounty/concepts/http-request-smuggling.md\n  - web-and-bug-bounty/concepts/http-request-smuggling-advanced-desync.md\n---\n\n# HTTP Request Smuggling & Connection Desynchronization vs Advanced HTTP Request Smuggling: H2/H3 Desync, Tunneling & Client-Side Attacks\n\n## Comparative Analysis\nTechnical trade-off evaluation comparing [[http-request-smuggling|HTTP Request Smuggling & Connection Desynchronization]] and [[http-request-smuggling-advanced-desync|Advanced HTTP Request Smuggling: H2/H3 Desync, Tunneling & Client-Side Attacks]] within the domain of **request-smuggling**.\n\n## Vector Comparison Matrix\n\n| Dimension | [[http-request-smuggling|HTTP Request Smuggling & Connection Desynchronization]] | [[http-request-smuggling-advanced-desync|Advanced HTTP Request Smuggling: H2/H3 Desync, Tunneling & Client-Side Attacks]] |\n| :--- | :--- | :--- |\n| **Mechanisms** | Primary vulnerability primitive | Alternative execution vector |\n| **Classification** | `request-smuggling` | `request-smuggling` |\n| **Operational Impact** | Critical exploitation surface | Critical exploitation surface |\n\n## Interlinked Concepts\n- [[http-request-smuggling]]\n- [[http-request-smuggling-advanced-desync]]\n",
+      "backlinks": [
+        "web-and-bug-bounty/concepts/http-request-smuggling.md",
+        "web-and-bug-bounty/concepts/http-request-smuggling-advanced-desync.md",
+        "web-and-bug-bounty/web-and-bug-bounty.md"
+      ]
+    }
+  },
+  {
     "id": "rec_unproc_20260929",
     "author": "Thoth (Obsidian Librarian)",
     "created": "2026-09-29T18:05:37.688180",
