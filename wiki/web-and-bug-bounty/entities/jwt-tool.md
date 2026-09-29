@@ -71,5 +71,6 @@ python3 jwt_tool.py "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." -C -d /usr/share/w
 
 
 ## Exploitation Chains & Pivot Vectors
+- **Pivot to [[cross-site-scripting|Cross-Site Scripting (XSS) Execution Contexts & Filter Evasion]]:** Weaponize vulnerability surface in JWT Tool (ticarpi) to trigger [[cross-site-scripting]].
 - **Pivot to [[blind-ssrf-gopher-redis-rce|Blind SSRF to Redis RCE via Gopher]]:** Weaponize vulnerability surface in JWT Tool (ticarpi) to trigger [[blind-ssrf-gopher-redis-rce]].
 - **Pivot to [[ai-security-testing|AI & LLM Application Security Testing & Jailbreak Vectors]]:** Weaponize vulnerability surface in JWT Tool (ticarpi) to trigger [[ai-security-testing]].

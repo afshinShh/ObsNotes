@@ -355,13 +355,14 @@
     "priority": "HIGH",
     "details": "Entity 'WordPress Performance Monitor Plugin' shares security classification with [[deserialization-attacks|Insecure Deserialization & Object Injection Attacks]], but lacks an explicit cross-link in its exploitation section.",
     "action": "Cross-link [[deserialization-attacks]] in 'entities/wordpress-performance-monitor.md'.",
-    "status": "pending",
+    "status": "implemented",
     "implementation": {
       "type": "patch_note",
       "target": "entities/wordpress-performance-monitor.md",
       "section": "## Exploitation Chains & Pivot Vectors",
       "content": "- **Pivot to [[deserialization-attacks|Insecure Deserialization & Object Injection Attacks]]:** Weaponize vulnerability surface in WordPress Performance Monitor Plugin to trigger [[deserialization-attacks]]."
-    }
+    },
+    "implemented_at": "2026-09-29T12:43:39.362736"
   },
   {
     "id": "rec_chain_jwt-tool_cross-site-scripting",
@@ -372,13 +373,14 @@
     "priority": "HIGH",
     "details": "Entity 'JWT Tool (ticarpi)' shares security classification with [[cross-site-scripting|Cross-Site Scripting (XSS) Execution Contexts & Filter Evasion]], but lacks an explicit cross-link in its exploitation section.",
     "action": "Cross-link [[cross-site-scripting]] in 'entities/jwt-tool.md'.",
-    "status": "pending",
+    "status": "implemented",
     "implementation": {
       "type": "patch_note",
       "target": "entities/jwt-tool.md",
       "section": "## Exploitation Chains & Pivot Vectors",
       "content": "- **Pivot to [[cross-site-scripting|Cross-Site Scripting (XSS) Execution Contexts & Filter Evasion]]:** Weaponize vulnerability surface in JWT Tool (ticarpi) to trigger [[cross-site-scripting]]."
-    }
+    },
+    "implemented_at": "2026-09-29T12:43:39.362746"
   },
   {
     "id": "rec_chain_wordpress-performance-monitor_cross-site-scripting",
@@ -497,7 +499,7 @@
     "priority": "MEDIUM",
     "details": "Concepts 'EDR Telemetry Architectures & Detection Mechanisms' and 'Modern Operating System & Kernel Exploit Mitigations' both target 'evasion, red-team'. Synthesizing a comparison note will deepen technical trade-offs in the knowledge base.",
     "action": "Compile comparison note 'comparisons/edr-detection-methods-vs-exploit-mitigations.md' and link both concepts.",
-    "status": "pending",
+    "status": "implemented",
     "implementation": {
       "type": "create_note",
       "target": "comparisons/edr-detection-methods-vs-exploit-mitigations.md",
@@ -506,7 +508,8 @@
         "concepts/edr-detection-methods.md",
         "concepts/exploit-mitigations.md"
       ]
-    }
+    },
+    "implemented_at": "2026-09-29T12:43:39.362749"
   },
   {
     "id": "rec_comp_edr-detection-methods_edr-evasion-techniques",
@@ -517,7 +520,7 @@
     "priority": "MEDIUM",
     "details": "Concepts 'EDR Telemetry Architectures & Detection Mechanisms' and 'EDR Evasion Engineering & In-Memory Bypass Tradecraft' both target 'evasion, red-team'. Synthesizing a comparison note will deepen technical trade-offs in the knowledge base.",
     "action": "Compile comparison note 'comparisons/edr-detection-methods-vs-edr-evasion-techniques.md' and link both concepts.",
-    "status": "pending",
+    "status": "implemented",
     "implementation": {
       "type": "create_note",
       "target": "comparisons/edr-detection-methods-vs-edr-evasion-techniques.md",
@@ -526,7 +529,8 @@
         "concepts/edr-detection-methods.md",
         "concepts/edr-evasion-techniques.md"
       ]
-    }
+    },
+    "implemented_at": "2026-09-29T12:43:39.362750"
   },
   {
     "id": "rec_comp_blind-ssrf-gopher-redis-rce_fastcgi-ssrf-exploitation",
@@ -537,7 +541,7 @@
     "priority": "MEDIUM",
     "details": "Concepts 'Blind SSRF to Redis RCE via Gopher' and 'FastCGI Protocol Injection via SSRF' both target 'rce, ssrf'. Synthesizing a comparison note will deepen technical trade-offs in the knowledge base.",
     "action": "Compile comparison note 'comparisons/blind-ssrf-gopher-redis-rce-vs-fastcgi-ssrf-exploitation.md' and link both concepts.",
-    "status": "pending",
+    "status": "implemented",
     "implementation": {
       "type": "create_note",
       "target": "comparisons/blind-ssrf-gopher-redis-rce-vs-fastcgi-ssrf-exploitation.md",
@@ -546,6 +550,7 @@
         "concepts/blind-ssrf-gopher-redis-rce.md",
         "concepts/fastcgi-ssrf-exploitation.md"
       ]
-    }
+    },
+    "implemented_at": "2026-09-29T12:43:39.362751"
   }
 ]

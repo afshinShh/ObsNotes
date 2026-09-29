@@ -56,6 +56,7 @@ By chaining the blind SSRF via `gopher://`, internal services can be exploited f
 
 
 ## Exploitation Chains & Pivot Vectors
+- **Pivot to [[deserialization-attacks|Insecure Deserialization & Object Injection Attacks]]:** Weaponize vulnerability surface in WordPress Performance Monitor Plugin to trigger [[deserialization-attacks]].
 - **Pivot to [[vulnerability-research-methodology|Vulnerability Research Methodology & Static/Dynamic Audit Frameworks]]:** Weaponize vulnerability surface in WordPress Performance Monitor Plugin to trigger [[vulnerability-research-methodology]].
 - **Pivot to [[cross-site-scripting|Cross-Site Scripting (XSS) Execution Contexts & Filter Evasion]]:** Weaponize vulnerability surface in WordPress Performance Monitor Plugin to trigger [[cross-site-scripting]].
 - **Pivot to [[ai-security-testing|AI & LLM Application Security Testing & Jailbreak Vectors]]:** Weaponize vulnerability surface in WordPress Performance Monitor Plugin to trigger [[ai-security-testing]].

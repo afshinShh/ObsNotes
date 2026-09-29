@@ -73,6 +73,7 @@ sources:
 ---
 
 ## Comparative Trade-off Analyses
+- [[blind-ssrf-gopher-redis-rce-vs-fastcgi-ssrf-exploitation]]
 - [[cl-te-vs-te-cl]] — Architectural and exploitation differences between CL.TE and TE.CL request smuggling desynchronization.
 - [[classic-vs-blind-xxe]] — Direct in-band entity reflection vs out-of-band DTD callback exfiltration.
 - [[in-band-vs-blind-sqli]] — Direct result set extraction vs binary search boolean/time-based inference trade-offs.

@@ -232,3 +232,7 @@ Synthesized and normalized from canonical vault note `[[unprocessed-obsidians/ed
 - [[direct-vs-indirect-syscalls]]
 - [[syswhispers]]
 - [[ekko-sleep-obfuscation]]
+
+## Related Pages
+- [[edr-detection-methods-vs-edr-evasion-techniques]]
+- [[edr-detection-methods-vs-exploit-mitigations]]

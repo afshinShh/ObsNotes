@@ -201,3 +201,25 @@
   - Broken Links: 0
   - Orphan Pages: 0
   - Health Verdict: PERFECT (All green)
+
+## [2026-09-25] feat | Dynamic Convex Hulls & Implementation of Approved Recommendations
+- Upgraded Decision Studio Cluster Architecture (`studio.html`):
+  - Completely replaced static circular boundaries with **Dynamic Organic Convex Hulls (Minkowski Sum Fillets)**.
+  - Hulls are computed dynamically on every animation frame from the actual live positions of member nodes using Graham Scan + 45px rounded margin expansion.
+  - Mathematically guarantees **100% of cluster nodes are enclosed** with zero exceptions or leaky nodes.
+  - Dynamic centroid & apex tracking: floating domain banners (`⚙️ BINARY EXPLOITATION`, `🌐 WEB HACKING & BB`, etc.) automatically float above the uppermost node of each cluster.
+  - Added multi-mode boundary controls in graph HUD: `🛡️ Boundary: Dynamic Hulls` -> `☁️ Boundary: Soft Clouds` -> `🌿 Boundary: Off (Native Obsidian)`.
+- Implemented 5 Human-Approved Architecture Recommendations:
+  1. `rec_chain_wordpress-performance-monitor_deserialization-attacks`: Cross-linked `[[deserialization-attacks]]` into `web-and-bug-bounty/entities/wordpress-performance-monitor.md` with reciprocal backlink.
+  2. `rec_chain_jwt-tool_cross-site-scripting`: Cross-linked `[[cross-site-scripting]]` into `web-and-bug-bounty/entities/jwt-tool.md` with reciprocal backlink.
+  3. `rec_comp_edr-detection-methods_exploit-mitigations`: Synthesized and compiled `defense-and-evasion/comparisons/edr-detection-methods-vs-exploit-mitigations.md` with bidirectional links to `edr-detection-methods.md`, `exploit-mitigations.md`, and parent hub `defense-and-evasion.md`.
+  4. `rec_comp_edr-detection-methods_edr-evasion-techniques`: Synthesized and compiled `defense-and-evasion/comparisons/edr-detection-methods-vs-edr-evasion-techniques.md` with bidirectional links to `edr-detection-methods.md`, `edr-evasion-techniques.md`, and parent hub `defense-and-evasion.md`.
+  5. `rec_comp_blind-ssrf-gopher-redis-rce_fastcgi-ssrf-exploitation`: Synthesized and compiled `web-and-bug-bounty/comparisons/blind-ssrf-gopher-redis-rce-vs-fastcgi-ssrf-exploitation.md` with bidirectional links to `blind-ssrf-gopher-redis-rce.md`, `fastcgi-ssrf-exploitation.md`, and parent hub `web-and-bug-bounty.md`.
+- Updated `wiki/recommendations.json` marking all 5 items as `implemented`.
+- Rebuilt Master Catalog `wiki/index.md` (now 95 compiled pages).
+- Verification Diagnostics (`librarian lint`):
+  - Total Scanned Pages: 95
+  - Total Verified Links: 509
+  - Broken Links: 0
+  - Orphan Pages: 0
+  - Health Verdict: PERFECT (All green)

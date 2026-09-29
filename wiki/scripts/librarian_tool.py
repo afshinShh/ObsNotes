@@ -21,7 +21,12 @@ import os
 import sys
 import re
 import json
-import yaml
+try:
+    import yaml
+except ImportError:
+    if sys.executable != "/usr/bin/python3" and os.path.exists("/usr/bin/python3"):
+        os.execv("/usr/bin/python3", ["/usr/bin/python3"] + sys.argv)
+    raise
 import hashlib
 import argparse
 import subprocess

@@ -1625,3 +1625,6 @@ Synthesized and normalized from canonical vault notes `[[unprocessed-obsidians/e
 - [[direct-vs-indirect-syscalls]]
 - [[shellcode-development]]
 - [[exploit-mitigations]]
+
+## Related Pages
+- [[edr-detection-methods-vs-edr-evasion-techniques]]

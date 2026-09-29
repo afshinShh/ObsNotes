@@ -388,6 +388,9 @@
             <div class="hud-card" style="cursor:pointer;" onclick="toggleColorMode()" title="Toggle Color Palette">
               <span id="colormode-label">🎨 Mode: Domain Colors</span>
             </div>
+            <div class="hud-card" style="cursor:pointer;" onclick="toggleBoundaryMode()" title="Toggle Cluster Enclosures">
+              <span id="boundarymode-label">🛡️ Boundary: Dynamic Hulls</span>
+            </div>
           </div>
           <!-- DOMAIN CLUSTERS BAR -->
           <div class="graph-cluster-bar" id="cluster-filter-bar">
@@ -855,7 +858,96 @@
     let graphQuery = '';
     let simStarted = false;
     let activeClusterFilter = 'all';
-    let colorMode = 'cluster'; // 'cluster' (Domain Clusters) or 'type' (Layer Types)
+    let colorMode = 'cluster';
+    let boundaryMode = 'hull'; // 'hull' (Dynamic Convex Hulls), 'cloud' (Soft Ambient Clouds), or 'off' (Native Obsidian)
+
+    function toggleBoundaryMode() {
+      if (boundaryMode === 'hull') boundaryMode = 'cloud';
+      else if (boundaryMode === 'cloud') boundaryMode = 'off';
+      else boundaryMode = 'hull';
+
+      const lbl = document.getElementById('boundarymode-label');
+      if (lbl) {
+        if (boundaryMode === 'hull') lbl.innerText = '🛡️ Boundary: Dynamic Hulls';
+        else if (boundaryMode === 'cloud') lbl.innerText = '☁️ Boundary: Soft Clouds';
+        else lbl.innerText = '🌿 Boundary: Off (Native Obsidian)';
+      }
+    }
+
+    function crossProd(o, a, b) {
+      return (a.x - o.x) * (b.y - o.y) - (a.y - o.y) * (b.x - o.x);
+    }
+
+    function getConvexHull(pts) {
+      if (!pts || pts.length <= 2) return pts ? pts.slice() : [];
+      const sorted = pts.slice().sort((a, b) => a.x === b.x ? a.y - b.y : a.x - b.x);
+      const lower = [];
+      for (const p of sorted) {
+        while (lower.length >= 2 && crossProd(lower[lower.length - 2], lower[lower.length - 1], p) <= 0) {
+          lower.pop();
+        }
+        lower.push(p);
+      }
+      const upper = [];
+      for (let i = sorted.length - 1; i >= 0; i--) {
+        const p = sorted[i];
+        while (upper.length >= 2 && crossProd(upper[upper.length - 2], upper[upper.length - 1], p) <= 0) {
+          upper.pop();
+        }
+        upper.push(p);
+      }
+      lower.pop();
+      upper.pop();
+      return lower.concat(upper);
+    }
+
+    function renderClusterHull(ctx, pts, pad, fillColor, strokeColor, lineWidth) {
+      if (!pts || pts.length === 0) return;
+      ctx.save();
+      ctx.beginPath();
+      if (pts.length === 1) {
+        ctx.arc(pts[0].x, pts[0].y, (pts[0].radius || 12) + pad, 0, Math.PI * 2);
+        ctx.fillStyle = fillColor;
+        ctx.fill();
+        if (strokeColor) {
+          ctx.strokeStyle = strokeColor;
+          ctx.lineWidth = lineWidth || 1.2;
+          ctx.stroke();
+        }
+        ctx.restore();
+        return;
+      }
+
+      ctx.moveTo(pts[0].x, pts[0].y);
+      for (let i = 1; i < pts.length; i++) {
+        ctx.lineTo(pts[i].x, pts[i].y);
+      }
+      ctx.closePath();
+
+      // Rounded expanded fill (native Minkowski sum)
+      ctx.lineJoin = 'round';
+      ctx.lineCap = 'round';
+      ctx.lineWidth = pad * 2;
+      ctx.fillStyle = fillColor;
+      ctx.strokeStyle = fillColor;
+      ctx.stroke();
+      ctx.fill();
+
+      // Delicate outer boundary outline if requested
+      if (strokeColor) {
+        ctx.lineWidth = pad * 2 + (lineWidth || 1.5);
+        ctx.strokeStyle = strokeColor;
+        ctx.stroke();
+
+        // Re-fill inner body so outline is crisp on the outside
+        ctx.lineWidth = pad * 2;
+        ctx.strokeStyle = fillColor;
+        ctx.stroke();
+        ctx.fill();
+      }
+      ctx.restore();
+    }
+ // 'cluster' (Domain Clusters) or 'type' (Layer Types)
 
     const CLUSTER_CONFIG = {
       'binary-exploitation': {
@@ -1238,45 +1330,80 @@
       if (!gCtx) return;
       gCtx.clearRect(0, 0, gCanvas.width, gCanvas.height);
 
+      const active = gNodes.filter(n => (!n.is_proposal || showProposals) && typeFilters[n.type] !== false);
+
       gCtx.save();
       gCtx.translate(panX, panY);
       gCtx.scale(zoom, zoom);
 
-      // 1. Draw Ambient Glowing Cluster Halos & Header Banners
-      Object.keys(CLUSTER_CONFIG).forEach(cId => {
-        const c = CLUSTER_CONFIG[cId];
-        const isFocus = (activeClusterFilter === 'all' || activeClusterFilter === cId);
-        gCtx.save();
-        gCtx.globalAlpha = isFocus ? 1.0 : 0.12;
+      // 1. Draw Organic Dynamic Cluster Enclosures & Dynamic Centroid Banners
+      if (boundaryMode !== 'off') {
+        Object.keys(CLUSTER_CONFIG).forEach(cId => {
+          const c = CLUSTER_CONFIG[cId];
+          const isFocus = (activeClusterFilter === 'all' || activeClusterFilter === cId);
+          
+          // Collect live active nodes belonging to this domain cluster
+          const cNodes = active.filter(n => n.cluster === cId);
+          if (cNodes.length === 0) return;
 
-        // Radial ambient halo (pure fill, no stroke)
-        gCtx.beginPath();
-        const grad = gCtx.createRadialGradient(c.targetX, c.targetY, 20, c.targetX, c.targetY, c.radius + 90);
-        grad.addColorStop(0, c.color + '1a'); // 10%
-        grad.addColorStop(0.65, c.color + '05'); // 2%
-        grad.addColorStop(1, 'rgba(0,0,0,0)');
-        gCtx.fillStyle = grad;
-        gCtx.arc(c.targetX, c.targetY, c.radius + 90, 0, Math.PI * 2);
-        gCtx.fill();
+          let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+          let sumX = 0, sumY = 0;
+          cNodes.forEach(n => {
+            if (n.x < minX) minX = n.x;
+            if (n.x > maxX) maxX = n.x;
+            if (n.y < minY) minY = n.y;
+            if (n.y > maxY) maxY = n.y;
+            sumX += n.x;
+            sumY += n.y;
+          });
+          const avgX = sumX / cNodes.length;
+          const avgY = sumY / cNodes.length;
 
-        // Cluster Title Header Banner
-        gCtx.font = "bold 13px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, monospace";
-        const lbl = `${c.icon} ${c.short.toUpperCase()}`;
-        const m = gCtx.measureText(lbl);
-        const bx = c.targetX - m.width / 2 - 14;
-        const by = c.targetY - c.radius - 32;
-        gCtx.fillStyle = 'rgba(16, 16, 24, 0.9)';
-        gCtx.strokeStyle = c.color + '77';
-        gCtx.lineWidth = 1;
-        if (gCtx.roundRect) gCtx.roundRect(bx, by, m.width + 28, 26, 6);
-        else gCtx.rect(bx, by, m.width + 28, 26);
-        gCtx.fill();
-        gCtx.stroke();
-        gCtx.fillStyle = c.color;
-        gCtx.textAlign = 'center';
-        gCtx.fillText(lbl, c.targetX, by + 17);
-        gCtx.restore();
-      });
+          gCtx.save();
+          gCtx.globalAlpha = isFocus ? 1.0 : 0.12;
+
+          if (boundaryMode === 'hull') {
+            const hull = getConvexHull(cNodes);
+            const pad = 45;
+            const fillCol = isFocus ? (c.color + (activeClusterFilter === cId ? '26' : '0e')) : (c.color + '05');
+            const strokeCol = isFocus ? (c.color + (activeClusterFilter === cId ? '88' : '2e')) : (c.color + '14');
+            const lineW = (isFocus && activeClusterFilter === cId) ? 2.0 : 1.2;
+            renderClusterHull(gCtx, hull, pad, fillCol, strokeCol, lineW);
+          } else if (boundaryMode === 'cloud') {
+            const radius = Math.max(Math.hypot(maxX - minX, maxY - minY) * 0.55 + 40, 90);
+            const grad = gCtx.createRadialGradient(avgX, avgY, 15, avgX, avgY, radius);
+            grad.addColorStop(0, c.color + '18');
+            grad.addColorStop(0.7, c.color + '04');
+            grad.addColorStop(1, 'rgba(0,0,0,0)');
+            gCtx.fillStyle = grad;
+            gCtx.beginPath();
+            gCtx.arc(avgX, avgY, radius, 0, Math.PI * 2);
+            gCtx.fill();
+          }
+
+          // Dynamic Cluster Title Header Banner (Positioned above the uppermost node)
+          gCtx.font = "bold 13px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, monospace";
+          const lbl = `${c.icon} ${c.short.toUpperCase()}`;
+          const m = gCtx.measureText(lbl);
+          const bannerX = (minX + maxX) / 2;
+          const bannerY = minY - 36;
+          const bx = bannerX - m.width / 2 - 14;
+          const by = bannerY - 14;
+
+          gCtx.fillStyle = 'rgba(16, 16, 24, 0.9)';
+          gCtx.strokeStyle = c.color + (activeClusterFilter === cId ? 'aa' : '55');
+          gCtx.lineWidth = 1;
+          if (gCtx.roundRect) gCtx.roundRect(bx, by, m.width + 28, 26, 6);
+          else gCtx.rect(bx, by, m.width + 28, 26);
+          gCtx.fill();
+          gCtx.stroke();
+          gCtx.fillStyle = c.color;
+          gCtx.textAlign = 'center';
+          gCtx.fillText(lbl, bannerX, by + 17);
+
+          gCtx.restore();
+        });
+      }
 
       const targetId = selectedId || (hoverNode ? hoverNode.id : null);
       const neighbors = new Set();

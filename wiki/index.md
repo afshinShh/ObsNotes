@@ -1,7 +1,7 @@
 # Wiki Index
 
 > Content catalog for the Offensive Security & Bug Bounty LLM Wiki.
-> Last updated: 2026-09-29 | Total pages: 92
+> Last updated: 2026-09-29 | Total pages: 95
 
 ## Domain Clusters Overview
 The knowledge vault is structured into 6 domain clusters with parent-child hierarchy:
@@ -37,6 +37,7 @@ The knowledge vault is structured into 6 domain clusters with parent-child hiera
 
 ### Comparisons
 - [[authorization-code-vs-implicit-flow]] — OAuth 2.0 ([RFC 6749](https://datatracker.ietf.org/doc/html/rfc6749)) originally defined the Implicit Flow for single-pa
+- [[blind-ssrf-gopher-redis-rce-vs-fastcgi-ssrf-exploitation]] — Technical trade-off evaluation comparing [[blind-ssrf-gopher-redis-rce|Blind SSRF to Redis RCE via Gopher]] and [[fastcg
 - [[cl-te-vs-te-cl]] — HTTP request smuggling stems from parsing ambiguities between front-end reverse proxies and backend application servers
 - [[classic-vs-blind-xxe]] — Comparison of XML External Entity injection paradigms: Direct response entity reflection versus Blind Out-of-Band parame
 - [[imdsv1-vs-imdsv2-ssrf]] — Architectural and exploitation comparison of AWS Instance Metadata Service version 1 (request-response) versus version 2
@@ -111,6 +112,8 @@ The knowledge vault is structured into 6 domain clusters with parent-child hiera
 ### Comparisons
 - [[av-vs-edr]] — Endpoint security architectures have transitioned from static, signature-driven **Antivirus (AV)** software to dynamic, 
 - [[direct-vs-indirect-syscalls]] — Architectural comparison of user-mode EDR hook evasion via Direct System Calls (raw inline syscall assembly) versus Indi
+- [[edr-detection-methods-vs-edr-evasion-techniques]] — Technical trade-off evaluation comparing [[edr-detection-methods|EDR Telemetry Architectures & Detection Mechanisms]] wi
+- [[edr-detection-methods-vs-exploit-mitigations]] — Technical trade-off evaluation comparing [[edr-detection-methods|EDR Telemetry Architectures & Detection Mechanisms]] an
 - [[kaslr-vs-kpti-mitigations]] — Technical deep dive comparing Kernel Address Space Layout Randomization (KASLR) and Kernel Page Table Isolation (KPTI) i
 
 ### Entities & Tools

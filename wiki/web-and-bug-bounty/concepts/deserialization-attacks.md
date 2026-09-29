@@ -184,3 +184,4 @@ Synthesized and normalized from canonical vault note `[[unprocessed-obsidians/in
 ## Related Concepts & Entities
 - [[ysoserial]]
 - [[vulnerability-research-methodology]]
+- [[wordpress-performance-monitor]]

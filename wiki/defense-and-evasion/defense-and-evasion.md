@@ -37,6 +37,8 @@ sources:
 ---
 
 ## Comparative Trade-off Analyses
+- [[edr-detection-methods-vs-edr-evasion-techniques]]
+- [[edr-detection-methods-vs-exploit-mitigations]]
 - [[av-vs-edr]] — Static pre-execution file inspection and signature heuristics vs continuous runtime kernel behavioral telemetry and process graph telemetry.
 - [[direct-vs-indirect-syscalls]] — Execution path trade-offs, `rip` address indicators, Call-Stack Telemetry (ETW-Ti), and RIP-validation bypasses.
 - [[kaslr-vs-kpti-mitigations]] — Memory randomization vs address-space page isolation against Meltdown and kernel memory side-channel leakages.

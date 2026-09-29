@@ -783,3 +783,4 @@ Synthesized and normalized from canonical vault note `[[unprocessed-obsidians/xs
 ## Related Concepts & Entities
 - [[stored-vs-reflected-vs-dom-xss]]
 - [[vulnerability-research-methodology]]
+- [[jwt-tool]]
