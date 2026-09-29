@@ -120,8 +120,9 @@ When an endpoint triggers state-changing actions (e.g. workspace invitations, su
 - [[web-and-bug-bounty]]
 - [[cspt-vs-path-traversal]]
 - [[open-redirect-attacks]]
-- [[app-to-web-auth-transfer]]
+- [[account-takeover-and-auth-flaws]]
 - [[dom-debugging-and-sink-analysis]]
+- [[bug-bounty-live-hunts-case-studies]]
 ```
 
 ## Evidence and uncertainty

@@ -12,7 +12,7 @@ sources:
 # Proposed Wiki change
 
 ## What will change
-Compile provenance source anchor for Practical Tips & Client-Side Exploitation note.
+Compile comprehensive provenance source anchor for Practical Tips & Client-Side Exploitation note.
 
 ## Proposed content
 ```markdown
@@ -29,6 +29,10 @@ tags:
 sources:
   - Notes/Narroto-Guts Hunt/Tips and Tricks.md
 extracted_concepts:
+  - "[[xss-and-waf-evasion-tradecraft]]"
+  - "[[account-takeover-and-auth-flaws]]"
+  - "[[mobile-pentest-traffic-capture-and-deep-links]]"
+  - "[[file-upload-attack-matrix]]"
   - "[[dom-debugging-and-sink-analysis]]"
   - "[[client-side-path-traversal]]"
 extracted_entities:
@@ -51,7 +55,11 @@ cluster: web-and-bug-bounty
 
 ## Compiled Wiki Layers
 ### Concepts
-- [[dom-debugging-and-sink-analysis]] — Advanced DevTools debugging, hook-based fuzzing, and postMessage security analysis.
+- [[xss-and-waf-evasion-tradecraft]] — Comprehensive checklist for XSS execution, HTML tag fuzzing, string concatenation, and WAF confusion.
+- [[account-takeover-and-auth-flaws]] — Account takeover checklist, email normalization bypasses, OAuth quirks, and app-to-app transfer polling.
+- [[mobile-pentest-traffic-capture-and-deep-links]] — Android pentesting, CA certificate system store installation, Frida hooks, and deep link testing.
+- [[file-upload-attack-matrix]] — File upload security matrix, magic bytes, S3 dynamic Content-Type reflection, and CSP evaluation.
+- [[dom-debugging-and-sink-analysis]] — DevTools debugging tradecraft, hook-based fuzzing, and postMessage security analysis.
 - [[client-side-path-traversal]] — Browser-side path traversal and API route redirection.
 
 ### Entities
@@ -59,18 +67,12 @@ cluster: web-and-bug-bounty
 
 ---
 
-## Source Content Topic Breakdown
-- **Client-Side Debugging**: "80% in Debugger" rule, event handler enumeration via `Object.keys(window).filter()`, conditional breakpoints.
-- **DOM & Sinks**: Identifying dangerous sinks (`document.write`, `window.location.assign`), parameter flow analysis, and source map fuzzing.
-- **postMessage Exploitation**: Regex origin validation bypasses (missing `$`, unescaped `.`), iframe restrictions, and DOM Invader interception.
-- **Filter & WAF Bypasses**: HTML tag fuzzing, attribute encoding confusion, string concatenation, and parentheses-less execution.
-- **Targeted Fuzzing**: Following the least change principle, avoiding blind fuzzing on static SPAs, and utilizing `recollapse`.
-
 ## Related Pages
 - [[web-and-bug-bounty]]
-- [[dom-debugging-and-sink-analysis]]
-- [[client-side-path-traversal]]
-- [[recollapse]]
+- [[xss-and-waf-evasion-tradecraft]]
+- [[account-takeover-and-auth-flaws]]
+- [[mobile-pentest-traffic-capture-and-deep-links]]
+- [[file-upload-attack-matrix]]
 ```
 
 ## Evidence and uncertainty

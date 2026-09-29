@@ -60,7 +60,7 @@ cluster: web-and-bug-bounty
 - **Wide Reconnaissance**: TLD search (`tldx`), certificate transparency (`crt.sh`, Censys), reverse WHOIS, DNS resolution (`dnsx`).
 - **Narrow Reconnaissance**: Search engine dorking (Google, Bing, DuckDuckGo), Wayback CDX API snapshot digests, and DOM sink exploration.
 - **Threat Modeling Matrix**: Functional UI behavior mapping to vulnerability primitives (reflection -> XSS, URL input -> SSRF, file upload -> RCE).
-- **Professional Reporting**: Direct attack scenarios, eliminating speculative prose ("attacker can"), reproducible Burp packets, and short PoC videos.
+- **Professional Reporting**: Direct attack scenarios, eliminating speculative prose ("attacker can"), reproducible Burp packets, and short PoC videos (<= 2 minutes).
 
 ## Related Pages
 - [[web-and-bug-bounty]]

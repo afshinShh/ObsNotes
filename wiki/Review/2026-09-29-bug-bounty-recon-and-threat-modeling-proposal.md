@@ -11,15 +11,6 @@ sources:
 
 # Proposed Wiki change
 
-
-<!-- TOC_START -->
-## Table of Contents
-- [What will change](#what-will-change)
-- [Proposed content](#proposed-content)
-- [Evidence and uncertainty](#evidence-and-uncertainty)
-- [Human feedback](#human-feedback)
-<!-- TOC_END -->
-
 ## What will change
 Compile deep-dive concept note for Bug Bounty Reconnaissance & Threat Modeling.
 
@@ -47,6 +38,8 @@ contradictions: []
 ---
 # Bug Bounty Threat Modeling & Narrow Reconnaissance Methodology
 
+<!-- TOC_START -->
+<!-- TOC_END -->
 
 ## Overview
 Effective bug bounty hunting relies on disciplined threat modeling and precision reconnaissance rather than blind mass-fuzzing. As codified in practitioner tradecraft:
@@ -114,6 +107,7 @@ graph TD
 - [[web-and-bug-bounty]]
 - [[dom-debugging-and-sink-analysis]]
 - [[client-side-path-traversal]]
+- [[bug-bounty-live-hunts-case-studies]]
 - [[osint-reconnaissance]]
 - [[vulnerability-research-methodology]]
 ```

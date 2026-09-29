@@ -95,8 +95,9 @@ When cross-domain communications utilize `window.addEventListener("message", (e)
 ## Related Pages
 - [[web-and-bug-bounty]]
 - [[cross-site-scripting]]
+- [[xss-and-waf-evasion-tradecraft]]
 - [[client-side-path-traversal]]
-- [[app-to-web-auth-transfer]]
+- [[account-takeover-and-auth-flaws]]
 - [[stored-vs-reflected-vs-dom-xss]]
 - [[recollapse]]
 ```

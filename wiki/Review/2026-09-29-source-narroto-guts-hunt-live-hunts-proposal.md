@@ -12,7 +12,7 @@ sources:
 # Proposed Wiki change
 
 ## What will change
-Compile provenance source anchor for Live Hunts case studies note from Notes/Narroto-Guts Hunt/.
+Compile comprehensive provenance source anchor for Live Hunts case studies note from Notes/Narroto-Guts Hunt/.
 
 ## Proposed content
 ```markdown
@@ -29,8 +29,9 @@ tags:
 sources:
   - Notes/Narroto-Guts Hunt/Live Hunts.md
 extracted_concepts:
+  - "[[bug-bounty-live-hunts-case-studies]]"
   - "[[client-side-path-traversal]]"
-  - "[[app-to-web-auth-transfer]]"
+  - "[[account-takeover-and-auth-flaws]]"
 extracted_entities:
   []
 extracted_comparisons:
@@ -51,8 +52,9 @@ cluster: web-and-bug-bounty
 
 ## Compiled Wiki Layers
 ### Concepts
+- [[bug-bounty-live-hunts-case-studies]] — Detailed operational case studies covering CapCut, Superbet, Amazon Hiring, Experian, Windsurf, Romwe, TikTok, and BytePlus.
 - [[client-side-path-traversal]] — Client-side path manipulation, non-happy path URL attacks, and token exfiltration.
-- [[app-to-web-auth-transfer]] — Application-to-web (A2W) authentication flow hijacking, deep links, and OAuth state misuse.
+- [[account-takeover-and-auth-flaws]] — Application-to-web (A2W) authentication flow hijacking, deep links, and OAuth state misuse.
 
 ### Comparisons
 - [[cspt-vs-path-traversal]] — Client-Side Path Traversal vs Server-Side Path Traversal mechanics and impact.
@@ -60,19 +62,20 @@ cluster: web-and-bug-bounty
 ---
 
 ## Source Content Topic Breakdown
-- **CapCut**: Deep link authentication transfer, `?next=` host header injection, collaborator blind SSRF, and workspace invite CSRF/hDOM.
-- **Superbet.ro**: Internal routing clues in DOM, NoSQL injection transitioning to MySQL injection.
-- **Hiring.amazon.com**: React SPA route recovery, 4x CPU slowdown for DOM inspection, and source map fuzzing (`.map`).
-- **Experian**: SessionStorage redirect XSS, `%0A` injection, and `tel:` scheme manipulation.
-- **Windsurf**: Magic links, `location.assign` checker function bypass via `127.0.0.1@attacker.com`, CSPT on chrome-extension, and XHR token stealing.
-- **Romwe**: OAuth callback error XSS, nested script filter bypass, and ATO via `window.opener`.
-- **TikTok**: Stored XSS in file uploader website field via template tag and `href` attributes.
+- **CapCut**: Deep link authentication transfer, `?next=` host header poisoning, collaborator blind SSRF, state UUID parameter misuse for 1-click ATO, workspace invitation hDOM CSRF.
+- **Superbet.ro**: Internal routing clues in DOM, NoSQL injection transitioning to MySQL injection (`1:1` syntax).
+- **Hiring.amazon.com**: React SPA route recovery, 4x CPU slowdown for DOM inspection, source map fuzzing (`.map`), and postMessage prioritization.
+- **Experian**: SessionStorage redirect XSS, `%0A` error injection, and `tel:` scheme manipulation.
+- **Windsurf**: Magic links, `location.assign` checker function bypass via `127.0.0.1@attacker.com`, CSPT on chrome-extension (`chrome-extension/../test`), and XHR token exfiltration.
+- **Romwe**: OAuth callback error XSS (nested script tag filter bypass), ATO via user phone number manipulation, and `window.opener` redirection.
+- **TikTok**: Stored XSS in file uploader website field via template tag and `href` attributes ($7,500 bounty).
 - **BytePlus**: 2FA flow state hijacking via `EventName` parameter tampering and null-code bypass.
 
 ## Related Pages
 - [[web-and-bug-bounty]]
+- [[bug-bounty-live-hunts-case-studies]]
 - [[client-side-path-traversal]]
-- [[app-to-web-auth-transfer]]
+- [[account-takeover-and-auth-flaws]]
 ```
 
 ## Evidence and uncertainty

@@ -64,13 +64,14 @@ recollapse -s "redirect" | ffuf -u "https://target.com/callback?url=FUZZ" -w - -
 
 ## Primary Sources & Provenance
 - Repository: [https://github.com/0xacb/recollapse](https://github.com/0xacb/recollapse)
-- Documented in: [[Notes/Narroto-Guts Hunt/Tips and Tricks.md]]
+- Documented in: [[Notes/Narroto-Guts Hunt/Tips and Tricks]]
 
 ## Related Pages
 - [[web-and-bug-bounty]]
 - [[bug-bounty-recon-and-threat-modeling]]
 - [[dom-debugging-and-sink-analysis]]
 - [[client-side-path-traversal]]
+- [[xss-and-waf-evasion-tradecraft]]
 ```
 
 ## Evidence and uncertainty

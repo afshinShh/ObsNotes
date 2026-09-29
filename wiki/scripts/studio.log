@@ -5328,3 +5328,360 @@ IsADirectoryError: [Errno 21] Is a directory: '/home/omp/Desktop/RED/Knowledge/O
  create mode 100644 wiki/Review/2026-09-29-source-narroto-guts-hunt-tips-and-tricks-proposal.md
 [+] Rebuilt /home/omp/Desktop/RED/Knowledge/ObsNotes_clean/wiki/index.md (103 total pages indexed)
 [*] Creating Git checkpoint: 'feat(wiki): apply web-and-bug-bounty/concepts/app-to-web-auth-transfer.md'...
+[+] Checkpoint committed successfully:
+[master fda443e] feat(wiki): apply web-and-bug-bounty/concepts/app-to-web-auth-transfer.md
+ 5 files changed, 48 insertions(+), 1 deletion(-)
+ delete mode 100644 wiki/Review/2026-09-29-app-to-web-auth-transfer-proposal.md
+ create mode 100644 wiki/web-and-bug-bounty/concepts/app-to-web-auth-transfer.md
+127.0.0.1 - - [29/Sep/2026 22:51:20] "POST /api/proposals/apply-single HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 22:51:21] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 22:51:21] "GET /api/proposals HTTP/1.1" 200 -
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 38924)
+Traceback (most recent call last):
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/socketserver.py", line 766, in __init__
+    self.handle()
+    ~~~~~~~~~~~^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/http/server.py", line 500, in handle
+    self.handle_one_request()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/http/server.py", line 488, in handle_one_request
+    method()
+    ~~~~~~^^
+  File "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/wiki/scripts/librarian_tool.py", line 1865, in do_GET
+    data = get_note_detail(npath)
+  File "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/wiki/scripts/librarian_tool.py", line 1256, in get_note_detail
+    with open(target_abs, "r", encoding="utf-8") as f:
+         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+IsADirectoryError: [Errno 21] Is a directory: '/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/wiki/web-and-bug-bounty'
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 38926)
+Traceback (most recent call last):
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/socketserver.py", line 766, in __init__
+    self.handle()
+    ~~~~~~~~~~~^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/http/server.py", line 500, in handle
+    self.handle_one_request()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/http/server.py", line 488, in handle_one_request
+    method()
+    ~~~~~~^^
+  File "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/wiki/scripts/librarian_tool.py", line 1865, in do_GET
+    data = get_note_detail(npath)
+  File "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/wiki/scripts/librarian_tool.py", line 1256, in get_note_detail
+    with open(target_abs, "r", encoding="utf-8") as f:
+         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+IsADirectoryError: [Errno 21] Is a directory: '/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/wiki/web-and-bug-bounty'
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 38934)
+Traceback (most recent call last):
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/socketserver.py", line 766, in __init__
+    self.handle()
+    ~~~~~~~~~~~^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/http/server.py", line 500, in handle
+    self.handle_one_request()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/http/server.py", line 488, in handle_one_request
+    method()
+    ~~~~~~^^
+  File "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/wiki/scripts/librarian_tool.py", line 1865, in do_GET
+    data = get_note_detail(npath)
+  File "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/wiki/scripts/librarian_tool.py", line 1256, in get_note_detail
+    with open(target_abs, "r", encoding="utf-8") as f:
+         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+IsADirectoryError: [Errno 21] Is a directory: '/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/wiki/web-and-bug-bounty'
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 38938)
+Traceback (most recent call last):
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/socketserver.py", line 766, in __init__
+    self.handle()
+    ~~~~~~~~~~~^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/http/server.py", line 500, in handle
+    self.handle_one_request()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/http/server.py", line 488, in handle_one_request
+    method()
+    ~~~~~~^^
+  File "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/wiki/scripts/librarian_tool.py", line 1865, in do_GET
+    data = get_note_detail(npath)
+  File "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/wiki/scripts/librarian_tool.py", line 1256, in get_note_detail
+    with open(target_abs, "r", encoding="utf-8") as f:
+         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+IsADirectoryError: [Errno 21] Is a directory: '/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/wiki/web-and-bug-bounty'
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 38950)
+Traceback (most recent call last):
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/socketserver.py", line 766, in __init__
+    self.handle()
+    ~~~~~~~~~~~^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/http/server.py", line 500, in handle
+    self.handle_one_request()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/http/server.py", line 488, in handle_one_request
+    method()
+    ~~~~~~^^
+  File "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/wiki/scripts/librarian_tool.py", line 1865, in do_GET
+    data = get_note_detail(npath)
+  File "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/wiki/scripts/librarian_tool.py", line 1256, in get_note_detail
+    with open(target_abs, "r", encoding="utf-8") as f:
+         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+IsADirectoryError: [Errno 21] Is a directory: '/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/wiki/web-and-bug-bounty'
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 38956)
+Traceback (most recent call last):
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/socketserver.py", line 766, in __init__
+    self.handle()
+    ~~~~~~~~~~~^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/http/server.py", line 500, in handle
+    self.handle_one_request()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/http/server.py", line 488, in handle_one_request
+    method()
+    ~~~~~~^^
+  File "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/wiki/scripts/librarian_tool.py", line 1865, in do_GET
+    data = get_note_detail(npath)
+  File "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/wiki/scripts/librarian_tool.py", line 1256, in get_note_detail
+    with open(target_abs, "r", encoding="utf-8") as f:
+         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+IsADirectoryError: [Errno 21] Is a directory: '/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/wiki/web-and-bug-bounty'
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 38968)
+Traceback (most recent call last):
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/socketserver.py", line 766, in __init__
+    self.handle()
+    ~~~~~~~~~~~^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/http/server.py", line 500, in handle
+    self.handle_one_request()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/http/server.py", line 488, in handle_one_request
+    method()
+    ~~~~~~^^
+  File "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/wiki/scripts/librarian_tool.py", line 1865, in do_GET
+    data = get_note_detail(npath)
+  File "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/wiki/scripts/librarian_tool.py", line 1256, in get_note_detail
+    with open(target_abs, "r", encoding="utf-8") as f:
+         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+IsADirectoryError: [Errno 21] Is a directory: '/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/wiki/web-and-bug-bounty'
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 38974)
+Traceback (most recent call last):
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/socketserver.py", line 766, in __init__
+    self.handle()
+    ~~~~~~~~~~~^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/http/server.py", line 500, in handle
+    self.handle_one_request()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/http/server.py", line 488, in handle_one_request
+    method()
+    ~~~~~~^^
+  File "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/wiki/scripts/librarian_tool.py", line 1865, in do_GET
+    data = get_note_detail(npath)
+  File "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/wiki/scripts/librarian_tool.py", line 1256, in get_note_detail
+    with open(target_abs, "r", encoding="utf-8") as f:
+         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+IsADirectoryError: [Errno 21] Is a directory: '/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/wiki/web-and-bug-bounty'
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 38986)
+Traceback (most recent call last):
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/socketserver.py", line 766, in __init__
+    self.handle()
+    ~~~~~~~~~~~^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/http/server.py", line 500, in handle
+    self.handle_one_request()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/http/server.py", line 488, in handle_one_request
+    method()
+    ~~~~~~^^
+  File "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/wiki/scripts/librarian_tool.py", line 1865, in do_GET
+    data = get_note_detail(npath)
+  File "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/wiki/scripts/librarian_tool.py", line 1256, in get_note_detail
+    with open(target_abs, "r", encoding="utf-8") as f:
+         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+IsADirectoryError: [Errno 21] Is a directory: '/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/wiki/web-and-bug-bounty'
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 38990)
+Traceback (most recent call last):
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/socketserver.py", line 766, in __init__
+    self.handle()
+    ~~~~~~~~~~~^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/http/server.py", line 500, in handle
+    self.handle_one_request()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/omp/.hermes/tools/python-3.14.7+20260901-linux-x64/lib/python3.14/http/server.py", line 488, in handle_one_request
+    method()
+    ~~~~~~^^
+  File "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/wiki/scripts/librarian_tool.py", line 1865, in do_GET
+    data = get_note_detail(npath)
+  File "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/wiki/scripts/librarian_tool.py", line 1256, in get_note_detail
+    with open(target_abs, "r", encoding="utf-8") as f:
+         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+IsADirectoryError: [Errno 21] Is a directory: '/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/wiki/web-and-bug-bounty'
+----------------------------------------
+127.0.0.1 - - [29/Sep/2026 22:51:52] "GET /api/note?path=web-and-bug-bounty%2Fconcepts%2Fapp-to-web-auth-transfer.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 22:53:17] "GET /api/note?path=Review%2F2026-09-29-dom-debugging-and-sink-analysis-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 22:53:20] "GET /api/note?path=Review%2F2026-09-29-source-narroto-guts-hunt-live-hunts-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 22:53:26] "GET /api/note?path=Review%2F2026-09-29-source-narroto-guts-hunt-structures-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 22:53:29] "GET /api/note?path=Review%2F2026-09-29-source-narroto-guts-hunt-tips-and-tricks-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 22:58:45] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 22:58:46] "GET /highlight.min.css HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 22:58:46] "GET /marked.min.js HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 22:58:46] "GET /highlight.min.js HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 22:58:46] "GET /mermaid.min.js HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 22:58:46] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 22:58:46] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 22:58:46] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [29/Sep/2026 22:58:46] "GET /api/note?path=ai-security%2Fai-security.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 22:58:46] "GET /api/graph HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 22:58:47] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 22:58:48] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:27:19] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:27:19] "GET /highlight.min.css HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:27:19] "GET /marked.min.js HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:27:19] "GET /highlight.min.js HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:27:19] "GET /mermaid.min.js HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:27:19] "GET /marked.min.js HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:27:19] "GET /highlight.min.js HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:27:19] "GET /mermaid.min.js HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:27:19] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:27:19] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:27:19] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [29/Sep/2026 23:27:19] "GET /api/note?path=ai-security%2Fai-security.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:27:19] "GET /api/graph HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:27:22] "GET /api/note?path=Review%2F2026-09-29-account-takeover-and-auth-flaws-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:27:47] "GET /api/note?path=Review%2F2026-09-29-bug-bounty-live-hunts-case-studies-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:28:03] "GET /api/note?path=Review%2F2026-09-29-bug-bounty-recon-and-threat-modeling-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:28:14] "GET /api/note?path=Review%2F2026-09-29-client-side-path-traversal-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:28:30] "GET /api/note?path=Review%2F2026-09-29-cspt-vs-path-traversal-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:30:57] "GET /api/note?path=Review%2F2026-09-29-recollapse-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:30:58] "GET /api/note?path=Review%2F2026-09-29-source-narroto-guts-hunt-live-hunts-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:30:58] "GET /api/note?path=Review%2F2026-09-29-source-narroto-guts-hunt-structures-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:30:59] "GET /api/note?path=Review%2F2026-09-29-xss-and-waf-evasion-tradecraft-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:30:59] "GET /api/note?path=Review%2F2026-09-29-xss-and-waf-evasion-tradecraft-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:31:01] "GET /api/note?path=Review%2F2026-09-29-source-narroto-guts-hunt-tips-and-tricks-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:31:02] "GET /api/note?path=Review%2F2026-09-29-source-narroto-guts-hunt-structures-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:31:03] "GET /api/note?path=Review%2F2026-09-29-source-narroto-guts-hunt-live-hunts-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:31:04] "GET /api/note?path=Review%2F2026-09-29-source-narroto-guts-hunt-tips-and-tricks-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:31:04] "GET /api/note?path=Review%2F2026-09-29-source-narroto-guts-hunt-structures-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:31:05] "GET /api/note?path=Review%2F2026-09-29-source-narroto-guts-hunt-tips-and-tricks-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:31:10] "GET /api/note?path=Review%2F2026-09-29-mobile-pentest-traffic-capture-and-deep-links-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:31:11] "GET /api/note?path=Review%2F2026-09-29-file-upload-attack-matrix-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:31:11] "GET /api/note?path=Review%2F2026-09-29-client-side-path-traversal-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:31:12] "GET /api/note?path=Review%2F2026-09-29-bug-bounty-live-hunts-case-studies-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:31:16] "GET /api/note?path=Review%2F2026-09-29-account-takeover-and-auth-flaws-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:31:22] "GET /api/note?path=Review%2F2026-09-29-client-side-path-traversal-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:31:26] "GET /api/note?path=Review%2F2026-09-29-cspt-vs-path-traversal-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:36:43] "GET /api/note?path=Review%2F2026-09-29-dom-debugging-and-sink-analysis-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:37:17] "GET /api/note?path=Review%2F2026-09-29-file-upload-attack-matrix-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:37:24] "GET /api/note?path=Review%2F2026-09-29-mobile-pentest-traffic-capture-and-deep-links-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:37:42] "GET /api/note?path=Review%2F2026-09-29-recollapse-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:37:46] "GET /api/note?path=Review%2F2026-09-29-recollapse-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:37:46] "GET /api/note?path=Review%2F2026-09-29-mobile-pentest-traffic-capture-and-deep-links-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:37:50] "GET /api/note?path=web-and-bug-bounty%2Fconcepts%2Fgraphql-security.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:37:53] "GET /api/note?path=web-and-bug-bounty%2Fconcepts%2Foauth-attack-vectors.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:37:54] "GET /api/note?path=web-and-bug-bounty%2Fconcepts%2Fhttp-request-smuggling-detection-methodology.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:37:54] "GET /api/note?path=web-and-bug-bounty%2Fconcepts%2Fhttp-request-smuggling-defense-and-remediation.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:37:58] "GET /api/note?path=web-and-bug-bounty%2Fconcepts%2Fhttp-request-smuggling-detection-methodology.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:38:03] "GET /api/note?path=Review%2F2026-09-29-dom-debugging-and-sink-analysis-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:38:03] "GET /api/note?path=Review%2F2026-09-29-file-upload-attack-matrix-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 23:38:11] "GET /api/note?path=Review%2F2026-09-29-mobile-pentest-traffic-capture-and-deep-links-proposal.md HTTP/1.1" 200 -
+=== Applying Approved Proposals ===
+[*] Creating Git checkpoint: 'checkpoint: pre-apply proposals snapshot'...
