@@ -223,3 +223,20 @@
   - Broken Links: 0
   - Orphan Pages: 0
   - Health Verdict: PERFECT (All green)
+
+## [2026-09-25] fix | Code Fence Boundary Repair & Excerpt Sanitization
+- Audited all markdown notes in `wiki/` for code fence mismatches, unclosed blocks, and prose-in-code swallow errors.
+- Cleanly repaired `wiki/web-and-bug-bounty/concepts/http-request-smuggling.md`:
+  - Removed 5 duplicate adjacent closing backtick fences (`   ```\n``` `) at detection test samples that had caused a markdown parser state inversion, swallowing subsequent prose text into code blocks.
+  - Tagged all bare code blocks with explicit syntax indicators (`http`, `bash`, `python`).
+  - Isolated code blocks and prose with clean vertical blank lines.
+- Patched `wiki/scripts/librarian_tool.py`:
+  - Sanitized `cmd_index` excerpt extraction to strip wikilink wrappers before length truncation, preventing trailing broken `[[...` fragments in `wiki/index.md`.
+  - Added interpreter failover for `yaml` import.
+- Rebuilt `wiki/index.md` (95 compiled pages).
+- Verification Diagnostics (`librarian lint`):
+  - Total Scanned Pages: 95
+  - Total Verified Links: 509
+  - Broken Links: 0
+  - Orphan Pages: 0
+  - Health Verdict: PERFECT (All green)

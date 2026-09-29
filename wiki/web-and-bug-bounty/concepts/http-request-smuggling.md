@@ -95,7 +95,6 @@ Modern variations include:
    A
    X
    ```
-```
 
    Send this request, then send a normal request. If the normal request experiences a time delay, CL.TE might be present.
 
@@ -111,7 +110,6 @@ Modern variations include:
 
    X
    ```
-```
 
    Send this request, then send a normal request. If the normal request experiences a time delay, TE.CL might be present.
 
@@ -129,7 +127,6 @@ Modern variations include:
 
    G
    ```
-```
 
    Send twice. The second response should indicate an unrecognized method like `GPOST`.
 
@@ -153,7 +150,6 @@ Modern variations include:
 
 
    ```
-```
 
    Send twice. The second request should show the effect of the smuggled `GPOST`.
 
@@ -178,7 +174,6 @@ Modern variations include:
 
 
    ```
-```
 
    Send twice. The second request should show the effect of the smuggled `GPOST`, confirming that one server ignored the obfuscated `Transfer-encoding: cow` header.
 
@@ -187,7 +182,8 @@ Modern variations include:
 - **Differential Testing**: Observe response timing differences
 - **Time Delays**: Add artificial delays between requests to detect queue interference
 - **Obfuscation Testing**: Try various obfuscation techniques:
-  ```
+
+  ```http
   Transfer-Encoding: xchunked
   Transfer-Encoding: chunked
   Transfer-Encoding : chunked
@@ -421,7 +417,7 @@ Host: vulnerable-website.com
 
 2. **Header Variations**:
 
-   ```
+   ```http
    Transfer-Encoding: chunked
    transfer-encoding: chunked
    Transfer-Encoding:chunked
@@ -431,7 +427,7 @@ Host: vulnerable-website.com
 
 3. **Chunk Size Manipulation**:
 
-   ```
+   ```http
    1\r\n
    A\r\n
    0\r\n
@@ -491,7 +487,7 @@ HTTP/3 uses QUIC transport which introduces new desync opportunities when proxie
 
 **HTTP/3 to HTTP/1.1 Translation:**
 
-```
+```http
 # HTTP/3 request with duplicate headers
 :method: POST
 :path: /api/endpoint

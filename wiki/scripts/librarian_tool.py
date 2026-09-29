@@ -613,7 +613,12 @@ def cmd_index(args):
                     if clean_lines:
                         first_line = clean_lines[0].strip()
                         first_sentence = first_line.split(". ")[0].strip()
-                        excerpt = first_sentence[:120]
+                        # Clean out wikilink syntax so excerpts don't contain broken [[links
+                        clean_sentence = re.sub(r"\[\[(?:[^\]|]+\|)?([^\]]+)\]\]", r"\1", first_sentence)
+                        if len(clean_sentence) > 120:
+                            excerpt = clean_sentence[:117].rstrip() + "..."
+                        else:
+                            excerpt = clean_sentence
                     entry = f"- [[{it['slug']}]]"
                     if excerpt:
                         entry += f" — {excerpt}"
