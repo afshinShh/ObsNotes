@@ -4416,3 +4416,12 @@ TypeError: Object of type date is not JSON serializable
 127.0.0.1 - - [29/Sep/2026 22:37:38] "GET /api/stats HTTP/1.1" 200 -
 127.0.0.1 - - [29/Sep/2026 22:37:38] "GET /api/recommendations?refresh=true HTTP/1.1" 200 -
 [+] Rebuilt /home/omp/Desktop/RED/Knowledge/ObsNotes_clean/wiki/index.md (102 total pages indexed)
+127.0.0.1 - - [29/Sep/2026 22:37:42] "POST /api/recommendations/implement HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 22:37:42] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 22:37:42] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 22:37:43] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 22:37:43] "GET /api/recommendations HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 22:37:43] "GET /api/graph HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 22:37:45] "POST /api/recommendations/dismiss HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 22:37:45] "GET /api/stats HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 22:37:45] "GET /api/recommendations HTTP/1.1" 200 -

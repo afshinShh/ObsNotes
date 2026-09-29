@@ -26,13 +26,14 @@
     "priority": "HIGH",
     "details": "Entity 'Sqlmap' weaponizes the specific primitive 'sqli' covered in [[sql-injection-testing-detection-methodology|SQL Injection Testing & Database Exploitation Frameworks: Detection Methodology & Probing]], but currently lacks a direct pivot link.",
     "action": "Cross-link [[sql-injection-testing-detection-methodology]] in 'web-and-bug-bounty/entities/sqlmap.md'.",
-    "status": "pending",
+    "status": "dismissed",
     "implementation": {
       "type": "patch_note",
       "target": "web-and-bug-bounty/entities/sqlmap.md",
       "section": "## Exploitation Chains & Pivot Vectors",
       "content": "- **Pivot to [[sql-injection-testing-detection-methodology|SQL Injection Testing & Database Exploitation Frameworks: Detection Methodology & Probing]]:** Weaponize vulnerability surface in Sqlmap to trigger [[sql-injection-testing-detection-methodology]]."
-    }
+    },
+    "dismissed_at": "2026-09-29T22:37:45.088806"
   },
   {
     "id": "rec_chain_turbo-intruder_http-request-smuggling-advanced-desync",
