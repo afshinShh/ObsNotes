@@ -5829,3 +5829,8 @@ IsADirectoryError: [Errno 21] Is a directory: '/home/omp/Desktop/RED/Knowledge/O
 127.0.0.1 - - [30/Sep/2026 00:02:48] "GET /api/proposals HTTP/1.1" 200 -
 127.0.0.1 - - [30/Sep/2026 00:02:48] "GET /api/note?path=Review%2F2026-09-29-bug-bounty-recon-and-threat-modeling-proposal.md HTTP/1.1" 200 -
 [*] Creating Git checkpoint: 'checkpoint: pre-apply 2026-09-29-bug-bounty-recon-and-threat-modeling-proposal.md'...
+[+] Checkpoint committed successfully:
+[master be98b71] checkpoint: pre-apply 2026-09-29-bug-bounty-recon-and-threat-modeling-proposal.md
+ 2 files changed, 23 insertions(+), 1 deletion(-)
+[+] Rebuilt /home/omp/Desktop/RED/Knowledge/ObsNotes_clean/wiki/index.md (109 total pages indexed)
+[*] Creating Git checkpoint: 'feat(wiki): apply web-and-bug-bounty/concepts/bug-bounty-recon-and-threat-modeling.md'...

@@ -1,7 +1,7 @@
 # Wiki Index
 
 > Content catalog for the Offensive Security & Bug Bounty LLM Wiki.
-> Last updated: 2026-09-29 | Total pages: 108
+> Last updated: 2026-09-30 | Total pages: 109
 
 ## Domain Clusters Overview
 The knowledge vault is structured into 6 domain clusters with parent-child hierarchy:
@@ -20,6 +20,7 @@ The knowledge vault is structured into 6 domain clusters with parent-child hiera
 - [[app-to-web-auth-transfer]] — Application-to-Web (A2W) and Web-to-Application (W2A) authentication transfer refers to the architectural handoff mec...
 - [[blind-ssrf-gopher-redis-rce]] — Server-Side Request Forgery (SSRF) vulnerabilities supporting the `gopher://` URL scheme allow attackers to send arbi...
 - [[bug-bounty-live-hunts-case-studies]] — <!-- TOC_START -->
+- [[bug-bounty-recon-and-threat-modeling]] — <!-- TOC_START -->
 - [[cross-site-scripting]] — Cross-Site Scripting (XSS) allows attackers to execute arbitrary JavaScript in the context of an end user's browser
 - [[deserialization-attacks]] — Insecure Deserialization occurs when untrusted serialized byte streams are instantiated by applications
 - [[fastcgi-ssrf-exploitation]] — When PHP-FPM listens on an accessible network socket (e.g

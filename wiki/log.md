@@ -294,3 +294,7 @@
 ## [2026-09-29] apply-single | Applied proposal: web-and-bug-bounty/concepts/app-to-web-auth-transfer.md
 - Target: web-and-bug-bounty/concepts/app-to-web-auth-transfer.md
 - Proposal: 2026-09-29-app-to-web-auth-transfer-proposal.md
+
+## [2026-09-30] apply-single | Applied proposal: web-and-bug-bounty/concepts/bug-bounty-recon-and-threat-modeling.md
+- Target: web-and-bug-bounty/concepts/bug-bounty-recon-and-threat-modeling.md
+- Proposal: 2026-09-29-bug-bounty-recon-and-threat-modeling-proposal.md
