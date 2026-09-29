@@ -43,7 +43,11 @@ sources:
 ## Core Concepts & Vulnerability Classes
 
 ### 1. Web Injection Primitives
-- [[sql-injection-testing]] — Union-based, Error-based, Blind Boolean, and Time-based SQLi across MySQL, PostgreSQL, MSSQL, Oracle, and NoSQL injection.
+- [[sql-injection-testing]] — Core SQL injection primitive, root causes, query mechanics, and exploitation lifecycle.
+  - [[sql-injection-testing-detection-methodology]] — Reconnaissance workflows, parameter fuzzing, error-based detection, and blind time-delay inference.
+  - [[sql-injection-testing-exploitation-and-attack-vectors]] — In-band, blind boolean, time-based, out-of-band exfiltration, and WAF bypass techniques.
+  - [[sql-injection-testing-defense-and-remediation]] — Parameterized queries, ORM security controls, stored procedure hardening, and privilege separation.
+  - [[sql-injection-testing-methodologies]] — Database-specific fingerprinting (MySQL, PostgreSQL, MSSQL, Oracle), syntax references, and privilege escalation.
 - [[cross-site-scripting]] — DOM-based sinks, context-aware HTML/attribute/script breakouts, and tag/parentheses WAF bypasses.
 - [[server-side-template-injection]] — Jinja2, Twig, FreeMarker, Pebble template evaluation probes, and Python MRO object sandbox escapes.
 - [[xml-external-entity-injection]] — In-band file retrieval, CDATA wrapping, blind out-of-band (OOB) DTD parameter entity exfiltration, and Billion Laughs DoS.

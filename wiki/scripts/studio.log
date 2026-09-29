@@ -4354,3 +4354,18 @@ TypeError: Object of type date is not JSON serializable
 
 [+] Health Verdict: PERFECT (All green)
 [*] Creating Git checkpoint: 'feat(wiki): decompose 'sql-injection-testing' into 4 child notes'...
+[+] Checkpoint committed successfully:
+[master 5c818bc] feat(wiki): decompose 'sql-injection-testing' into 4 child notes
+ 14 files changed, 2253 insertions(+), 1559 deletions(-)
+ create mode 100644 wiki/web-and-bug-bounty/concepts/http-request-smuggling-advanced-desync.md
+ create mode 100644 wiki/web-and-bug-bounty/concepts/http-request-smuggling-defense-and-remediation.md
+ create mode 100644 wiki/web-and-bug-bounty/concepts/http-request-smuggling-detection-methodology.md
+ create mode 100644 wiki/web-and-bug-bounty/concepts/sql-injection-testing-defense-and-remediation.md
+ create mode 100644 wiki/web-and-bug-bounty/concepts/sql-injection-testing-detection-methodology.md
+ create mode 100644 wiki/web-and-bug-bounty/concepts/sql-injection-testing-exploitation-and-attack-vectors.md
+ create mode 100644 wiki/web-and-bug-bounty/concepts/sql-injection-testing-methodologies.md
+127.0.0.1 - - [29/Sep/2026 22:32:12] "POST /api/note/split HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 22:32:12] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 22:32:12] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 22:32:12] "GET /api/graph HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2026 22:32:12] "GET /api/note?path=web-and-bug-bounty%2Fconcepts%2Fsql-injection-testing.md HTTP/1.1" 200 -
