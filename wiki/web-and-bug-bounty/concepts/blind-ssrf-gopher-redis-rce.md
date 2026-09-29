@@ -18,8 +18,17 @@ cluster: web-and-bug-bounty
 ---
 # Blind SSRF to Redis RCE via Gopher
 
+
+
 ## Overview
 Server-Side Request Forgery (SSRF) vulnerabilities supporting the `gopher://` URL scheme allow attackers to send arbitrary raw TCP data packets to internal network services. When internal Redis instances (default port 6379) are exposed without authentication or protected mode, Gopher payloads can achieve unauthenticated Remote Code Execution (RCE).
+
+> [!warning] Critical Exploitation Impact
+> Exploiting Redis via blind SSRF enables unauthenticated arbitrary file writes (`cron.d`, `.ssh/authorized_keys`, webroot) and direct operating system command execution on internal network hosts.
+
+> [!tip] Gopher Protocol Encoding Tradecraft
+> When delivering Gopher payloads through HTTP GET query parameters or JSON bodies, double URL-encode all CRLF (`%250d%250a`) sequence delimiters to prevent intermediary proxy or web server decoding.
+
 
 ## Version Matrix & Exploitation Techniques
 

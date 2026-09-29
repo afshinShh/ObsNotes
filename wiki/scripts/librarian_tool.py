@@ -724,150 +724,130 @@ def propose_recommendation(rec_dict):
     save_recommendations(recs)
     return rec_dict
 
+GENERIC_IGNORE_TAGS = {
+    "payload", "tool", "bug-bounty", "red-team", "evasion", "triage",
+    "report", "web-security", "development", "rce", "api", "mitigations"
+}
+
 def scan_and_generate_dynamic_recommendations(force_refresh=False):
     """
-    Dynamically audits the vault's live content without any hardcoded note names.
-    Identifies:
-      1. Review backlog proposals
-      2. Pairs of concepts with overlapping tags that lack comparison matrices
-      3. Entities sharing vulnerability tags with concepts that lack explicit attack chain cross-links
-      4. Thematic ingestion batches in unprocessed-obsidians/
-      5. Graph integrity audits
+    Context-aware offensive security recommendation engine.
+    Respects domain clustering boundaries and specific vulnerability primitives.
+    Filters out generic catch-all tags and avoids cross-domain hallucinations.
+    Honors human dismissal states.
     """
     recs = load_recommendations()
     pending = [r for r in recs if r.get("status") == "pending"]
     if pending and not force_refresh:
         return recs
 
+    known_statuses = {r.get("id"): r.get("status") for r in recs}
     new_recs = []
-    
+
     # 1. Review Backlog (if any staged proposals)
     if os.path.exists(REVIEW_DIR):
         proposals = sorted([f for f in os.listdir(REVIEW_DIR) if f.endswith(".md")])
         if proposals:
-            new_recs.append({
-                "id": f"rec_backlog_{datetime.date.today().strftime('%Y%m%d')}",
-                "author": "Thoth (Obsidian Librarian)",
-                "created": datetime.datetime.now().isoformat(),
-                "title": f"Review Backlog: {len(proposals)} Staged Knowledge Proposals Waiting",
-                "category": "Review Prioritization",
-                "priority": "HIGH",
-                "details": f"Thoth has detected {len(proposals)} proposals staged in 'wiki/Review/'. Approving and compiling these will scale the gold knowledge base.",
-                "action": "Compile approved proposals into the Gold wiki and deduplicate.",
-                "status": "pending",
-                "implementation": {
-                    "type": "batch_apply",
-                    "proposals": proposals
-                }
-            })
+            rec_id = f"rec_backlog_{datetime.date.today().strftime('%Y%m%d')}"
+            if known_statuses.get(rec_id) not in ["implemented", "dismissed"]:
+                new_recs.append({
+                    "id": rec_id,
+                    "author": "Thoth (Obsidian Librarian)",
+                    "created": datetime.datetime.now().isoformat(),
+                    "title": f"Review Backlog: {len(proposals)} Staged Knowledge Proposals Waiting",
+                    "category": "Review Prioritization",
+                    "priority": "HIGH",
+                    "details": f"Thoth has detected {len(proposals)} proposals staged in 'wiki/Review/'. Approving and compiling these will scale the gold knowledge base.",
+                    "action": "Compile approved proposals into the Gold wiki and deduplicate.",
+                    "status": "pending",
+                    "implementation": {
+                        "type": "batch_apply",
+                        "proposals": proposals
+                    }
+                })
 
-    # 2. Inspect Concepts dynamically
-    concepts = {}
+    # Load all compiled notes
     notes = get_all_wiki_notes()
     existing_comps = set()
     for slug, n in notes.items():
-        if n["type"] == "concept":
-            raw_tags = n["tags"]
-            tags = set([raw_tags] if isinstance(raw_tags, str) else raw_tags)
-            concepts[slug] = {
-                "title": n["title"],
-                "tags": tags,
-                "links": set(n["links"]),
-                "file": os.path.basename(n["path"]),
-                "slug": slug,
-                "path": n["path"],
-                "cluster": n["cluster"]
-            }
-        elif n["type"] == "comparison":
+        if n["type"] == "comparison":
             existing_comps.add(slug)
 
-    # Dynamic Synthesis Candidates: Find concepts with overlapping tags that lack a comparison note
-    candidates = []
-    slug_list = list(concepts.keys())
-    for i in range(len(slug_list)):
-        for j in range(i + 1, len(slug_list)):
-            s1, s2 = slug_list[i], slug_list[j]
+    concepts = {slug: n for slug, n in notes.items() if n["type"] == "concept"}
+
+    # 2. Context-Aware Synthesis Candidates (Same Domain Cluster & Specific Primitive Overlap Only)
+    c_slugs = sorted(list(concepts.keys()))
+    for i in range(len(c_slugs)):
+        for j in range(i + 1, len(c_slugs)):
+            s1, s2 = c_slugs[i], c_slugs[j]
             c1, c2 = concepts[s1], concepts[s2]
-            shared = c1["tags"] & c2["tags"]
-            meaningful_shared = {t for t in shared if t not in {"bug-bounty", "payload"}}
+            # STRICT DOMAIN BOUNDARY: Only compare within the same domain cluster
+            if c1["cluster"] != c2["cluster"]:
+                continue
+            
+            c1_tags = set([c1["tags"]] if isinstance(c1["tags"], str) else c1["tags"])
+            c2_tags = set([c2["tags"]] if isinstance(c2["tags"], str) else c2["tags"])
+            shared = (c1_tags & c2_tags) - GENERIC_IGNORE_TAGS
+            
             pair1 = f"{s1}-vs-{s2}"
             pair2 = f"{s2}-vs-{s1}"
-            if len(meaningful_shared) >= 1 and pair1 not in existing_comps and pair2 not in existing_comps:
-                candidates.append((len(meaningful_shared), s1, s2, meaningful_shared))
+            if shared and pair1 not in existing_comps and pair2 not in existing_comps:
+                rec_id = f"rec_comp_{s1}_{s2}"
+                if known_statuses.get(rec_id) in ["implemented", "dismissed"]:
+                    continue
+                
+                tags_str = ", ".join(sorted(list(shared)))
+                dom_title = DOMAIN_META.get(c1["cluster"], {}).get("title", c1["cluster"])
+                new_recs.append({
+                    "id": rec_id,
+                    "author": "Thoth (Obsidian Librarian)",
+                    "created": datetime.datetime.now().isoformat(),
+                    "title": f"Synthesis Candidate: {c1['title']} vs {c2['title']}",
+                    "category": f"Knowledge Synthesis ({dom_title})",
+                    "priority": "MEDIUM",
+                    "details": f"Concepts '{c1['title']}' and '{c2['title']}' both belong to {dom_title} and share specific primitive '{tags_str}'. A side-by-side comparison matrix deepens architectural clarity.",
+                    "action": f"Compile comparison note 'comparisons/{pair1}.md' and link both concepts.",
+                    "status": "pending",
+                    "implementation": {
+                        "type": "create_note",
+                        "target": f"{c1['cluster']}/comparisons/{pair1}.md",
+                        "content": f"---\ntitle: {c1['title']} vs {c2['title']}\ncreated: {datetime.date.today().isoformat()}\nupdated: {datetime.date.today().isoformat()}\ntype: comparison\nparent: \"[[{c1['cluster']}]]\"\ncluster: {c1['cluster']}\ntags:\n" + "\n".join(f"  - {t}" for t in sorted(list(c1_tags | c2_tags))) + f"\nsources:\n  - {c1['cluster']}/concepts/{c1['slug']}.md\n  - {c2['cluster']}/concepts/{c2['slug']}.md\n---\n\n# {c1['title']} vs {c2['title']}\n\n## Comparative Analysis\nTechnical trade-off evaluation comparing [[{s1}|{c1['title']}]] and [[{s2}|{c2['title']}]] within the domain of **{tags_str}**.\n\n## Vector Comparison Matrix\n\n| Dimension | [[{s1}|{c1['title']}]] | [[{s2}|{c2['title']}]] |\n| :--- | :--- | :--- |\n| **Mechanisms** | Primary vulnerability primitive | Alternative execution vector |\n| **Classification** | `{tags_str}` | `{tags_str}` |\n| **Operational Impact** | Critical exploitation surface | Critical exploitation surface |\n\n## Interlinked Concepts\n- [[{s1}]]\n- [[{s2}]]\n",
+                        "backlinks": [c1["path"], c2["path"], f"{c1['cluster']}/{c1['cluster']}.md"]
+                    }
+                })
 
-    candidates.sort(key=lambda x: x[0], reverse=True)
-    for score, s1, s2, shared in candidates[:3]:
-        c1, c2 = concepts[s1], concepts[s2]
-        comp_slug = f"{s1}-vs-{s2}"
-        tags_str = ", ".join(sorted(list(shared)))
-        tags_yaml = "\n".join(f"  - {t}" for t in sorted(list(c1['tags'] | c2['tags'])))
-        draft_content = f"""---
-title: {c1['title']} vs {c2['title']}
-created: {datetime.date.today().isoformat()}
-updated: {datetime.date.today().isoformat()}
-type: comparison
-tags:
-{tags_yaml}
-sources:
-  - concepts/{c1['file']}
-  - concepts/{c2['file']}
----
-
-# {c1['title']} vs {c2['title']}
-
-## Comparative Analysis
-Technical trade-off evaluation comparing [[{s1}|{c1['title']}]] and [[{s2}|{c2['title']}]] within the domain of **{tags_str}**.
-
-## Vector Comparison Matrix
-
-| Dimension | [[{s1}|{c1['title']}]] | [[{s2}|{c2['title']}]] |
-| :--- | :--- | :--- |
-| **Mechanisms** | Primary vulnerability primitive | Alternative execution vector |
-| **Classification** | `{tags_str}` | `{tags_str}` |
-| **Operational Impact** | Critical exploitation surface | Critical exploitation surface |
-
-## Interlinked Concepts
-- [[{s1}]]
-- [[{s2}]]
-"""
-        new_recs.append({
-            "id": f"rec_comp_{s1}_{s2}",
-            "author": "Thoth (Obsidian Librarian)",
-            "created": datetime.datetime.now().isoformat(),
-            "title": f"Synthesis Candidate: {c1['title']} vs {c2['title']}",
-            "category": "Knowledge Synthesis",
-            "priority": "MEDIUM",
-            "details": f"Concepts '{c1['title']}' and '{c2['title']}' both target '{tags_str}'. Synthesizing a comparison note will deepen technical trade-offs in the knowledge base.",
-            "action": f"Compile comparison note 'comparisons/{comp_slug}.md' and link both concepts.",
-            "status": "pending",
-            "implementation": {
-                "type": "create_note",
-                "target": f"comparisons/{comp_slug}.md",
-                "content": draft_content,
-                "backlinks": [f"concepts/{c1['file']}", f"concepts/{c2['file']}"]
-            }
-        })
-
-    # 3. Dynamic Attack Chains: Entities mentioning or sharing tags with Concepts
-    for e_slug, n in notes.items():
+    # 3. Context-Aware Dynamic Attack Chains (Entity -> Concept within same cluster & specific primitive)
+    for e_slug, n in sorted(notes.items()):
         if n["type"] == "entity":
-            ef = os.path.basename(n["path"])
             e_title = n["title"]
             e_raw_tags = n["tags"]
             e_tags = set([e_raw_tags] if isinstance(e_raw_tags, str) else e_raw_tags)
+            specific_e = e_tags - GENERIC_IGNORE_TAGS
+            e_cluster = n["cluster"]
             e_txt = n["body"]
-            
-            for c_slug, c_info in concepts.items():
-                if c_info["tags"] & e_tags:
+
+            for c_slug, c_info in sorted(concepts.items()):
+                # STRICT DOMAIN BOUNDARY: Entities only chain into concepts in the same domain cluster
+                if c_info["cluster"] != e_cluster:
+                    continue
+
+                c_tags = set([c_info["tags"]] if isinstance(c_info["tags"], str) else c_info["tags"])
+                shared_prim = (specific_e & c_tags)
+                if shared_prim:
                     if f"[[{c_slug}]]" not in e_txt and f"[[{c_slug}|" not in e_txt:
+                        rec_id = f"rec_chain_{e_slug}_{c_slug}"
+                        if known_statuses.get(rec_id) in ["implemented", "dismissed"]:
+                            continue
+                        
+                        tags_str = ", ".join(sorted(list(shared_prim)))
                         new_recs.append({
-                            "id": f"rec_chain_{e_slug}_{c_slug}",
+                            "id": rec_id,
                             "author": "Thoth (Obsidian Librarian)",
                             "created": datetime.datetime.now().isoformat(),
                             "title": f"Exploitation Attack Chain: {e_title} to {c_info['title']}",
                             "category": "Attack Chain Discovery",
                             "priority": "HIGH",
-                            "details": f"Entity '{e_title}' shares security classification with [[{c_slug}|{c_info['title']}]], but lacks an explicit cross-link in its exploitation section.",
+                            "details": f"Entity '{e_title}' weaponizes the specific primitive '{tags_str}' covered in [[{c_slug}|{c_info['title']}]], but currently lacks a direct pivot link.",
                             "action": f"Cross-link [[{c_slug}]] in '{n['path']}'.",
                             "status": "pending",
                             "implementation": {
@@ -879,26 +859,28 @@ Technical trade-off evaluation comparing [[{s1}|{c1['title']}]] and [[{s2}|{c2['
                         })
                         break
 
-    # 4. Dynamic Ingestion Batches
+    # 4. Thematic Ingestion Batches
     if os.path.exists(UNPROC_DIR):
         unproc = sorted([f for f in os.listdir(UNPROC_DIR) if f.endswith(".md")])
         if unproc:
-            new_recs.append({
-                "id": f"rec_unproc_{datetime.date.today().strftime('%Y%m%d')}",
-                "author": "Thoth (Obsidian Librarian)",
-                "created": datetime.datetime.now().isoformat(),
-                "title": f"Thematic Ingestion Strategy: {len(unproc)} Raw Notes in Queue",
-                "category": "Vault Enrichment",
-                "priority": "LOW",
-                "details": f"There are {len(unproc)} raw primary notes waiting in 'unprocessed-obsidians/'. Ingesting them into the Silver layer in batches will expand the knowledge graph.",
-                "action": f"Stage next cluster ({', '.join(unproc[:4])}) into wiki/Review/.",
-                "status": "pending",
-                "implementation": {
-                    "type": "lint_and_reindex"
-                }
-            })
+            rec_id = f"rec_unproc_{datetime.date.today().strftime('%Y%m%d')}"
+            if known_statuses.get(rec_id) not in ["implemented", "dismissed"]:
+                new_recs.append({
+                    "id": rec_id,
+                    "author": "Thoth (Obsidian Librarian)",
+                    "created": datetime.datetime.now().isoformat(),
+                    "title": f"Thematic Ingestion Strategy: {len(unproc)} Raw Notes in Queue",
+                    "category": "Vault Enrichment",
+                    "priority": "LOW",
+                    "details": f"There are {len(unproc)} raw primary notes waiting in 'unprocessed-obsidians/'. Ingesting them into the Silver layer in batches will expand the knowledge graph.",
+                    "action": f"Stage next cluster ({', '.join(unproc[:4])}) into wiki/Review/.",
+                    "status": "pending",
+                    "implementation": {
+                        "type": "lint_and_reindex"
+                    }
+                })
 
-    # Merge with existing implemented recs so history is preserved
+    # Merge while preserving existing statuses
     existing_by_id = {r.get("id"): r for r in recs}
     for nr in new_recs:
         if nr["id"] not in existing_by_id:
@@ -906,6 +888,40 @@ Technical trade-off evaluation comparing [[{s1}|{c1['title']}]] and [[{s2}|{c2['
 
     save_recommendations(recs)
     return recs
+
+
+def dismiss_recommendation(rec_id):
+    """Marks a recommendation as dismissed so it is no longer proposed or displayed."""
+    recs = load_recommendations()
+    target_rec = None
+    for r in recs:
+        if r.get("id") == rec_id:
+            target_rec = r
+            break
+    if not target_rec:
+        return {"success": False, "message": f"Recommendation ID '{rec_id}' not found."}
+    target_rec["status"] = "dismissed"
+    target_rec["dismissed_at"] = datetime.datetime.now().isoformat()
+    save_recommendations(recs)
+    return {"success": True, "message": f"Dismissed recommendation '{target_rec.get('title')}'."}
+
+
+def restore_recommendation(rec_id):
+    """Restores a previously dismissed recommendation to pending status."""
+    recs = load_recommendations()
+    target_rec = None
+    for r in recs:
+        if r.get("id") == rec_id:
+            target_rec = r
+            break
+    if not target_rec:
+        return {"success": False, "message": f"Recommendation ID '{rec_id}' not found."}
+    target_rec["status"] = "pending"
+    if "dismissed_at" in target_rec:
+        del target_rec["dismissed_at"]
+    save_recommendations(recs)
+    return {"success": True, "message": f"Restored recommendation '{target_rec.get('title')}' to active recommendations."}
+
 
 def get_recommendations_list(force_refresh=False):
     """Returns active and dynamic recommendations proposed by Thoth."""
@@ -1706,6 +1722,24 @@ class StudioHandler(BaseHTTPRequestHandler):
         if url.path == "/api/recommendations/implement":
             rec_id = req_data.get("id")
             res = implement_recommendation(rec_id)
+            self.send_response(200 if res.get("success") else 400)
+            self.send_header("Content-Type", "application/json")
+            self.end_headers()
+            self.wfile.write(json.dumps(res).encode("utf-8"))
+            return
+
+        if url.path == "/api/recommendations/dismiss":
+            rec_id = req_data.get("id")
+            res = dismiss_recommendation(rec_id)
+            self.send_response(200 if res.get("success") else 400)
+            self.send_header("Content-Type", "application/json")
+            self.end_headers()
+            self.wfile.write(json.dumps(res).encode("utf-8"))
+            return
+
+        if url.path == "/api/recommendations/restore":
+            rec_id = req_data.get("id")
+            res = restore_recommendation(rec_id)
             self.send_response(200 if res.get("success") else 400)
             self.send_header("Content-Type", "application/json")
             self.end_headers()

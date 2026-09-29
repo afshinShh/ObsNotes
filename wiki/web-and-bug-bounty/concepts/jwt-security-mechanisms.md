@@ -17,6 +17,42 @@ cluster: web-and-bug-bounty
 ---
 # JSON Web Token (JWT) Architecture & Cryptographic Verification
 
+
+<!-- TOC_START -->
+## Table of Contents
+- [Overview](#overview)
+- [Cryptographic & Architectural Mechanics](#cryptographic-architectural-mechanics)
+- [Shortcut](#shortcut)
+  - [Mis-Configurations](#mis-configurations)
+  - [Read Sensitive Information](#read-sensitive-information)
+  - [Header Injection](#header-injection)
+  - [Same Origin Policy](#same-origin-policy)
+- [Mechanisms](#mechanisms)
+- [Hunt](#hunt)
+  - [Identify JWT Usage](#identify-jwt-usage)
+  - [Inspect Token Structure](#inspect-token-structure)
+  - [Testing for Vulnerabilities](#testing-for-vulnerabilities)
+- [Vulnerabilities](#vulnerabilities)
+  - [Algorithm Vulnerabilities](#algorithm-vulnerabilities)
+  - [Signature Vulnerabilities](#signature-vulnerabilities)
+  - [Implementation Issues](#implementation-issues)
+  - [Header Injection Attacks](#header-injection-attacks)
+  - [Information Disclosure](#information-disclosure)
+- [Additional Attack Vectors](#additional-attack-vectors)
+  - [Mobile App JWT Storage](#mobile-app-jwt-storage)
+  - [JWT Confusion Attacks](#jwt-confusion-attacks)
+  - [Timing Attacks on HMAC](#timing-attacks-on-hmac)
+  - [JWT in URL Parameters](#jwt-in-url-parameters)
+- [ETC](#etc)
+- [Methodologies](#methodologies)
+  - [Tools](#tools)
+  - [Manual Testing Steps](#manual-testing-steps)
+  - [Automated Testing with JWT_Tool](#automated-testing-with-jwt_tool)
+- [Remediation Recommendations](#remediation-recommendations)
+- [Primary Sources & Provenance](#primary-sources-provenance)
+- [Related Concepts & Entities](#related-concepts-entities)
+<!-- TOC_END -->
+
 ## Overview
 JSON Web Tokens (JWT) defined in RFC 7519 provide compact, URL-safe means of representing claims between two parties. This reference documents token structure, header parameters, payload claims, signature verification semantics, and cryptographic algorithm choices.
 

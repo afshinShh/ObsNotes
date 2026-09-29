@@ -435,6 +435,163 @@
       transform: translateY(0);
     }
 
+  
+    /* Obsidian Callouts & Admonitions */
+    .obsidian-callout {
+      margin: 16px 0;
+      padding: 12px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--callout-color, var(--accent));
+      background: var(--callout-bg, rgba(28, 28, 42, 0.6));
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.25);
+    }
+    .callout-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 0.88rem;
+      color: var(--callout-color, #fff);
+      margin-bottom: 6px;
+      user-select: none;
+    }
+    .callout-icon {
+      font-size: 1.05rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .callout-content {
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: var(--text);
+    }
+    .callout-content p {
+      margin-bottom: 8px;
+    }
+    .callout-content p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Obsidian Callout Color Themes */
+    .callout-note, .callout-info, .callout-todo {
+      --callout-color: #40c4ff;
+      --callout-bg: rgba(64, 196, 255, 0.08);
+      border-color: rgba(64, 196, 255, 0.25);
+    }
+    .callout-tip, .callout-hint, .callout-important {
+      --callout-color: #00e5ff;
+      --callout-bg: rgba(0, 229, 255, 0.08);
+      border-color: rgba(0, 229, 255, 0.25);
+    }
+    .callout-success, .callout-check, .callout-done {
+      --callout-color: #00e676;
+      --callout-bg: rgba(0, 230, 118, 0.08);
+      border-color: rgba(0, 230, 118, 0.25);
+    }
+    .callout-question, .callout-help, .callout-faq {
+      --callout-color: #ffd600;
+      --callout-bg: rgba(255, 214, 0, 0.08);
+      border-color: rgba(255, 214, 0, 0.25);
+    }
+    .callout-warning, .callout-caution, .callout-attention {
+      --callout-color: #ff9100;
+      --callout-bg: rgba(255, 145, 0, 0.08);
+      border-color: rgba(255, 145, 0, 0.25);
+    }
+    .callout-failure, .callout-fail, .callout-missing, .callout-danger, .callout-error, .callout-bug {
+      --callout-color: #ff5252;
+      --callout-bg: rgba(255, 82, 82, 0.08);
+      border-color: rgba(255, 82, 82, 0.25);
+    }
+    .callout-example {
+      --callout-color: #b388ff;
+      --callout-bg: rgba(179, 136, 255, 0.08);
+      border-color: rgba(179, 136, 255, 0.25);
+    }
+    .callout-quote, .callout-cite {
+      --callout-color: #9e9e9e;
+      --callout-bg: rgba(158, 158, 158, 0.08);
+      border-color: rgba(158, 158, 158, 0.25);
+    }
+
+    /* Modern Beautified Obsidian Links */
+    .markdown-body a {
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.08);
+      border: 1px solid rgba(56, 189, 248, 0.22);
+      border-radius: 4px;
+      padding: 1px 6px;
+      text-decoration: none;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      transition: all 0.15s ease;
+      word-break: break-all;
+    }
+    .markdown-body a:hover {
+      color: #ffffff;
+      background: rgba(56, 189, 248, 0.22);
+      border-color: #38bdf8;
+      box-shadow: 0 2px 8px rgba(56, 189, 248, 0.25);
+      transform: translateY(-1px);
+    }
+    .markdown-body a[href^="http"]:after {
+      content: "↗";
+      font-size: 0.72rem;
+      opacity: 0.8;
+      margin-left: 1px;
+    }
+    .markdown-body a.wikilink {
+      color: #b388ff !important;
+      background: rgba(124, 77, 255, 0.12) !important;
+      border: 1px solid rgba(124, 77, 255, 0.28) !important;
+      border-radius: 4px;
+      padding: 1px 7px;
+      font-family: inherit;
+      font-size: 0.88em;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.15s ease;
+    }
+    .markdown-body a.wikilink:before {
+      content: "📄";
+      font-size: 0.72rem;
+      opacity: 0.85;
+    }
+    .markdown-body a.wikilink:hover {
+      background: rgba(124, 77, 255, 0.25) !important;
+      border-color: #b388ff !important;
+      color: #ffffff !important;
+      box-shadow: 0 2px 10px rgba(124, 77, 255, 0.35);
+      transform: translateY(-1px);
+    }
+    /* Keep TOC anchor links smooth, inline and unboxed */
+    .note-toc-body a {
+      background: transparent !important;
+      border: none !important;
+      padding: 0 !important;
+      color: #cbd5e1 !important;
+      display: inline !important;
+      font-weight: 500;
+    }
+    .note-toc-body a:after {
+      content: none !important;
+    }
+    .note-toc-body a:hover {
+      color: #00e5ff !important;
+      background: transparent !important;
+      box-shadow: none !important;
+      transform: none !important;
+      text-decoration: underline !important;
+    }
+
   </style>
 </head>
 <body>
@@ -1737,13 +1894,36 @@
               <div style="display:flex; gap:8px; align-items:center;">
                 <span style="font-size:0.72rem; color:var(--muted);">${escapeHtml(r.category || '')}</span>
                 <span class="badge badge-${(r.priority || 'low').toLowerCase()}">${r.priority}</span>
-                ${r.id ? `<button class="btn-approve" onclick="implementRecommendation('${escapeHtml(r.id)}')">✓ Approve & Implement</button>` : ''}
+                ${r.id ? `
+                  <button class="btn-reject" style="background:rgba(255,82,82,0.15); border:1px solid rgba(255,82,82,0.35); color:#ff8a80; padding:4px 8px;" onclick="dismissRecommendation('${escapeHtml(r.id)}')">✕ Dismiss</button>
+                  <button class="btn-approve" onclick="implementRecommendation('${escapeHtml(r.id)}')">✓ Approve & Implement</button>
+                ` : ''}
               </div>
             </div>
             <p style="font-size:0.83rem; color:var(--text); line-height:1.45; margin-bottom:8px;">${escapeHtml(r.details)}</p>
             <div style="font-size:0.78rem; color:var(--purple); font-weight:500;">👉 ${escapeHtml(r.action)}</div>
           </div>
         `).join('');
+      }
+
+      const dismissedRecs = allRecs.filter(r => r.status === 'dismissed');
+      if (dismissedRecs.length > 0) {
+        list.innerHTML += `
+          <div style="margin-top:24px; border-top:1px solid var(--border); padding-top:14px;">
+            <div style="font-size:0.82rem; color:var(--muted); text-transform:uppercase; margin-bottom:10px; font-weight:600; letter-spacing:0.5px;">
+              ✕ Dismissed Recommendations (${dismissedRecs.length})
+            </div>
+            ${dismissedRecs.slice(0, 10).map(r => `
+              <div style="background:rgba(255,255,255,0.015); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:10px 14px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                  <strong style="color:var(--muted); font-size:0.88rem;">${escapeHtml(r.title)}</strong>
+                  <div style="font-size:0.75rem; color:var(--muted); margin-top:2px;">${escapeHtml(r.details)}</div>
+                </div>
+                <button class="btn btn-secondary btn-sm" onclick="restoreRecommendation('${escapeHtml(r.id)}')">↺ Restore</button>
+              </div>
+            `).join('')}
+          </div>
+        `;
       }
 
       if (implementedRecs.length > 0) {
@@ -1763,6 +1943,47 @@
             `).join('')}
           </div>
         `;
+      }
+    }
+
+        async function dismissRecommendation(recId) {
+      if (!confirm("Dismiss and decline this recommendation? Thoth will not propose it again.")) return;
+      showToast('⏳ Dismissing recommendation...');
+      try {
+        const res = await fetch('/api/recommendations/dismiss', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ id: recId })
+        });
+        const data = await res.json();
+        if (data.success) {
+          showToast(`✓ Dismissed recommendation`);
+          await loadRecommendations();
+        } else {
+          showToast(`✕ Error dismissing: ${data.message}`, true);
+        }
+      } catch(e) {
+        showToast('✕ Network error while dismissing', true);
+      }
+    }
+
+    async function restoreRecommendation(recId) {
+      showToast('⏳ Restoring recommendation...');
+      try {
+        const res = await fetch('/api/recommendations/restore', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ id: recId })
+        });
+        const data = await res.json();
+        if (data.success) {
+          showToast(`✓ Restored recommendation to active queue`);
+          await loadRecommendations();
+        } else {
+          showToast(`✕ Error restoring: ${data.message}`, true);
+        }
+      } catch(e) {
+        showToast('✕ Network error while restoring', true);
       }
     }
 
@@ -1849,6 +2070,45 @@
       const renderer = new marked.Renderer();
 
       // Custom Heading Renderer for Dynamic TOC Anchor Jumps
+            // Custom Blockquote Renderer supporting Obsidian Callouts & Admonitions
+      const CALLOUT_ICONS = {
+        note: "ℹ️", info: "ℹ️", todo: "📋",
+        tip: "💡", hint: "💡", important: "💎",
+        success: "✅", check: "✅", done: "✅",
+        question: "❓", help: "❓", faq: "❓",
+        warning: "⚠️", caution: "⚠️", attention: "⚠️",
+        failure: "❌", fail: "❌", missing: "❌",
+        danger: "🚨", error: "⛔", bug: "🪲",
+        example: "📌", quote: "💬", cite: "💬"
+      };
+
+      renderer.blockquote = function(token) {
+        const text = (typeof token === 'object' && token.text !== undefined) ? token.text : (token || '');
+        const lines = text.split('\n');
+        const firstLine = lines[0].trim();
+        const m = firstLine.match(/^\[!([a-zA-Z_-]+)\](?:\+|-)?(?:[ \t]+([^\n]*))?$/);
+        if (m) {
+          const rawType = m[1].toLowerCase();
+          const customTitle = (m[2] || '').trim();
+          const bodyText = lines.slice(1).join('\n').trim();
+          const icon = CALLOUT_ICONS[rawType] || "📌";
+          const titleText = customTitle || (rawType.charAt(0).toUpperCase() + rawType.slice(1));
+          const parsedBody = bodyText ? (window.marked && window.marked.parse ? marked.parse(bodyText) : escapeHtml(bodyText)) : '';
+          return `
+            <div class="obsidian-callout callout-${rawType}" data-callout="${rawType}">
+              <div class="callout-title">
+                <span class="callout-icon">${icon}</span>
+                <span class="callout-title-text">${escapeHtml(titleText)}</span>
+              </div>
+              <div class="callout-content">
+                ${parsedBody}
+              </div>
+            </div>
+          `;
+        }
+        return `<blockquote>${marked.parse(text)}</blockquote>`;
+      };
+
       renderer.heading = function(arg1, level) {
         const text = (typeof arg1 === 'object' && arg1.text !== undefined) ? arg1.text : arg1;
         const hLevel = (typeof arg1 === 'object' && arg1.depth !== undefined) ? arg1.depth : level;

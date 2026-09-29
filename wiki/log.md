@@ -264,3 +264,29 @@
   - Broken Links: 0
   - Orphan Pages: 0
   - Health Verdict: PERFECT (All green)
+
+## [2026-09-25] feat | Obsidian Callouts, Link Beautification & Context-Aware Recommendation Engine
+- Implemented full Obsidian Callout / Admonition parser (`[!note]`, `[!warning]`, `[!danger]`, `[!tip]`, `[!bug]`, `[!info]`, `[!success]`, `[!example]`, `[!quote]`):
+  - Custom `renderer.blockquote` in `marked.js` detects callout syntax and renders native Obsidian-themed containers with colored left accent borders, custom icons (⚠️, 💡, 🚨, ℹ️, 🪲, 📌, ✅), and styled title headers.
+- Beautified all markdown hyperlinks:
+  - Eliminated legacy default browser blue underlined hyperlinks.
+  - Formatted external links (`[text](url)`) as modern, dark-slate cyan pill chips (`#38bdf8`) with external link indicator arrows (`↗`).
+  - Formatted internal wikilinks (`[[slug]]`) as elegant purple pill badges with document icons (`📄`).
+  - Preserved clean, unboxed typography for Table of Contents anchor links.
+- Overhauled Recommendation Engine (`librarian_tool.py`):
+  - Root Cause Diagnosis: Naive tag matching matched generic catch-all tags (`payload`, `red-team`, `rce`, `tool`) across unrelated domains, proposing absurd attack chains (e.g., Java web deserializer `ysoserial` to kernel/binary `exploit-development`).
+  - Enforced strict domain cluster affinity: entities and concepts must belong to the same offensive domain cluster.
+  - Filtered out all generic tags (`payload`, `red-team`, `rce`, `tool`, `evasion`, `triage`, `report`, `web-security`, `development`, `api`).
+  - Primitive-specific matching: only links genuine vulnerability primitives (`sqli`, `ssti`, `ssrf`, `deserialization`, `fuzzing`, `shellcode`, `rop`, `edr`, `jwt`, `oauth`).
+  - Purged 20 legacy absurd recommendations from `recommendations.json`.
+- Implemented Recommendation Dismissal & Rejection Workflow:
+  - Added `✕ Dismiss` button to every active recommendation card in Decision Studio.
+  - Added backend endpoints: `POST /api/recommendations/dismiss` and `POST /api/recommendations/restore`.
+  - Saved `status: "dismissed"` in `recommendations.json` so rejected proposals are permanently remembered and never re-proposed.
+  - Added collapsible Dismissed Recommendations drawer in Studio UI with `↺ Restore` capability.
+- Verification Diagnostics (`librarian lint`):
+  - Total Scanned Pages: 95
+  - Total Verified Links: 509
+  - Broken Links: 0
+  - Orphan Pages: 0
+  - Health Verdict: PERFECT (All green)
