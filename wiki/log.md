@@ -290,3 +290,7 @@
   - Broken Links: 0
   - Orphan Pages: 0
   - Health Verdict: PERFECT (All green)
+
+## [2026-09-29] apply-single | Applied proposal: web-and-bug-bounty/concepts/app-to-web-auth-transfer.md
+- Target: web-and-bug-bounty/concepts/app-to-web-auth-transfer.md
+- Proposal: 2026-09-29-app-to-web-auth-transfer-proposal.md

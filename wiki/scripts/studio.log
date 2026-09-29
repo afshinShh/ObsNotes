@@ -5314,3 +5314,17 @@ IsADirectoryError: [Errno 21] Is a directory: '/home/omp/Desktop/RED/Knowledge/O
 127.0.0.1 - - [29/Sep/2026 22:51:13] "GET /api/proposals HTTP/1.1" 200 -
 127.0.0.1 - - [29/Sep/2026 22:51:13] "GET /api/note?path=Review%2F2026-09-29-app-to-web-auth-transfer-proposal.md HTTP/1.1" 200 -
 [*] Creating Git checkpoint: 'checkpoint: pre-apply 2026-09-29-app-to-web-auth-transfer-proposal.md'...
+[+] Checkpoint committed successfully:
+[master 06a438b] checkpoint: pre-apply 2026-09-29-app-to-web-auth-transfer-proposal.md
+ 10 files changed, 1644 insertions(+)
+ create mode 100644 wiki/Review/2026-09-29-app-to-web-auth-transfer-proposal.md
+ create mode 100644 wiki/Review/2026-09-29-bug-bounty-recon-and-threat-modeling-proposal.md
+ create mode 100644 wiki/Review/2026-09-29-client-side-path-traversal-proposal.md
+ create mode 100644 wiki/Review/2026-09-29-cspt-vs-path-traversal-proposal.md
+ create mode 100644 wiki/Review/2026-09-29-dom-debugging-and-sink-analysis-proposal.md
+ create mode 100644 wiki/Review/2026-09-29-recollapse-proposal.md
+ create mode 100644 wiki/Review/2026-09-29-source-narroto-guts-hunt-live-hunts-proposal.md
+ create mode 100644 wiki/Review/2026-09-29-source-narroto-guts-hunt-structures-proposal.md
+ create mode 100644 wiki/Review/2026-09-29-source-narroto-guts-hunt-tips-and-tricks-proposal.md
+[+] Rebuilt /home/omp/Desktop/RED/Knowledge/ObsNotes_clean/wiki/index.md (103 total pages indexed)
+[*] Creating Git checkpoint: 'feat(wiki): apply web-and-bug-bounty/concepts/app-to-web-auth-transfer.md'...
