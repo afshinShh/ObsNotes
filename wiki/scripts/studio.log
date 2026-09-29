@@ -5807,3 +5807,25 @@ IsADirectoryError: [Errno 21] Is a directory: '/home/omp/Desktop/RED/Knowledge/O
 127.0.0.1 - - [30/Sep/2026 00:02:35] "GET /api/note?path=Review%2F2026-09-29-client-side-path-traversal-proposal.md HTTP/1.1" 200 -
 === Applying Approved Proposals ===
 [*] Creating Git checkpoint: 'checkpoint: pre-apply proposals snapshot'...
+[+] Checkpoint committed successfully:
+[master 02e939c] checkpoint: pre-apply proposals snapshot
+ 1 file changed, 12 insertions(+)
+[*] Skipping 2026-09-29-source-narroto-guts-hunt-live-hunts-proposal.md (decision: pending)
+[*] Skipping 2026-09-29-source-narroto-guts-hunt-structures-proposal.md (decision: pending)
+[*] Skipping 2026-09-29-source-narroto-guts-hunt-tips-and-tricks-proposal.md (decision: pending)
+[*] Skipping 2026-09-29-mobile-pentest-traffic-capture-and-deep-links-proposal.md (decision: pending)
+[*] Skipping 2026-09-29-client-side-path-traversal-proposal.md (decision: pending)
+[*] Skipping 2026-09-29-dom-debugging-and-sink-analysis-proposal.md (decision: pending)
+[*] Skipping 2026-09-29-bug-bounty-recon-and-threat-modeling-proposal.md (decision: pending)
+[*] Skipping 2026-09-29-recollapse-proposal.md (decision: pending)
+[*] No approved proposals found to apply.
+127.0.0.1 - - [30/Sep/2026 00:02:42] "POST /api/apply HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:02:43] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:02:43] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:02:44] "GET /api/note?path=Review%2F2026-09-29-dom-debugging-and-sink-analysis-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:02:46] "GET /api/note?path=Review%2F2026-09-29-bug-bounty-recon-and-threat-modeling-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:02:47] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:02:48] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:02:48] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:02:48] "GET /api/note?path=Review%2F2026-09-29-bug-bounty-recon-and-threat-modeling-proposal.md HTTP/1.1" 200 -
+[*] Creating Git checkpoint: 'checkpoint: pre-apply 2026-09-29-bug-bounty-recon-and-threat-modeling-proposal.md'...

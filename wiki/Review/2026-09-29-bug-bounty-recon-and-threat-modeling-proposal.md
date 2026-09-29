@@ -1,7 +1,7 @@
 ---
 type: llm-wiki-review
 status: needs-review
-decision: pending
+decision: approve
 revision: 2
 operation: create
 target: web-and-bug-bounty/concepts/bug-bounty-recon-and-threat-modeling.md
