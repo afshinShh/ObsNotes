@@ -1,24 +1,4 @@
 ---
-type: llm-wiki-review
-status: needs-review
-decision: pending
-revision: 2
-operation: create
-target: web-and-bug-bounty/concepts/client-side-path-traversal.md
-sources:
-  - Notes/Narroto-Guts Hunt/Live Hunts.md
-  - Notes/Narroto-Guts Hunt/Tips and Tricks.md
-  - Notes/Request Manipulation.md
----
-
-# Proposed Wiki change
-
-## What will change
-Comprehensively enrich CSPT concept note with WAF bypass depth formulas, 8-framework decoding matrix, XSS escalation sinks, safe sources, server-side SSRF sinks, and exploitation chains.
-
-## Proposed content
-```markdown
----
 title: "Client-Side Path Traversal (CSPT) & Client Routing Redirection"
 created: 2026-09-29
 updated: 2026-09-29
@@ -40,7 +20,27 @@ contradictions: []
 ---
 # Client-Side Path Traversal (CSPT) & Client Routing Redirection
 
+
+
 <!-- TOC_START -->
+## Table of Contents
+- [Overview](#overview)
+- [Input Sources: Query vs. Path Parameters](#input-sources-query-vs-path-parameters)
+- [WAF Bypass Methodology for Path Traversal](#waf-bypass-methodology-for-path-traversal)
+  - [Bypass Scenarios:](#bypass-scenarios)
+- [CSPT Across Every Major Frontend Framework](#cspt-across-every-major-frontend-framework)
+  - [1. Path Parameter Decoding (`%2F` & `%2E%2E`)](#1-path-parameter-decoding-2f-2e2e)
+  - [2. Query Parameters (Decoded Everywhere)](#2-query-parameters-decoded-everywhere)
+  - [3. XSS Escalation Sinks by Framework](#3-xss-escalation-sinks-by-framework)
+  - [4. Safe Sources (Resistant to CSPT)](#4-safe-sources-resistant-to-cspt)
+  - [5. Server-Side Secondary Traversal Sinks (SSRF Escalation)](#5-server-side-secondary-traversal-sinks-ssrf-escalation)
+- [Exploitation Chains & Attack Scenarios](#exploitation-chains-attack-scenarios)
+  - [1. CSPT -> Open Redirect -> XSS](#1-cspt-open-redirect-xss)
+  - [2. CSPT -> JSONP / Endpoint Redirection -> XSS](#2-cspt-jsonp-endpoint-redirection-xss)
+  - [3. CSPT -> CSRF Rescue / hDOM Request Hijacking](#3-cspt-csrf-rescue-hdom-request-hijacking)
+  - [4. Non-Happy Path Extension Scheme Traversal](#4-non-happy-path-extension-scheme-traversal)
+- [Remediation Checklist](#remediation-checklist)
+- [Related Pages](#related-pages)
 <!-- TOC_END -->
 
 ## Overview
@@ -187,10 +187,3 @@ if (url.startsWith("chrome-extension://" + EXT_ID)) {
 - [[dom-debugging-and-sink-analysis]]
 - [[account-takeover-and-auth-flaws]]
 - [[bug-bounty-live-hunts-case-studies]]
-```
-
-## Evidence and uncertainty
-Documented from canonical notes in Notes/Narroto-Guts Hunt/ (Live Hunts, Structures, Tips and Tricks) and Notes/Request Manipulation.md.
-
-## Human feedback
-Optionally explain or edit what should change.

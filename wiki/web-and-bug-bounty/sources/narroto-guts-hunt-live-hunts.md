@@ -1,22 +1,4 @@
 ---
-type: llm-wiki-review
-status: needs-review
-decision: pending
-revision: 1
-operation: create
-target: web-and-bug-bounty/sources/narroto-guts-hunt-live-hunts.md
-sources:
-  - Notes/Narroto-Guts Hunt/Live Hunts.md
----
-
-# Proposed Wiki change
-
-## What will change
-Compile comprehensive provenance source anchor for Live Hunts case studies note from Notes/Narroto-Guts Hunt/.
-
-## Proposed content
-```markdown
----
 title: "Source Note - Narroto-Guts Hunt: Live Hunts Case Studies"
 created: 2026-09-29
 updated: 2026-09-29
@@ -50,6 +32,16 @@ cluster: web-and-bug-bounty
 
 ---
 
+
+<!-- TOC_START -->
+## Table of Contents
+- [Compiled Wiki Layers](#compiled-wiki-layers)
+  - [Concepts](#concepts)
+  - [Comparisons](#comparisons)
+- [Source Content Topic Breakdown](#source-content-topic-breakdown)
+- [Related Pages](#related-pages)
+<!-- TOC_END -->
+
 ## Compiled Wiki Layers
 ### Concepts
 - [[bug-bounty-live-hunts-case-studies]] — Detailed operational case studies covering CapCut, Superbet, Amazon Hiring, Experian, Windsurf, Romwe, TikTok, and BytePlus.
@@ -76,10 +68,3 @@ cluster: web-and-bug-bounty
 - [[bug-bounty-live-hunts-case-studies]]
 - [[client-side-path-traversal]]
 - [[account-takeover-and-auth-flaws]]
-```
-
-## Evidence and uncertainty
-Documented from canonical notes in Notes/Narroto-Guts Hunt/ (Live Hunts, Structures, Tips and Tricks).
-
-## Human feedback
-Optionally explain or edit what should change.

@@ -5834,3 +5834,57 @@ IsADirectoryError: [Errno 21] Is a directory: '/home/omp/Desktop/RED/Knowledge/O
  2 files changed, 23 insertions(+), 1 deletion(-)
 [+] Rebuilt /home/omp/Desktop/RED/Knowledge/ObsNotes_clean/wiki/index.md (109 total pages indexed)
 [*] Creating Git checkpoint: 'feat(wiki): apply web-and-bug-bounty/concepts/bug-bounty-recon-and-threat-modeling.md'...
+[+] Checkpoint committed successfully:
+[master 98b4d1c] feat(wiki): apply web-and-bug-bounty/concepts/bug-bounty-recon-and-threat-modeling.md
+ 5 files changed, 52 insertions(+), 189 deletions(-)
+ delete mode 100644 wiki/Review/2026-09-29-bug-bounty-recon-and-threat-modeling-proposal.md
+ create mode 100644 wiki/web-and-bug-bounty/concepts/bug-bounty-recon-and-threat-modeling.md
+127.0.0.1 - - [30/Sep/2026 00:02:50] "POST /api/proposals/apply-single HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:02:51] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:02:51] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:02:54] "POST /api/proposals/apply-single HTTP/1.1" 400 -
+127.0.0.1 - - [30/Sep/2026 00:02:57] "GET /api/note?path=Review%2F2026-09-29-dom-debugging-and-sink-analysis-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:02:58] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:02:58] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:02:58] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:02:58] "GET /api/note?path=Review%2F2026-09-29-dom-debugging-and-sink-analysis-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:02:59] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:02:59] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:02:59] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:02:59] "GET /api/note?path=Review%2F2026-09-29-dom-debugging-and-sink-analysis-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:02:59] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:03:00] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:03:00] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:03:00] "GET /api/note?path=Review%2F2026-09-29-dom-debugging-and-sink-analysis-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:03:01] "GET /api/note?path=Review%2F2026-09-29-client-side-path-traversal-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:03:03] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:03:03] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:03:03] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:03:03] "GET /api/note?path=Review%2F2026-09-29-client-side-path-traversal-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:03:05] "GET /api/note?path=Review%2F2026-09-29-mobile-pentest-traffic-capture-and-deep-links-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:03:17] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:03:17] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:03:17] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:03:17] "GET /api/note?path=Review%2F2026-09-29-mobile-pentest-traffic-capture-and-deep-links-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:03:19] "GET /api/note?path=Review%2F2026-09-29-recollapse-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:03:26] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:03:26] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:03:26] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:03:26] "GET /api/note?path=Review%2F2026-09-29-recollapse-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:03:27] "GET /api/note?path=Review%2F2026-09-29-source-narroto-guts-hunt-live-hunts-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:03:30] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:03:30] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:03:30] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:03:30] "GET /api/note?path=Review%2F2026-09-29-source-narroto-guts-hunt-live-hunts-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:03:31] "GET /api/note?path=Review%2F2026-09-29-source-narroto-guts-hunt-structures-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:03:45] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:03:45] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:03:45] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:03:45] "GET /api/note?path=Review%2F2026-09-29-source-narroto-guts-hunt-structures-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:03:46] "GET /api/note?path=Review%2F2026-09-29-source-narroto-guts-hunt-tips-and-tricks-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:03:55] "GET /api/note?path=xss-and-waf-evasion-tradecraft HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:03:58] "GET /api/note?path=Review%2F2026-09-29-source-narroto-guts-hunt-tips-and-tricks-proposal.md HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:03:59] "POST /api/proposals/decision HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:03:59] "GET /api/toc HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:03:59] "GET /api/proposals HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 00:04:00] "GET /api/note?path=Review%2F2026-09-29-source-narroto-guts-hunt-tips-and-tricks-proposal.md HTTP/1.1" 200 -

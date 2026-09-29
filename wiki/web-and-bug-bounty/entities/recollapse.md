@@ -1,22 +1,4 @@
 ---
-type: llm-wiki-review
-status: needs-review
-decision: pending
-revision: 1
-operation: create
-target: web-and-bug-bounty/entities/recollapse.md
-sources:
-  - Notes/Narroto-Guts Hunt/Tips and Tricks.md
----
-
-# Proposed Wiki change
-
-## What will change
-Compile entity tooling profile for 0xacb's Recollapse.
-
-## Proposed content
-```markdown
----
 title: "Recollapse (Normalization & Regex Bypass Fuzzing Tool)"
 created: 2026-09-29
 updated: 2026-09-29
@@ -35,7 +17,16 @@ contradictions: []
 ---
 # Recollapse (Normalization & Regex Bypass Fuzzing Tool)
 
+
+
 <!-- TOC_START -->
+## Table of Contents
+- [Overview](#overview)
+- [Core Capabilities & Operational Modules](#core-capabilities-operational-modules)
+- [CLI Execution & Syntax Examples](#cli-execution-syntax-examples)
+- [Integration in Offensive Workflows](#integration-in-offensive-workflows)
+- [Primary Sources & Provenance](#primary-sources-provenance)
+- [Related Pages](#related-pages)
 <!-- TOC_END -->
 
 ## Overview
@@ -72,10 +63,3 @@ recollapse -s "redirect" | ffuf -u "https://target.com/callback?url=FUZZ" -w - -
 - [[dom-debugging-and-sink-analysis]]
 - [[client-side-path-traversal]]
 - [[xss-and-waf-evasion-tradecraft]]
-```
-
-## Evidence and uncertainty
-Documented from canonical notes in Notes/Narroto-Guts Hunt/ (Live Hunts, Structures, Tips and Tricks).
-
-## Human feedback
-Optionally explain or edit what should change.

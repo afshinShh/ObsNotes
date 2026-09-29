@@ -1,7 +1,7 @@
 # Wiki Index
 
 > Content catalog for the Offensive Security & Bug Bounty LLM Wiki.
-> Last updated: 2026-09-30 | Total pages: 109
+> Last updated: 2026-09-30 | Total pages: 115
 
 ## Domain Clusters Overview
 The knowledge vault is structured into 6 domain clusters with parent-child hierarchy:
@@ -21,8 +21,10 @@ The knowledge vault is structured into 6 domain clusters with parent-child hiera
 - [[blind-ssrf-gopher-redis-rce]] — Server-Side Request Forgery (SSRF) vulnerabilities supporting the `gopher://` URL scheme allow attackers to send arbi...
 - [[bug-bounty-live-hunts-case-studies]] — <!-- TOC_START -->
 - [[bug-bounty-recon-and-threat-modeling]] — <!-- TOC_START -->
+- [[client-side-path-traversal]] — <!-- TOC_START -->
 - [[cross-site-scripting]] — Cross-Site Scripting (XSS) allows attackers to execute arbitrary JavaScript in the context of an end user's browser
 - [[deserialization-attacks]] — Insecure Deserialization occurs when untrusted serialized byte streams are instantiated by applications
+- [[dom-debugging-and-sink-analysis]] — <!-- TOC_START -->
 - [[fastcgi-ssrf-exploitation]] — When PHP-FPM listens on an accessible network socket (e.g
 - [[file-upload-attack-matrix]] — <!-- TOC_START -->
 - [[graphql-security]] — GraphQL introduces distinct attack surfaces including schema introspection, field suggestion leakage, recursive query...
@@ -64,6 +66,7 @@ The knowledge vault is structured into 6 domain clusters with parent-child hiera
 
 ### Entities & Tools
 - [[jwt-tool]] — **JWT Tool** (`jwt_tool`) is a Python-based security auditing and exploitation utility authored by [ticarpi](https://...
+- [[recollapse]] — <!-- TOC_START -->
 - [[smuggler]] — Smuggler (developed by defparam) is a fast Python-based CLI scanner designed to identify HTTP Request Smuggling (HRS)...
 - [[sqlmap]] — Sqlmap is an open-source penetration testing tool that automates the process of detecting and exploiting SQL injectio...
 - [[tplmap]] — Tplmap (developed by epinna) is the standard automated vulnerability scanner and exploitation engine for Server-Side...
@@ -76,6 +79,9 @@ The knowledge vault is structured into 6 domain clusters with parent-child hiera
 - [[idor]] — > **Provenance Anchor**: Ingested from canonical vault file `unprocessed-obsidians/idor`.
 - [[insecure-deserialization]] — > **Provenance Anchor**: Ingested from canonical vault file `unprocessed-obsidians/insecure-deserialization`.
 - [[jwt]] — > **Provenance Anchor**: Ingested from canonical vault file `unprocessed-obsidians/jwt`.
+- [[narroto-guts-hunt-live-hunts]] — > **Provenance Anchor**: Ingested from canonical vault file `Notes/Narroto-Guts Hunt/Live Hunts`.
+- [[narroto-guts-hunt-structures]] — > **Provenance Anchor**: Ingested from canonical vault file `Notes/Narroto-Guts Hunt/Structures`.
+- [[narroto-guts-hunt-tips-and-tricks]] — > **Provenance Anchor**: Ingested from canonical vault file `Notes/Narroto-Guts Hunt/Tips and Tricks`.
 - [[oauth]] — > **Provenance Anchor**: Ingested from canonical vault file `unprocessed-obsidians/oauth`.
 - [[open-redirect]] — > **Provenance Anchor**: Ingested from canonical vault file `unprocessed-obsidians/open-redirect`.
 - [[parameter-pollution]] — > **Provenance Anchor**: Ingested from canonical vault file `unprocessed-obsidians/parameter-pollution`.

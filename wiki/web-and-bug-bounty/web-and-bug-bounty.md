@@ -50,6 +50,7 @@ sources:
   - [[sql-injection-testing-methodologies]] — Database-specific fingerprinting (MySQL, PostgreSQL, MSSQL, Oracle), syntax references, and privilege escalation.
 - [[cross-site-scripting]] — DOM-based sinks, context-aware HTML/attribute/script breakouts, and tag/parentheses WAF bypasses.
   - [[xss-and-waf-evasion-tradecraft]] — Comprehensive checklist: DOM state pausing, whitespace fuzzing, tag normalization, string concatenation, and parentheses-less execution.
+- [[dom-debugging-and-sink-analysis]] — DevTools 80% rule, global handler discovery, conditional breakpoints, postMessage regex bypasses, and chunked parameter fuzzing.
 - [[server-side-template-injection]] — Jinja2, Twig, FreeMarker, Pebble template evaluation probes, and Python MRO object sandbox escapes.
 - [[xml-external-entity-injection]] — In-band file retrieval, CDATA wrapping, blind out-of-band (OOB) DTD parameter entity exfiltration, and Billion Laughs DoS.
 - [[http-parameter-pollution]] — Precedence matrix across web servers (Apache, IIS, Node.js), parameter overriding, and WAF token splitting bypasses.
@@ -65,6 +66,7 @@ sources:
 - [[insecure-direct-object-reference]] — Horizontal and vertical privilege escalation, identifier tampering, and dual-account validation matrices.
 - [[race-condition-attacks]] — Time-of-Check to Time-of-Use (TOCTOU), Limit-Overrun concurrency, and HTTP/2 single-packet synchronization.
 - [[open-redirect-attacks]] — URL parameter parsing confusion, regex/allowlist bypasses, and OAuth authorization code theft chains.
+- [[client-side-path-traversal]] — Client-Side Path Traversal (CSPT), dynamic fetch/XHR steering, 8-framework parameter decoding matrix, and hDOM request hijacking.
 
 ### 4. Authentication, Tokens & Identity
 - [[jwt-security-mechanisms]] — RFC 7519 architecture, JOSE header specifications, signing matrices (RS256 vs HS256), token binding, and claim lifecycles.
@@ -81,6 +83,7 @@ sources:
 - [[file-upload-attack-matrix]] — Document root vs route-based uploaders, magic byte polyglots, S3 dynamic Content-Type reflection, and CSP evaluation.
 
 ### 6. Live Assessments & Case Studies
+- [[bug-bounty-recon-and-threat-modeling]] — Core hunter mindset axioms, TLD expansion oneliners, Wayback CDX digest collapsing, and architectural threat modeling.
 - [[bug-bounty-live-hunts-case-studies]] — Granular bug bounty case studies from live targets (CapCut, Superbet, Amazon Hiring, Experian, Windsurf, Romwe, TikTok, BytePlus).
 
 ---
@@ -108,6 +111,7 @@ sources:
 - [[tplmap]] — Automatic Server-Side Template Injection exploitation and sandbox escape tool.
 - [[smuggler]] — HTTP Request Smuggling scanner and payload tester.
 - [[turbo-intruder]] — High-speed HTTP request engine for testing race conditions and single-packet sync.
+- [[recollapse]] — Advanced input normalization permutation and regex bypass fuzzing engine by 0xacb.
 - [[ysoserial]] — Proof-of-concept tool for generating Java deserialization exploit payloads.
 
 ---

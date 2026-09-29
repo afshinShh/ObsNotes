@@ -298,3 +298,25 @@
 ## [2026-09-30] apply-single | Applied proposal: web-and-bug-bounty/concepts/bug-bounty-recon-and-threat-modeling.md
 - Target: web-and-bug-bounty/concepts/bug-bounty-recon-and-threat-modeling.md
 - Proposal: 2026-09-29-bug-bounty-recon-and-threat-modeling-proposal.md
+
+## [2026-09-30] apply | Narroto-Guts Hunt Full Knowledge Base Integration
+- Applied Approved Proposals:
+  - `web-and-bug-bounty/concepts/client-side-path-traversal.md` (189 lines, 17 TOC entries) — Full CSPT tradecraft, WAF depth vs app depth formulas, 8-framework parameter decoding matrix, XSS escalation sinks, safe sources, server-side SSRF sinks, and exploitation chains.
+  - `web-and-bug-bounty/concepts/dom-debugging-and-sink-analysis.md` (169 lines, 17 TOC entries) — DevTools 80% rule, global handler enumeration, conditional breakpoints, DOM redirect freezing with Escape, PostMessage regex bypasses, and chunked parameter fuzzing.
+  - `web-and-bug-bounty/concepts/bug-bounty-recon-and-threat-modeling.md` (180 lines, 14 TOC entries) — Full restoration of hunter mindset axioms, TLD expansion oneliners, Wayback CDX digest collapsing, architectural threat modeling matrix, and reporting discipline.
+  - `web-and-bug-bounty/entities/recollapse.md` (65 lines, 6 TOC entries) — Tool profile for 0xacb's normalization & regex bypass fuzzing engine.
+  - `web-and-bug-bounty/sources/narroto-guts-hunt-live-hunts.md` (70 lines, 5 TOC entries) — Provenance anchor for Live Hunts case studies.
+  - `web-and-bug-bounty/sources/narroto-guts-hunt-structures.md` (58 lines, 4 TOC entries) — Provenance anchor for Structures note.
+  - `web-and-bug-bounty/sources/narroto-guts-hunt-tips-and-tricks.md` (66 lines, 4 TOC entries) — Provenance anchor for Tips and Tricks note.
+- Parser Defect Diagnosis & Remediation (`librarian_tool.py`):
+  - Fixed non-greedy regex `re.search(r"## Proposed content\s*```(?:markdown)?
+([\s\S]*?)
+```", body)` that truncated proposals containing nested code fences (such as ```mermaid, ```bash, ```javascript).
+  - Implemented `extract_proposed_content(text)` across validation, application, TOC cataloging, note detail, and Studio API endpoints.
+  - Synced fix to `damndummydumdum/Rokki` in commit `18c9e73`.
+- Rebuilt master index (`wiki/index.md`): 115 total pages indexed.
+- Health Check (`librarian lint`):
+  - Total Scanned Pages: 115
+  - Broken Links: 0
+  - Orphan Pages: 0
+  - Health Verdict: PERFECT (All green)

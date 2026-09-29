@@ -248,6 +248,23 @@ def run_git(args, cwd=VAULT_ROOT):
         return 1, "", str(e)
 
 
+
+def extract_proposed_content(text):
+    """
+    Deterministically extracts the full proposed content markdown block from a review proposal,
+    preserving all inner code fences (```mermaid, ```bash, ```javascript, etc.).
+    """
+    m = re.search(r"## Proposed content\s*```(?:markdown)?\n([\s\S]*?)\n```\s*(?=\n## Evidence|\n## Human feedback|\Z)", text)
+    if m:
+        return m.group(1).strip()
+    m2 = re.search(r"## Proposed content\s*\n([\s\S]*?)(?=\n## Evidence|\n## Human feedback|\Z)", text)
+    if m2:
+        return m2.group(1).strip()
+    m3 = re.search(r"## Proposed content\s*```(?:markdown)?\n([\s\S]*?)\n```", text)
+    if m3:
+        return m3.group(1).strip()
+    return ""
+
 def parse_frontmatter(content):
     """Extract YAML frontmatter and body from markdown text."""
     if not content.startswith("---"):
@@ -379,15 +396,10 @@ def validate_proposal_file(filepath):
     if not target_abs.startswith(os.path.abspath(WIKI_ROOT)):
         return False, {}, f"Security violation: Target path escapes wiki root: {target}"
 
-    # Extract proposed content block
-    proposed_match = re.search(r"## Proposed content\s*```(?:markdown)?\n([\s\S]*?)\n```", body)
-    if not proposed_match:
-        # Check if proposed content is raw markdown under heading
-        proposed_match = re.search(r"## Proposed content\s*\n([\s\S]*?)(?=\n## Evidence|\Z)", body)
-        if not proposed_match:
-            return False, {}, "Proposal missing '## Proposed content' section"
-
-    prop_content = proposed_match.group(1).strip()
+    # Extract proposed content block preserving nested code fences
+    prop_content = extract_proposed_content(body)
+    if not prop_content:
+        return False, {}, "Proposal missing '## Proposed content' section"
     prop_fm, prop_body = parse_frontmatter(prop_content)
 
     content_keys = ["title", "created", "updated", "type", "tags", "sources"]
@@ -1024,10 +1036,7 @@ def implement_recommendation(rec_id):
                     if m_target:
                         rel_dest = m_target.group(1).strip()
                         abs_dest = os.path.join(WIKI_ROOT, rel_dest)
-                        m_c = re.search(r"## Proposed content\s*```(?:markdown)?\n([\s\S]*?)\n```", ptxt)
-                        if not m_c:
-                            m_c = re.search(r"## Proposed content\s*\n([\s\S]*?)(?=\n## Evidence|\Z)", ptxt)
-                        c_body = m_c.group(1).strip() if m_c else ptxt
+                        c_body = extract_proposed_content(ptxt) or ptxt
                         os.makedirs(os.path.dirname(abs_dest), exist_ok=True)
                         with open(abs_dest, "w", encoding="utf-8") as out:
                             out.write(c_body + "\n")
@@ -1199,10 +1208,7 @@ def get_toc_catalog():
                 target = m_target.group(1).strip() if m_target else f[:-3]
                 slug = os.path.splitext(os.path.basename(target))[0]
 
-                m = re.search(r"## Proposed content\s*```(?:markdown)?\n([\s\S]*?)\n```", body)
-                if not m:
-                    m = re.search(r"## Proposed content\s*\n([\s\S]*?)(?=\n## Evidence|\Z)", body)
-                prop_content = m.group(1).strip() if m else body
+                prop_content = extract_proposed_content(body) or body
                 prop_fm, _ = parse_frontmatter(prop_content)
                 title = prop_fm.get("title", f"[Proposal] {slug}")
 
@@ -1266,10 +1272,7 @@ def get_note_detail(rel_path):
     diff_text = ""
     target_rel = ""
     if is_proposal:
-        m = re.search(r"## Proposed content\s*```(?:markdown)?\n([\s\S]*?)\n```", body)
-        if not m:
-            m = re.search(r"## Proposed content\s*\n([\s\S]*?)(?=\n## Evidence|\Z)", body)
-        proposed_content = m.group(1).strip() if m else body
+        proposed_content = extract_proposed_content(body) or body
         prop_fm, prop_body = parse_frontmatter(proposed_content)
         title = prop_fm.get("title", title)
         target_rel = fm.get("target", "")
@@ -1788,10 +1791,7 @@ class StudioHandler(BaseHTTPRequestHandler):
                         with open(fpath, "r", encoding="utf-8") as f:
                             txt = f.read()
                         fm, body = parse_frontmatter(txt)
-                        m = re.search(r"## Proposed content\s*```(?:markdown)?\n([\s\S]*?)\n```", body)
-                        if not m:
-                            m = re.search(r"## Proposed content\s*\n([\s\S]*?)(?=\n## Evidence|\Z)", body)
-                        content = m.group(1).strip() if m else body
+                        content = extract_proposed_content(body) or body
 
                         m_fb = re.search(r"## Human feedback\s*\n([\s\S]*?)(?=\Z)", body)
                         fb_txt = m_fb.group(1).strip() if m_fb else ""

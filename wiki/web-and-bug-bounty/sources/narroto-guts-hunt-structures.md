@@ -1,22 +1,4 @@
 ---
-type: llm-wiki-review
-status: needs-review
-decision: pending
-revision: 2
-operation: create
-target: web-and-bug-bounty/sources/narroto-guts-hunt-structures.md
-sources:
-  - Notes/Narroto-Guts Hunt/Structures.md
----
-
-# Proposed Wiki change
-
-## What will change
-Comprehensively enrich Structures source anchor to document all extracted reconnaissance, threat modeling, and reporting tradecraft.
-
-## Proposed content
-```markdown
----
 title: "Source Note - Narroto-Guts Hunt: Hunting Structures & Threat Modeling"
 created: 2026-09-29
 updated: 2026-09-29
@@ -49,6 +31,15 @@ cluster: web-and-bug-bounty
 
 ---
 
+
+<!-- TOC_START -->
+## Table of Contents
+- [Compiled Wiki Layers](#compiled-wiki-layers)
+  - [Concepts](#concepts)
+- [Source Content Topic Breakdown](#source-content-topic-breakdown)
+- [Related Pages](#related-pages)
+<!-- TOC_END -->
+
 ## Compiled Wiki Layers
 ### Concepts
 - [[bug-bounty-recon-and-threat-modeling]] — Core threat modeling principles, wide vs narrow recon, and triage reporting discipline.
@@ -65,10 +56,3 @@ cluster: web-and-bug-bounty
 ## Related Pages
 - [[web-and-bug-bounty]]
 - [[bug-bounty-recon-and-threat-modeling]]
-```
-
-## Evidence and uncertainty
-Documented from canonical notes in Notes/Narroto-Guts Hunt/ (Live Hunts, Structures, Tips and Tricks).
-
-## Human feedback
-Optionally explain or edit what should change.

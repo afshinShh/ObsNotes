@@ -1,23 +1,4 @@
 ---
-type: llm-wiki-review
-status: needs-review
-decision: pending
-revision: 2
-operation: create
-target: web-and-bug-bounty/concepts/dom-debugging-and-sink-analysis.md
-sources:
-  - Notes/Narroto-Guts Hunt/Live Hunts.md
-  - Notes/Narroto-Guts Hunt/Tips and Tricks.md
----
-
-# Proposed Wiki change
-
-## What will change
-Comprehensively enrich DOM debugging guide with 80% rule, window event handler discovery, conditional breakpoints, DOM escape freezing, custom sinks, PostMessage regex flaws, and complete fuzzing tradecraft (hook reliability, chunking, magic parameters, param_maker script).
-
-## Proposed content
-```markdown
----
 title: "DOM Debugging, Sinks & Client-Side Logic Analysis"
 created: 2026-09-29
 updated: 2026-09-29
@@ -38,7 +19,27 @@ contradictions: []
 ---
 # DOM Debugging, Sinks & Client-Side Logic Analysis
 
+
+
 <!-- TOC_START -->
+## Table of Contents
+- [Overview](#overview)
+- [DevTools Debugging Tradecraft](#devtools-debugging-tradecraft)
+  - [1. Inspect Tab vs. Raw Source Code](#1-inspect-tab-vs-raw-source-code)
+  - [2. Enumerating Global Event Handlers](#2-enumerating-global-event-handlers)
+  - [3. Breakpoint Strategies in Complex SPAs](#3-breakpoint-strategies-in-complex-spas)
+- [DOM Injection Contexts & Dangerous Sinks](#dom-injection-contexts-dangerous-sinks)
+- [PostMessage Security Analysis](#postmessage-security-analysis)
+  - [1. Discovery & Analysis](#1-discovery-analysis)
+  - [2. Common Regex Origin Validation Pitfalls](#2-common-regex-origin-validation-pitfalls)
+  - [3. Exploitation Workflow:](#3-exploitation-workflow)
+- [Fuzzing Tradecraft & Hook Reliability](#fuzzing-tradecraft-hook-reliability)
+  - [1. The Least Change Principle](#1-the-least-change-principle)
+  - [2. When NOT to Fuzz](#2-when-not-to-fuzz)
+  - [3. Establishing a Fuzzing Hook](#3-establishing-a-fuzzing-hook)
+  - [4. Magic Parameter Hunting & Chunking](#4-magic-parameter-hunting-chunking)
+  - [5. Fuzzing Tooling & Wordlists](#5-fuzzing-tooling-wordlists)
+- [Related Pages](#related-pages)
 <!-- TOC_END -->
 
 ## Overview
@@ -166,10 +167,3 @@ Every application contains undocumented or hidden parameters. Programmers freque
 - [[account-takeover-and-auth-flaws]]
 - [[recollapse]]
 - [[bug-bounty-recon-and-threat-modeling]]
-```
-
-## Evidence and uncertainty
-Documented from canonical notes in Notes/Narroto-Guts Hunt/ (Live Hunts, Structures, Tips and Tricks).
-
-## Human feedback
-Optionally explain or edit what should change.
