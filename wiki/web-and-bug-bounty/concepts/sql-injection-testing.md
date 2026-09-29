@@ -17,6 +17,69 @@ cluster: web-and-bug-bounty
 ---
 # SQL Injection Testing & Database Exploitation Frameworks
 
+
+
+
+
+
+<!-- TOC_START -->
+## Table of Contents
+- [Overview](#overview)
+- [Comprehensive Exploitation Tradecraft & Methodology](#comprehensive-exploitation-tradecraft-methodology)
+- [Shortcut](#shortcut)
+- [Mechanisms](#mechanisms)
+  - [Types of SQL Injection](#types-of-sql-injection)
+  - [Database Targets](#database-targets)
+- [Hunt](#hunt)
+  - [Recon Workflow](#recon-workflow)
+  - [Identification Techniques](#identification-techniques)
+    - [Parameter Testing](#parameter-testing)
+    - [Error-Based Detection](#error-based-detection)
+    - [Blind Detection](#blind-detection)
+  - [Advanced Testing Approaches](#advanced-testing-approaches)
+    - [Mapping Database Structure](#mapping-database-structure)
+- [Bypass Techniques](#bypass-techniques)
+  - [WAF Bypass](#waf-bypass)
+- [Vulnerabilities](#vulnerabilities)
+  - [Common SQL Injection Points](#common-sql-injection-points)
+    - [Direct Query Manipulation](#direct-query-manipulation)
+    - [Indirect Query Vulnerabilities](#indirect-query-vulnerabilities)
+  - [Database-Specific Vulnerabilities](#database-specific-vulnerabilities)
+    - [MySQL/MariaDB](#mysqlmariadb)
+    - [MSSQL](#mssql)
+    - [PostgreSQL](#postgresql)
+    - [Oracle](#oracle)
+  - [NoSQL Injection](#nosql-injection)
+  - [Graph Databases (Neo4j/Cypher)](#graph-databases-neo4jcypher)
+- [Chaining and Escalation](#chaining-and-escalation)
+  - [Cloud-Specific SQL Injection](#cloud-specific-sql-injection)
+    - [Serverless/Lambda Environments](#serverlesslambda-environments)
+    - [Cloud Metadata Access via SQLi](#cloud-metadata-access-via-sqli)
+  - [Supply Chain & Dependency Risks](#supply-chain-dependency-risks)
+    - [ORM CVE Tracking (2024-2025)](#orm-cve-tracking-2024-2025)
+    - [CI/CD Pipeline SQLi](#cicd-pipeline-sqli)
+- [Methodologies](#methodologies)
+  - [Tools](#tools)
+    - [Automated SQLi Detection & Exploitation](#automated-sqli-detection-exploitation)
+    - [Manual Testing Tools](#manual-testing-tools)
+  - [Testing Methodology](#testing-methodology)
+    - [Reconnaissance Phase](#reconnaissance-phase)
+    - [Exploitation Phase](#exploitation-phase)
+  - [Cheatsheets by Database](#cheatsheets-by-database)
+    - [MySQL](#mysql)
+    - [MSSQL](#mssql)
+    - [Oracle](#oracle)
+    - [PostgreSQL](#postgresql)
+- [Remediation Recommendations](#remediation-recommendations)
+  - [Detection & Monitoring](#detection-monitoring)
+    - [SIEM/Log Analysis Queries](#siemlog-analysis-queries)
+  - [HTTP/2 & HTTP/3 Considerations](#http2-http3-considerations)
+  - [Compliance & Regulatory Context](#compliance-regulatory-context)
+  - [Threat Intelligence Integration](#threat-intelligence-integration)
+- [Primary Sources & Provenance](#primary-sources-provenance)
+- [Related Concepts & Entities](#related-concepts-entities)
+<!-- TOC_END -->
+
 ## Overview
 SQL Injection (SQLi) occurs when untrusted user input is directly concatenated into database query structures. This note synthesizes in-band, error-based, blind boolean/time-based, and out-of-band (OOB) techniques across all major SQL dialects.
 

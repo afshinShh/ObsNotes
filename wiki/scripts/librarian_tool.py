@@ -1305,8 +1305,186 @@ def get_note_detail(rel_path):
         "target": target_rel,
         "decision": fm.get("decision", "pending"),
         "diff_text": diff_text,
-        "filename": os.path.basename(target_abs)
+        "filename": os.path.basename(target_abs),
+        "has_toc": ("<!-- TOC_START -->" in txt)
     }
+
+
+
+def generate_markdown_toc(content):
+    """
+    Generates or refreshes an idempotent Table of Contents bounded by <!-- TOC_START --> and <!-- TOC_END -->.
+    Automatically deletes/replaces any previous TOC block.
+    """
+    # 1. Strip existing TOC block if any
+    toc_pattern = r"(?:\n|^)<!-- TOC_START -->[\s\S]*?<!-- TOC_END -->\n?"
+    cleaned = re.sub(toc_pattern, "\n", content)
+
+    # 2. Split frontmatter if present
+    fm_text = ""
+    body = cleaned
+    if cleaned.startswith("---"):
+        parts = cleaned.split("---", 2)
+        if len(parts) >= 3:
+            fm_text = f"---{parts[1]}---\n"
+            body = parts[2]
+            if body.startswith("\n"):
+                body = body[1:]
+
+    # 3. Parse headings outside code blocks
+    lines = body.splitlines()
+    in_code = False
+    headings = []
+
+    for i, line in enumerate(lines):
+        s = line.strip()
+        if s.startswith("```"):
+            in_code = not in_code
+            continue
+        if in_code:
+            continue
+
+        m = re.match(r"^(#{2,4})\s+(.+)$", s)
+        if m:
+            hashes, raw_title = m.groups()
+            depth = len(hashes)
+            clean_title = raw_title.strip()
+            if clean_title.lower() in ["table of contents", "toc"]:
+                continue
+            # Remove wikilink syntax for display
+            display_title = re.sub(r"\[\[(?:[^\]|]+\|)?([^\]]+)\]\]", r"\1", clean_title)
+            # Slugify matching github / obsidian anchor style
+            slug = re.sub(r"<[^>]+>", "", display_title)
+            slug = re.sub(r"[^\w\s-]", "", slug).strip().lower()
+            slug = re.sub(r"[-\s]+", "-", slug)
+            headings.append({
+                "depth": depth,
+                "title": display_title,
+                "slug": slug,
+                "line": i
+            })
+
+    if not headings:
+        return content, 0
+
+    # 4. Build TOC block
+    toc_lines = [
+        "<!-- TOC_START -->",
+        "## Table of Contents"
+    ]
+    for h in headings:
+        indent = "  " * (h["depth"] - 2)
+        toc_lines.append(f"{indent}- [{h['title']}](#{h['slug']})")
+    toc_lines.append("<!-- TOC_END -->")
+    toc_block = "\n".join(toc_lines) + "\n\n"
+
+    # 5. Insert TOC block
+    first_h2_idx = None
+    for i, l in enumerate(lines):
+        if l.strip().startswith("## ") and not l.strip().lower().startswith("## table of contents"):
+            first_h2_idx = i
+            break
+
+    if first_h2_idx is not None and first_h2_idx > 0:
+        new_body = "\n".join(lines[:first_h2_idx]) + "\n\n" + toc_block + "\n".join(lines[first_h2_idx:])
+    else:
+        new_body = toc_block + "\n".join(lines)
+
+    full_content = fm_text + new_body
+    return full_content, len(headings)
+
+
+def remove_markdown_toc(content):
+    """Cleanly deletes any existing Table of Contents block bounded by <!-- TOC_START --> and <!-- TOC_END -->."""
+    toc_pattern = r"(?:\n|^)<!-- TOC_START -->[\s\S]*?<!-- TOC_END -->\n?"
+    return re.sub(toc_pattern, "\n", content).strip() + "\n"
+
+
+def handle_note_toc(note_rel_path, action="generate"):
+    """Handles TOC generation or removal for a given note path."""
+    if not note_rel_path:
+        return {"success": False, "message": "Missing note path"}
+
+    target_abs = os.path.join(WIKI_ROOT, note_rel_path)
+    if not os.path.exists(target_abs):
+        if not target_abs.endswith(".md") and os.path.exists(target_abs + ".md"):
+            target_abs += ".md"
+        else:
+            leaf = os.path.basename(note_rel_path)
+            if not leaf.endswith(".md"):
+                leaf += ".md"
+            for root, dirs, files in os.walk(WIKI_ROOT):
+                if leaf in files:
+                    target_abs = os.path.join(root, leaf)
+                    break
+
+    if not os.path.exists(target_abs) or not target_abs.endswith(".md"):
+        return {"success": False, "message": f"Note '{note_rel_path}' not found."}
+
+    with open(target_abs, "r", encoding="utf-8") as f:
+        content = f.read()
+
+    rel_clean = os.path.relpath(target_abs, WIKI_ROOT)
+
+    if action == "remove":
+        new_content = remove_markdown_toc(content)
+        with open(target_abs, "w", encoding="utf-8") as f:
+            f.write(new_content)
+        return {
+            "success": True,
+            "message": f"Removed Table of Contents from '{rel_clean}'.",
+            "path": rel_clean,
+            "has_toc": False
+        }
+
+    # Generate or refresh
+    new_content, count = generate_markdown_toc(content)
+    if count == 0:
+        return {
+            "success": False,
+            "message": f"No H2-H4 headings found in '{rel_clean}' to generate a Table of Contents.",
+            "path": rel_clean,
+            "has_toc": False
+        }
+
+    with open(target_abs, "w", encoding="utf-8") as f:
+        f.write(new_content)
+
+    return {
+        "success": True,
+        "message": f"Generated Table of Contents for '{rel_clean}' ({count} sections).",
+        "path": rel_clean,
+        "has_toc": True,
+        "toc_count": count
+    }
+
+
+def cmd_toc(args):
+    """CLI handler for 'librarian toc'."""
+    if args.all:
+        notes = get_all_wiki_notes()
+        updated = 0
+        for slug, n in notes.items():
+            if n["is_hub"]:
+                continue
+            res = handle_note_toc(n["path"], action="generate")
+            if res.get("success"):
+                updated += 1
+        print(f"[+] Successfully generated/updated Table of Contents for {updated} wiki notes.")
+        return 0
+
+    if not args.path:
+        print("[-] Please specify a note path (or pass --all).")
+        return 1
+
+    action = "remove" if args.remove else "generate"
+    res = handle_note_toc(args.path, action=action)
+    if res.get("success"):
+        print(f"[+] {res.get('message')}")
+        return 0
+    else:
+        print(f"[-] {res.get('message')}")
+        return 1
 
 
 class StudioHandler(BaseHTTPRequestHandler):
@@ -1534,6 +1712,17 @@ class StudioHandler(BaseHTTPRequestHandler):
             self.wfile.write(json.dumps(res).encode("utf-8"))
             return
 
+        if url.path == "/api/note/toc":
+            note_rel_path = req_data.get("path")
+            action = req_data.get("action", "generate")
+            res = handle_note_toc(note_rel_path, action=action)
+            self.send_response(200 if res.get("success") else 400)
+            self.send_header("Content-Type", "application/json")
+            self.end_headers()
+            self.wfile.write(json.dumps(res).encode("utf-8"))
+            return
+            return
+
         if url.path == "/api/recommendations/propose":
             saved_rec = propose_recommendation(req_data)
             self.send_response(200)
@@ -1732,6 +1921,12 @@ def main():
     p_prop.add_argument("--json", help="JSON string representing recommendation")
     p_prop.add_argument("--file", help="Path to JSON file with recommendation")
 
+    # toc
+    p_toc = subparsers.add_parser("toc", help="Generate or update dynamic Table of Contents for wiki notes")
+    p_toc.add_argument("path", nargs="?", default=None, help="Relative path or slug of the note (or --all)")
+    p_toc.add_argument("--all", action="store_true", help="Generate or update TOC for all compiled wiki notes")
+    p_toc.add_argument("--remove", action="store_true", help="Remove dynamic TOC from the specified note")
+
     # studio
     p_studio = subparsers.add_parser("studio", help="Launch visual Decision Studio web UI")
     p_studio.add_argument("--port", type=int, default=20888, help="Port to serve on (default: 20888)")
@@ -1758,6 +1953,7 @@ def main():
         "recommendations": cmd_recommend,
         "propose-rec": cmd_propose_rec,
         "studio": cmd_studio,
+        "toc": cmd_toc,
     }
 
     return cmd_map[args.subcommand](args)

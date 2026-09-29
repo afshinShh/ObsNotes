@@ -17,6 +17,58 @@ cluster: web-and-bug-bounty
 ---
 # HTTP Request Smuggling & Connection Desynchronization
 
+
+
+
+
+
+<!-- TOC_START -->
+## Table of Contents
+- [Overview](#overview)
+- [Comprehensive Exploitation Tradecraft & Methodology](#comprehensive-exploitation-tradecraft-methodology)
+- [Mechanisms](#mechanisms)
+- [Hunt](#hunt)
+  - [Identifying Vulnerable Applications](#identifying-vulnerable-applications)
+    - [Architecture Reconnaissance](#architecture-reconnaissance)
+    - [Basic Detection Tests](#basic-detection-tests)
+    - [Advanced Detection Techniques](#advanced-detection-techniques)
+  - [Testing Methodology](#testing-methodology)
+- [Vulnerabilities](#vulnerabilities)
+  - [Common HTTP Request Smuggling Scenarios](#common-http-request-smuggling-scenarios)
+    - [Security Control Bypass](#security-control-bypass)
+    - [Request/Response Queue Poisoning](#requestresponse-queue-poisoning)
+    - [Server-Specific Vulnerabilities](#server-specific-vulnerabilities)
+  - [Impact Examples](#impact-examples)
+- [Methodologies](#methodologies)
+  - [Tools](#tools)
+  - [Testing Techniques](#testing-techniques)
+    - [Basic Request Smuggling Test Patterns](#basic-request-smuggling-test-patterns)
+    - [Advanced Exploitation Techniques](#advanced-exploitation-techniques)
+  - [Defense Testing](#defense-testing)
+  - [Real-World Exploitation Workflow](#real-world-exploitation-workflow)
+  - [Modern Desync Variants](#modern-desync-variants)
+    - [HTTP/3 Desync](#http3-desync)
+    - [Client-Side Desync (CSD)](#client-side-desync-csd)
+    - [WebSocket Desync](#websocket-desync)
+    - [Request Tunneling via CONNECT](#request-tunneling-via-connect)
+    - [Pause-Based Desync](#pause-based-desync)
+    - [Header Oversizing](#header-oversizing)
+  - [Detection Bypass Techniques (Advanced)](#detection-bypass-techniques-advanced)
+  - [Real-World CVEs](#real-world-cves)
+- [Remediation Recommendations](#remediation-recommendations)
+- [HTTP/1.1 must die: the desync endgame](#http11-must-die-the-desync-endgame)
+  - [Mitigations that hide but don't fix](#mitigations-that-hide-but-dont-fix)
+    - [Hacking 20 million websites by accident](#hacking-20-million-websites-by-accident)
+    - ["HTTP/1 is simple" and other lies](#http1-is-simple-and-other-lies)
+- [A strategy to win the desync endgame](#a-strategy-to-win-the-desync-endgame)
+  - [Understanding V-H and H-V discrepancies](#understanding-v-h-and-h-v-discrepancies)
+    - [Turning a V-H discrepancy into a CL.0 desync](#turning-a-v-h-discrepancy-into-a-cl0-desync)
+    - [Exploiting H-V on IIS behind ALB (AWS Application Load Balancer)](#exploiting-h-v-on-iis-behind-alb-aws-application-load-balancer)
+    - [Exploiting H-V without Transfer-Encoding](#exploiting-h-v-without-transfer-encoding)
+- [Primary Sources & Provenance](#primary-sources-provenance)
+- [Related Concepts & Entities](#related-concepts-entities)
+<!-- TOC_END -->
+
 ## Overview
 HTTP Request Smuggling exploits discrepancies between frontend proxies and backend servers in parsing ambiguous message boundaries. This reference synthesizes CL.TE, TE.CL, TE.TE obfuscations, HTTP/2 request splitting, and cache poisoning desynchronizations.
 

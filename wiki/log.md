@@ -240,3 +240,27 @@
   - Broken Links: 0
   - Orphan Pages: 0
   - Health Verdict: PERFECT (All green)
+
+## [2026-09-25] feat | Dynamic Markdown Table of Contents Engine
+- Implemented an idempotent, self-updating dynamic Table of Contents (TOC) engine matching Obsidian community extensions (`obsidian-dynamic-toc` / `markdown-toc`):
+  - Bounded by standard Markdown comment tags: `<!-- TOC_START -->` and `<!-- TOC_END -->`.
+  - Automatically parses all H2-H4 headings outside code fences and builds a hierarchical, indented list of anchor links (`#slug`).
+  - Idempotent regeneration: clicking generate/update automatically scans the note, strips any existing previous `<!-- TOC_START -->` block, and regenerates a fresh TOC reflecting updated headings.
+  - Safe removal: clean one-click deletion of the TOC block.
+- Backend Engine (`librarian_tool.py`):
+  - Functions `generate_markdown_toc()`, `remove_markdown_toc()`, and `handle_note_toc()`.
+  - API endpoint `POST /api/note/toc` (`{"path": ..., "action": "generate"|"remove"}`).
+  - CLI commands: `librarian toc <note-path>`, `librarian toc --all`, `librarian toc --remove <note-path>`.
+  - Enhanced `get_note_detail` with `has_toc` detection.
+- Frontend Experience (`studio.html`):
+  - Custom `renderer.heading` in `marked.js` assigning slug `id` attributes to all `h1-h6` elements.
+  - Interactive top toolbar buttons in reader: `📑 Generate Table of Contents` (if none exists) or `🔄 Update TOC` and `🗑️ Remove TOC` (if active).
+  - High-contrast, dark-mode `note-toc-card` with `📑 TABLE OF CONTENTS [DYNAMIC]` badge, inline `🔄 Update` and `🗑️ Remove` controls.
+  - Smooth anchor jumping with purple spotlight flash highlight (`heading-jump-highlight`) on heading target.
+  - Floating status toast notifications (`showToast`).
+- Graph Diagnostics (`librarian lint`):
+  - Total Scanned Pages: 95
+  - Total Verified Links: 509
+  - Broken Links: 0
+  - Orphan Pages: 0
+  - Health Verdict: PERFECT (All green)
