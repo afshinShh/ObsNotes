@@ -13,6 +13,7 @@ sources:
 extracted_concepts:
   - "[[xss-and-waf-evasion-tradecraft]]"
   - "[[account-takeover-and-auth-flaws]]"
+  - "[[mobile-pentest-traffic-capture-and-deep-links]]"
   - "[[file-upload-attack-matrix]]"
   - "[[dom-debugging-and-sink-analysis]]"
   - "[[client-side-path-traversal]]"
@@ -47,10 +48,10 @@ cluster: web-and-bug-bounty
 ### Concepts
 - [[xss-and-waf-evasion-tradecraft]] — Comprehensive checklist for XSS execution, HTML tag fuzzing, string concatenation, and WAF confusion.
 - [[account-takeover-and-auth-flaws]] — Account takeover checklist, email normalization bypasses, OAuth quirks, and app-to-app transfer polling.
+- [[mobile-pentest-traffic-capture-and-deep-links]] — Android CA certificate system store installation, Frida universal SSL pinning bypass, dynamic string interception, and deep link security.
 - [[file-upload-attack-matrix]] — File upload security matrix, magic bytes, S3 dynamic Content-Type reflection, and CSP evaluation.
 - [[dom-debugging-and-sink-analysis]] — DevTools debugging tradecraft, hook-based fuzzing, and postMessage security analysis.
 - [[client-side-path-traversal]] — Browser-side path traversal and API route redirection.
-- *Mobile Pentest & Deep Links* — Staged in review (`wiki/Review/2026-09-29-mobile-pentest-traffic-capture-and-deep-links-proposal.md`).
 
 ### Entities
 - [[recollapse]] — Normalization and regex bypass fuzzing engine by 0xacb.
@@ -61,6 +62,7 @@ cluster: web-and-bug-bounty
 - [[web-and-bug-bounty]]
 - [[xss-and-waf-evasion-tradecraft]]
 - [[account-takeover-and-auth-flaws]]
+- [[mobile-pentest-traffic-capture-and-deep-links]]
 - [[file-upload-attack-matrix]]
 - [[dom-debugging-and-sink-analysis]]
 - [[client-side-path-traversal]]

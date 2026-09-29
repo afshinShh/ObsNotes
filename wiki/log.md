@@ -320,3 +320,23 @@
   - Broken Links: 0
   - Orphan Pages: 0
   - Health Verdict: PERFECT (All green)
+
+## [2026-09-30] apply | Mobile Pentest & Deep Links Final Approved Compilation
+- Target: `web-and-bug-bounty/concepts/mobile-pentest-traffic-capture-and-deep-links.md` (201 lines, 13 TOC entries)
+- Incorporated Complete Tradecraft:
+  - Exact step-by-step Burp CA system store installation for Android 7.0+ (`/system/etc/security/cacerts/9a5ba575.0`).
+  - Read-write remount commands for read-only system partitions.
+  - Universal Frida SSL pinning bypass overriding `com.android.org.conscrypt.TrustManagerImpl.checkTrustedRecursive` and enabling Chrome DevTools debugging on `android.webkit.WebView`.
+  - Dynamic URL harvesting via `java.lang.StringBuffer.toString` hook.
+  - Deep link audit via ADB Activity Manager (`adb shell am start -d 'scheme://path?param=...'`).
+  - `#authorized-request` exploitation: chaining deep links with sensitive endpoints for complete CSRF mitigation bypass.
+  - JavaScript and asset change automation via GitHub Actions and Discord webhooks with dynamic filename hash prefetching.
+- Updated Provenance & Hub:
+  - Linked in `wiki/web-and-bug-bounty/sources/narroto-guts-hunt-tips-and-tricks.md`.
+  - Linked in `wiki/web-and-bug-bounty/web-and-bug-bounty.md` under `### 6. Live Assessments & Case Studies`.
+- Verification Diagnostics:
+  - Total Scanned Pages: 116
+  - Total Verified Links: 636
+  - Broken Links: 0
+  - Orphan Pages: 0
+  - Health Verdict: PERFECT (All green)

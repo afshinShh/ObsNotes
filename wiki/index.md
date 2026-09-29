@@ -1,7 +1,7 @@
 # Wiki Index
 
 > Content catalog for the Offensive Security & Bug Bounty LLM Wiki.
-> Last updated: 2026-09-30 | Total pages: 115
+> Last updated: 2026-09-30 | Total pages: 116
 
 ## Domain Clusters Overview
 The knowledge vault is structured into 6 domain clusters with parent-child hierarchy:
@@ -36,6 +36,7 @@ The knowledge vault is structured into 6 domain clusters with parent-child hiera
 - [[insecure-direct-object-reference]] — Insecure Direct Object References (IDOR / BOLA) occur when applications accept client-supplied object identifiers wit...
 - [[jwt-attack-vectors]] — JWT attack vectors target implementation flaws, algorithm verification confusion, header injection vulnerabilities, a...
 - [[jwt-security-mechanisms]] — <!-- TOC_START -->
+- [[mobile-pentest-traffic-capture-and-deep-links]] — <!-- TOC_START -->
 - [[oauth-attack-vectors]] — OAuth 2.0 and OIDC implementations frequently suffer from redirection uri validation flaws, state parameter omission,...
 - [[oauth-grant-types-and-flows]] — OAuth 2.0 (RFC 6749) and OpenID Connect (OIDC) govern delegated authorization and identity assertion across web, mobi...
 - [[open-redirect-attacks]] — Open Redirects allow attackers to manipulate application redirection logic to forward users to arbitrary external dom...

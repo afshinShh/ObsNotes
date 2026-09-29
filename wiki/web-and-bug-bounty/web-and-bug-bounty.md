@@ -85,6 +85,7 @@ sources:
 ### 6. Live Assessments & Case Studies
 - [[bug-bounty-recon-and-threat-modeling]] — Core hunter mindset axioms, TLD expansion oneliners, Wayback CDX digest collapsing, and architectural threat modeling.
 - [[bug-bounty-live-hunts-case-studies]] — Granular bug bounty case studies from live targets (CapCut, Superbet, Amazon Hiring, Experian, Windsurf, Romwe, TikTok, BytePlus).
+- [[mobile-pentest-traffic-capture-and-deep-links]] — Android CA certificate system store installation, Frida universal SSL pinning bypass, dynamic string interception, and deep link security.
 
 ---
 
