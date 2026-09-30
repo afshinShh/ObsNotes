@@ -21,15 +21,15 @@ The LLM configuration itself is verified from **Settings → Karpathy LLM Wiki �
 
 Open the command palette with `Ctrl/Cmd + P` and search "Karpathy LLM Wiki". The first command below is the only one you need on day one.
 
-| Command | What it does |
-| --- | --- |
-| `Karpathy LLM Wiki: Ingest multiple files` | Pick N source notes; the plugin extracts entities / concepts / sources from each and writes wiki pages. **Day one — start here.** |
-| `Karpathy LLM Wiki: Ingest single source` | Same as above, for one file. |
-| `Karpathy LLM Wiki: Ingest from folder` | Ingests every file in a chosen folder (e.g. `inbox/2024/`). |
-| `Karpathy LLM Wiki: Query Wiki` | Opens the right-side chat panel for asking questions against the ingested content. |
-| `Karpathy LLM Wiki: Lint wiki` | Runs the Lint pipeline (dead links, orphans, duplicates). Use when the wiki has ~30+ pages. |
-| `Karpathy LLM Wiki: View Ingestion History` | Opens a panel listing what each previous Ingest call created/updated. |
-| `Karpathy LLM Wiki: Recreate Wiki Welcome Note` | Re-creates this note in the current wiki language. |
+| Command                                         | What it does                                                                                                                      |
+| ----------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `Karpathy LLM Wiki: Ingest multiple files`      | Pick N source notes; the plugin extracts entities / concepts / sources from each and writes wiki pages. **Day one — start here.** |
+| `Karpathy LLM Wiki: Ingest single source`       | Same as above, for one file.                                                                                                      |
+| `Karpathy LLM Wiki: Ingest from folder`         | Ingests every file in a chosen folder (e.g. `inbox/2024/`).                                                                       |
+| `Karpathy LLM Wiki: Query Wiki`                 | Opens the right-side chat panel for asking questions against the ingested content.                                                |
+| `Karpathy LLM Wiki: Lint wiki`                  | Runs the Lint pipeline (dead links, orphans, duplicates). Use when the wiki has ~30+ pages.                                       |
+| `Karpathy LLM Wiki: View Ingestion History`     | Opens a panel listing what each previous Ingest call created/updated.                                                             |
+| `Karpathy LLM Wiki: Recreate Wiki Welcome Note` | Re-creates this note in the current wiki language.                                                                                |
 
 The right-side Query panel can also be opened by the chat-bubble ribbon icon.
 

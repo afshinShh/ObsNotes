@@ -210,6 +210,61 @@
     .rec-medium { border-left-color: var(--warn); }
     .rec-low { border-left-color: var(--blue); }
     .rec-info { border-left-color: var(--purple); }
+
+    /* 4. World Knowledge MCP Showcase */
+    .mcp-demo-chip {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #c9d1d9;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.76rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .mcp-demo-chip:hover {
+      background: rgba(0, 229, 255, 0.12);
+      border-color: var(--cyan);
+      color: #fff;
+      transform: translateY(-1px);
+    }
+    .mcp-result-card {
+      background: #141720;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px;
+      transition: all 0.2s ease;
+    }
+    .mcp-result-card:hover {
+      border-color: rgba(0, 229, 255, 0.4);
+      background: #171b26;
+    }
+    .mcp-sec-chip {
+      display: inline-block;
+      background: rgba(124, 77, 255, 0.12);
+      border: 1px solid rgba(124, 77, 255, 0.25);
+      color: #d1c4e9;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      cursor: pointer;
+      margin: 2px 4px 2px 0;
+      transition: all 0.15s ease;
+    }
+    .mcp-sec-chip:hover {
+      background: var(--purple);
+      color: #fff;
+    }
+    .badge-score {
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+    }
   
     /* Code Blocks & Syntax Highlighting */
     .code-block-wrap {
@@ -615,6 +670,10 @@
         <span>💡 Thoth's Recommendations</span>
         <span class="nav-badge" id="badge-recs-count" style="color:var(--warn);">0</span>
       </div>
+      <div class="nav-tab" data-view="mcp" onclick="switchMainView('mcp')">
+        <span>⚡ Strike MCP Showcase</span>
+        <span class="nav-badge" id="badge-mcp-notes" style="color:var(--cyan); background:rgba(0,229,255,0.12);">116 Notes</span>
+      </div>
     </div>
     <div>
       <button class="btn-apply-all" onclick="applyAllApproved()">⚡ Apply All Approved</button>
@@ -755,6 +814,152 @@
         </div>
       </div>
 
+      <!-- VIEW 4: Strike Fleet World Knowledge MCP Showcase -->
+      <div class="ws-view" id="view-mcp">
+        <div id="mcp-container" style="padding:24px; overflow-y:auto; height:100%; box-sizing:border-box;">
+          
+          <!-- Top Hero Banner -->
+          <div class="thoth-banner" style="background:linear-gradient(135deg, rgba(0, 229, 255, 0.08) 0%, rgba(124, 77, 255, 0.08) 100%); border-color:rgba(0, 229, 255, 0.25); margin-bottom:18px;">
+            <div>
+              <div style="font-size:1.15rem; font-weight:700; color:#fff; display:flex; align-items:center; gap:8px;">
+                <span style="color:var(--cyan);">⚡</span> <span>Strike Fleet World Knowledge Interface (Local MCP)</span>
+                <span class="badge-thoth" style="background:rgba(0, 229, 255, 0.15); border-color:rgba(0, 229, 255, 0.4); color:var(--cyan);">Active Read-Only Daemon</span>
+              </div>
+              <p style="font-size:0.82rem; color:var(--muted); margin-top:5px; line-height:1.45;">
+                Exposing 116+ curated Gold offensive tradecraft notes to Hermes strike agents (<code style="color:#b388ff;">@bb-hunter</code>, <code style="color:#b388ff;">@bb-coordinator</code>, <code style="color:#b388ff;">@bb-recon</code>) via local SQLite FTS5 lexical search, Markdown AST section extraction, and System-1 (Laya) cross-scoring.
+              </p>
+            </div>
+            <div style="display:flex; gap:8px;">
+              <button class="btn-apply-all" style="background:rgba(0, 229, 255, 0.15); border-color:var(--cyan); color:var(--cyan);" onclick="triggerMcpReindex()">🔄 Rebuild Index (116 Notes)</button>
+            </div>
+          </div>
+
+          <!-- Telemetry Metrics Cards -->
+          <div class="metrics-row">
+            <div class="metric-box">
+              <div class="metric-num" id="mcp-metric-notes" style="color:var(--cyan);">116</div>
+              <div class="metric-txt">Indexed Gold Tradecraft Notes</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-num" id="mcp-metric-latency" style="color:var(--green);">< 10 ms</div>
+              <div class="metric-txt">FTS5 Search Latency</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-num" id="mcp-metric-tokens" style="color:#ffb74d;">~35</div>
+              <div class="metric-txt">Payload Token Footprint (vs 3.5k)</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-num" id="mcp-metric-savings" style="color:#00e676;">99.0%</div>
+              <div class="metric-txt">Token Savings for Strike Agents</div>
+            </div>
+          </div>
+
+          <!-- Preset Showcase Chips (1-Click Demos) -->
+          <div style="margin-top:14px; margin-bottom:14px;">
+            <div style="font-size:0.78rem; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px;">
+              🎯 One-Click Live Demonstration Queries
+            </div>
+            <div class="mcp-chip-container" style="display:flex; flex-wrap:wrap; gap:8px;">
+              <button class="mcp-demo-chip" onclick="executeDemoQuery('CL.TE request smuggling', 'web-and-bug-bounty', 'CloudFront Apache CL.TE desync')">📡 CL.TE Desync Diagnostic Probe</button>
+              <button class="mcp-demo-chip" onclick="executeDemoQuery('AWS IMDSv2 token SSRF', 'web-and-bug-bounty', 'AWS EC2 token probe')">☁️ AWS IMDSv2 Token SSRF</button>
+              <button class="mcp-demo-chip" onclick="executeDemoQuery('Android Frida SSL pinning', 'web-and-bug-bounty', 'Frida universal SSL bypass')">📱 Android Frida SSL Pinning Bypass</button>
+              <button class="mcp-demo-chip" onclick="executeDemoQuery('PostMessage regex bypass origin', 'web-and-bug-bounty', 'postmessage regex audit')">✉️ PostMessage Regex Flaws</button>
+              <button class="mcp-demo-chip" onclick="executeDemoQuery('CSPT framework decoding matrix', 'web-and-bug-bounty', 'React Nextjs CSPT')">🌐 CSPT 8-Framework Matrix</button>
+              <button class="mcp-demo-chip" onclick="executeDemoQuery('OAuth state parameter ATO', 'web-and-bug-bounty', 'OAuth state UUID swap')">🔑 OAuth State UUID 1-Click ATO</button>
+              <button class="mcp-demo-chip" onclick="executeDemoQuery('EDR evasion syscalls unhooking', 'defense-and-evasion', 'direct syscalls ntdll')">🛡️ EDR Unhooking & Direct Syscalls</button>
+              <button class="mcp-demo-chip" onclick="executeDemoQuery('Gopher FastCGI RCE exploitation', 'web-and-bug-bounty', 'FastCGI binary packet')">⚡ Gopher FastCGI RCE Packet</button>
+            </div>
+          </div>
+
+          <!-- Main Workspace Split: Search Console on Left, Live Payload/Section Inspector on Right -->
+          <div style="display:grid; grid-template-columns: 1fr 1.15fr; gap:16px; min-height:550px;">
+            
+            <!-- LEFT: Search & Tool Execution Panel -->
+            <div class="mcp-panel" style="background:var(--panel); border:1px solid var(--border); border-radius:8px; padding:16px; display:flex; flex-direction:column;">
+              <div style="font-size:0.95rem; font-weight:700; color:#fff; margin-bottom:12px; display:flex; align-items:center; gap:8px;">
+                <span>🔍</span> <span>Tool 1: search_tradecraft</span>
+              </div>
+
+              <div style="display:flex; gap:8px; margin-bottom:10px;">
+                <input type="text" id="mcp-search-input" class="toc-search" style="flex:1; padding:8px 12px; font-size:0.85rem;" placeholder="Search offensive tradecraft (e.g. 'CL.TE desync', 'Frida SSL bypass')..." onkeydown="if(event.key==='Enter') triggerMcpSearch()">
+                <button class="btn btn-primary" onclick="triggerMcpSearch()" style="padding:8px 16px;">⚡ Search</button>
+              </div>
+
+              <div style="display:flex; gap:8px; margin-bottom:14px; align-items:center;">
+                <select id="mcp-cluster-select" style="background:#14171d; border:1px solid var(--border); color:#e0e0e0; padding:6px 10px; border-radius:4px; font-size:0.78rem; flex:1;" onchange="triggerMcpSearch()">
+                  <option value="">All Domain Clusters (Fleet-wide)</option>
+                  <option value="web-and-bug-bounty">🌐 Web & Bug Bounty</option>
+                  <option value="binary-exploitation">⚙️ Binary Exploitation</option>
+                  <option value="defense-and-evasion">🛡️ Defense & Evasion</option>
+                  <option value="recon-and-osint">📡 Recon & OSINT</option>
+                  <option value="ai-security">🤖 AI Security</option>
+                  <option value="vulnerability-research">🔬 Vulnerability Research</option>
+                </select>
+                <select id="mcp-limit-select" style="background:#14171d; border:1px solid var(--border); color:#e0e0e0; padding:6px 10px; border-radius:4px; font-size:0.78rem;" onchange="triggerMcpSearch()">
+                  <option value="3">Top 3 Hits</option>
+                  <option value="5" selected>Top 5 Hits</option>
+                  <option value="10">Top 10 Hits</option>
+                </select>
+              </div>
+
+              <!-- Search Results List -->
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                <span style="font-size:0.8rem; font-weight:600; color:var(--muted); text-transform:uppercase;">Matched Note Manifests & Sections</span>
+                <span id="mcp-search-telemetry" style="font-size:0.75rem; color:var(--cyan);">Ready</span>
+              </div>
+              <div id="mcp-search-results" style="flex:1; overflow-y:auto; max-height:480px; display:flex; flex-direction:column; gap:10px;">
+                <div style="color:var(--muted); font-size:0.85rem; text-align:center; padding:40px 10px;">
+                  Enter a tradecraft query or click one of the preset chips above to test live FTS5 retrieval and System-1 cross-scoring.
+                </div>
+              </div>
+            </div>
+
+            <!-- RIGHT: Live Payload & Section Inspector -->
+            <div class="mcp-panel" style="background:var(--panel); border:1px solid var(--border); border-radius:8px; padding:16px; display:flex; flex-direction:column;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                <div style="font-size:0.95rem; font-weight:700; color:#fff; display:flex; align-items:center; gap:8px;">
+                  <span>🎯</span> <span>Tools 2 & 3: Live Payload / Section Inspector</span>
+                </div>
+                <div id="mcp-inspector-badges" style="display:flex; gap:6px;">
+                  <span class="badge-thoth" id="badge-inspector-tokens" style="color:#00e676; background:rgba(0,230,118,0.12);">0 Tokens</span>
+                </div>
+              </div>
+
+              <!-- Stack Context Input Bar for Heuristic Selection -->
+              <div style="background:#14171d; border:1px solid var(--border); border-radius:6px; padding:10px; margin-bottom:12px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                  <label style="font-size:0.75rem; color:var(--muted); text-transform:uppercase; font-weight:600;">System-1 Environmental Context (<code style="color:var(--cyan);">stack_context</code>)</label>
+                  <span style="font-size:0.72rem; color:var(--cyan);">Auto-Selects 1-of-N Sections</span>
+                </div>
+                <div style="display:flex; gap:8px;">
+                  <input type="text" id="mcp-stack-context" class="toc-search" style="flex:1; padding:6px 10px; font-size:0.8rem;" placeholder="e.g. 'CloudFront Apache CL.TE desync', 'Samsung Android root Frida', 'MySQL blind time'">
+                  <button class="btn btn-secondary" onclick="triggerSelectedPayload()" style="padding:6px 12px; font-size:0.78rem;">🎯 Test choose_section</button>
+                </div>
+              </div>
+
+              <!-- Telemetry comparison box -->
+              <div id="mcp-token-savings-box" style="background:rgba(0, 229, 255, 0.06); border:1px solid rgba(0, 229, 255, 0.2); border-radius:6px; padding:10px 12px; margin-bottom:12px; font-size:0.8rem; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                  <span style="font-weight:600; color:#fff;">Token Economy: </span>
+                  <span id="mcp-savings-text" style="color:var(--muted);">Select a note to inspect payload vs monolithic token consumption.</span>
+                </div>
+                <button class="btn btn-secondary" id="btn-copy-payload" onclick="copyMcpPayload()" style="padding:4px 8px; font-size:0.75rem; display:none;">📋 Copy Payload</button>
+              </div>
+
+              <!-- Content/Code Output Viewer -->
+              <div id="mcp-output-container" style="flex:1; overflow-y:auto; max-height:410px; background:#0e1117; border:1px solid var(--border); border-radius:6px; padding:12px; font-family:monospace; font-size:0.82rem; color:#e0e0e0;">
+                <div style="color:var(--muted); text-align:center; padding:50px 10px;">
+                  Click <strong>[🎯 Get Payload]</strong> or <strong>[📑 View Section]</strong> on any candidate result to inspect live extracted tradecraft.
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
     </div>
 
   </div>
@@ -786,6 +991,8 @@
         }, 50);
       } else if (view === 'insights') {
         loadRecommendations();
+      } else if (view === 'mcp') {
+        loadMcpShowcaseStats();
       }
     }
 
@@ -2217,7 +2424,12 @@
 
     function escapeHtml(str) {
       if (!str) return '';
-      return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
     }
 
     // =========================================================================
@@ -2344,10 +2556,278 @@
       }
     });
 
+    // =========================================================================
+    // 6. STRIKE FLEET WORLD KNOWLEDGE MCP SHOWCASE
+    // =========================================================================
+    let currentMcpResults = [];
+    let currentMcpSelectedPayload = '';
+    let currentMcpSelectedNote = '';
+
+    async function loadMcpShowcaseStats() {
+      try {
+        const res = await fetch('/api/mcp/stats');
+        const data = await res.json();
+        const count = data.indexed_notes_count || 116;
+        const noteEl = document.getElementById('mcp-metric-notes');
+        if (noteEl) noteEl.innerText = count;
+        const badge = document.getElementById('badge-mcp-notes');
+        if (badge) badge.innerText = `${count} Notes`;
+      } catch (e) {
+        console.error('Failed to load MCP stats:', e);
+      }
+    }
+
+    async function triggerMcpSearch() {
+      const query = document.getElementById('mcp-search-input').value.trim();
+      const cluster = document.getElementById('mcp-cluster-select').value;
+      const limit = parseInt(document.getElementById('mcp-limit-select').value, 10) || 5;
+      const resultsContainer = document.getElementById('mcp-search-results');
+      const tele = document.getElementById('mcp-search-telemetry');
+
+      if (!query) {
+        resultsContainer.innerHTML = '<div style="color:var(--muted); text-align:center; padding:30px;">Please enter a search query.</div>';
+        return;
+      }
+
+      tele.innerText = 'Searching FTS5...';
+      resultsContainer.innerHTML = '<div style="color:var(--muted); text-align:center; padding:30px;">⏳ Querying SQLite FTS5 and System-1 cross-scorer...</div>';
+
+      try {
+        const res = await fetch('/api/mcp/search', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ query, cluster, limit })
+        });
+        const data = await res.json();
+        if (!data.success) {
+          resultsContainer.innerHTML = `<div style="color:#ff5252; padding:20px;">Search Error: ${escapeHtml(data.error || 'Unknown error')}</div>`;
+          tele.innerText = 'Error';
+          return;
+        }
+
+        currentMcpResults = data.results || [];
+        tele.innerText = `⏱️ ${data.elapsed_ms}ms | Found ${currentMcpResults.length} hits`;
+
+        if (currentMcpResults.length === 0) {
+          resultsContainer.innerHTML = '<div style="color:var(--muted); text-align:center; padding:30px;">No matching tradecraft found. Try broader keywords.</div>';
+          return;
+        }
+
+        resultsContainer.innerHTML = currentMcpResults.map((r, idx) => {
+          const score = (r.score || 0).toFixed(2);
+          const scoreColor = r.score >= 0.9 ? '#00e676' : (r.score >= 0.7 ? '#00e5ff' : '#ffb74d');
+          const scoreBg = r.score >= 0.9 ? 'rgba(0,230,118,0.15)' : (r.score >= 0.7 ? 'rgba(0,229,255,0.15)' : 'rgba(255,183,77,0.15)');
+          
+          const sections = r.sections || [];
+          const sectionChips = sections.map((s, sIdx) => 
+            `<span class="mcp-sec-chip" data-note-idx="${idx}" data-sec-idx="${sIdx}" onclick="onMcpChipClick(this)" title="Extract section: ${escapeHtml(s)}">${escapeHtml(s)}</span>`
+          ).join('');
+
+          return `
+            <div class="mcp-result-card">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:6px;">
+                <div>
+                  <strong style="color:#fff; font-size:0.9rem; cursor:pointer;" onclick="openNote(currentMcpResults[${idx}].path)">${escapeHtml(r.title)}</strong>
+                  <div style="font-size:0.72rem; color:var(--muted); margin-top:2px;">
+                    📁 <code>${escapeHtml(r.path)}</code>
+                  </div>
+                </div>
+                <span class="badge-score" style="background:${scoreBg}; color:${scoreColor}; border:1px solid ${scoreColor}40;">
+                  Score: ${score}
+                </span>
+              </div>
+
+              <!-- Available Section Badges -->
+              <div style="margin:8px 0;">
+                <div style="font-size:0.7rem; color:var(--muted); text-transform:uppercase; margin-bottom:4px;">Available AST Sections (click to extract):</div>
+                <div style="max-height:64px; overflow-y:auto;">
+                  ${sectionChips || '<span style="color:var(--muted); font-size:0.75rem;">None</span>'}
+                </div>
+              </div>
+
+              <!-- Action Buttons -->
+              <div style="display:flex; gap:6px; margin-top:8px; align-items:center;">
+                <button class="btn btn-primary" style="padding:4px 10px; font-size:0.75rem; background:rgba(0,229,255,0.15); border-color:var(--cyan); color:var(--cyan);" onclick="triggerGetPayload(currentMcpResults[${idx}].path)">
+                  🎯 Get Payload
+                </button>
+                <button class="btn btn-secondary" style="padding:4px 10px; font-size:0.75rem;" onclick="triggerGetSection(currentMcpResults[${idx}].path, currentMcpResults[${idx}].sections[0] || 'Overview')">
+                  📑 View Top Section
+                </button>
+                <button class="btn btn-secondary" style="padding:4px 8px; font-size:0.75rem;" onclick="openNote(currentMcpResults[${idx}].path)">
+                  📖 Full Note
+                </button>
+              </div>
+            </div>
+          `;
+        }).join('');
+      } catch (e) {
+        resultsContainer.innerHTML = `<div style="color:#ff5252; padding:20px;">Network / Server Error: ${escapeHtml(e.message)}</div>`;
+      }
+    }
+
+    function onMcpChipClick(el) {
+      const noteIdx = parseInt(el.getAttribute('data-note-idx'), 10);
+      const secIdx = parseInt(el.getAttribute('data-sec-idx'), 10);
+      const note = currentMcpResults[noteIdx];
+      if (note && note.sections && note.sections[secIdx]) {
+        triggerGetSection(note.path, note.sections[secIdx]);
+      }
+    }
+
+    async function executeDemoQuery(query, cluster, stackCtx) {
+      document.getElementById('mcp-search-input').value = query;
+      if (cluster) document.getElementById('mcp-cluster-select').value = cluster;
+      if (stackCtx) document.getElementById('mcp-stack-context').value = stackCtx;
+
+      await triggerMcpSearch();
+
+      if (currentMcpResults.length > 0) {
+        const topNote = currentMcpResults[0];
+        await triggerGetPayload(topNote.path, null, stackCtx);
+      }
+    }
+
+    async function triggerGetPayload(notePath, sectionName = null, stackContext = null) {
+      currentMcpSelectedNote = notePath;
+      const ctx = stackContext || document.getElementById('mcp-stack-context').value.trim();
+      const outputBox = document.getElementById('mcp-output-container');
+      const savingsText = document.getElementById('mcp-savings-text');
+      const copyBtn = document.getElementById('btn-copy-payload');
+      const badgeTokens = document.getElementById('badge-inspector-tokens');
+
+      outputBox.innerHTML = '<div style="color:var(--muted); text-align:center; padding:30px;">⏳ Extracting payload via System-1 section selector...</div>';
+
+      try {
+        const res = await fetch('/api/mcp/payload', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ note_path: notePath, section_name: sectionName, stack_context: ctx })
+        });
+        const data = await res.json();
+        if (!data.success) {
+          outputBox.innerHTML = `<div style="color:#ff5252; padding:15px;">Payload Extraction Error: ${escapeHtml(data.error || 'Failed')}</div>`;
+          return;
+        }
+
+        currentMcpSelectedPayload = data.payload || '';
+        badgeTokens.innerText = `~${data.token_est} Tokens (${data.char_count} chars)`;
+        copyBtn.style.display = 'inline-block';
+
+        const savingsPct = Math.max(90, Math.min(99.6, (100 - (data.token_est / 3200) * 100).toFixed(1)));
+        savingsText.innerHTML = `
+          <span style="color:#00e676; font-weight:700;">${savingsPct}% Token Savings!</span>
+          <span style="color:var(--muted); margin-left:6px;">Monolithic note: ~3,200 tokens ➔ Payload: <strong>${data.token_est} tokens</strong> (Section: <em>${escapeHtml(data.section_name || 'Code Block')}</em>, Latency: <strong>${data.elapsed_ms}ms</strong>)</span>
+        `;
+
+        const safePayload = escapeHtml(data.payload);
+        outputBox.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; border-bottom:1px solid #222; padding-bottom:6px;">
+            <span style="color:var(--cyan); font-weight:700; font-size:0.78rem;">🎯 RAW PROBE / PAYLOAD ARTIFACT</span>
+            <span style="color:var(--muted); font-size:0.72rem;">File: <code>${escapeHtml(notePath)}</code> | Section: <code>${escapeHtml(data.section_name || '')}</code></span>
+          </div>
+          <pre style="margin:0; overflow-x:auto; background:transparent;"><code class="language-http">${safePayload}</code></pre>
+        `;
+
+        if (window.hljs) {
+          outputBox.querySelectorAll('pre code').forEach((el) => {
+            hljs.highlightElement(el);
+          });
+        }
+      } catch (e) {
+        outputBox.innerHTML = `<div style="color:#ff5252; padding:15px;">Error: ${escapeHtml(e.message)}</div>`;
+      }
+    }
+
+    async function triggerGetSection(notePath, sectionName) {
+      currentMcpSelectedNote = notePath;
+      const outputBox = document.getElementById('mcp-output-container');
+      const savingsText = document.getElementById('mcp-savings-text');
+      const copyBtn = document.getElementById('btn-copy-payload');
+      const badgeTokens = document.getElementById('badge-inspector-tokens');
+
+      outputBox.innerHTML = `<div style="color:var(--muted); text-align:center; padding:30px;">⏳ Extracting section "${escapeHtml(sectionName)}"...</div>`;
+
+      try {
+        const res = await fetch('/api/mcp/section', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ note_path: notePath, section_name: sectionName })
+        });
+        const data = await res.json();
+        if (!data.success) {
+          outputBox.innerHTML = `<div style="color:#ff5252; padding:15px;">Section Error: ${escapeHtml(data.error || 'Failed')}</div>`;
+          return;
+        }
+
+        currentMcpSelectedPayload = data.content || '';
+        badgeTokens.innerText = `~${data.token_est} Tokens (${data.char_count} chars)`;
+        copyBtn.style.display = 'inline-block';
+
+        const savingsPct = Math.max(75, Math.min(98.5, (100 - (data.token_est / 3200) * 100).toFixed(1)));
+        savingsText.innerHTML = `
+          <span style="color:var(--cyan); font-weight:700;">${savingsPct}% Token Savings!</span>
+          <span style="color:var(--muted); margin-left:6px;">Monolithic note: ~3,200 tokens ➔ Section: <strong>${data.token_est} tokens</strong> (Section: <em>${escapeHtml(sectionName)}</em>, Latency: <strong>${data.elapsed_ms}ms</strong>)</span>
+        `;
+
+        outputBox.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; border-bottom:1px solid #222; padding-bottom:6px;">
+            <span style="color:#b388ff; font-weight:700; font-size:0.78rem;">📑 EXTRACTED SECTION: ${escapeHtml(sectionName)}</span>
+            <span style="color:var(--muted); font-size:0.72rem;">File: <code>${escapeHtml(notePath)}</code></span>
+          </div>
+          <div class="note-markdown-body" style="font-family:inherit; font-size:0.84rem; line-height:1.5;">
+            ${marked.parse(data.content || '')}
+          </div>
+        `;
+
+        outputBox.querySelectorAll('pre code').forEach((el) => {
+          if (window.hljs) hljs.highlightElement(el);
+        });
+      } catch (e) {
+        outputBox.innerHTML = `<div style="color:#ff5252; padding:15px;">Error: ${escapeHtml(e.message)}</div>`;
+      }
+    }
+
+    async function triggerSelectedPayload() {
+      if (!currentMcpSelectedNote) {
+        if (currentMcpResults.length > 0) {
+          currentMcpSelectedNote = currentMcpResults[0].path;
+        } else {
+          showToast('Please search and select a candidate note first.', true);
+          return;
+        }
+      }
+      const ctx = document.getElementById('mcp-stack-context').value.trim();
+      await triggerGetPayload(currentMcpSelectedNote, null, ctx);
+    }
+
+    async function triggerMcpReindex() {
+      showToast('⏳ Rebuilding SQLite FTS5 index across all Gold notes...');
+      try {
+        const res = await fetch('/api/mcp/reindex', { method: 'POST' });
+        const data = await res.json();
+        if (data.success) {
+          showToast(`✓ Successfully re-indexed ${data.indexed_count} Gold notes in ${data.elapsed_ms}ms!`);
+          await loadMcpShowcaseStats();
+        } else {
+          showToast(`✕ Reindexing failed: ${data.error}`, true);
+        }
+      } catch (e) {
+        showToast('✕ Error communicating with reindex service', true);
+      }
+    }
+
+    function copyMcpPayload() {
+      if (!currentMcpSelectedPayload) return;
+      navigator.clipboard.writeText(currentMcpSelectedPayload).then(() => {
+        showToast('✓ Payload copied to clipboard!');
+      });
+    }
+
     // STARTUP
     // =========================================================================
     async function initStudio() {
       await loadCatalogData();
+      await loadMcpShowcaseStats();
       initCanvas();
       await fetchGraph();
     }

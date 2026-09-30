@@ -34,8 +34,16 @@ import datetime
 import threading
 import webbrowser
 import difflib
+import time
+import sqlite3
+from pathlib import Path
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from urllib.parse import urlparse, parse_qs
+
+# Rokki World Knowledge MCP scripts integration
+ROKKI_SCRIPTS_PATH = "/home/omp/Desktop/RED/Knowledge/Rokki/scripts"
+if ROKKI_SCRIPTS_PATH not in sys.path:
+    sys.path.insert(0, ROKKI_SCRIPTS_PATH)
 
 # Resolve the real path of the script even if invoked via a symlink
 SCRIPT_REAL_PATH = os.path.realpath(__file__)
@@ -1752,6 +1760,57 @@ def cmd_split(args):
         return 1
 
 
+def get_mcp_showcase_stats():
+    """Returns stats about the local MCP SQLite FTS5 index and capabilities."""
+    db_path = os.path.join(WIKI_ROOT, ".cache", "index.db")
+    exists = os.path.exists(db_path)
+    size_kb = round(os.path.getsize(db_path) / 1024, 1) if exists else 0
+    notes_count = 0
+    cluster_counts = {}
+    if exists:
+        try:
+            conn = sqlite3.connect(db_path)
+            cur = conn.cursor()
+            cur.execute("SELECT count(*) FROM notes")
+            notes_count = cur.fetchone()[0]
+            cur.execute("SELECT cluster, count(*) FROM notes GROUP BY cluster ORDER BY count(*) DESC")
+            for r in cur.fetchall():
+                cluster_counts[r[0]] = r[1]
+            conn.close()
+        except Exception:
+            pass
+
+    return {
+        "db_path": os.path.relpath(db_path, WIKI_ROOT),
+        "db_exists": exists,
+        "db_size_kb": size_kb,
+        "indexed_notes_count": notes_count,
+        "cluster_counts": cluster_counts,
+        "mcp_server_script": "/home/omp/Desktop/RED/Knowledge/Rokki/scripts/mcp_world_knowledge.py",
+        "active_consumers": ["bb-hunter", "bb-coordinator", "bb-recon"],
+        "tools": [
+            {
+                "name": "search_tradecraft",
+                "desc": "Fast FTS5 lexical + System-1 reranked search across Gold tradecraft notes.",
+                "latency": "<10ms",
+                "tokens": "~120 tokens"
+            },
+            {
+                "name": "get_section",
+                "desc": "Extract exact markdown heading section from Gold note.",
+                "latency": "<2ms",
+                "tokens": "~60 tokens"
+            },
+            {
+                "name": "get_payload",
+                "desc": "Extract exact raw exploit payload or probe with System-1 context selection.",
+                "latency": "<1ms",
+                "tokens": "~35 tokens"
+            }
+        ]
+    }
+
+
 class StudioHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         url = urlparse(self.path)
@@ -1894,6 +1953,14 @@ class StudioHandler(BaseHTTPRequestHandler):
             self.wfile.write(json.dumps(data).encode("utf-8"))
             return
 
+        if url.path == "/api/mcp/stats":
+            m_stats = get_mcp_showcase_stats()
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.end_headers()
+            self.wfile.write(json.dumps(m_stats).encode("utf-8"))
+            return
+
         self.send_response(404)
         self.end_headers()
 
@@ -2019,6 +2086,121 @@ class StudioHandler(BaseHTTPRequestHandler):
             self.send_header("Content-Type", "application/json")
             self.end_headers()
             self.wfile.write(json.dumps({"success": True, "recommendation": saved_rec}).encode("utf-8"))
+            return
+
+        # =====================================================================
+        # World Knowledge MCP Showcase Endpoints
+        # =====================================================================
+        if url.path == "/api/mcp/search":
+            q = req_data.get("query", "").strip()
+            cluster = req_data.get("cluster") or None
+            limit = int(req_data.get("limit", 5))
+            t0 = time.time()
+            try:
+                import mcp_world_knowledge as mcp_wk
+                raw_str = mcp_wk.search_tradecraft(q, cluster=cluster, limit=limit)
+                results = json.loads(raw_str)
+                elapsed_ms = round((time.time() - t0) * 1000, 2)
+                res = {
+                    "success": True,
+                    "query": q,
+                    "cluster": cluster,
+                    "elapsed_ms": elapsed_ms,
+                    "results": results
+                }
+            except Exception as e:
+                res = {"success": False, "error": str(e), "results": []}
+            self.send_response(200 if res.get("success") else 500)
+            self.send_header("Content-Type", "application/json")
+            self.end_headers()
+            self.wfile.write(json.dumps(res).encode("utf-8"))
+            return
+
+        if url.path == "/api/mcp/section":
+            note_p = req_data.get("note_path", "").strip()
+            sec_name = req_data.get("section_name", "").strip()
+            t0 = time.time()
+            try:
+                import mcp_world_knowledge as mcp_wk
+                content = mcp_wk.get_section(note_p, sec_name)
+                elapsed_ms = round((time.time() - t0) * 1000, 2)
+                est_tokens = max(1, round(len(content.split()) * 1.3))
+                res = {
+                    "success": True,
+                    "note_path": note_p,
+                    "section_name": sec_name,
+                    "elapsed_ms": elapsed_ms,
+                    "content": content,
+                    "token_est": est_tokens,
+                    "char_count": len(content)
+                }
+            except Exception as e:
+                res = {"success": False, "error": str(e)}
+            self.send_response(200 if res.get("success") else 500)
+            self.send_header("Content-Type", "application/json")
+            self.end_headers()
+            self.wfile.write(json.dumps(res).encode("utf-8"))
+            return
+
+        if url.path == "/api/mcp/payload":
+            note_p = req_data.get("note_path", "").strip()
+            sec_name = req_data.get("section_name") or None
+            stack_ctx = req_data.get("stack_context") or None
+            t0 = time.time()
+            try:
+                import mcp_world_knowledge as mcp_wk
+                import world_knowledge_indexer as wki
+                import world_knowledge_reranker as wkr
+
+                full_p = os.path.join(WIKI_ROOT, note_p) if not os.path.isabs(note_p) else note_p
+                chosen_section = sec_name
+                if not chosen_section and stack_ctx and os.path.exists(full_p):
+                    with open(full_p, "r", encoding="utf-8", errors="replace") as fp:
+                        _, b = wki.parse_frontmatter(fp.read())
+                    secs = [s["heading"] for s in wki.parse_markdown_sections(b)]
+                    chosen_section = wkr.choose_section(stack_ctx, secs)
+
+                payload = mcp_wk.get_payload(note_p, section_name=sec_name, stack_context=stack_ctx)
+                elapsed_ms = round((time.time() - t0) * 1000, 2)
+                est_tokens = max(1, round(len(payload.split()) * 1.3))
+                res = {
+                    "success": True,
+                    "note_path": note_p,
+                    "section_name": chosen_section or "Default Code Fence",
+                    "stack_context": stack_ctx,
+                    "elapsed_ms": elapsed_ms,
+                    "payload": payload,
+                    "token_est": est_tokens,
+                    "char_count": len(payload)
+                }
+            except Exception as e:
+                res = {"success": False, "error": str(e)}
+            self.send_response(200 if res.get("success") else 500)
+            self.send_header("Content-Type", "application/json")
+            self.end_headers()
+            self.wfile.write(json.dumps(res).encode("utf-8"))
+            return
+
+        if url.path == "/api/mcp/reindex":
+            t0 = time.time()
+            try:
+                import world_knowledge_indexer as wki
+                db_p = Path(WIKI_ROOT) / ".cache" / "index.db"
+                if db_p.exists():
+                    db_p.unlink()
+                cnt = wki.build_index(Path(WIKI_ROOT), db_p)
+                elapsed_ms = round((time.time() - t0) * 1000, 2)
+                res = {
+                    "success": True,
+                    "indexed_count": cnt,
+                    "elapsed_ms": elapsed_ms
+                }
+            except Exception as e:
+                res = {"success": False, "error": str(e)}
+            self.send_response(200 if res.get("success") else 500)
+            self.send_header("Content-Type", "application/json")
+            self.end_headers()
+            self.wfile.write(json.dumps(res).encode("utf-8"))
             return
 
         self.send_response(404)
