@@ -2146,6 +2146,9 @@ class StudioHandler(BaseHTTPRequestHandler):
             note_p = req_data.get("note_path", "").strip()
             sec_name = req_data.get("section_name") or None
             stack_ctx = req_data.get("stack_context") or None
+            payload_idx = int(req_data.get("payload_index", 0))
+            lang = req_data.get("lang") or None
+            target_host = req_data.get("target_host") or None
             t0 = time.time()
             try:
                 import mcp_world_knowledge as mcp_wk
@@ -2160,7 +2163,14 @@ class StudioHandler(BaseHTTPRequestHandler):
                     secs = [s["heading"] for s in wki.parse_markdown_sections(b)]
                     chosen_section = wkr.choose_section(stack_ctx, secs)
 
-                payload = mcp_wk.get_payload(note_p, section_name=sec_name, stack_context=stack_ctx)
+                payload = mcp_wk.get_payload(
+                    note_p,
+                    section_name=sec_name,
+                    stack_context=stack_ctx,
+                    payload_index=payload_idx,
+                    lang=lang,
+                    target_host=target_host
+                )
                 elapsed_ms = round((time.time() - t0) * 1000, 2)
                 est_tokens = max(1, round(len(payload.split()) * 1.3))
                 res = {
@@ -2168,10 +2178,58 @@ class StudioHandler(BaseHTTPRequestHandler):
                     "note_path": note_p,
                     "section_name": chosen_section or "Default Code Fence",
                     "stack_context": stack_ctx,
+                    "payload_index": payload_idx,
+                    "lang": lang,
+                    "target_host": target_host,
                     "elapsed_ms": elapsed_ms,
                     "payload": payload,
                     "token_est": est_tokens,
                     "char_count": len(payload)
+                }
+            except Exception as e:
+                res = {"success": False, "error": str(e)}
+            self.send_response(200 if res.get("success") else 500)
+            self.send_header("Content-Type", "application/json")
+            self.end_headers()
+            self.wfile.write(json.dumps(res).encode("utf-8"))
+            return
+
+        if url.path == "/api/mcp/payloads-list":
+            note_p = req_data.get("note_path", "").strip()
+            sec_name = req_data.get("section_name") or None
+            t0 = time.time()
+            try:
+                import mcp_world_knowledge as mcp_wk
+                raw_json = mcp_wk.list_payloads(note_p, section_name=sec_name)
+                blocks = json.loads(raw_json)
+                elapsed_ms = round((time.time() - t0) * 1000, 2)
+                res = {
+                    "success": True,
+                    "note_path": note_p,
+                    "section_name": sec_name,
+                    "blocks": blocks,
+                    "elapsed_ms": elapsed_ms
+                }
+            except Exception as e:
+                res = {"success": False, "error": str(e)}
+            self.send_response(200 if res.get("success") else 500)
+            self.send_header("Content-Type", "application/json")
+            self.end_headers()
+            self.wfile.write(json.dumps(res).encode("utf-8"))
+            return
+
+        if url.path == "/api/mcp/outline":
+            note_p = req_data.get("note_path", "").strip()
+            t0 = time.time()
+            try:
+                import mcp_world_knowledge as mcp_wk
+                outline = mcp_wk.get_note_outline(note_p)
+                elapsed_ms = round((time.time() - t0) * 1000, 2)
+                res = {
+                    "success": True,
+                    "note_path": note_p,
+                    "outline": outline,
+                    "elapsed_ms": elapsed_ms
                 }
             except Exception as e:
                 res = {"success": False, "error": str(e)}

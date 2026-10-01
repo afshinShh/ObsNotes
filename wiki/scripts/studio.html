@@ -937,6 +937,18 @@
                 </div>
               </div>
 
+              <!-- Target Host Substitution Bar -->
+              <div style="background:#14171d; border:1px solid var(--border); border-radius:6px; padding:10px; margin-bottom:12px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                  <label style="font-size:0.75rem; color:var(--muted); text-transform:uppercase; font-weight:600;">Dynamic Target Host Substitution (<code style="color:var(--green);">target_host</code>)</label>
+                  <span style="font-size:0.72rem; color:var(--green);">Replaces target.com / {{TARGET}}</span>
+                </div>
+                <div style="display:flex; gap:8px;">
+                  <input type="text" id="mcp-target-host" class="toc-search" style="flex:1; padding:6px 10px; font-size:0.8rem;" placeholder="e.g. 'victim.internal', 'staging.corp.com', '10.10.10.50'" oninput="triggerSelectedPayload()">
+                  <button class="btn btn-secondary" onclick="triggerSelectedPayload()" style="padding:6px 12px; font-size:0.78rem;">🔄 Substitute Host</button>
+                </div>
+              </div>
+
               <!-- Telemetry comparison box -->
               <div id="mcp-token-savings-box" style="background:rgba(0, 229, 255, 0.06); border:1px solid rgba(0, 229, 255, 0.2); border-radius:6px; padding:10px 12px; margin-bottom:12px; font-size:0.8rem; display:flex; justify-content:space-between; align-items:center;">
                 <div>
@@ -2646,14 +2658,20 @@
               </div>
 
               <!-- Action Buttons -->
-              <div style="display:flex; gap:6px; margin-top:8px; align-items:center;">
-                <button class="btn btn-primary" style="padding:4px 10px; font-size:0.75rem; background:rgba(0,229,255,0.15); border-color:var(--cyan); color:var(--cyan);" onclick="triggerGetPayload(currentMcpResults[${idx}].path)">
+              <div style="display:flex; flex-wrap:wrap; gap:5px; margin-top:8px; align-items:center;">
+                <button class="btn btn-primary" style="padding:4px 8px; font-size:0.73rem; background:rgba(0,229,255,0.15); border-color:var(--cyan); color:var(--cyan);" onclick="triggerGetPayload(currentMcpResults[${idx}].path)">
                   🎯 Get Payload
                 </button>
-                <button class="btn btn-secondary" style="padding:4px 10px; font-size:0.75rem;" onclick="triggerGetSection(currentMcpResults[${idx}].path, currentMcpResults[${idx}].sections[0] || 'Overview')">
-                  📑 View Top Section
+                <button class="btn btn-secondary" style="padding:4px 8px; font-size:0.73rem;" onclick="triggerGetSection(currentMcpResults[${idx}].path, currentMcpResults[${idx}].sections[0] || 'Overview')">
+                  📑 Top Section
                 </button>
-                <button class="btn btn-secondary" style="padding:4px 8px; font-size:0.75rem;" onclick="openNote(currentMcpResults[${idx}].path)">
+                <button class="btn btn-secondary" style="padding:4px 8px; font-size:0.73rem;" onclick="triggerGetOutline(currentMcpResults[${idx}].path)">
+                  📋 Outline
+                </button>
+                <button class="btn btn-secondary" style="padding:4px 8px; font-size:0.73rem;" onclick="triggerListPayloads(currentMcpResults[${idx}].path)">
+                  📦 All Payloads
+                </button>
+                <button class="btn btn-secondary" style="padding:4px 8px; font-size:0.73rem;" onclick="openNote(currentMcpResults[${idx}].path)">
                   📖 Full Note
                 </button>
               </div>
@@ -2687,9 +2705,10 @@
       }
     }
 
-    async function triggerGetPayload(notePath, sectionName = null, stackContext = null) {
+    async function triggerGetPayload(notePath, sectionName = null, stackContext = null, payloadIndex = 0, lang = null) {
       currentMcpSelectedNote = notePath;
       const ctx = stackContext || document.getElementById('mcp-stack-context').value.trim();
+      const targetHost = document.getElementById('mcp-target-host') ? document.getElementById('mcp-target-host').value.trim() : null;
       const outputBox = document.getElementById('mcp-output-container');
       const savingsText = document.getElementById('mcp-savings-text');
       const copyBtn = document.getElementById('btn-copy-payload');
@@ -2701,7 +2720,14 @@
         const res = await fetch('/api/mcp/payload', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ note_path: notePath, section_name: sectionName, stack_context: ctx })
+          body: JSON.stringify({ 
+            note_path: notePath, 
+            section_name: sectionName, 
+            stack_context: ctx,
+            payload_index: payloadIndex,
+            lang: lang,
+            target_host: targetHost 
+          })
         });
         const data = await res.json();
         if (!data.success) {
@@ -2733,6 +2759,118 @@
             hljs.highlightElement(el);
           });
         }
+      } catch (e) {
+        outputBox.innerHTML = `<div style="color:#ff5252; padding:15px;">Error: ${escapeHtml(e.message)}</div>`;
+      }
+    }
+
+    async function triggerGetOutline(notePath) {
+      currentMcpSelectedNote = notePath;
+      const outputBox = document.getElementById('mcp-output-container');
+      const savingsText = document.getElementById('mcp-savings-text');
+      const copyBtn = document.getElementById('btn-copy-payload');
+      const badgeTokens = document.getElementById('badge-inspector-tokens');
+
+      outputBox.innerHTML = `<div style="color:var(--muted); text-align:center; padding:30px;">⏳ Generating dynamic outline for "${escapeHtml(notePath)}"...</div>`;
+
+      try {
+        const res = await fetch('/api/mcp/outline', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ note_path: notePath })
+        });
+        const data = await res.json();
+        if (!data.success) {
+          outputBox.innerHTML = `<div style="color:#ff5252; padding:15px;">Outline Error: ${escapeHtml(data.error || 'Failed')}</div>`;
+          return;
+        }
+
+        currentMcpSelectedPayload = data.outline || '';
+        badgeTokens.innerText = `Dynamic Virtual TOC`;
+        copyBtn.style.display = 'inline-block';
+
+        savingsText.innerHTML = `
+          <span style="color:var(--cyan); font-weight:700;">Dynamic Virtual Table of Contents</span>
+          <span style="color:var(--muted); margin-left:6px;">Hierarchical outline generated on-the-fly in <strong>${data.elapsed_ms}ms</strong> for notes without static TOC.</span>
+        `;
+
+        outputBox.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; border-bottom:1px solid #222; padding-bottom:6px;">
+            <span style="color:var(--cyan); font-weight:700; font-size:0.78rem;">📋 HIERARCHICAL OUTLINE & CODEBLOCK CATALOG</span>
+            <span style="color:var(--muted); font-size:0.72rem;">File: <code>${escapeHtml(notePath)}</code></span>
+          </div>
+          <pre style="margin:0; overflow-x:auto; background:transparent; font-size:0.8rem; line-height:1.5;"><code class="language-markdown">${escapeHtml(data.outline)}</code></pre>
+        `;
+
+        if (window.hljs) {
+          outputBox.querySelectorAll('pre code').forEach((el) => {
+            hljs.highlightElement(el);
+          });
+        }
+      } catch (e) {
+        outputBox.innerHTML = `<div style="color:#ff5252; padding:15px;">Error: ${escapeHtml(e.message)}</div>`;
+      }
+    }
+
+    async function triggerListPayloads(notePath, sectionName = null) {
+      currentMcpSelectedNote = notePath;
+      const outputBox = document.getElementById('mcp-output-container');
+      const savingsText = document.getElementById('mcp-savings-text');
+      const copyBtn = document.getElementById('btn-copy-payload');
+      const badgeTokens = document.getElementById('badge-inspector-tokens');
+
+      outputBox.innerHTML = `<div style="color:var(--muted); text-align:center; padding:30px;">⏳ Scanning code blocks in "${escapeHtml(notePath)}"...</div>`;
+
+      try {
+        const res = await fetch('/api/mcp/payloads-list', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ note_path: notePath, section_name: sectionName })
+        });
+        const data = await res.json();
+        if (!data.success) {
+          outputBox.innerHTML = `<div style="color:#ff5252; padding:15px;">Payload List Error: ${escapeHtml(data.error || 'Failed')}</div>`;
+          return;
+        }
+
+        const blocks = data.blocks || [];
+        badgeTokens.innerText = `${blocks.length} Code Block(s)`;
+        copyBtn.style.display = 'none';
+
+        savingsText.innerHTML = `
+          <span style="color:#b388ff; font-weight:700;">Code Block Catalog: </span>
+          <span style="color:var(--muted); margin-left:6px;">Found <strong>${blocks.length}</strong> fenced blocks (${blocks.filter(b => !b.is_diagram).length} executable, ${blocks.filter(b => b.is_diagram).length} diagrams).</span>
+        `;
+
+        if (blocks.length === 0) {
+          outputBox.innerHTML = `<div style="color:var(--muted); padding:20px; text-align:center;">No fenced code blocks found in this note/section.</div>`;
+          return;
+        }
+
+        outputBox.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; border-bottom:1px solid #222; padding-bottom:6px;">
+            <span style="color:#b388ff; font-weight:700; font-size:0.78rem;">📦 CODE BLOCKS IN NOTE (${blocks.length})</span>
+            <span style="color:var(--muted); font-size:0.72rem;">File: <code>${escapeHtml(notePath)}</code></span>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:10px;">
+            ${blocks.map(b => `
+              <div style="background:#141720; border:1px solid ${b.is_diagram ? 'rgba(255,255,255,0.08)' : 'var(--border)'}; border-radius:6px; padding:10px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                  <div>
+                    <span class="badge" style="background:${b.is_diagram ? 'rgba(255,255,255,0.1)' : 'rgba(0,229,255,0.15)'}; color:${b.is_diagram ? 'var(--muted)' : 'var(--cyan)'};">
+                      #${b.index}: ${b.lang || 'raw'}
+                    </span>
+                    <span style="font-size:0.72rem; color:var(--muted); margin-left:6px;">${b.lines} lines ${b.is_diagram ? '(Diagram)' : ''}</span>
+                  </div>
+                  ${!b.is_diagram ? `
+                    <button class="btn btn-primary" style="padding:2px 8px; font-size:0.72rem;" onclick="triggerGetPayload('${escapeHtml(notePath)}', null, null, ${b.index})">🎯 Extract This Block</button>
+                  ` : ''}
+                </div>
+                <pre style="margin:0; background:#0b0c10; padding:8px; border-radius:4px; font-size:0.75rem; color:#b0bec5; overflow-x:auto;"><code>${escapeHtml(b.preview)}</code></pre>
+              </div>
+            `).join('')}
+          </div>
+        `;
       } catch (e) {
         outputBox.innerHTML = `<div style="color:#ff5252; padding:15px;">Error: ${escapeHtml(e.message)}</div>`;
       }

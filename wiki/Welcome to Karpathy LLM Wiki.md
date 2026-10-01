@@ -25,7 +25,7 @@ Open the command palette with `Ctrl/Cmd + P` and search "Karpathy LLM Wiki". The
 | ----------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
 | `Karpathy LLM Wiki: Ingest multiple files`      | Pick N source notes; the plugin extracts entities / concepts / sources from each and writes wiki pages. **Day one — start here.** |
 | `Karpathy LLM Wiki: Ingest single source`       | Same as above, for one file.                                                                                                      |
-| `Karpathy LLM Wiki: Ingest from folder`         | Ingests every file in a chosen folder (e.g. `inbox/2024/`).                                                                       |
+| `Karpathy LLM Wiki: Ingest from folder`         | Ingestsx` every file in a chosen folder (e.g. `inbox/2024/`).                                                                     |
 | `Karpathy LLM Wiki: Query Wiki`                 | Opens the right-side chat panel for asking questions against the ingested content.                                                |
 | `Karpathy LLM Wiki: Lint wiki`                  | Runs the Lint pipeline (dead links, orphans, duplicates). Use when the wiki has ~30+ pages.                                       |
 | `Karpathy LLM Wiki: View Ingestion History`     | Opens a panel listing what each previous Ingest call created/updated.                                                             |
