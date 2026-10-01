@@ -1,23 +1,4 @@
 ---
-type: llm-wiki-review
-status: needs-review
-decision: approve
-revision: 1
-operation: create
-target: web-and-bug-bounty/sources/websockets.md
-sources:
-  - Notes/OLD Notes/WEB/vulnerabilities/WebSockets/concepts.md
-  - Notes/OLD Notes/WEB/vulnerabilities/WebSockets/methodology.md
-  - Notes/OLD Notes/WEB/vulnerabilities/WebSockets/Examples.md
----
-# Proposed Wiki change
-
-## What will change
-Create provenance source anchor for WebSockets notes in Notes/OLD Notes/WEB/vulnerabilities/WebSockets/.
-
-## Proposed content
-```markdown
----
 title: "Source Note - WebSockets: Protocol Mechanics, Vulnerabilities, and CSWSH"
 created: 2026-10-01
 updated: 2026-10-01
@@ -81,11 +62,3 @@ cluster: web-and-bug-bounty
 ## Related Pages
 - Parent Domain Hub: [[web-and-bug-bounty]]
 - Target Concepts: [[websocket-security-and-cross-site-hijacking]], [[csrf-attacks-and-prevention]], [[cross-site-scripting]]
-```
-
-## Evidence and uncertainty
-Sourced directly from canonical vault notes in Notes/OLD Notes/WEB/vulnerabilities/.
-Validated against schema with zero structural contradictions.
-
-## Human feedback
-Human decision required via Decision Studio (http://127.0.0.1:20888) or command line.

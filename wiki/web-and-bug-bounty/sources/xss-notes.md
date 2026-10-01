@@ -1,28 +1,4 @@
 ---
-type: llm-wiki-review
-status: needs-review
-decision: approve
-revision: 1
-operation: create
-target: web-and-bug-bounty/sources/xss-notes.md
-sources:
-  - Notes/OLD Notes/WEB/vulnerabilities/XSS/attack/Examples.md
-  - Notes/OLD Notes/WEB/vulnerabilities/XSS/attack/METHODOLOGY.md
-  - Notes/OLD Notes/WEB/vulnerabilities/XSS/attack/Test and find.md
-  - Notes/OLD Notes/WEB/vulnerabilities/XSS/attack/tools & setup.md
-  - Notes/OLD Notes/WEB/vulnerabilities/XSS/defense/cause & sinks.md
-  - Notes/OLD Notes/WEB/vulnerabilities/XSS/defense/impact.md
-  - Notes/OLD Notes/WEB/vulnerabilities/XSS/defense/protection.md
-  - Notes/OLD Notes/WEB/vulnerabilities/XSS/links and todos.md
----
-# Proposed Wiki change
-
-## What will change
-Create provenance source anchor for XSS notes in Notes/OLD Notes/WEB/vulnerabilities/XSS/.
-
-## Proposed content
-```markdown
----
 title: "Source Note - Cross-Site Scripting (XSS): Probing, Context Analysis, and Tooling"
 created: 2026-10-01
 updated: 2026-10-01
@@ -100,11 +76,3 @@ cluster: web-and-bug-bounty
 - Parent Domain Hub: [[web-and-bug-bounty]]
 - Target Concepts: [[cross-site-scripting]], [[xss-and-waf-evasion-tradecraft]], [[dom-debugging-and-sink-analysis]]
 - Comparisons: [[stored-vs-reflected-vs-dom-xss]]
-```
-
-## Evidence and uncertainty
-Sourced directly from canonical vault notes in Notes/OLD Notes/WEB/.
-Validated against schema with zero structural contradictions.
-
-## Human feedback
-Human decision required via Decision Studio (http://127.0.0.1:20888) or command line.

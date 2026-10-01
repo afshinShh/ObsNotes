@@ -1,7 +1,7 @@
 # Wiki Index
 
 > Content catalog for the Offensive Security & Bug Bounty LLM Wiki.
-> Last updated: 2026-09-30 | Total pages: 116
+> Last updated: 2026-10-01 | Total pages: 139
 
 ## Domain Clusters Overview
 The knowledge vault is structured into 6 domain clusters with parent-child hierarchy:
@@ -19,14 +19,18 @@ The knowledge vault is structured into 6 domain clusters with parent-child hiera
 - [[account-takeover-and-auth-flaws]] — <!-- TOC_START -->
 - [[app-to-web-auth-transfer]] — Application-to-Web (A2W) and Web-to-Application (W2A) authentication transfer refers to the architectural handoff mec...
 - [[blind-ssrf-gopher-redis-rce]] — Server-Side Request Forgery (SSRF) vulnerabilities supporting the `gopher://` URL scheme allow attackers to send arbi...
+- [[broken-authentication-and-credential-attacks]] — > **Classification**: OWASP Top 10 (A07:2021 – Identification and Authentication Failures), CWE-287 (Improper Authent...
 - [[bug-bounty-live-hunts-case-studies]] — <!-- TOC_START -->
 - [[bug-bounty-recon-and-threat-modeling]] — <!-- TOC_START -->
+- [[clickjacking-attacks-and-ui-redressing]] — > **Classification**: OWASP Top 10, CWE-1021 (Improper Restriction of Rendered UI Layers or Frames).
 - [[client-side-path-traversal]] — <!-- TOC_START -->
+- [[cors-vulnerabilities-and-exploitation]] — > **Classification**: OWASP Top 10 (A05:2021 – Security Misconfiguration), CWE-942 (Permissive Cross-domain Policy wi...
 - [[cross-site-scripting]] — Cross-Site Scripting (XSS) allows attackers to execute arbitrary JavaScript in the context of an end user's browser
+- [[csrf-attacks-and-prevention]] — > **Classification**: OWASP Top 10, CWE-352 (Cross-Site Request Forgery).
 - [[deserialization-attacks]] — Insecure Deserialization occurs when untrusted serialized byte streams are instantiated by applications
 - [[dom-debugging-and-sink-analysis]] — <!-- TOC_START -->
 - [[fastcgi-ssrf-exploitation]] — When PHP-FPM listens on an accessible network socket (e.g
-- [[file-upload-attack-matrix]] — <!-- TOC_START -->
+- [[file-upload-attack-matrix]] — > **Classification**: OWASP Top 10 (A04:2021 – Insecure Design), CWE-434 (Unrestricted Upload of File with Dangerous...
 - [[graphql-security]] — GraphQL introduces distinct attack surfaces including schema introspection, field suggestion leakage, recursive query...
 - [[http-parameter-pollution]] — HTTP Parameter Pollution (HPP) manipulates application logic by supplying repeated parameters across HTTP requests
 - [[http-request-smuggling]] — <!-- TOC_START -->
@@ -37,18 +41,22 @@ The knowledge vault is structured into 6 domain clusters with parent-child hiera
 - [[jwt-attack-vectors]] — JWT attack vectors target implementation flaws, algorithm verification confusion, header injection vulnerabilities, a...
 - [[jwt-security-mechanisms]] — <!-- TOC_START -->
 - [[mobile-pentest-traffic-capture-and-deep-links]] — <!-- TOC_START -->
-- [[oauth-attack-vectors]] — OAuth 2.0 and OIDC implementations frequently suffer from redirection uri validation flaws, state parameter omission,...
+- [[oauth-attack-vectors]] — > **Classification**: OAuth 2.0 (RFC 6749) / OpenID Connect Core 1.0, CWE-287 (Improper Authentication), CWE-601 (Ope...
 - [[oauth-grant-types-and-flows]] — OAuth 2.0 (RFC 6749) and OpenID Connect (OIDC) govern delegated authorization and identity assertion across web, mobi...
 - [[open-redirect-attacks]] — Open Redirects allow attackers to manipulate application redirection logic to forward users to arbitrary external dom...
+- [[os-command-injection-exploitation]] — > **Classification**: OWASP Top 10 (A03:2021 – Injection), CWE-78 (Improper Neutralization of Special Elements used i...
+- [[path-traversal-and-directory-traversal]] — > **Classification**: OWASP Top 10 (A01:2021 – Broken Access Control), CWE-22 (Improper Limitation of a Pathname to a...
 - [[race-condition-attacks]] — Race conditions occur when concurrent threads or processes access shared resources without adequate synchronization
-- [[server-side-request-forgery]] — Server-Side Request Forgery (SSRF) enables attackers to force backend servers into initiating arbitrary network requests
+- [[server-side-request-forgery]] — > **Classification**: OWASP Top 10 (A10:2021 – Server-Side Request Forgery), CWE-918 (Server-Side Request Forgery).
 - [[server-side-template-injection]] — Server-Side Template Injection (SSTI) occurs when untrusted input is embedded directly into server-side template engines
+- [[source-code-review-and-client-side-analysis]] — > **Classification**: Reconnaissance & Attack Surface Mapping, CWE-200 (Exposure of Sensitive Information to an Unaut...
 - [[sql-injection-testing]] — <!-- TOC_START -->
 - [[sql-injection-testing-defense-and-remediation]] — <!-- TOC_START -->
 - [[sql-injection-testing-detection-methodology]] — <!-- TOC_START -->
 - [[sql-injection-testing-exploitation-and-attack-vectors]] — <!-- TOC_START -->
 - [[sql-injection-testing-methodologies]] — <!-- TOC_START -->
-- [[xml-external-entity-injection]] — XML External Entity (XXE) vulnerabilities arise when improperly configured XML parsers process user-controlled DTD de...
+- [[websocket-security-and-cross-site-hijacking]] — > **Classification**: OWASP Top 10, CWE-345 (Insufficient Verification of Data Authenticity), CWE-352 (Cross-Site Req...
+- [[xml-external-entity-injection]] — > **Classification**: OWASP Top 10 (A05:2021 – Security Misconfiguration), CWE-611 (Improper Restriction of XML Exter...
 - [[xss-and-waf-evasion-tradecraft]] — <!-- TOC_START -->
 
 ### Comparisons
@@ -56,7 +64,9 @@ The knowledge vault is structured into 6 domain clusters with parent-child hiera
 - [[blind-ssrf-gopher-redis-rce-vs-fastcgi-ssrf-exploitation]] — Technical trade-off evaluation comparing Blind SSRF to Redis RCE via Gopher and FastCGI Protocol Injection via SSRF w...
 - [[cl-te-vs-te-cl]] — HTTP request smuggling stems from parsing ambiguities between front-end reverse proxies and backend application servers
 - [[classic-vs-blind-xxe]] — Comparison of XML External Entity injection paradigms: Direct response entity reflection versus Blind Out-of-Band par...
+- [[clickjacking-vs-csrf]] — > **Summary**: While both attacks induce authenticated victims to execute unauthorized state changes on an applicatio...
 - [[cspt-vs-path-traversal]] — <!-- TOC_START -->
+- [[csrf-vs-cors-security]] — > **Summary**: While both vulnerabilities involve cross-origin browser interactions utilizing ambient user credential...
 - [[imdsv1-vs-imdsv2-ssrf]] — Architectural and exploitation comparison of AWS Instance Metadata Service version 1 (request-response) versus versio...
 - [[in-band-vs-blind-sqli]] — Technical trade-off analysis comparing direct In-Band (Union-based, Error-based) SQLi with Inferential/Blind (Boolean...
 - [[jwt-in-oauth2-architecture]] — In modern identity systems, JSON Web Tokens (jwt-security-mechanisms) provide the self-contained token format powerin...
@@ -76,6 +86,12 @@ The knowledge vault is structured into 6 domain clusters with parent-child hiera
 - [[ysoserial]] — ysoserial (authored by frohoff) is the pioneering proof-of-concept tool for generating Java deserialization gadget ch...
 
 ### Sources
+- [[authentication-vulnerabilities]] — > **Provenance Anchor**: Ingested from canonical vault files under `Notes/OLD Notes/WEB/vulnerabilities/Authenticatio...
+- [[clickjacking]] — > **Provenance Anchor**: Ingested from canonical vault files under `Notes/OLD Notes/WEB/vulnerabilities/Clickjacking/`.
+- [[command-injection]] — > **Provenance Anchor**: Ingested from canonical vault files under `Notes/OLD Notes/WEB/vulnerabilities/Command Injec...
+- [[cors]] — > **Provenance Anchor**: Ingested from canonical vault files under `Notes/OLD Notes/WEB/vulnerabilities/CORS/`.
+- [[csrf]] — > **Provenance Anchor**: Ingested from canonical vault files under `Notes/OLD Notes/WEB/vulnerabilities/CSRF/`.
+- [[file-upload]] — > **Provenance Anchor**: Ingested from canonical vault files under `Notes/OLD Notes/WEB/vulnerabilities/File Upload/`.
 - [[graphql]] — > **Provenance Anchor**: Ingested from canonical vault file `unprocessed-obsidians/graphql`.
 - [[idor]] — > **Provenance Anchor**: Ingested from canonical vault file `unprocessed-obsidians/idor`.
 - [[insecure-deserialization]] — > **Provenance Anchor**: Ingested from canonical vault file `unprocessed-obsidians/insecure-deserialization`.
@@ -86,13 +102,20 @@ The knowledge vault is structured into 6 domain clusters with parent-child hiera
 - [[oauth]] — > **Provenance Anchor**: Ingested from canonical vault file `unprocessed-obsidians/oauth`.
 - [[open-redirect]] — > **Provenance Anchor**: Ingested from canonical vault file `unprocessed-obsidians/open-redirect`.
 - [[parameter-pollution]] — > **Provenance Anchor**: Ingested from canonical vault file `unprocessed-obsidians/parameter-pollution`.
+- [[path-traversal]] — > **Provenance Anchor**: Ingested from canonical vault files under `Notes/OLD Notes/WEB/vulnerabilities/Path Traversa...
 - [[performance monitor]] — > **Provenance Anchor**: Ingested from `BUG-Notes/performance monitor`.
 - [[race-condition]] — > **Provenance Anchor**: Ingested from canonical vault file `unprocessed-obsidians/race-condition`.
 - [[req-smuggle]] — > **Provenance Anchor**: Ingested from canonical vault file `unprocessed-obsidians/req-smuggle`.
+- [[source-code-review]] — > **Provenance Anchor**: Ingested from canonical vault file `Notes/OLD Notes/WEB/Source Code Review.md`.
 - [[sql-injection]] — > **Provenance Anchor**: Ingested from canonical vault file `unprocessed-obsidians/sql-injection`.
+- [[sql-injection-notes]] — > **Provenance Anchor**: Ingested from canonical vault files under `Notes/OLD Notes/WEB/vulnerabilities/SQL Injection/`.
 - [[ssrf]] — > **Provenance Anchor**: Ingested from canonical vault file `unprocessed-obsidians/ssrf`.
+- [[ssrf-notes]] — > **Provenance Anchor**: Ingested from canonical vault files under `Notes/OLD Notes/WEB/vulnerabilities/SSRF/`.
 - [[ssti]] — > **Provenance Anchor**: Ingested from canonical vault file `unprocessed-obsidians/ssti`.
+- [[websockets]] — > **Provenance Anchor**: Ingested from canonical vault files under `Notes/OLD Notes/WEB/vulnerabilities/WebSockets/`.
+- [[xml-vulnerabilities]] — > **Provenance Anchor**: Ingested from canonical vault files under `Notes/OLD Notes/WEB/vulnerabilities/XML vulnerabi...
 - [[xss]] — > **Provenance Anchor**: Ingested from canonical vault file `unprocessed-obsidians/xss`.
+- [[xss-notes]] — > **Provenance Anchor**: Ingested from canonical vault files under `Notes/OLD Notes/WEB/vulnerabilities/XSS/`.
 - [[xxe]] — > **Provenance Anchor**: Ingested from canonical vault file `unprocessed-obsidians/xxe`.
 
 ## ⚙️ Binary Exploitation & Memory Corruption

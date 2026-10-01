@@ -1,27 +1,4 @@
 ---
-type: llm-wiki-review
-status: needs-review
-decision: approve
-revision: 1
-operation: create
-target: web-and-bug-bounty/sources/authentication-vulnerabilities.md
-sources:
-  - Notes/OLD Notes/WEB/vulnerabilities/Authentication vulnerabilities/concepts and defense.md
-  - Notes/OLD Notes/WEB/vulnerabilities/Authentication vulnerabilities/METHODOLOGY.md
-  - Notes/OLD Notes/WEB/vulnerabilities/Authentication vulnerabilities/payload.md
-  - Notes/OLD Notes/WEB/vulnerabilities/Authentication vulnerabilities/resources.md
-  - Notes/OLD Notes/WEB/vulnerabilities/Authentication vulnerabilities/OAuth/concepts and defense.md
-  - Notes/OLD Notes/WEB/vulnerabilities/Authentication vulnerabilities/OAuth/METHODOLOGY.md
-  - Notes/OLD Notes/WEB/vulnerabilities/Authentication vulnerabilities/OAuth/payload.md
----
-# Proposed Wiki change
-
-## What will change
-Create provenance source anchor for Authentication & OAuth notes in Notes/OLD Notes/WEB/vulnerabilities/Authentication vulnerabilities/.
-
-## Proposed content
-```markdown
----
 title: "Source Note - Authentication Vulnerabilities: Credential Attacks, 2FA Bypasses, and OAuth Flaws"
 created: 2026-10-01
 updated: 2026-10-01
@@ -103,11 +80,3 @@ cluster: web-and-bug-bounty
 ## Related Pages
 - Parent Domain Hub: [[web-and-bug-bounty]]
 - Target Concepts: [[broken-authentication-and-credential-attacks]], [[oauth-attack-vectors]], [[account-takeover-and-auth-flaws]]
-```
-
-## Evidence and uncertainty
-Sourced directly from canonical vault notes in Notes/OLD Notes/WEB/.
-Validated against schema with zero structural contradictions.
-
-## Human feedback
-Human decision required via Decision Studio (http://127.0.0.1:20888) or command line.

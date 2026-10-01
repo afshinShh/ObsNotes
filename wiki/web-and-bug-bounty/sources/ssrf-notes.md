@@ -1,23 +1,4 @@
 ---
-type: llm-wiki-review
-status: needs-review
-decision: approve
-revision: 1
-operation: create
-target: web-and-bug-bounty/sources/ssrf-notes.md
-sources:
-  - Notes/OLD Notes/WEB/vulnerabilities/SSRF/concepts and defense.md
-  - Notes/OLD Notes/WEB/vulnerabilities/SSRF/METHODOLOGY.md
-  - Notes/OLD Notes/WEB/vulnerabilities/SSRF/Examples.md
----
-# Proposed Wiki change
-
-## What will change
-Create provenance source anchor for SSRF notes in Notes/OLD Notes/WEB/vulnerabilities/SSRF/.
-
-## Proposed content
-```markdown
----
 title: "Source Note - SSRF: Loopback Attacks, Defense Bypasses, and REST Pivoting"
 created: 2026-10-01
 updated: 2026-10-01
@@ -79,11 +60,3 @@ cluster: web-and-bug-bounty
 ## Related Pages
 - Parent Domain Hub: [[web-and-bug-bounty]]
 - Target Concepts: [[server-side-request-forgery]], [[blind-ssrf-gopher-redis-rce]], [[fastcgi-ssrf-exploitation]]
-```
-
-## Evidence and uncertainty
-Sourced directly from canonical vault notes in Notes/OLD Notes/WEB/.
-Validated against schema with zero structural contradictions.
-
-## Human feedback
-Human decision required via Decision Studio (http://127.0.0.1:20888) or command line.

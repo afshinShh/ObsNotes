@@ -1,24 +1,4 @@
 ---
-type: llm-wiki-review
-status: needs-review
-decision: approve
-revision: 1
-operation: create
-target: web-and-bug-bounty/sources/xml-vulnerabilities.md
-sources:
-  - Notes/OLD Notes/WEB/vulnerabilities/XML vulnerabilities/concepts.md
-  - Notes/OLD Notes/WEB/vulnerabilities/XML vulnerabilities/XXE/concepts and defense.md
-  - Notes/OLD Notes/WEB/vulnerabilities/XML vulnerabilities/XXE/METHODOLOGY.md
-  - Notes/OLD Notes/WEB/vulnerabilities/XML vulnerabilities/XXE/Examples.md
----
-# Proposed Wiki change
-
-## What will change
-Create provenance source anchor for XML & XXE notes in Notes/OLD Notes/WEB/vulnerabilities/XML vulnerabilities/.
-
-## Proposed content
-```markdown
----
 title: "Source Note - XML & XXE: Document Type Definitions, File Retrieval, and Parser Hardening"
 created: 2026-10-01
 updated: 2026-10-01
@@ -86,11 +66,3 @@ cluster: web-and-bug-bounty
 - Parent Domain Hub: [[web-and-bug-bounty]]
 - Target Concepts: [[xml-external-entity-injection]], [[server-side-request-forgery]]
 - Comparisons: [[classic-vs-blind-xxe]]
-```
-
-## Evidence and uncertainty
-Sourced directly from canonical vault notes in Notes/OLD Notes/WEB/.
-Validated against schema with zero structural contradictions.
-
-## Human feedback
-Human decision required via Decision Studio (http://127.0.0.1:20888) or command line.

@@ -1,23 +1,4 @@
 ---
-type: llm-wiki-review
-status: needs-review
-decision: approve
-revision: 1
-operation: create
-target: web-and-bug-bounty/concepts/csrf-attacks-and-prevention.md
-sources:
-  - Notes/OLD Notes/WEB/vulnerabilities/CSRF/concepts and defense.md
-  - Notes/OLD Notes/WEB/vulnerabilities/CSRF/attack/Examples.md
-  - Notes/OLD Notes/WEB/vulnerabilities/CSRF/links and todos.md
----
-# Proposed Wiki change
-
-## What will change
-Create deep-dive technical concept note for CSRF attacks, token bypasses, and defenses.
-
-## Proposed content
-```markdown
----
 title: "Cross-Site Request Forgery (CSRF) Attacks & Prevention Architecture"
 created: 2026-10-01
 updated: 2026-10-01
@@ -243,11 +224,3 @@ If an application validates the `Referer` header to block cross-origin requests,
 - Parent Hub: [[web-and-bug-bounty]]
 - Comparisons: [[csrf-vs-cors-security]], [[clickjacking-vs-csrf]]
 - Related Concepts: [[account-takeover-and-auth-flaws]], [[cross-site-scripting]], [[cors-vulnerabilities-and-exploitation]]
-```
-
-## Evidence and uncertainty
-Sourced directly from canonical vault notes in Notes/OLD Notes/WEB/vulnerabilities/.
-Validated against schema with zero structural contradictions.
-
-## Human feedback
-Human decision required via Decision Studio (http://127.0.0.1:20888) or command line.

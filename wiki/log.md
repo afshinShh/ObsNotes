@@ -340,3 +340,32 @@
   - Broken Links: 0
   - Orphan Pages: 0
   - Health Verdict: PERFECT (All green)
+
+## [2026-10-01] apply | Applied 27 approved proposals
+- Applied compiled page: web-and-bug-bounty/sources/cors.md
+- Applied compiled page: web-and-bug-bounty/concepts/cors-vulnerabilities-and-exploitation.md
+- Applied compiled page: web-and-bug-bounty/sources/csrf.md
+- Applied compiled page: web-and-bug-bounty/concepts/csrf-attacks-and-prevention.md
+- Applied compiled page: web-and-bug-bounty/comparisons/csrf-vs-cors-security.md
+- Applied compiled page: web-and-bug-bounty/sources/clickjacking.md
+- Applied compiled page: web-and-bug-bounty/concepts/clickjacking-attacks-and-ui-redressing.md
+- Applied compiled page: web-and-bug-bounty/comparisons/clickjacking-vs-csrf.md
+- Applied compiled page: web-and-bug-bounty/sources/command-injection.md
+- Applied compiled page: web-and-bug-bounty/concepts/os-command-injection-exploitation.md
+- Applied compiled page: web-and-bug-bounty/sources/websockets.md
+- Applied compiled page: web-and-bug-bounty/concepts/websocket-security-and-cross-site-hijacking.md
+- Applied compiled page: web-and-bug-bounty/sources/path-traversal.md
+- Applied compiled page: web-and-bug-bounty/concepts/path-traversal-and-directory-traversal.md
+- Applied compiled page: web-and-bug-bounty/sources/file-upload.md
+- Applied compiled page: web-and-bug-bounty/concepts/file-upload-attack-matrix.md
+- Applied compiled page: web-and-bug-bounty/sources/source-code-review.md
+- Applied compiled page: web-and-bug-bounty/concepts/source-code-review-and-client-side-analysis.md
+- Applied compiled page: web-and-bug-bounty/sources/authentication-vulnerabilities.md
+- Applied compiled page: web-and-bug-bounty/concepts/broken-authentication-and-credential-attacks.md
+- Applied compiled page: web-and-bug-bounty/concepts/oauth-attack-vectors.md
+- Applied compiled page: web-and-bug-bounty/sources/sql-injection-notes.md
+- Applied compiled page: web-and-bug-bounty/sources/ssrf-notes.md
+- Applied compiled page: web-and-bug-bounty/concepts/server-side-request-forgery.md
+- Applied compiled page: web-and-bug-bounty/sources/xml-vulnerabilities.md
+- Applied compiled page: web-and-bug-bounty/concepts/xml-external-entity-injection.md
+- Applied compiled page: web-and-bug-bounty/sources/xss-notes.md

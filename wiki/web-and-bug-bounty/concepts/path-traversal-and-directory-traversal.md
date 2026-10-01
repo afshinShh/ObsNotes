@@ -1,24 +1,4 @@
 ---
-type: llm-wiki-review
-status: needs-review
-decision: approve
-revision: 1
-operation: create
-target: web-and-bug-bounty/concepts/path-traversal-and-directory-traversal.md
-sources:
-  - Notes/OLD Notes/WEB/vulnerabilities/Path Traversal/concepts.md
-  - Notes/OLD Notes/WEB/vulnerabilities/Path Traversal/METHODOLOGY(Attack).md
-  - Notes/OLD Notes/WEB/vulnerabilities/Path Traversal/defense.md
-  - Notes/OLD Notes/WEB/vulnerabilities/Path Traversal/Examples.md
----
-# Proposed Wiki change
-
-## What will change
-Create deep-dive technical concept note for server-side Path Traversal (Directory Traversal) vulnerabilities and bypasses.
-
-## Proposed content
-```markdown
----
 title: "Path Traversal & Server-Side Directory Traversal Exploitation"
 created: 2026-10-01
 updated: 2026-10-01
@@ -188,11 +168,3 @@ Synthesized from canonical vault notes under `Notes/OLD Notes/WEB/vulnerabilitie
 - Parent Hub: [[web-and-bug-bounty]]
 - Comparisons: [[cspt-vs-path-traversal]]
 - Related Concepts: [[client-side-path-traversal]], [[file-upload-attack-matrix]], [[os-command-injection-exploitation]]
-```
-
-## Evidence and uncertainty
-Sourced directly from canonical vault notes in Notes/OLD Notes/WEB/.
-Validated against schema with zero structural contradictions.
-
-## Human feedback
-Human decision required via Decision Studio (http://127.0.0.1:20888) or command line.

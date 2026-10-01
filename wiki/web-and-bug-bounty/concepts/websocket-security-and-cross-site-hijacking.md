@@ -1,23 +1,4 @@
 ---
-type: llm-wiki-review
-status: needs-review
-decision: approve
-revision: 1
-operation: create
-target: web-and-bug-bounty/concepts/websocket-security-and-cross-site-hijacking.md
-sources:
-  - Notes/OLD Notes/WEB/vulnerabilities/WebSockets/concepts.md
-  - Notes/OLD Notes/WEB/vulnerabilities/WebSockets/methodology.md
-  - Notes/OLD Notes/WEB/vulnerabilities/WebSockets/Examples.md
----
-# Proposed Wiki change
-
-## What will change
-Create deep-dive technical concept note for WebSocket security, message manipulation, and Cross-Site WebSocket Hijacking (CSWSH).
-
-## Proposed content
-```markdown
----
 title: "WebSocket Security: Message Manipulation & Cross-Site WebSocket Hijacking (CSWSH)"
 created: 2026-10-01
 updated: 2026-10-01
@@ -232,11 +213,3 @@ The attacker hosts an exploit script that establishes an authenticated WebSocket
 - Parent Hub: [[web-and-bug-bounty]]
 - Target Concepts: [[csrf-attacks-and-prevention]], [[cross-site-scripting]], [[sql-injection-testing]]
 - Related Entities: [[turbo-intruder]]
-```
-
-## Evidence and uncertainty
-Sourced directly from canonical vault notes in Notes/OLD Notes/WEB/vulnerabilities/.
-Validated against schema with zero structural contradictions.
-
-## Human feedback
-Human decision required via Decision Studio (http://127.0.0.1:20888) or command line.

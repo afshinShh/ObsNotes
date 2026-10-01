@@ -1,24 +1,4 @@
 ---
-type: llm-wiki-review
-status: needs-review
-decision: approve
-revision: 1
-operation: create
-target: web-and-bug-bounty/sources/clickjacking.md
-sources:
-  - Notes/OLD Notes/WEB/vulnerabilities/Clickjacking/concepts and defense.md
-  - Notes/OLD Notes/WEB/vulnerabilities/Clickjacking/attack/payload.md
-  - Notes/OLD Notes/WEB/vulnerabilities/Clickjacking/attack/METHODOLOGY.md
-  - Notes/OLD Notes/WEB/vulnerabilities/Clickjacking/attack/tools & setup.md
----
-# Proposed Wiki change
-
-## What will change
-Create provenance source anchor for Clickjacking notes in Notes/OLD Notes/WEB/vulnerabilities/Clickjacking/.
-
-## Proposed content
-```markdown
----
 title: "Source Note - Clickjacking: UI Redressing, Payloads, and Mitigation"
 created: 2026-10-01
 updated: 2026-10-01
@@ -85,11 +65,3 @@ cluster: web-and-bug-bounty
 ## Related Pages
 - Parent Domain Hub: [[web-and-bug-bounty]]
 - Target Concepts: [[clickjacking-attacks-and-ui-redressing]], [[csrf-attacks-and-prevention]], [[cross-site-scripting]]
-```
-
-## Evidence and uncertainty
-Sourced directly from canonical vault notes in Notes/OLD Notes/WEB/vulnerabilities/.
-Validated against schema with zero structural contradictions.
-
-## Human feedback
-Human decision required via Decision Studio (http://127.0.0.1:20888) or command line.

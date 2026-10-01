@@ -1,22 +1,4 @@
 ---
-type: llm-wiki-review
-status: needs-review
-decision: approve
-revision: 1
-operation: create
-target: web-and-bug-bounty/comparisons/clickjacking-vs-csrf.md
-sources:
-  - Notes/OLD Notes/WEB/vulnerabilities/Clickjacking/concepts and defense.md
-  - Notes/OLD Notes/WEB/vulnerabilities/CSRF/concepts and defense.md
----
-# Proposed Wiki change
-
-## What will change
-Create technical comparison note analyzing Clickjacking vs CSRF execution models.
-
-## Proposed content
-```markdown
----
 title: "Clickjacking vs CSRF: Threat Models & Technical Comparison"
 created: 2026-10-01
 updated: 2026-10-01
@@ -106,11 +88,3 @@ Only frame-restricting controls (`frame-ancestors`, `X-Frame-Options`) can mitig
 - Parent Hub: [[web-and-bug-bounty]]
 - Target Concepts: [[clickjacking-attacks-and-ui-redressing]], [[csrf-attacks-and-prevention]]
 - Comparisons: [[csrf-vs-cors-security]]
-```
-
-## Evidence and uncertainty
-Sourced directly from canonical vault notes in Notes/OLD Notes/WEB/vulnerabilities/.
-Validated against schema with zero structural contradictions.
-
-## Human feedback
-Human decision required via Decision Studio (http://127.0.0.1:20888) or command line.

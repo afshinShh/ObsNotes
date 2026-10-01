@@ -1,22 +1,4 @@
 ---
-type: llm-wiki-review
-status: needs-review
-decision: approve
-revision: 1
-operation: create
-target: web-and-bug-bounty/comparisons/csrf-vs-cors-security.md
-sources:
-  - Notes/OLD Notes/WEB/vulnerabilities/CORS/concepts.md
-  - Notes/OLD Notes/WEB/vulnerabilities/CSRF/concepts and defense.md
----
-# Proposed Wiki change
-
-## What will change
-Create technical comparison note analyzing CSRF vs CORS security models and exploit primitives.
-
-## Proposed content
-```markdown
----
 title: "CSRF vs CORS Misconfiguration: Threat Models & Technical Comparison"
 created: 2026-10-01
 updated: 2026-10-01
@@ -105,11 +87,3 @@ graph TD
 - Parent Hub: [[web-and-bug-bounty]]
 - Target Concepts: [[csrf-attacks-and-prevention]], [[cors-vulnerabilities-and-exploitation]]
 - Related Concepts: [[clickjacking-attacks-and-ui-redressing]], [[account-takeover-and-auth-flaws]]
-```
-
-## Evidence and uncertainty
-Sourced directly from canonical vault notes in Notes/OLD Notes/WEB/vulnerabilities/.
-Validated against schema with zero structural contradictions.
-
-## Human feedback
-Human decision required via Decision Studio (http://127.0.0.1:20888) or command line.

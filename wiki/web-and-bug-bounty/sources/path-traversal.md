@@ -1,24 +1,4 @@
 ---
-type: llm-wiki-review
-status: needs-review
-decision: approve
-revision: 1
-operation: create
-target: web-and-bug-bounty/sources/path-traversal.md
-sources:
-  - Notes/OLD Notes/WEB/vulnerabilities/Path Traversal/concepts.md
-  - Notes/OLD Notes/WEB/vulnerabilities/Path Traversal/METHODOLOGY(Attack).md
-  - Notes/OLD Notes/WEB/vulnerabilities/Path Traversal/defense.md
-  - Notes/OLD Notes/WEB/vulnerabilities/Path Traversal/Examples.md
----
-# Proposed Wiki change
-
-## What will change
-Create provenance source anchor for Path Traversal notes in Notes/OLD Notes/WEB/vulnerabilities/Path Traversal/.
-
-## Proposed content
-```markdown
----
 title: "Source Note - Path Traversal: Mechanics, Obstacle Bypasses, and Defenses"
 created: 2026-10-01
 updated: 2026-10-01
@@ -86,11 +66,3 @@ cluster: web-and-bug-bounty
 ## Related Pages
 - Parent Domain Hub: [[web-and-bug-bounty]]
 - Target Concepts: [[path-traversal-and-directory-traversal]], [[client-side-path-traversal]], [[file-upload-attack-matrix]]
-```
-
-## Evidence and uncertainty
-Sourced directly from canonical vault notes in Notes/OLD Notes/WEB/.
-Validated against schema with zero structural contradictions.
-
-## Human feedback
-Human decision required via Decision Studio (http://127.0.0.1:20888) or command line.

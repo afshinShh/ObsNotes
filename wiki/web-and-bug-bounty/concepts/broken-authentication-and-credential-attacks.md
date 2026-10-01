@@ -1,24 +1,4 @@
 ---
-type: llm-wiki-review
-status: needs-review
-decision: approve
-revision: 1
-operation: create
-target: web-and-bug-bounty/concepts/broken-authentication-and-credential-attacks.md
-sources:
-  - Notes/OLD Notes/WEB/vulnerabilities/Authentication vulnerabilities/concepts and defense.md
-  - Notes/OLD Notes/WEB/vulnerabilities/Authentication vulnerabilities/METHODOLOGY.md
-  - Notes/OLD Notes/WEB/vulnerabilities/Authentication vulnerabilities/payload.md
-  - Notes/OLD Notes/WEB/vulnerabilities/Authentication vulnerabilities/resources.md
----
-# Proposed Wiki change
-
-## What will change
-Create deep-dive technical concept note for Broken Authentication, credential brute-forcing, 2FA bypasses, and session persistence flaws.
-
-## Proposed content
-```markdown
----
 title: "Broken Authentication, Credential Attacks & Multi-Factor Verification Bypasses"
 created: 2026-10-01
 updated: 2026-10-01
@@ -239,11 +219,3 @@ Synthesized from canonical vault notes under `Notes/OLD Notes/WEB/vulnerabilitie
 ## Related Pages
 - Parent Hub: [[web-and-bug-bounty]]
 - Target Concepts: [[account-takeover-and-auth-flaws]], [[oauth-attack-vectors]], [[cross-site-scripting]]
-```
-
-## Evidence and uncertainty
-Sourced directly from canonical vault notes in Notes/OLD Notes/WEB/.
-Validated against schema with zero structural contradictions.
-
-## Human feedback
-Human decision required via Decision Studio (http://127.0.0.1:20888) or command line.

@@ -1,23 +1,4 @@
 ---
-type: llm-wiki-review
-status: needs-review
-decision: approve
-revision: 1
-operation: create
-target: web-and-bug-bounty/sources/file-upload.md
-sources:
-  - Notes/OLD Notes/WEB/vulnerabilities/File Upload/concept and defense.md
-  - Notes/OLD Notes/WEB/vulnerabilities/File Upload/METHODOLOGY.md
-  - Notes/OLD Notes/WEB/vulnerabilities/File Upload/Examples.md
----
-# Proposed Wiki change
-
-## What will change
-Create provenance source anchor for File Upload notes in Notes/OLD Notes/WEB/vulnerabilities/File Upload/.
-
-## Proposed content
-```markdown
----
 title: "Source Note - File Upload: Vulnerabilities, Web Shells, and Configuration Overrides"
 created: 2026-10-01
 updated: 2026-10-01
@@ -80,11 +61,3 @@ cluster: web-and-bug-bounty
 ## Related Pages
 - Parent Domain Hub: [[web-and-bug-bounty]]
 - Target Concepts: [[file-upload-attack-matrix]], [[path-traversal-and-directory-traversal]], [[cross-site-scripting]]
-```
-
-## Evidence and uncertainty
-Sourced directly from canonical vault notes in Notes/OLD Notes/WEB/.
-Validated against schema with zero structural contradictions.
-
-## Human feedback
-Human decision required via Decision Studio (http://127.0.0.1:20888) or command line.
