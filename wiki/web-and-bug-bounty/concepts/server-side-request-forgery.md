@@ -165,7 +165,7 @@ curl -v -X POST "https://target.com/api/fetch-avatar"   -d "url=http://BURP-COLL
 5. **DNS Resolution Verification**: Resolve the IP address server-side before dispatching the request; reject requests if the resolved IP falls within private or loopback ranges (prevents DNS rebinding).
 
 ## 6. Primary Sources & Provenance
-- Provenance source anchors: [[sources/ssrf|ssrf]], [[sources/ssrf-notes|ssrf-notes]]
+- Provenance source anchors: [[ssrf]], [[ssrf-notes]]
 
 Synthesized from canonical vault notes `unprocessed-obsidians/ssrf.md` and `Notes/OLD Notes/WEB/vulnerabilities/SSRF/`.
 

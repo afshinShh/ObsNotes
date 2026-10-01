@@ -194,7 +194,7 @@ Content-Type: application/x-php
 5. **Rigorous File Content Inspection**: Validate magic numbers, re-encode images through server-side graphics libraries (stripping EXIF metadata), and enforce file size caps.
 
 ## 6. Primary Sources & Provenance
-- Provenance source anchors: [[sources/narroto-guts-hunt-tips-and-tricks|narroto-guts-hunt-tips-and-tricks]], [[sources/file-upload|file-upload]]
+- Provenance source anchors: [[narroto-guts-hunt-tips-and-tricks]], [[file-upload]]
 
 Synthesized from canonical vault notes `Notes/Narroto-Guts Hunt/Tips and Tricks.md` and `Notes/OLD Notes/WEB/vulnerabilities/File Upload/`.
 

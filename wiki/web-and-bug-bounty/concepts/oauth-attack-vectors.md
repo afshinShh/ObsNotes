@@ -153,7 +153,7 @@ Host: oauth-provider.com
 4. **Validate ID Tokens Server-Side**: Verify JWT signatures against trusted JWKS endpoints (`/.well-known/jwks.json`), validating `aud`, `iss`, and `exp` claims.
 
 ## 6. Primary Sources & Provenance
-- Provenance source anchors: [[sources/oauth|oauth]], [[sources/authentication-vulnerabilities|authentication-vulnerabilities]]
+- Provenance source anchors: [[oauth]], [[authentication-vulnerabilities]]
 
 Synthesized from canonical vault notes `unprocessed-obsidians/oauth.md` and `Notes/OLD Notes/WEB/vulnerabilities/Authentication vulnerabilities/`.
 

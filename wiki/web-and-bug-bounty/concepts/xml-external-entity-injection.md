@@ -173,7 +173,7 @@ tree = parse("input.xml")
 ```
 
 ## 5. Primary Sources & Provenance
-- Provenance source anchors: [[sources/xxe|xxe]], [[sources/xml-vulnerabilities|xml-vulnerabilities]]
+- Provenance source anchors: [[xxe]], [[xml-vulnerabilities]]
 
 Synthesized from canonical vault notes `unprocessed-obsidians/xxe.md` and `Notes/OLD Notes/WEB/vulnerabilities/XML vulnerabilities/`.
 
