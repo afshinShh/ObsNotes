@@ -1,0 +1,308 @@
+{
+  "Source Code Review.md": {
+    "sha256": "24e320840157dc16771b6dd07488ce672287d3c881e897938861c7e154928619",
+    "bytes": 1390,
+    "lines": 39,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/Source Code Review.md"
+  },
+  "vulnerabilities/Authentication vulnerabilities/METHODOLOGY.md": {
+    "sha256": "6aa414d55f82d812aa0a1c2bc42b752e3482d68afc175b44eee183979931eac4",
+    "bytes": 6652,
+    "lines": 117,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/Authentication vulnerabilities/METHODOLOGY.md"
+  },
+  "vulnerabilities/Authentication vulnerabilities/OAuth/METHODOLOGY.md": {
+    "sha256": "b4fc5b221c1ba242c4051bab534cb5890a1492ede809130660a578af3f9829d1",
+    "bytes": 1562,
+    "lines": 30,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/Authentication vulnerabilities/OAuth/METHODOLOGY.md"
+  },
+  "vulnerabilities/Authentication vulnerabilities/OAuth/concepts and defense.md": {
+    "sha256": "cff68637e6c708d31b57ccd9d4ba0b21eb134b11e6ef9edfb7408fa147297cce",
+    "bytes": 21960,
+    "lines": 234,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/Authentication vulnerabilities/OAuth/concepts and defense.md"
+  },
+  "vulnerabilities/Authentication vulnerabilities/OAuth/payload.md": {
+    "sha256": "95e3c584c73018c4eaaa439a46e8ab624775acb5a2c03b48fe99d52796736e59",
+    "bytes": 822,
+    "lines": 15,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/Authentication vulnerabilities/OAuth/payload.md"
+  },
+  "vulnerabilities/Authentication vulnerabilities/concepts and defense.md": {
+    "sha256": "b6f82d09ad6b38e40531220673e8b688e505716c43b2315ec3b17f584e681686",
+    "bytes": 3257,
+    "lines": 69,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/Authentication vulnerabilities/concepts and defense.md"
+  },
+  "vulnerabilities/Authentication vulnerabilities/payload.md": {
+    "sha256": "3c5384fdf3dfed9c1490a6143e5bfc04f627a1f06b2e93c655d9c03c7ff64750",
+    "bytes": 5434,
+    "lines": 141,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/Authentication vulnerabilities/payload.md"
+  },
+  "vulnerabilities/Authentication vulnerabilities/resources.md": {
+    "sha256": "e36a61762d7933d4ce83f0e654d983b81a531ec29a81f9c73d9c07989e155149",
+    "bytes": 103,
+    "lines": 6,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/Authentication vulnerabilities/resources.md"
+  },
+  "vulnerabilities/CORS/Examples.md": {
+    "sha256": "ddbd04212dbc1f863775ae6276a1deb03f9f3a5e2248e4df395bd262ecaae702",
+    "bytes": 2199,
+    "lines": 64,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/CORS/Examples.md"
+  },
+  "vulnerabilities/CORS/METHODOLOGY.md": {
+    "sha256": "993c7bf42013f775d63b2c7f1abad3aa73f0dfed6cbdb7e120a97aa92a3e6e9e",
+    "bytes": 2456,
+    "lines": 16,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/CORS/METHODOLOGY.md"
+  },
+  "vulnerabilities/CORS/concepts.md": {
+    "sha256": "6b06ee4d7c056dc1c66bab793aef0bfc86dccda91189a8d21687f562cc60b83f",
+    "bytes": 4139,
+    "lines": 85,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/CORS/concepts.md"
+  },
+  "vulnerabilities/CSRF/attack/Examples.md": {
+    "sha256": "b28e9478adb7a9f131200c51d5e0621417492ed319b9e2e8d0b41796ff024843",
+    "bytes": 6751,
+    "lines": 184,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/CSRF/attack/Examples.md"
+  },
+  "vulnerabilities/CSRF/concepts and defense.md": {
+    "sha256": "931e36bc37c6cb399e39f7ba93230c9b1284f54b9f0321257788efb058d1a0ca",
+    "bytes": 7217,
+    "lines": 135,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/CSRF/concepts and defense.md"
+  },
+  "vulnerabilities/CSRF/links and todos.md": {
+    "sha256": "5e81eba8369ac91ab96c17ebc524d1db26c4ef61517dab72193e2afafbd23ca6",
+    "bytes": 1782,
+    "lines": 18,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/CSRF/links and todos.md"
+  },
+  "vulnerabilities/Clickjacking/attack/METHODOLOGY.md": {
+    "sha256": "b526a316acdc2448a4bc5c08e342912444f152a2678f2f463f8fbd9bd4569149",
+    "bytes": 917,
+    "lines": 24,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/Clickjacking/attack/METHODOLOGY.md"
+  },
+  "vulnerabilities/Clickjacking/attack/payload.md": {
+    "sha256": "b9eafe919ec8ee4c42f58372a05d2fa632204957278243e64e75f882bdfeae74",
+    "bytes": 1322,
+    "lines": 64,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/Clickjacking/attack/payload.md"
+  },
+  "vulnerabilities/Clickjacking/attack/tools & setup.md": {
+    "sha256": "c99b90f1dd89ec063a94e830058f9b452232b5caf4d88aaf9f6cc02d3b9c4935",
+    "bytes": 344,
+    "lines": 5,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/Clickjacking/attack/tools & setup.md"
+  },
+  "vulnerabilities/Clickjacking/concepts and defense.md": {
+    "sha256": "92d4664d5680b6210a8dcfd921bfc973dd188fa8e8a2db0f6e7c209bf202d765",
+    "bytes": 2168,
+    "lines": 39,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/Clickjacking/concepts and defense.md"
+  },
+  "vulnerabilities/Command Injection/METHODOLOGY.md": {
+    "sha256": "25219f6f779710b084af72626319b3dbf9f4ae519cde144878721a485275c32b",
+    "bytes": 1864,
+    "lines": 52,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/Command Injection/METHODOLOGY.md"
+  },
+  "vulnerabilities/Command Injection/concepts and defense.md": {
+    "sha256": "8dfb8473f91a2bfe804e67aadc810040769dc0be09a683e6d997d0f92239dd25",
+    "bytes": 1165,
+    "lines": 16,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/Command Injection/concepts and defense.md"
+  },
+  "vulnerabilities/Command Injection/payload.md": {
+    "sha256": "44cee075c0c59ae5d1b81b07c6be37013a8bd4e6794a0252b6d07f9d01385412",
+    "bytes": 1172,
+    "lines": 27,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/Command Injection/payload.md"
+  },
+  "vulnerabilities/File Upload/Examples.md": {
+    "sha256": "9a44eb4fa0cbab3423029ff464fa628a03ca0c5b6c34fd4003af0a937cb32a58",
+    "bytes": 2268,
+    "lines": 55,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/File Upload/Examples.md"
+  },
+  "vulnerabilities/File Upload/METHODOLOGY.md": {
+    "sha256": "3196884b4cbf2aa22e57872b1e246a44786385e6c43bef2f05e7b772eb1356f4",
+    "bytes": 3852,
+    "lines": 80,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/File Upload/METHODOLOGY.md"
+  },
+  "vulnerabilities/File Upload/concept and defense.md": {
+    "sha256": "8099d4d6be711352b017eef404d83c02def982e3955184a18bed16e1924aa05c",
+    "bytes": 4612,
+    "lines": 79,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/File Upload/concept and defense.md"
+  },
+  "vulnerabilities/Path Traversal/Examples.md": {
+    "sha256": "fdd3574e58dc4ba2f30c659150a57369bdfbd48c3fe184391fa8f974dac217a7",
+    "bytes": 622,
+    "lines": 36,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/Path Traversal/Examples.md"
+  },
+  "vulnerabilities/Path Traversal/METHODOLOGY(Attack).md": {
+    "sha256": "573175fa84936364f3d25213dd7c232343eeff5953fed7ea4000f3272421f906",
+    "bytes": 1054,
+    "lines": 10,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/Path Traversal/METHODOLOGY(Attack).md"
+  },
+  "vulnerabilities/Path Traversal/concepts.md": {
+    "sha256": "66be2adbe52460c6ec5b9fa16ff086c06fd18cdd6ddb6207f9b57b877c0a95ab",
+    "bytes": 1225,
+    "lines": 22,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/Path Traversal/concepts.md"
+  },
+  "vulnerabilities/Path Traversal/defense.md": {
+    "sha256": "9a91f09e6f476c24457cd66ca9013c31152f7e9c7ed87fcf3984af84cadd42fd",
+    "bytes": 1128,
+    "lines": 17,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/Path Traversal/defense.md"
+  },
+  "vulnerabilities/SQL Injection/attack/Examples.md": {
+    "sha256": "6ef7108a16c6b18ce7a1465625d81652caa6e2dc6eeb33ff5786546c5fffc397",
+    "bytes": 7887,
+    "lines": 112,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/SQL Injection/attack/Examples.md"
+  },
+  "vulnerabilities/SQL Injection/attack/METHODOLOGY.md": {
+    "sha256": "69e9d1325b56658673ec3cbdaceef2657a7acf3eb51be711eaa128812f9fdaad",
+    "bytes": 4781,
+    "lines": 82,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/SQL Injection/attack/METHODOLOGY.md"
+  },
+  "vulnerabilities/SQL Injection/cheatsheet(portswigger).md": {
+    "sha256": "2ca9aa72db8b1545dd71be4db738dcdbd09f5b437ebb02848dc355009edaa885",
+    "bytes": 7507,
+    "lines": 141,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/SQL Injection/cheatsheet(portswigger).md"
+  },
+  "vulnerabilities/SQL Injection/concepts.md": {
+    "sha256": "2b8bffad1659eba98783db0f530fee1ababfce33971c82750b021bc92facd455",
+    "bytes": 5981,
+    "lines": 101,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/SQL Injection/concepts.md"
+  },
+  "vulnerabilities/SQL Injection/defense.md": {
+    "sha256": "ea2fec906a0ce46092393eefdecef21d0e985cf82590f582390aa1b96bf11bbd",
+    "bytes": 2134,
+    "lines": 27,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/SQL Injection/defense.md"
+  },
+  "vulnerabilities/SSRF/Examples.md": {
+    "sha256": "20ab9f9fc7991d8a4c8837f8e3e03ce6ed3a7e840e339a543c5571fd11800a1a",
+    "bytes": 1285,
+    "lines": 40,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/SSRF/Examples.md"
+  },
+  "vulnerabilities/SSRF/METHODOLOGY.md": {
+    "sha256": "f2b951590107e63f171354de0d363a8f01a9fea1f59a30196315d4c996f11a75",
+    "bytes": 3310,
+    "lines": 59,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/SSRF/METHODOLOGY.md"
+  },
+  "vulnerabilities/SSRF/concepts and defense.md": {
+    "sha256": "97900def0c72dc6543bd93bfef079ba80d650f6893734008b481cfd0b32f0238",
+    "bytes": 523,
+    "lines": 9,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/SSRF/concepts and defense.md"
+  },
+  "vulnerabilities/WebSockets/Examples.md": {
+    "sha256": "f067d9a3e11a7de0c4ef6ace5841d020c3c5ca9d5d40beae5eb4fc03ca67ab14",
+    "bytes": 1269,
+    "lines": 67,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/WebSockets/Examples.md"
+  },
+  "vulnerabilities/WebSockets/concepts.md": {
+    "sha256": "f6c67939a63b05caee544b2a8706e514bb5cdfe860d42ede58cb49ef21071351",
+    "bytes": 7743,
+    "lines": 149,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/WebSockets/concepts.md"
+  },
+  "vulnerabilities/WebSockets/methodology.md": {
+    "sha256": "f818329332b980fc4b252154c4b4361977484d0f06e13f7a11a059b8cc1cfbf7",
+    "bytes": 3013,
+    "lines": 31,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/WebSockets/methodology.md"
+  },
+  "vulnerabilities/XML vulnerabilities/XXE/Examples.md": {
+    "sha256": "e91209346836ca8747dce77171533ba89f586b5d6edde2374e65a431e14f0925",
+    "bytes": 2684,
+    "lines": 104,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/XML vulnerabilities/XXE/Examples.md"
+  },
+  "vulnerabilities/XML vulnerabilities/XXE/METHODOLOGY.md": {
+    "sha256": "6d6e3cb9165ed12c51db40537d16bdd05b0e64bf60e0341b7e74c839cb7055e6",
+    "bytes": 2924,
+    "lines": 45,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/XML vulnerabilities/XXE/METHODOLOGY.md"
+  },
+  "vulnerabilities/XML vulnerabilities/XXE/concepts and defense.md": {
+    "sha256": "16e231b922e1cb46377f4cbe51db3cc0a666c9461bddb2c34e0911491f8e943c",
+    "bytes": 3227,
+    "lines": 24,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/XML vulnerabilities/XXE/concepts and defense.md"
+  },
+  "vulnerabilities/XML vulnerabilities/concepts.md": {
+    "sha256": "88d4a310315af34c3b2154fb76643e7ea2e3e861cb4a66df6ac8a54d6bbd9b0d",
+    "bytes": 4694,
+    "lines": 126,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/XML vulnerabilities/concepts.md"
+  },
+  "vulnerabilities/XSS/attack/Examples.md": {
+    "sha256": "4a8bbf709bebab958e6fcc2f8a1a381e54283f488ee928fcc67520c16408af63",
+    "bytes": 3081,
+    "lines": 87,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/XSS/attack/Examples.md"
+  },
+  "vulnerabilities/XSS/attack/METHODOLOGY.md": {
+    "sha256": "6cccd950705f56df853ecb1013e7a925ec0a8b7e5f2d3c0b1c368c586bf924c8",
+    "bytes": 5311,
+    "lines": 110,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/XSS/attack/METHODOLOGY.md"
+  },
+  "vulnerabilities/XSS/attack/Test and find.md": {
+    "sha256": "ef62d600c61d73aefaf2bb5eb7221bf4bdf9da84c3c432e0f25e43afeb11fb0e",
+    "bytes": 1490,
+    "lines": 21,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/XSS/attack/Test and find.md"
+  },
+  "vulnerabilities/XSS/attack/tools & setup.md": {
+    "sha256": "6fd6182d57857127c7bab8d489985c88a9e57cf5ce8058b0edf0c21e2a4278c9",
+    "bytes": 4762,
+    "lines": 36,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/XSS/attack/tools & setup.md"
+  },
+  "vulnerabilities/XSS/defense/cause & sinks.md": {
+    "sha256": "fbedcceeba0a203eb1cd1ce005d15d6b82663ada028d129a885da789d1f4dbc3",
+    "bytes": 1029,
+    "lines": 50,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/XSS/defense/cause & sinks.md"
+  },
+  "vulnerabilities/XSS/defense/impact.md": {
+    "sha256": "f7703cb2ecce9be887154051ad818b79f1ea6fdd5d1024dede2c99a4564bc531",
+    "bytes": 1282,
+    "lines": 19,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/XSS/defense/impact.md"
+  },
+  "vulnerabilities/XSS/defense/protection.md": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0,
+    "lines": 0,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/XSS/defense/protection.md"
+  },
+  "vulnerabilities/XSS/links and todos.md": {
+    "sha256": "81f4b135abc9df72adaa68c6e390b4bf70d833ec1e4347d53ba47504203f20cc",
+    "bytes": 3776,
+    "lines": 37,
+    "abs_path": "/home/omp/Desktop/RED/Knowledge/ObsNotes_clean/Notes/OLD Notes/WEB/vulnerabilities/XSS/links and todos.md"
+  }
+}
