@@ -69,8 +69,7 @@ sources:
 - [[client-side-path-traversal]] — Client-Side Path Traversal (CSPT), dynamic fetch/XHR steering, 8-framework parameter decoding matrix, and hDOM request hijacking.
 
 ### 4. Authentication, Tokens & Identity
-- [[jwt-security-mechanisms]] — RFC 7519 architecture, JOSE header specifications, signing matrices (RS256 vs HS256), token binding, and claim lifecycles.
-- [[jwt-attack-vectors]] — `none` algorithm injection, asymmetric-to-symmetric key confusion, embedded JWK/JKU header tampering, and HMAC brute forcing.
+- [[jwt-architecture-and-attack-vectors]] — RFC 7519 architecture, JOSE header specifications, signing matrices (RS256 vs HS256), token binding, and claim lifecycles.
 - [[oauth-grant-types-and-flows]] — RFC 6749 grant types, Authorization Code Flow with PKCE (RFC 7636), Implicit Flow deprecation, and Token Exchange.
 - [[oauth-attack-vectors]] — `redirect_uri` validation manipulation, State CSRF, authorization code leakage, and account takeover (ATO) chains.
 - [[account-takeover-and-auth-flaws]] — Comprehensive ATO checklist: email normalization padding, 2FA state skipping, OAuth state misuse, and app-to-app transfer polling.
@@ -125,7 +124,7 @@ sources:
 - [[xss]] — Primary source note on cross-site scripting vectors.
 - [[ssti]] — Primary source note on template injection.
 - [[xxe]] — Primary source note on XML external entities.
-- [[parameter-pollution]] — Primary source note on HTTP parameter pollution.
+- [[wiki/web-and-bug-bounty/sources/parameter-pollution]] — Primary source note on HTTP parameter pollution.
 - [[req-smuggle]] — Primary source note on request smuggling.
 - [[graphql]] — Primary source note on GraphQL security.
 - [[idor]] — Primary source note on IDOR and access control.

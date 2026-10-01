@@ -101,7 +101,7 @@
 	- [ ] Test to change the ID like parameters
 	- [ ] Get ID from one endpoint use it in another one situation [Google BBP](https://caesarevan23.medium.com/google-vrp-insecure-direct-object-reference-3133-70-a0e37023a4c7)
 		- [ ] check *Refresh Token Endpoint* for Misconfiguration -> can lead to account takeover
-	- [ ] test RRE (Recursive Request Exploits) request chains in case of unauthenticated requests that only require random id identifier in or to authorize your request (example: video stream endpoints) [[Notes/Authentication, Authorization, Access Control#Recursive Request Exploits (RRE)|more information]]  [Burp Extension for automated detection](https://github.com/jumpycastle/rre-burp/tree/main/)
+	- [ ] test RRE (Recursive Request Exploits) request chains in case of unauthenticated requests that only require random id identifier in or to authorize your request (example: video stream endpoints) [[Notes/New Notes/Authentication, Authorization, Access Control#Recursive Request Exploits (RRE)|more information]]  [Burp Extension for automated detection](https://github.com/jumpycastle/rre-burp/tree/main/)
 ## HTTP basic authentication
 - [ ] BruteForce attacks 
 	- [ ] default credentials 
@@ -141,7 +141,7 @@
 			- [ ] bypass checker function (e.g `https://default-host.com &@foo.evil-user.net#@bar.evil-user.net/`)
 			- [ ] if CORS on .site.com -> XSS on subdomains 
 		- [ ] if SSO works by **JSONP** and the JavaScript object is accessible **any other cross site** ->[ account takeover ](https://memoryleaks.ir/vulnerability-discovery-in-sso-authentication-scheme/)
-			- [ ] [[Notes/Authentication, Authorization, Access Control#indicators|Indicators of misconfig]]
+			- [ ] [[Notes/New Notes/Authentication, Authorization, Access Control#indicators|Indicators of misconfig]]
 				- [ ] check for leaked credentials
 				- [ ] change `Referer` headers  
 - [ ] is Authorization token, short lived and one-time use ?

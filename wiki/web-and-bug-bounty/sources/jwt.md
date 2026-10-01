@@ -10,8 +10,7 @@ tags:
 sources:
   - unprocessed-obsidians/jwt.md
 extracted_concepts:
-  - "[[jwt-security-mechanisms]]"
-  - "[[jwt-attack-vectors]]"
+  - "[[jwt-architecture-and-attack-vectors]]"
 extracted_entities:
   - "[[jwt-tool]]"
 extracted_comparisons:
@@ -44,8 +43,7 @@ cluster: web-and-bug-bounty
 
 ## Compiled Wiki Layers
 ### Concepts
-- [[jwt-security-mechanisms]]
-- [[jwt-attack-vectors]]
+- [[jwt-architecture-and-attack-vectors]]
 
 ### Entities
 - [[jwt-tool]]

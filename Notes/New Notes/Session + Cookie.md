@@ -108,7 +108,7 @@ For session invalidation purposes, the .NET framework utilizes _Session.Abandon(
 - `XSS (Cross-Site Scripting)` <-- With a focus on user sessions
 - [[Client Side#CSRF|CSRF (Cross-Site Request Forgery)]]: 
 	-  This attack is usually mounted with the help of attacker-crafted web pages that the victim must visit or interact with. These web pages contain malicious requests that essentially inherit the identity and privileges of the victim to perform an undesired function on the victim's behalf.
-- [[Notes/Request Manipulation#Open Redirect|Open Redirects ]] <-- With a focus on user sessions: 
+- [[Notes/New Notes/Request Manipulation#Open Redirect|Open Redirects ]] <-- With a focus on user sessions: 
 	- An Open Redirect vulnerability occurs when an attacker can redirect a victim to an attacker-controlled site by abusing a legitimate application's redirection functionality. In such cases, all the attacker has to do is specify a website under their control in a redirection URL of a legitimate website and pass this URL to the victim.
 ## Cross-Site WebSocket Hijacking (CSWSH)
 

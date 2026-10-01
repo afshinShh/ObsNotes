@@ -66,8 +66,7 @@ python3 jwt_tool.py "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." -C -d /usr/share/w
 ## Related Pages
 - [[web-and-bug-bounty]]
 - [[jwt]]
-- [[jwt-security-mechanisms]]
-- [[jwt-attack-vectors]]
+- [[jwt-architecture-and-attack-vectors]]
 
 
 ## Exploitation Chains & Pivot Vectors

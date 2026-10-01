@@ -145,7 +145,7 @@ test your payloads in JSfiddle
 			- [ ] `JavaScript:`
 			- but the above ca ses couldnt bypass the whitelist after...
 		2. part of url validation whitelists: ![[Pasted image 20260301192520.png]]
-			- [ ] here you can use [[Notes/Request Manipulation#CSPT (client side path traversal)|CSPT]]  (==non happy path== attack) on `chrome-extension` => `chrome-extension/../test`  => **try to leak the token (chaining with open refirect)**
+			- [ ] here you can use [[Notes/New Notes/Request Manipulation#CSPT (client side path traversal)|CSPT]]  (==non happy path== attack) on `chrome-extension` => `chrome-extension/../test`  => **try to leak the token (chaining with open refirect)**
 		3. it was also accepting urls starting with `127.0.0.1`  => we exploited it using `127.0.0.1@attacker.com/hack.js`
 	- **EXPLOIT**: 
 		- ![[Pasted image 20260303191123.png]]

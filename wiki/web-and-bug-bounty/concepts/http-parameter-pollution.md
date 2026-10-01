@@ -8,7 +8,7 @@ tags:
   - bug-bounty
   - business-logic
 sources:
-  - unprocessed-obsidians/parameter-pollution.md
+  - sources/parameter-pollution.md
 confidence: high
 contested: false
 contradictions: []

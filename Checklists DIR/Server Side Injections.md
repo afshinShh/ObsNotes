@@ -23,7 +23,7 @@
 		- [ ] Time based [[Notes/OLD Notes/WEB/vulnerabilities/SQL Injection/attack/METHODOLOGY#triggering time delays|METHODOLOGY]] | [[SQLi#time based |payloads]] 
 
 - [ ] **Bypass Authentication** [[SQLi#Authentication bypass |payloads]]
-- [ ] SQLmap? [[Notes/Server Side Injections#SQLmap|see here]] 
+- [ ] SQLmap? [[Notes/New Notes/Server Side Injections#SQLmap|see here]] 
 # C|SSTI (Client|Server side template injection)
 - [ ] **Detect** 
 	- [ ] in what context you are?

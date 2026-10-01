@@ -60,5 +60,4 @@ Stateless JWTs cannot be revoked without introducing state:
 ## Related Pages
 - [[web-and-bug-bounty]]
 - [[jwt]]
-- [[jwt-security-mechanisms]]
-- [[jwt-attack-vectors]]
+- [[jwt-architecture-and-attack-vectors]]

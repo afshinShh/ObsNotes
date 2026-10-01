@@ -18,6 +18,52 @@ cluster: recon-and-osint
 ---
 # OSINT Investigation Methodologies, OpSec & Forensic Analytics
 
+
+<!-- TOC_START -->
+## Table of Contents
+- [Overview](#overview)
+- [Methodological Modules & Operational Workflows](#methodological-modules-operational-workflows)
+  - [OpSec](#opsec)
+  - [Create a Sock Puppet](#create-a-sock-puppet)
+  - [Cryptocurrency Investigation](#cryptocurrency-investigation)
+  - [Transaction Analysis](#transaction-analysis)
+    - [Layer 2 / Rollup Analysis](#layer-2-rollup-analysis)
+    - [Cautions (bridges and heuristics)](#cautions-bridges-and-heuristics)
+  - [Wallet Profiling](#wallet-profiling)
+  - [Exchange Investigation](#exchange-investigation)
+  - [NFT Investigation](#nft-investigation)
+  - [Image Analysis](#image-analysis)
+  - [Image Forensics](#image-forensics)
+  - [Mountain Geolocation](#mountain-geolocation)
+  - [Fire Identification](#fire-identification)
+  - [Track and Find Planes](#track-and-find-planes)
+  - [Video Analysis](#video-analysis)
+  - [Chronolocation and Time Analysis](#chronolocation-and-time-analysis)
+  - [Shadow Analysis](#shadow-analysis)
+  - [Astronomical Calculations](#astronomical-calculations)
+  - [Satellite Imagery Time](#satellite-imagery-time)
+  - [Threat Actor Investigation](#threat-actor-investigation)
+  - [Actor‑Centric Workflow](#actorcentric-workflow)
+  - [Attribution Discipline](#attribution-discipline)
+  - [Russia‑Specific Pivots](#russiaspecific-pivots)
+  - [China‑Specific Pivots](#chinaspecific-pivots)
+  - [Infrastructure & Internet Measurement](#infrastructure-internet-measurement)
+  - [People & Social Media Investigation](#people-social-media-investigation)
+  - [Username Enumeration](#username-enumeration)
+  - [Profile Picture & Face Search](#profile-picture-face-search)
+  - [Social Graph & Content Analysis](#social-graph-content-analysis)
+  - [Infrastructure OSINT](#infrastructure-osint)
+  - [IP & Domain Discovery](#ip-domain-discovery)
+  - [Certificate & Passive DNS](#certificate-passive-dns)
+  - [Malware & Artifact Analysis Workflow](#malware-artifact-analysis-workflow)
+  - [Telegram/WeChat Investigation](#telegramwechat-investigation)
+  - [Automation & Case Management](#automation-case-management)
+  - [Synthetic Media Verification](#synthetic-media-verification)
+- [Investigative Workflows & Attacker Attribution](#investigative-workflows-attacker-attribution)
+- [Primary Sources & Provenance](#primary-sources-provenance)
+- [Related Concepts & Notes](#related-concepts-notes)
+<!-- TOC_END -->
+
 ## Overview
 Rigorous open-source intelligence operations require operational security (OpSec) discipline to prevent target counter-surveillance, combined with analytical methods for cryptocurrency ledger tracing, multi-spectrum visual forensics, chronolocation, and threat actor infrastructure attribution.
 
